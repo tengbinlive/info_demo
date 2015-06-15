@@ -9,7 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.*;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import com.core.util.StringUtil;
 import com.gitonway.lee.niftymodaldialogeffects.Effectstype;
 import com.gitonway.lee.niftymodaldialogeffects.NiftyDialogBuilder;
@@ -254,7 +257,7 @@ public abstract class AbsActivity extends SwipeBackActivity implements EInitDate
         toolbar_intermediate_tv.setCompoundDrawables(drawable, null, null, null);
     }
 
-    public void setToolbarIntermediateIcon(int iconid,int visibility) {
+    public void setToolbarIntermediateIcon(int iconid, int visibility) {
         toolbar_intermediate_icon.setVisibility(visibility);
         toolbar_intermediate_icon.setImageResource(iconid);
     }
