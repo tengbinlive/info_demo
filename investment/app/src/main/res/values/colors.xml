@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="red">#fd5252</color>
+    <color name="fanred">#e46470</color>
+
+    <color name="transparent">#00000000</color>
+    <color name="transparent_w">#88ffffff</color>
+    <color name="transparent_window">#bb000000</color>
+    <color name="gray">#678</color>
+
+    <color name="white">#FFFFFFFF</color>
+
+    <color name="user_info">#A5A7A8</color>
+    <color name="black">#000</color>
+
+    <color name="theme">#e46470</color>
+
+    <color name="layout_gray">#f3f3f3</color>
+    <color name="hint_gray">#aaaaaa</color>
+    <color name="bg_gray">#F0F0F0</color>
+    <color name="set_gray">#222222</color>
+
+    <color name="gray_font">#434343</color>
+
+    <color name="gray_font_small">#969696</color>
+
+    <!-- dialog -->
+    <color name="dialog_bg">#dd000000</color>
+</resources>

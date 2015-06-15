@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">投研社</string>
+    <string name="list_empty">暂时没有数据!</string>
+    <string name="list_loading">列表加载中...</string>
+    <string name="refresh_failed">数据获取失败</string>
+    <string name="check_network_retry">请检查网络后轻点屏幕重试</string>
+    <string name="refresh_lists">刷新列表...</string>
+    <string name="error_str">好像出错了哦~</string>
+
+    <string name="login">登录</string>
+    <string name="login_phone_hint">输入11位手机号码</string>
+    <string name="login_verification_title">获取验证码</string>
+    <string name="login_verification_hint">输入验证码</string>
+    <string name="login_next">下一步</string>
+    <string name="login_fulfil">完成</string>
+    <string name="exit">退出</string>
+    <string name="define">确定</string>
+    <string name="cancel">取消</string>
+
+</resources>

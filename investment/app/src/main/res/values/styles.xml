@@ -1,0 +1,84 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="android:windowBackground">@color/theme</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
+    <style name="AppThemeWTN" parent="AppTheme">
+        <item name="android:windowIsTranslucent">false</item>
+    </style>
+
+    <style name="AppThemeT" parent="AppTheme">
+        <!--Window color-->
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:outAnimation">@color/transparent</item>
+    </style>
+
+    <!--window 窗口背景透明 上下两层不透明-->
+    <style name="AppThemeL" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsTranslucent">false</item>
+    </style>
+
+    <style name="AppThemeN" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+    <style name="AppThemeTN" parent="AppTheme">
+    </style>
+
+
+    <!-- ProgressDialog -->
+    <style name="CustomDialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
+    </style>
+
+    <style name="drawer_ly_tv" >
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:layout_marginLeft">35dp</item>
+    </style>
+
+    <style name="drawer_tv" >
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/font_medium</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="drawer_value_tv" >
+        <item name="android:textColor">@color/theme</item>
+        <item name="android:textSize">@dimen/font_small</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="menu_layout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:paddingTop">@dimen/drawerlayout_menu_gap</item>
+        <item name="android:paddingBottom">@dimen/drawerlayout_menu_gap</item>
+        <item name="android:paddingLeft">40dp</item>
+    </style>
+
+    <style name="SwitchButtonStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="CheckBoxDrawable" parent="Material.Drawable.CheckBox"/>
+
+</resources>

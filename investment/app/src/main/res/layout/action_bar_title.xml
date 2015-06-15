@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:id="@+id/action_bar"
+              android:minHeight="?attr/actionBarSize"
+              android:orientation="horizontal"
+              android:weightSum="4"
+              android:background="@color/white"
+              android:layout_height="match_parent">
+    <TextView
+            android:id="@+id/toolbar_left_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:singleLine="true"
+            android:drawablePadding="@dimen/content_gap_small"
+            android:padding="@dimen/content_left_margin"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/font_medium"
+            android:drawableLeft="@drawable/selector_back_bt"/>
+
+    <RelativeLayout
+            android:id="@+id/toolbar_intermediate_btn"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_weight="2"
+            >
+        <TextView
+                android:id="@+id/toolbar_intermediate_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:singleLine="true"
+                android:gravity="center"
+                android:drawablePadding="@dimen/content_gap_small"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/font_big"/>
+
+        <ImageButton android:id="@+id/toolbar_intermediate_icon"
+                   android:layout_width="wrap_content"
+                   android:layout_toRightOf="@+id/toolbar_intermediate_tv"
+                   android:gravity="center"
+                   android:layout_marginLeft="@dimen/content_gap_small"
+                   android:visibility="gone"
+                   android:background="@color/transparent"
+                   android:layout_height="match_parent"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+            android:id="@+id/toolbar_right_btn"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_gravity="right"
+            android:visibility="invisible"
+            >
+        <TextView
+                android:id="@+id/toolbar_right_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:paddingTop="2dp"
+                android:layout_marginRight="32dp"
+                android:textColor="@color/theme"
+                android:textSize="@dimen/font_medium"/>
+
+    </RelativeLayout>
+</LinearLayout>
