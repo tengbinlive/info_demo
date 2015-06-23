@@ -1,5 +1,6 @@
 package com.touyan.investment.activity;
 
+import android.content.Intent;
 import android.support.v4.view.ViewPager;
 import com.touyan.investment.AbsActivity;
 import com.touyan.investment.AbsFragment;
@@ -38,7 +39,7 @@ public class GuideActivity extends AbsActivity {
         fragments.add(GuideFragment.newInstance(R.drawable.guide_02));
         fragments.add(GuideFragment.newInstance(R.drawable.guide_03));
         fragments.add(GuideFragment.newInstance(R.drawable.guide_04));
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
             }
@@ -66,9 +67,8 @@ public class GuideActivity extends AbsActivity {
 
 
     private void toLogining() {
-//        Intent intent = new Intent(this, LoginActivity.class);
-//        startActivity(intent);
-//        overridePendingTransition(R.anim.fade, R.anim.launcher_out);
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
     }
 
 }
