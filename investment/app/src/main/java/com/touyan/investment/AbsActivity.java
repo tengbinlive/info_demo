@@ -27,6 +27,8 @@ public abstract class AbsActivity extends SwipeBackActivity implements EInitDate
     public final static int LEFT = BOTTOM + 1;
     public final static int RIGHT = LEFT + 1;
 
+    public final static String STATUSBAR_COLOS = "STATUSBAR_COLOS";
+
     private final static String TAG = AbsActivity.class.getSimpleName();
 
     public SwipeBackLayout mSwipeBackLayout;
@@ -68,7 +70,8 @@ public abstract class AbsActivity extends SwipeBackActivity implements EInitDate
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         App.getInstance().addActivity(this);
-        setStatusBar();
+        int colos = getIntent().getIntExtra(STATUSBAR_COLOS,0);
+        setStatusBar(colos);
         mInflater = LayoutInflater.from(this);
         mainLayout = mInflater.inflate(getContentView(), null);
         setContentView(mainLayout);
@@ -82,14 +85,17 @@ public abstract class AbsActivity extends SwipeBackActivity implements EInitDate
     /**
      * 设置statusbar全透明
      */
-    private void setStatusBar() {
+    private void setStatusBar(int color) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                     | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(0x99e46470);
+            if(color<=0){
+                color = 0x99f12e40;
+            }
+            window.setStatusBarColor(color);
 //            window.setNavigationBarColor(Color.TRANSPARENT);
         }
     }

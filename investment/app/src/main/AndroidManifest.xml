@@ -73,18 +73,24 @@
             android:allowBackup="true"
             android:hardwareAccelerated="true"
             android:icon="@drawable/ic_launcher"
+            android:screenOrientation="portrait"
             android:label="@string/app_name"
             android:theme="@style/AppTheme">
         <activity
                 android:name=".activity.LauncherActivity"
                 android:launchMode="singleTop"
-                android:screenOrientation="portrait"
                 android:theme="@style/AppThemeWTN">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+        </activity>
+
+        <activity
+                android:name=".activity.GuideActivity"
+                android:launchMode="singleTop"
+                android:theme="@style/AppTheme">
         </activity>
     </application>
 
