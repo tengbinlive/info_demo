@@ -23,6 +23,12 @@ public class LoginActivity extends AbsActivity implements OnClickListener {
     public void onClick(View v) {
         if (v.getId() == R.id.login_ly) {
 
+
+
+
+
+
+
         }
     }
     @Override
