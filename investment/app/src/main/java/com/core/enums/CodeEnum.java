@@ -6,6 +6,8 @@ package com.core.enums;
  * @author HuangChao
  */
 public enum CodeEnum {
+
+	
 	//---------http默认的错误代码---------//
 	/** 请求时返回404 */
 	_404("404", "服务暂不可用"),
