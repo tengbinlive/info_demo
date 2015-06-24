@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/Users/bin/Documents/bin/investment_android/investment/app/build/intermediates/exploded-aar/com.github.rey5137/material/1.1.1/classes.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="60dee46bb1ba50fb53b5d064694dc849246596fd">
+        <dex dex="/Users/bin/Documents/bin/investment_android/investment/app/build/intermediates/pre-dexed/debug/classes-9f6b7da1b7dcec5eca013922241f068d92504604.jar" />
+    </item>
+    <item
+        jar="/Users/bin/Documents/bin/investment_android/investment/app/libs/greendao-1.3.7.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="dda08161d004c4df96938da6909f1c2b96cd33c8">
+        <dex dex="/Users/bin/Documents/bin/investment_android/investment/app/build/intermediates/pre-dexed/debug/greendao-1.3.7-e60f1697d54bafddcd04edf730b356d1969e6d87.jar" />
+    </item>
+    <item
+        jar="/Users/bin/Documents/bin/investment_android/investment/app/build/intermediates/exploded-aar/com.pnikosis/materialish-progress/1.5/classes.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="75c54c470e19b251749e6e6c2cf3d73c0b50aa64">
+        <dex dex="/Users/bin/Documents/bin/investment_android/investment/app/build/intermediates/pre-dexed/debug/classes-17d88214a7f6d510d52a9673b14c2cde457ad748.jar" />
+    </item>
+    <item
+        jar="/Users/bin/Documents/bin/investment_android/investment/app/libs/volley.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="4a94601db9bdfb7dc60efabb3dea91a0675f591d">
+        <dex dex="/Users/bin/Documents/bin/investment_android/investment/app/build/intermediates/pre-dexed/debug/volley-b5972347b0c64b19ff5ed805ceee061d724df8dc.jar" />
+    </item>
+    <item
+        jar="/Users/bin/Documents/bin/investment_android/investment/app/build/intermediates/exploded-aar/com.kyleduo.switchbutton/library/1.2.8/classes.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="ba391b1093df0505d6f0c56689c28384a4dafcc4">
+        <dex dex="/Users/bin/Documents/bin/investment_android/investment/app/build/intermediates/pre-dexed/debug/classes-f37df0fc162937dd0aabbddfb6ee6957914ae717.jar" />
+    </item>
+    <item
+        jar="/Users/bin/Documents/bin/investment_android/investment/app/build/intermediates/exploded-aar/investment/niftymodaldialog/unspecified/classes.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="69734d93647c9fc6c381a53d19d38e8d3480f6cc">
+        <dex dex="/Users/bin/Documents/bin/investment_android/investment/app/build/intermediates/pre-dexed/debug/classes-89a97c980a74fe28108b543fc913ba9bd5678a7e.jar" />
+    </item>
+    <item
+        jar="/Users/bin/Documents/bin/investment_android/investment/app/build/intermediates/exploded-aar/com.android.support/cardview-v7/21.0.2/classes.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="b017100da14f9c158c9f5f2f508333c224b24a7c">
+        <dex dex="/Users/bin/Documents/bin/investment_android/investment/app/build/intermediates/pre-dexed/debug/classes-aeea2d1f6e0f747b897c19a4f8138a27cafb755f.jar" />
+    </item>
+    <item
+        jar="/Users/bin/Documents/bin/investment_android/investment/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.1.1/classes.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="c95ba8152923e4872e86a82cfcba9a51c0214328">
+        <dex dex="/Users/bin/Documents/bin/investment_android/investment/app/build/intermediates/pre-dexed/debug/classes-162d2ef4076cab3cbc27bc479aac02b97d2942a1.jar" />
+    </item>
+    <item
+        jar="/Users/bin/Documents/bin/investment_android/investment/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.1.1/libs/internal_impl-22.1.1.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="9e070ad32b2700b0343e8e0cccc437733d91ba3a">
+        <dex dex="/Users/bin/Documents/bin/investment_android/investment/app/build/intermediates/pre-dexed/debug/internal_impl-22.1.1-f24a6089af843391e26f749f84c4650fe513e40a.jar" />
+    </item>
+    <item
+        jar="/Users/bin/Documents/bin/investment_android/investment/app/libs/fastjson-1.1.43.android.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="55201133d499efaf33db67ece976c8e303d2de18">
+        <dex dex="/Users/bin/Documents/bin/investment_android/investment/app/build/intermediates/pre-dexed/debug/fastjson-1.1.43.android-a7a7605f83ed65de669bb0eb9b10097a1a105322.jar" />
+    </item>
+    <item
+        jar="/Users/bin/.gradle/caches/modules-2/files-2.1/com.nineoldandroids/library/2.4.0/e9b63380f3a242dbdbf103a2355ad7e43bad17cb/library-2.4.0.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="e9b63380f3a242dbdbf103a2355ad7e43bad17cb">
+        <dex dex="/Users/bin/Documents/bin/investment_android/investment/app/build/intermediates/pre-dexed/debug/library-2.4.0-0f80ac675fa76c12ebcfc2cf00523bb9b924536e.jar" />
+    </item>
+    <item
+        jar="/Users/bin/Documents/bin/investment_android/investment/app/build/intermediates/exploded-aar/investment/pulltorefresh/unspecified/classes.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="55c6bfb8018cc602e1d5bf1ededca6a979dec1be">
+        <dex dex="/Users/bin/Documents/bin/investment_android/investment/app/build/intermediates/pre-dexed/debug/classes-9449c0b79678b450474afd6cf58dcb188387e9db.jar" />
+    </item>
+    <item
+        jar="/Users/bin/Documents/bin/investment_android/investment/app/build/intermediates/exploded-aar/me.imid.swipebacklayout.lib/library/1.0.0/classes.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="6d0958dbac8e7be76690b8e85d91698dfadbd81e">
+        <dex dex="/Users/bin/Documents/bin/investment_android/investment/app/build/intermediates/pre-dexed/debug/classes-4c5065f46716083b05117c16c57a789765930418.jar" />
+    </item>
+    <item
+        jar="/Users/bin/Documents/bin/android-sdk-macosx/extras/android/m2repository/com/android/support/support-annotations/22.1.1/support-annotations-22.1.1.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="01d051a6bfb1218b1db2d3a5af0480ac2c25c42a">
+        <dex dex="/Users/bin/Documents/bin/investment_android/investment/app/build/intermediates/pre-dexed/debug/support-annotations-22.1.1-fcd0d7959564cf72d143b77113743763145a7f8c.jar" />
+    </item>
+    <item
+        jar="/Users/bin/Documents/bin/investment_android/investment/app/build/intermediates/exploded-aar/investment/smarttablayout/unspecified/classes.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="7e2620af9da1b25586e8947260c2f3b7e63e25e5">
+        <dex dex="/Users/bin/Documents/bin/investment_android/investment/app/build/intermediates/pre-dexed/debug/classes-0ef9ca4e0b05c3641165e789b982637ba03e1c69.jar" />
+    </item>
+    <item
+        jar="/Users/bin/Documents/bin/investment_android/investment/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.1.1/classes.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="a3ff3c506644c820eb2bdf06e8339f72be578551">
+        <dex dex="/Users/bin/Documents/bin/investment_android/investment/app/build/intermediates/pre-dexed/debug/classes-3bc09f375681de09d8565f3c4d6b1ea7e3e63b84.jar" />
+    </item>
+
+</items>
