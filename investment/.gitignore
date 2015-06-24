@@ -1,0 +1,5 @@
+/build
+/.idea
+/.gradle
+/investment.iml
+/local.properties
