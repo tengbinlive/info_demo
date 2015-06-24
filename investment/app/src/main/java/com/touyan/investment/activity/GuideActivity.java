@@ -54,10 +54,10 @@ public class GuideActivity extends AbsActivity {
                 if (mState < 0) {
                     mState = state;
                 }
-//                if ((mPosition == adapter.getCount() - 1) && state == 0 && mState > 0) {
-//                    mState = state;
-//                    toLogining();
-//                }
+                if ((mPosition == adapter.getCount() - 1) && state == 0 && mState > 0) {
+                    mState = state;
+                    toLogining();
+                }
             }
         });
 
