@@ -5,7 +5,7 @@
               android:minHeight="?attr/actionBarSize"
               android:orientation="horizontal"
               android:weightSum="4"
-              android:background="@color/white"
+              android:background="@color/theme"
               android:layout_height="match_parent">
     <TextView
             android:id="@+id/toolbar_left_btn"
@@ -17,8 +17,8 @@
             android:singleLine="true"
             android:drawablePadding="@dimen/content_gap_small"
             android:padding="@dimen/content_left_margin"
-            android:textColor="@android:color/black"
-            android:textSize="@dimen/font_medium"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_actionbar"
             android:drawableLeft="@drawable/selector_back_bt"/>
 
     <RelativeLayout
@@ -35,8 +35,8 @@
                 android:singleLine="true"
                 android:gravity="center"
                 android:drawablePadding="@dimen/content_gap_small"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/font_big"/>
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_actionbar_title"/>
 
         <ImageButton android:id="@+id/toolbar_intermediate_icon"
                    android:layout_width="wrap_content"
@@ -66,8 +66,8 @@
                 android:ellipsize="end"
                 android:paddingTop="2dp"
                 android:layout_marginRight="32dp"
-                android:textColor="@color/theme"
-                android:textSize="@dimen/font_medium"/>
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_actionbar"/>
 
     </RelativeLayout>
 </LinearLayout>

@@ -38,15 +38,19 @@
                 android:layout_height="wrap_content"
                 android:text="@string/login_username"
                 android:textSize="@dimen/font_medium"
-                android:textColor="#222"/>
+                android:textColor="@color/textcolor_222"/>
 
-        <EditText
+        <com.touyan.investment.mview.EditTextWithDelete
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:layout_marginLeft="10dp"
                 android:background="@null"
+                android:textCursorDrawable="@null"
+                android:inputType="phone"
                 android:textSize="15sp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/hint_gray"
                 android:hint="请输入手机号码"/>
     </LinearLayout>
 
@@ -74,15 +78,19 @@
                 android:layout_height="wrap_content"
                 android:text="@string/login_userpass"
                 android:textSize="@dimen/font_medium"
-                android:textColor="#222"/>
+                android:textColor="@color/textcolor_222"/>
 
-        <EditText
+        <com.touyan.investment.mview.EditTextWithDelete
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:layout_marginLeft="10dp"
                 android:background="@null"
+                android:textCursorDrawable="@null"
                 android:textSize="15sp"
+                android:password="true"
+                android:textColor="@color/black"
+                android:textColorHint="@color/hint_gray"
                 android:hint="请输入密码"/>
     </LinearLayout>
     <View
@@ -101,6 +109,7 @@
             android:layout_marginLeft="@dimen/content_left_margin"
             android:layout_marginRight="@dimen/content_right_margin"
             android:text="登录"
+            android:textSize="@dimen/font_btn"
             android:textColor="@color/white"
             android:background="@drawable/login_btn"/>
 
@@ -114,7 +123,7 @@
             android:layout_below="@+id/login_btn"
             android:text="新用户注册"
             android:textSize="@dimen/font_medium"
-            android:textColor="#444"/>
+            android:textColor="@color/textcolor_444"/>
     <TextView
             android:id="@+id/recover_tv"
             android:layout_width="wrap_content"
@@ -126,7 +135,7 @@
             android:layout_below="@+id/login_btn"
             android:text="登录遇到问题?"
             android:textSize="@dimen/font_medium"
-            android:textColor="#444"/>
+            android:textColor="@color/textcolor_444"/>
 
     <LinearLayout
             android:id="@+id/divider4"
@@ -154,7 +163,7 @@
                 android:text="第三方登录"
                 android:gravity="center"
                 android:textSize="@dimen/font_medium"
-                android:textColor="#222"/>
+                android:textColor="@color/textcolor_222"/>
 
         <View
                 android:layout_width="0dp"

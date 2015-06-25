@@ -98,6 +98,23 @@
                 android:launchMode="singleTop"
                 android:theme="@style/AppTheme">
         </activity>
+        <activity
+                android:name=".activity.RegisterActivity"
+                android:launchMode="singleTop"
+                android:theme="@style/AppTheme">
+        </activity>
+        <activity
+                android:name=".activity.RegisterNextActivity"
+                android:launchMode="singleTop"
+                android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
+                >
+        </activity>
+        <activity
+                android:name=".activity.ResetPasswordActivity"
+                android:launchMode="singleTop"
+                android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
+                >
+        </activity>
     </application>
 
 </manifest>
