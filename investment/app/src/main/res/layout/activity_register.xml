@@ -1,0 +1,84 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/register_white"
+                android:orientation="vertical">
+    <include android:id="@+id/toolbar"
+             android:layout_height="wrap_content"
+             android:layout_width="match_parent"
+             layout="@layout/action_toolbar"/>
+    <LinearLayout
+            android:id="@+id/phone_ll"
+            android:layout_width="match_parent"
+            android:layout_marginTop="40dp"
+            android:layout_height="50dp"
+            android:layout_below="@+id/toolbar"
+            android:orientation="horizontal"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:paddingRight="@dimen/content_right_margin"
+            android:paddingLeft="@dimen/content_left_margin"
+
+            >
+
+        <ImageView
+                android:id="@+id/phone_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/register_phone_icon"/>
+        <com.touyan.investment.mview.EditTextWithDelete
+                android:id="@+id/register_et"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="16dp"
+                android:hint="请输入您的手机号"
+                android:inputType="phone"
+                android:textSize="@dimen/font_medium"
+                android:background="@null"
+                android:textCursorDrawable="@null"
+                android:textColor="@color/black"
+                android:textColorHint="@color/hint_gray"
+                />
+
+
+    </LinearLayout>
+
+
+    <TextView
+            android:id="@+id/tip1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/phone_ll"
+            android:layout_marginTop="@dimen/content_gap"
+            android:layout_marginLeft="@dimen/content_left_margin"
+            android:text="为了验证身份，我们将会发送短信验证码到您的手机"
+            android:textColor="@color/textcolor_444"
+            />
+
+    <Button
+            android:id="@+id/next_btn"
+            android:layout_width="match_parent"
+            android:layout_marginTop="25dp"
+            android:layout_below="@+id/tip1"
+            android:layout_height="40dp"
+            android:layout_marginLeft="@dimen/content_left_margin"
+            android:layout_marginRight="@dimen/content_right_margin"
+            android:text="下一步"
+            android:textSize="@dimen/font_btn"
+            android:textColor="@color/white"
+            android:background="@drawable/login_btn"/>
+
+    <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="80dp"
+            android:text="我同意《投研社服务协议》"
+            android:textColor="@color/textcolor_444"
+            android:button="@drawable/checkbox_button"
+            android:paddingLeft="10dp"
+            />
+
+</RelativeLayout>
