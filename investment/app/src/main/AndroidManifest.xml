@@ -98,6 +98,13 @@
                 android:launchMode="singleTop"
                 android:theme="@style/AppTheme">
         </activity>
+
+        <activity
+                android:name=".activity.MainActivity"
+                android:launchMode="singleTop"
+                android:theme="@style/AppTheme">
+        </activity>
+
         <activity
                 android:name=".activity.RegisterActivity"
                 android:launchMode="singleTop"
