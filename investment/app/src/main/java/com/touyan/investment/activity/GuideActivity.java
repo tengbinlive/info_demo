@@ -51,12 +51,14 @@ public class GuideActivity extends AbsActivity {
 
             @Override
             public void onPageScrollStateChanged(int state) {
-                if (mState < 0) {
-                    mState = state;
-                }
-                if ((mPosition == adapter.getCount() - 1) && state == 0 && mState > 0) {
-                    mState = state;
-                    toLogining();
+
+                if ((mPosition == adapter.getCount() - 1)) {
+                    if (state == 0 && mState > 0) {
+                        mState = -2;
+                        toLogining();
+                    } else if (mState==-2||(mState < 0 && state == 0)) {
+                        mState = 1;
+                    }
                 }
             }
         });
@@ -69,6 +71,7 @@ public class GuideActivity extends AbsActivity {
     private void toLogining() {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
+        finish();
     }
 
 }

@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.RelativeLayout;
 import com.touyan.investment.AbsActivity;
+import com.touyan.investment.App;
 import com.touyan.investment.R;
 
 public class LauncherActivity extends AbsActivity implements OnClickListener {
@@ -14,7 +15,6 @@ public class LauncherActivity extends AbsActivity implements OnClickListener {
     private final static int TO_LOGIN = 0;
     private final static int TO_GUIDE = 1;
     private boolean isTo = false;
-    private int status;
     private Handler activityHandler = new Handler() {
         public void handleMessage(Message msg) {
             dialogDismiss();
@@ -37,8 +37,7 @@ public class LauncherActivity extends AbsActivity implements OnClickListener {
         setSwipeBackEnable(false);
         findView();
         if (!isTo) {
-            status = TO_GUIDE;
-            activityHandler.sendEmptyMessageDelayed(status, 3500);
+            activityHandler.sendEmptyMessageDelayed(App.isFirstLunch() ? TO_GUIDE : TO_LOGIN, 3500);
         }
     }
 
@@ -51,9 +50,9 @@ public class LauncherActivity extends AbsActivity implements OnClickListener {
     public void onClick(View v) {
         if (v.getId() == R.id.launcher_ly) {
             if (!isTo) {
-                if(status == TO_GUIDE) {
+                if (App.isFirstLunch()) {
                     toGuide();
-                }else{
+                } else {
                     toLogining();
                 }
             }
@@ -74,15 +73,17 @@ public class LauncherActivity extends AbsActivity implements OnClickListener {
 
     private void toLogining() {
         isTo = true;
-//        Intent intent = new Intent(this, LoginActivity.class);
-//        startActivity(intent);
-//        overridePendingTransition(R.anim.fade, R.anim.launcher_out);
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+        finish();
+        overridePendingTransition(R.anim.fade, R.anim.launcher_out);
     }
 
     private void toGuide() {
         isTo = true;
         Intent intent = new Intent(this, GuideActivity.class);
         startActivity(intent);
+        finish();
         overridePendingTransition(R.anim.fade, R.anim.launcher_out);
     }
 

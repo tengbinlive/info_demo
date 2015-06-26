@@ -1,5 +1,6 @@
 package com.touyan.investment.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import com.touyan.investment.AbsFragment;
 import com.touyan.investment.R;
+import com.touyan.investment.activity.LoginActivity;
 
 public class GuideFragment extends AbsFragment {
 
@@ -57,10 +59,16 @@ public class GuideFragment extends AbsFragment {
             guide_bt.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    toLogining();
                 }
             });
         }
+    }
+
+    private void toLogining() {
+        Intent intent = new Intent(getActivity(), LoginActivity.class);
+        startActivity(intent);
+        getActivity().finish();
     }
 
     @Override
