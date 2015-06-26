@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingTop="70dp"
+                android:paddingBottom="50dp"
+                android:background="@color/transparent"
+        >
+
+    <ScrollView
+            android:id="@+id/agreement_sv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/agreement_dialog_bg"
+            android:layout_margin="15dp">
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_marginLeft="@dimen/content_left_margin"
+                android:layout_marginRight="@dimen/content_right_margin">
+
+            <TextView
+                    android:id="@+id/agreement_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="投研社服务协议"
+                    android:layout_marginTop="20dp"
+                    android:textSize="@dimen/font_title"
+                    android:textColor="@color/white"/>
+            <TextView
+                    android:id="@+id/agreement_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:textColor="@color/white"
+                    android:text="协议书有广义和狭义之分。广义的协议书是指社会集团或个人处理各种社会关系、事务时常用的“契约”类文书，包括合同、议定书、条约、公约、联合宣言、联合声明、条据等。狭义的协议书指国家、政党、企业、团体或个人就某个问题经过谈判或共同协商，取得一致意见后，订立的一种具有经济或其它关系的契约性文书。协议书是应用写作的重要组成部分。
+协议书是社会生活中，协作的双方或数方，为保障各自的合法权益，经双方或数方共同协商达成一致意见后，签定的书面材料。协议书是契约文书的一种。是当事人双方（或多方）为了解决或预防纠纷，或确立某种法律关系，实现一定的共同利益、愿望，经过协商而达成一致后，签署的具有法律效力的记录性应用文。协议书有广义和狭义之分。广义的协议书是指社会集团或个人处理各种社会关系、事务时常用的“契约”类文书，包括合同、议定书、条约、公约、联合宣言、联合声明、条据等。狭义的协议书指国家、政党、企业、团体或个人就某个问题经过谈判或共同协商，取得一致意见后，订立的一种具有经济或其它关系的契约性文书。协议书是应用写作的重要组成部分。
+协议书是社会生活中，协作的双方或数方，为保障各自的合法权益，经双方或数方共同协商达成一致意见后，签定的书面材料。协议书是契约文书的一种。是当事人双方（或多方）为了解决或预防纠纷，或确立某种法律关系，实现一定的共同利益、愿望，经过协商而达成一致后，签署的具有法律效力的记录性应用文。协议书有广义和狭义之分。广义的协议书是指社会集团或个人处理各种社会关系、事务时常用的“契约”类文书，包括合同、议定书、条约、公约、联合宣言、联合声明、条据等。狭义的协议书指国家、政党、企业、团体或个人就某个问题经过谈判或共同协商，取得一致意见后，订立的一种具有经济或其它关系的契约性文书。协议书是应用写作的重要组成部分。
+协议书是社会生活中，协作的双方或数方，为保障各自的合法权益，经双方或数方共同协商达成一致意见后，签定的书面材料。协议书是契约文书的一种。是当事人双方（或多方）为了解决或预防纠纷，或确立某种法律关系，实现一定的共同利益、愿望，经过协商而达成一致后，签署的具有法律效力的记录性应用文。"
+                    android:textSize="@dimen/font_medium"/>
+        </LinearLayout>
+
+    </ScrollView>
+
+
+    <ImageButton
+            android:id="@+id/dialog_btn_cancel"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center"
+            android:background="@drawable/dialog_agreement_cancel_icon"
+            android:layout_alignParentRight="true"
+            />
+
+</RelativeLayout>

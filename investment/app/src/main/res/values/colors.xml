@@ -28,6 +28,9 @@
     <!-- dialog -->
     <color name="dialog_bg">#dd000000</color>
 
+    <!-- agreementdialog -->
+    <color name="agreementdialog_bg">#676767</color>
+
     <!--注册界面背景-->
     <color name="register_white">#F2F2F2</color>
 
