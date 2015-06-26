@@ -68,7 +68,7 @@
             android:textSize="@dimen/font_btn"
             android:textColor="@color/white"
             android:background="@drawable/login_btn"/>
-
+<!--
     <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -79,6 +79,25 @@
             android:textColor="@color/textcolor_444"
             android:button="@drawable/checkbox_button"
             android:paddingLeft="10dp"
-            />
+            />-->
+
+
+    <com.rey.material.widget.CheckBox
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            style="@style/CheckBoxDrawable"
+            android:id="@+id/agree_cb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="80dp"
+            android:padding="@dimen/content_gap_small"
+            android:text="我同意《投研社服务协议》"
+            android:textColor="@color/textcolor_444"
+            android:textSize="@dimen/font_medium"
+            android:checked="false"
+            app:cbd_strokeColor="#454545"
+            app:cbd_tickColor="@color/white"
+            android:gravity="center_vertical"/>
 
 </RelativeLayout>
