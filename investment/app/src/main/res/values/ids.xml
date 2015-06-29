@@ -1,3 +1,4 @@
 <resources>
-    <item type="id" name="coupon_label_id"></item>
+    <item type="id" name="main_tab_n"></item>
+    <item type="id" name="main_tab_p"></item>
 </resources>

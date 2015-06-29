@@ -29,4 +29,10 @@
 
     <string name="resetpassword">重置密码</string>
 
+    <string name="main_investment">投研社</string>
+    <string name="main_recommend">荐股</string>
+    <string name="main_gung">啦呱</string>
+    <string name="main_me">我</string>
+
+
 </resources>
