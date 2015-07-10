@@ -170,7 +170,7 @@ public class App extends Application {
             Log.i(TAG, "成功初始化LOG日志.");
 
             // 注册crashHandler
-            if (Constant.DEBUG) {
+            if (!Constant.DEBUG) {
                 CrashHandler crashHandler = CrashHandler.getInstance();
                 crashHandler.init(this);
                 Log.i(TAG, "成功初始化CrashHandler.");

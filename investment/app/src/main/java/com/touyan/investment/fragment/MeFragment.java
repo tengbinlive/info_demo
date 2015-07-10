@@ -20,7 +20,7 @@ public class MeFragment extends AbsFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         this.mInflater = getActivity().getLayoutInflater();
-        return mInflater.inflate(R.layout.fragment_guide, container, false);
+        return mInflater.inflate(R.layout.fragment_me, container, false);
     }
 
     @Override

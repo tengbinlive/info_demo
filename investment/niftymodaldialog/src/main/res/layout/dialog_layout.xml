@@ -22,8 +22,6 @@ https://github.com/android/platform_frameworks_base/blob/master/core/res/res/lay
     android:id="@+id/customPanel"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:gravity="center"
-    android:paddingLeft="25dp"
-    android:paddingRight="25dp" >
+    android:gravity="center">
 
 </RelativeLayout>

@@ -2,11 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:id="@+id/action_bar"
-              android:minHeight="?attr/actionBarSize"
               android:orientation="horizontal"
               android:weightSum="4"
+              android:minHeight="@dimen/actionbar_height"
               android:background="@color/theme"
-              android:layout_height="match_parent">
+              android:layout_height="@dimen/actionbar_height">
     <TextView
             android:id="@+id/toolbar_left_btn"
             android:layout_width="0dp"
@@ -19,7 +19,7 @@
             android:padding="@dimen/content_left_margin"
             android:textColor="@color/white"
             android:textSize="@dimen/font_actionbar"
-            android:drawableLeft="@drawable/selector_back_bt"/>
+            android:drawableLeft="@drawable/back_normal"/>
 
     <RelativeLayout
             android:id="@+id/toolbar_intermediate_btn"
@@ -54,18 +54,19 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:layout_gravity="right"
-            android:visibility="invisible"
-            >
+            android:gravity="center_vertical"
+            android:visibility="invisible">
+
         <TextView
                 android:id="@+id/toolbar_right_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
+                android:layout_alignParentRight="true"
                 android:singleLine="true"
                 android:ellipsize="end"
-                android:paddingTop="2dp"
-                android:layout_marginRight="32dp"
+                android:gravity="center"
+                android:drawablePadding="@dimen/content_gap_small"
+                android:layout_marginRight="@dimen/content_right_margin"
                 android:textColor="@color/white"
                 android:textSize="@dimen/font_actionbar"/>
 

@@ -1,23 +1,43 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/launcher_ly"
                 android:layout_width="match_parent"
-                android:background="@color/guide_gray"
+                android:background="@color/white"
                 android:layout_height="match_parent">
 
-    <ImageView
-            android:id="@+id/background_iv"
+    <include android:id="@+id/toolbar"
+             android:layout_height="wrap_content"
+             android:layout_width="match_parent"
+             layout="@layout/action_toolbar"/>
+
+    <com.handmark.pulltorefresh.PullToRefreshListView
+            xmlns:ptr="http://schemas.android.com/apk/res-auto"
+            android:clipToPadding="false"
+            android:layout_below="@+id/toolbar"
+            android:id="@+id/pull_refresh_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerInside"
-            />
+            android:cacheColorHint="@color/transparent"
+            android:divider="@null"
+            android:fadingEdge="none"
+            android:fastScrollEnabled="false"
+            android:footerDividersEnabled="false"
+            android:headerDividersEnabled="false"
+            android:scrollbars="vertical"
+            android:smoothScrollbar="true"
+            ptr:ptrAnimationStyle="flip"
+            ptr:ptrMode="pullDownFromTop"/>
 
-    <ImageView android:id="@+id/guide_bt"
-               android:layout_width="120dp"
-               android:visibility="gone"
-               android:scaleType="centerInside"
-               android:src="@drawable/guide_btn"
-               android:layout_alignParentBottom="true"
-               android:layout_centerHorizontal="true"
-               android:layout_marginBottom="80dp"
-               android:layout_height="wrap_content"/>
+    <include layout="@layout/list_empty"/>
+
+    <com.touyan.investment.mview.BezierView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/bezierview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            android:background="@android:color/transparent"
+            app:offsetX="@dimen/tip_offset_x"
+            app:offsetY="@dimen/tip_offset_y"
+            app:statusBarOffset="@dimen/statusBar_height"/>
+
 </RelativeLayout>

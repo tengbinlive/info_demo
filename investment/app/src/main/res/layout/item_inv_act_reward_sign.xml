@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_width="match_parent">
+    <TextView
+            android:id="@+id/sign_tv"
+            android:layout_width="80dp"
+            android:gravity="center"
+            android:text="道法自然"
+            android:singleLine="true"
+            android:textSize="@dimen/font_small"
+            android:textColor="@color/textcolor_222"
+            android:layout_height="wrap_content"/>
+</RelativeLayout>

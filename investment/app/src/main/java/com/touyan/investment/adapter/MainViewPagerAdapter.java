@@ -2,12 +2,14 @@ package com.touyan.investment.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.view.ViewGroup;
 import com.touyan.investment.AbsFragment;
 
 import java.util.ArrayList;
 
-public class MainViewPagerAdapter extends FragmentStatePagerAdapter {
+public class MainViewPagerAdapter extends FragmentPagerAdapter {
 
     private ArrayList<AbsFragment> fragments;
 
@@ -28,6 +30,11 @@ public class MainViewPagerAdapter extends FragmentStatePagerAdapter {
 
     public void refresh(int position) {
         fragments.get(position).scrollToTop();
+    }
+
+    @Override
+    public void destroyItem(ViewGroup container, int position, Object object) {
+        //super.destroyItem(container, position, object);
     }
 
 }

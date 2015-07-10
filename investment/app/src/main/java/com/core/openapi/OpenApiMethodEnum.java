@@ -11,7 +11,7 @@ package com.core.openapi;
 public enum OpenApiMethodEnum {
 
 	/** 获取验证码 */
-	LOAD_GET_CODE("index.php/get_code", "openapi_json",OpenApi.URL_TYPE_DATA),
+	LOAD_GET_CODE("index.php/get_cod", "openapi_json",OpenApi.URL_TYPE_DATA),
 
 	/** 登陆 */
 	LOAD_LOGIN("index.php/Login", "openapi_json",OpenApi.URL_TYPE_DATA),

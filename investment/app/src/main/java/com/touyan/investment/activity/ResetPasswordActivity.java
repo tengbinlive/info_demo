@@ -1,6 +1,5 @@
 package com.touyan.investment.activity;
 
-import android.content.Intent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -19,7 +18,7 @@ public class ResetPasswordActivity extends AbsActivity implements OnClickListene
 
     @Override
     public int getContentView() {
-        return R.layout.activity_resetpassword;
+        return R.layout.activity_reset_password;
     }
 
     @Override

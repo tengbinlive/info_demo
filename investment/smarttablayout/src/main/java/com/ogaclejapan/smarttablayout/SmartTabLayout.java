@@ -508,7 +508,7 @@ public class SmartTabLayout extends HorizontalScrollView {
                 View view = tabStrip.getChildAt(i);
                 view.setSelected(isSelect);
                 if (tabClickSelectListener != null) {
-                    tabClickSelectListener.onSelect(view, isSelect);
+                    tabClickSelectListener.onSelect(view, isSelect,position);
                 }
             }
 
@@ -526,7 +526,7 @@ public class SmartTabLayout extends HorizontalScrollView {
                 if (v == tabStrip.getChildAt(i)) {
                     viewPager.setCurrentItem(i);
                     if (tabClickSelectListener != null) {
-                        tabClickSelectListener.onSelect(v, true);
+                        tabClickSelectListener.onSelect(v, true,i);
                     }
                     return;
                 }
@@ -542,15 +542,12 @@ public class SmartTabLayout extends HorizontalScrollView {
          *
          * @param view
          * @param is   是否选中
+         * @param position   选择页数
          */
-        void onSelect(View view, boolean is);
+        void onSelect(View view, boolean is,int position);
     }
 
     private TabClickSelectListener tabClickSelectListener;
-
-    public TabClickSelectListener getTabClickSelectListener() {
-        return tabClickSelectListener;
-    }
 
     public void setTabClickSelectListener(TabClickSelectListener tabClickSelectListener) {
         this.tabClickSelectListener = tabClickSelectListener;

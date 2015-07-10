@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.touyan.investment.mview.EditTextWithDelete
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/edit_ly"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:gravity="left|top"
+        android:layout_margin="@dimen/content_gap"
+        android:padding="@dimen/content_gap_small"
+        android:background="@drawable/release_info_value_bg"
+        android:textCursorDrawable="@null"
+        android:textSize="@dimen/font_small"
+        android:textColor="@color/textcolor_222"
+        android:textColorHint="@color/gray_hint"
+        android:hint="@string/release_hint_value"/>
+

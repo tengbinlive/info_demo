@@ -6,9 +6,12 @@ import android.os.Message;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.RelativeLayout;
+import com.core.util.Log;
 import com.touyan.investment.AbsActivity;
 import com.touyan.investment.App;
 import com.touyan.investment.R;
+
+import java.util.ArrayList;
 
 public class LauncherActivity extends AbsActivity implements OnClickListener {
 

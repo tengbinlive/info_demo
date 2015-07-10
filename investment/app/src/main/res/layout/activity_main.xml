@@ -8,7 +8,7 @@
             android:id="@+id/view_pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            />
+            android:layout_above="@+id/viewpager_tab"/>
 
     <com.ogaclejapan.smarttablayout.SmartTabLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
@@ -23,7 +23,6 @@
             app:stl_indicatorColor="@color/transparent"
             app:stl_indicatorThickness="0dp"
             app:stl_underlineColor="@color/transparent"
-            app:stl_underlineThickness="0dp"
-            />
+            app:stl_underlineThickness="0dp"/>
 
 </RelativeLayout>

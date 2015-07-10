@@ -15,12 +15,15 @@ import com.touyan.investment.AbsFragment;
 import com.touyan.investment.App;
 import com.touyan.investment.R;
 import com.touyan.investment.adapter.MainViewPagerAdapter;
+import com.touyan.investment.enums.BottomMenu;
 import com.touyan.investment.fragment.GungFragment;
 import com.touyan.investment.fragment.InvestmentFragment;
 import com.touyan.investment.fragment.MeFragment;
 import com.touyan.investment.fragment.RecommendFragment;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 
 public class MainActivity extends AbsActivity {
     /**
@@ -39,9 +42,7 @@ public class MainActivity extends AbsActivity {
     private final static int ME = GUNG + 1;//个人
 
     private SmartTabLayout viewPagerTab;
-
-    private int grayColos;
-    private int   themeColos;
+    private ArrayList<AbsFragment> fragments;
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -82,9 +83,7 @@ public class MainActivity extends AbsActivity {
     }
 
     private void findView() {
-        grayColos = getResources().getColor(R.color.set_gray);
-        themeColos = getResources().getColor(R.color.theme);
-        ArrayList<AbsFragment> fragments = new ArrayList<AbsFragment>();
+        fragments = new ArrayList<AbsFragment>();
         fragments.add(new InvestmentFragment());
         fragments.add(new RecommendFragment());
         fragments.add(new GungFragment());
@@ -98,19 +97,19 @@ public class MainActivity extends AbsActivity {
         viewPagerTab.setCustomTabView(new SmartTabLayout.TabProvider() {
             @Override
             public View createTabView(ViewGroup container, int position, PagerAdapter adapter) {
-                LinearLayout custom_ly = (LinearLayout) mInflater.inflate(R.layout.custom_tab_icon, container, false);
+                LinearLayout custom_ly = (LinearLayout) mInflater.inflate(R.layout.tab_main_icon, container, false);
                 switch (position) {
                     case INVESTMENT:
-                        setIconInfo(custom_ly,R.string.main_investment,R.drawable.main_investment_normal,R.drawable.main_investment_press,true);
+                        setIconInfo(custom_ly,BottomMenu.INVESTMENT, true);
                         break;
                     case RECOMMEND:
-                        setIconInfo(custom_ly,R.string.main_recommend,R.drawable.main_recommend_normal,R.drawable.main_recommend_press);
+                        setIconInfo(custom_ly,BottomMenu.RECOMMEND);
                         break;
                     case GUNG:
-                        setIconInfo(custom_ly, R.string.main_gung, R.drawable.main_gung_normal, R.drawable.main_gung_press);
+                        setIconInfo(custom_ly,BottomMenu.GUNG);
                         break;
                     case ME:
-                        setIconInfo(custom_ly, R.string.main_me, R.drawable.main_me_normal, R.drawable.main_me_press);
+                        setIconInfo(custom_ly,BottomMenu.ME);
                         break;
                     default:
                         throw new IllegalStateException("Invalid position: " + position);
@@ -120,56 +119,43 @@ public class MainActivity extends AbsActivity {
         });
         viewPagerTab.setTabClickSelectListener(new SmartTabLayout.TabClickSelectListener() {
             @Override
-            public void onSelect(View view, boolean isSelect) {
-                if (isSelect) {
-                    setSelectedBackground((ViewGroup) view);
-                } else {
-                    setUnSelectedBackground((ViewGroup) view);
-                }
+            public void onSelect(View view, boolean isSelect,int position) {
+                setSelectedBackground((ViewGroup) view,isSelect);
             }
         });
         viewPagerTab.setViewPager(viewPager);
     }
 
-    private void setIconInfo(ViewGroup custom_ly,int stringid, int residN,int residP,boolean isInit) {
-        ImageView icon = (ImageView) custom_ly.findViewById(R.id.icon);
-        TextView title = (TextView) custom_ly.findViewById(R.id.title);
-        icon.setTag(R.id.main_tab_n,residN);
-        icon.setTag(R.id.main_tab_p,residP);
-        title.setText(stringid);
-        if(!isInit) {
-            icon.setImageResource(residN);
-            title.setTextColor(grayColos);
-        }else{
-            icon.setImageResource(residP);
-            title.setTextColor(themeColos);
+    private void setIconInfo(ViewGroup custom_ly, BottomMenu menu,boolean isClick) {
+        ImageView icon = (ImageView) custom_ly.findViewById(R.id.menu_icon);
+        TextView title = (TextView) custom_ly.findViewById(R.id.menu_title);
+        title.setText(menu.getTitle());
+        if (!isClick) {
+            icon.setImageResource(menu.getResid_normal());
+            title.setTextColor(menu.getTitle_colos_normal());
+        } else {
+            icon.setImageResource(menu.getResid_press());
+            title.setTextColor(menu.getTitle_colos_press());
         }
+        custom_ly.setTag(R.id.main_tab_menu,menu);
     }
 
-    private void setIconInfo(ViewGroup custom_ly,int stringid, int residN,int residP) {
-        ImageView icon = (ImageView) custom_ly.findViewById(R.id.icon);
-        TextView title = (TextView) custom_ly.findViewById(R.id.title);
-        icon.setImageResource(residN);
-        icon.setTag(R.id.main_tab_n,residN);
-        icon.setTag(R.id.main_tab_p,residP);
-        title.setText(stringid);
-        title.setTextColor(grayColos);
+    private void setIconInfo(ViewGroup custom_ly, BottomMenu menu) {
+        setIconInfo(custom_ly, menu,false);
     }
 
-    private void setSelectedBackground(ViewGroup custom_ly){
-        ImageView icon = (ImageView) custom_ly.findViewById(R.id.icon);
-        int resid = (Integer)icon.getTag(R.id.main_tab_p);
-        TextView title = (TextView) custom_ly.findViewById(R.id.title);
-        icon.setImageResource(resid);
-        title.setTextColor(themeColos);
-    }
-
-    private void setUnSelectedBackground(ViewGroup custom_ly){
-        ImageView icon = (ImageView) custom_ly.findViewById(R.id.icon);
-        int resid = (Integer)icon.getTag(R.id.main_tab_n);
-        TextView title = (TextView) custom_ly.findViewById(R.id.title);
-        icon.setImageResource(resid);
-        title.setTextColor(grayColos);
+    private void setSelectedBackground(ViewGroup custom_ly,boolean isSelect) {
+        BottomMenu menu = (BottomMenu) custom_ly.getTag(R.id.main_tab_menu);
+        ImageView icon = (ImageView) custom_ly.findViewById(R.id.menu_icon);
+        TextView title = (TextView) custom_ly.findViewById(R.id.menu_title);
+        title.setText(menu.getTitle());
+        if (!isSelect) {
+            icon.setImageResource(menu.getResid_normal());
+            title.setTextColor(menu.getTitle_colos_normal());
+        } else {
+            icon.setImageResource(menu.getResid_press());
+            title.setTextColor(menu.getTitle_colos_press());
+        }
     }
 
 }

@@ -1,46 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/dialog_confirm_bg"
-    android:orientation="vertical" >
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:layout_marginLeft="@dimen/content_dialog_margin"
+              android:layout_marginRight="@dimen/content_dialog_margin"
+              android:background="@drawable/dialog_confirm_bg"
+              android:orientation="vertical">
 
     <TextView
-        android:id="@+id/dialog_confirm_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="15dp"
-        android:gravity="center"
-        android:paddingLeft="35dp"
-        android:paddingRight="35dp"
-        android:text="温馨提示"
-        android:textColor="@color/black"
-        android:textSize="@dimen/font_medium" />
-
-    <TextView
-        android:id="@+id/dialog_confirm_content"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="15dp"
-        android:gravity="center"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:text="提示"
-        android:textColor="@color/black"
-        android:textSize="@dimen/font_small" />
+            android:id="@+id/dialog_confirm_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="40dp"
+            android:gravity="center"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:text="提示"
+            android:textColor="@color/black"
+            android:textSize="@dimen/font_small"/>
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:orientation="horizontal" >
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
         <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="#e6e6e6" >
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="#e6e6e6">
         </View>
 
         <TextView
@@ -50,11 +39,11 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_toLeftOf="@+id/dialog_confirm_point"
                 android:gravity="center"
-                android:paddingBottom="15dp"
-                android:paddingTop="10dp"
+                android:paddingBottom="@dimen/content_gap_big"
+                android:paddingTop="@dimen/content_gap_big"
                 android:text="YES"
                 android:textColor="#1c78e2"
-                android:textSize="@dimen/font_small" />
+                android:textSize="@dimen/font_small"/>
 
         <View
                 android:id="@+id/dialog_confirm_point"
@@ -63,7 +52,7 @@
                 android:layout_alignBottom="@id/dialog_confirm_closeLeft"
                 android:layout_alignTop="@id/dialog_confirm_closeLeft"
                 android:layout_centerInParent="true"
-                android:background="#e6e6e6" >
+                android:background="#e6e6e6">
         </View>
 
         <TextView
@@ -73,11 +62,11 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_toRightOf="@id/dialog_confirm_point"
                 android:gravity="center"
-                android:paddingBottom="15dp"
-                android:paddingTop="10dp"
+                android:paddingBottom="@dimen/content_gap_big"
+                android:paddingTop="@dimen/content_gap_big"
                 android:text="NO"
                 android:textColor="#1c78e2"
-                android:textSize="@dimen/font_small" />
+                android:textSize="@dimen/font_small"/>
     </RelativeLayout>
 
 </LinearLayout>

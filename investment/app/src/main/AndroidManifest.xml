@@ -87,41 +87,111 @@
             </intent-filter>
         </activity>
 
+        <!--引导-->
         <activity
                 android:name=".activity.GuideActivity"
                 android:launchMode="singleTop"
                 android:theme="@style/AppTheme">
         </activity>
 
+        <!--登录-->
         <activity
                 android:name=".activity.LoginActivity"
                 android:launchMode="singleTop"
                 android:theme="@style/AppTheme">
         </activity>
 
+        <!--主界面-->
         <activity
                 android:name=".activity.MainActivity"
                 android:launchMode="singleTop"
-                android:theme="@style/AppTheme">
+                android:theme="@style/AppThemeWTN">
         </activity>
 
+        <!--注册-->
         <activity
                 android:name=".activity.RegisterActivity"
                 android:launchMode="singleTop"
                 android:theme="@style/AppTheme">
         </activity>
+
+        <!--注册第二部分-->
         <activity
                 android:name=".activity.RegisterNextActivity"
                 android:launchMode="singleTop"
-                android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
-                >
+                android:windowSoftInputMode="adjustResize|stateAlwaysHidden">
         </activity>
+
+        <!--重置密码-->
         <activity
                 android:name=".activity.ResetPasswordActivity"
                 android:launchMode="singleTop"
-                android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
-                >
+                android:windowSoftInputMode="adjustResize|stateAlwaysHidden">
         </activity>
+
+        <!--发布资讯-->
+        <activity
+                android:name=".activity.InfoReleaseActivity"
+                android:theme="@style/AppTheme">
+        </activity>
+
+        <!--资讯详情-->
+        <activity
+                android:name=".activity.InfoDetailActivity"
+                android:process="packagename.web"
+                android:theme="@style/AppTheme">
+        </activity>
+
+        <!--打赏-->
+        <activity
+                android:name=".activity.InfoRewardActivity"
+                android:theme="@style/AppTheme">
+        </activity>
+
+        <!--发布路演活动-->
+        <activity
+                android:name=".activity.ActReleaseRoadshowActivity"
+                android:theme="@style/AppTheme">
+        </activity>
+
+        <!--发布活动-->
+        <activity
+                android:name=".activity.ActReleaseProductActivity"
+                android:theme="@style/AppTheme">
+        </activity>
+
+        <!--活动详情-->
+        <activity
+                android:name=".activity.ActDetailActivity"
+                android:process="packagename.web"
+                android:theme="@style/AppTheme">
+        </activity>
+
+        <!--悬赏详情-->
+        <activity
+                android:name=".activity.OfferDetailActivity"
+                android:process="packagename.web"
+                android:theme="@style/AppTheme">
+        </activity>
+
+        <!--发布悬赏-->
+        <activity
+                android:name=".activity.OfferReleaseActivity"
+                android:theme="@style/AppTheme">
+        </activity>
+
+        <!--报名人员列表详情-->
+        <activity
+                android:name=".activity.SignDetailActivity"
+                android:theme="@style/AppTheme">
+        </activity>
+
+        <!--好友-->
+        <activity
+                android:name=".activity.FriendsActivity"
+                android:theme="@style/AppTheme">
+        </activity>
+
     </application>
 
 </manifest>

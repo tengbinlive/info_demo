@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+    <LinearLayout android:layout_width="150dp"
+                  android:orientation="vertical"
+                  android:layout_marginRight="@dimen/content_gap_small"
+                  android:layout_alignParentRight="true"
+                  android:layout_height="wrap_content">
+
+        <ImageView android:layout_width="wrap_content"
+                   android:src="@drawable/inv_info_up_arrow"
+                   android:scaleType="centerInside"
+                   android:layout_gravity="right"
+                   android:layout_marginRight="@dimen/content_10dp"
+                   android:layout_height="wrap_content"/>
+
+        <TextView android:layout_width="match_parent"
+                  android:background="@drawable/inv_info_up_bg"
+                  android:text="@string/act_release_type"
+                  android:textSize="@dimen/font_small12"
+                  android:textColor="@color/white"
+                  android:padding="@dimen/content_10dp"
+                  android:layout_height="wrap_content"/>
+
+        <View android:layout_width="match_parent"
+              android:background="@drawable/line_white"
+              android:layout_height="@dimen/content_1px"/>
+
+        <LinearLayout android:layout_width="wrap_content"
+                      android:orientation="vertical"
+                      android:background="@drawable/inv_info_down_bg"
+                      android:layout_height="wrap_content">
+            <TextView android:layout_width="match_parent"
+                      android:text="@string/act_release_product"
+                      android:id="@+id/product_tv"
+                      android:textSize="@dimen/font_medium"
+                      android:textStyle="bold"
+                      android:textColor="@color/white"
+                      android:paddingTop="@dimen/content_10dp"
+                      android:paddingLeft="40dp"
+                      android:paddingBottom="@dimen/content_10dp"
+                      android:layout_height="wrap_content"/>
+
+            <View android:layout_width="match_parent"
+                  android:background="@drawable/line_white"
+                  android:layout_height="@dimen/content_1px"/>
+
+            <TextView android:layout_width="match_parent"
+                      android:text="@string/act_release_roadshow"
+                      android:id="@+id/roadshow_tv"
+                      android:textSize="@dimen/font_medium"
+                      android:textStyle="bold"
+                      android:textColor="@color/white"
+                      android:paddingTop="@dimen/content_10dp"
+                      android:paddingLeft="40dp"
+                      android:paddingBottom="@dimen/content_10dp"
+                      android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

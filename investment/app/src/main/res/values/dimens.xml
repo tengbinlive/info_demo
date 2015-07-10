@@ -3,10 +3,13 @@
 
     <dimen name="statusBar_height">0dip</dimen>
     <dimen name="actionbar_statusBar_height">0dip</dimen>
+    <dimen name="actionbar_height">45dp</dimen>
 
-    <dimen name="font_big">18sp</dimen>
+    <dimen name="font_big">17sp</dimen>
     <dimen name="font_small">13sp</dimen>
+    <dimen name="font_small12">12sp</dimen>
     <dimen name="font_medium">14sp</dimen>
+    <dimen name="font_medium15">15sp</dimen>
     <dimen name="font_least">11sp</dimen>
     <dimen name="font_title">20sp</dimen>
 
@@ -14,7 +17,6 @@
     <dimen name="font_actionbar_title">17sp</dimen>
     <dimen name="font_btn">15sp</dimen>
 
-    <dimen name="actionbar_height">50dp</dimen>
     <dimen name="title_icon_margin">24dp</dimen>
 
      <!-- 页面内容左右两边的空隙 -->
@@ -24,8 +26,12 @@
     <dimen name="content_gap_big">20dp</dimen>
     <dimen name="content_left_margin">16dp</dimen>
     <dimen name="content_right_margin">16dp</dimen>
+    <dimen name="content_1dp">1dp</dimen>
+    <dimen name="content_10dp">10dp</dimen>
+    <dimen name="content_1px">1px</dimen>
 
     <dimen name="content_top_margin">16dp</dimen>
+    <dimen name="content_dialog_margin">25dp</dimen>
 
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
@@ -41,34 +47,27 @@
     <dimen name="view_vertical_padding">8dp</dimen>
     <dimen name="view_horizontal_padding">8dp</dimen>
 
-    <dimen name="slidingmenu_offset">80dp</dimen>
-    <dimen name="shadow_width">1dp</dimen>
     <dimen name="item_margin">16dp</dimen>
 
-    <dimen name="button_width">110dp</dimen>
-    <dimen name="button_height">40dp</dimen>
-
-    <dimen name="drawerlayout_width">240dp</dimen>
-    <dimen name="drawerlayout_menu_gap">12dp</dimen>
-
-    <dimen name="message_height">150dp</dimen>
-    <dimen name="order_height">100dp</dimen>
-    <dimen name="share_width">140dp</dimen>
+    <!--textview行距-->
+    <dimen name="text_linespacing">7dp</dimen>
 
 
-    <dimen name="ss_seat_thum_size_h">90.0dip</dimen>
-    <dimen name="ss_seat_thum_size_w">120.0dip</dimen>
+    <dimen name="tab_height">50dp</dimen>
+    <dimen name="tab_top_height">40dp</dimen>
 
-    <dimen name="seat_max_height">60dip</dimen>
-    <dimen name="seat_min_height">30dip</dimen>
-    <dimen name="seat_max_width">60dip</dimen>
-    <dimen name="seat_min_width">30dip</dimen>
-    <dimen name="seat_init_width">50dip</dimen>
-    <dimen name="seat_init_height">50dip</dimen>
+    <!--投研社-资讯-GridView item_width_height-->
+    <dimen name="inv_info_grid_item">90dp</dimen>
 
-    <dimen name="ss_between_offset">5.0dip</dimen>
-    <dimen name="ss_seat_check_size">30.0dip</dimen>
 
-    <dimen name="tab_height">56dp</dimen>
+    <dimen name="inv_act_banner">150dp</dimen>
+
+    <dimen name="inv_release_layout_height">45dp</dimen>
+    <dimen name="bottom_bt_height">45dp</dimen>
+    <dimen name="content_60dp">60dp</dimen>
+
+    <!--消息提示偏移量-->
+    <dimen name="tip_offset_x">40dp</dimen>
+    <dimen name="tip_offset_y">18dp</dimen>
 
 </resources>

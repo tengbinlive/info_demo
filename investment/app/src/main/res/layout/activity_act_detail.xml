@@ -1,0 +1,97 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+    <include android:id="@+id/toolbar"
+             android:layout_height="wrap_content"
+             android:layout_width="match_parent"
+             layout="@layout/action_toolbar"/>
+
+    <com.handmark.pulltorefresh.PullToRefreshScrollView
+            xmlns:ptr="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/pull_scrollview"
+            android:layout_above="@+id/bottom_title_layout"
+            android:layout_below="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/gray_layout"
+            android:scrollbars="none"
+            ptr:ptrAnimationStyle="flip"
+            ptr:ptrMode="both">
+
+        <LinearLayout
+                android:id="@+id/scrollview_ly"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+
+            <TextView
+                    android:layout_marginTop="@dimen/content_gap"
+                    android:layout_width="match_parent"
+                    android:text="已报名"
+                    android:background="@color/white"
+                    android:paddingLeft="@dimen/content_gap"
+                    android:paddingRight="@dimen/content_gap"
+                    android:paddingTop="@dimen/content_10dp"
+                    android:paddingBottom="@dimen/content_10dp"
+                    android:textSize="@dimen/font_small"
+                    android:textColor="@color/textcolor_222"
+                    android:layout_height="wrap_content"/>
+
+            <View android:layout_width="match_parent"
+                  android:background="@drawable/act_line"
+                  android:layout_height="@dimen/content_1px"/>
+
+            <com.touyan.investment.mview.MGridView
+                    android:layout_width="match_parent"
+                    android:id="@+id/mgridview"
+                    android:paddingLeft="@dimen/content_gap"
+                    android:paddingRight="@dimen/content_gap"
+                    android:paddingTop="@dimen/content_gap_small"
+                    android:paddingBottom="@dimen/content_gap_small"
+                    android:background="@color/white"
+                    android:gravity="center"
+                    android:numColumns="5"
+                    android:stretchMode="columnWidth"
+                    android:cacheColorHint="#00000000"
+                    android:listSelector="#00000000"
+                    android:scrollbars="none"
+                    android:verticalSpacing="@dimen/content_gap_small"
+                    android:horizontalSpacing="@dimen/content_gap_small"
+                    android:layout_height="wrap_content">
+            </com.touyan.investment.mview.MGridView>
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:text="评论"
+                    android:paddingLeft="@dimen/content_gap"
+                    android:paddingRight="@dimen/content_gap"
+                    android:paddingTop="@dimen/content_10dp"
+                    android:paddingBottom="@dimen/content_10dp"
+                    android:layout_marginTop="@dimen/content_gap"
+                    android:textSize="@dimen/font_small"
+                    android:background="@color/white"
+                    android:textColor="@color/textcolor_222"
+                    android:layout_height="wrap_content"/>
+
+            <LinearLayout android:layout_width="match_parent"
+                          android:orientation="vertical"
+                          android:id="@+id/review_ly"
+                          android:animateLayoutChanges="true"
+                          android:layout_marginTop="@dimen/content_1px"
+                          android:layout_height="wrap_content">
+            </LinearLayout>
+        </LinearLayout>
+    </com.handmark.pulltorefresh.PullToRefreshScrollView>
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:id="@+id/bottom_title_layout"
+                  android:layout_alignParentBottom="true"
+                  android:orientation="horizontal"
+                  android:weightSum="4"
+                  android:background="@color/white"
+                  android:layout_height="@dimen/tab_height">
+    </LinearLayout>
+</RelativeLayout>

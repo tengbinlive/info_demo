@@ -27,7 +27,7 @@
 <resources>
 
     <dimen name="statusBar_height">25dip</dimen>
-    <dimen name="map_margin_top">81dp</dimen>
-    <dimen name="actionbar_statusBar_height">80dip</dimen>
+    <dimen name="actionbar_statusBar_height">70dip</dimen>
+    <dimen name="actionbar_height">45dp</dimen>
 
 </resources>

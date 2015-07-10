@@ -1,4 +1,6 @@
 <resources>
-    <item type="id" name="main_tab_n"></item>
-    <item type="id" name="main_tab_p"></item>
+    <item type="id" name="main_tab_menu"></item>
+    <item type="id" name="main_tab_select"></item>
+    <item type="id" name="button_index"/>
+    <item type="id" name="button_value"/>
 </resources>

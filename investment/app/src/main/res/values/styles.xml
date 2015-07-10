@@ -6,7 +6,7 @@
         <item name="android:windowBackground">@color/theme</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:textColor">@color/black</item>
-        <item name="android:textColorHint">@color/hint_gray</item>
+        <item name="android:textColorHint">@color/gray_hint</item>
 
     </style>
 
@@ -44,44 +44,54 @@
         <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
     </style>
 
-    <style name="drawer_ly_tv" >
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:gravity">center_vertical</item>
-        <item name="android:orientation">vertical</item>
-        <item name="android:layout_marginLeft">35dp</item>
-    </style>
-
-    <style name="drawer_tv" >
-        <item name="android:textColor">@color/white</item>
-        <item name="android:textSize">@dimen/font_medium</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:singleLine">true</item>
-    </style>
-
-    <style name="drawer_value_tv" >
-        <item name="android:textColor">@color/theme</item>
-        <item name="android:textSize">@dimen/font_small</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:singleLine">true</item>
-    </style>
-
-    <style name="menu_layout">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:orientation">horizontal</item>
-        <item name="android:paddingTop">@dimen/drawerlayout_menu_gap</item>
-        <item name="android:paddingBottom">@dimen/drawerlayout_menu_gap</item>
-        <item name="android:paddingLeft">40dp</item>
-    </style>
-
     <style name="SwitchButtonStyle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
 
     <style name="CheckBoxDrawable" parent="Material.Drawable.CheckBox"/>
+
+    <style name="BannerDefaultStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/inv_act_banner</item>
+        <!-- 自定义属性在styles.xml中不需要命名空间,直接用属性名就可以了 -->
+        <!-- 自动轮播的时间间隔 -->
+        <item name="banner_pointAutoPlayInterval">4000</item>
+
+        <!-- 页码切换过程的时间长度 -->
+        <item name="banner_pageChangeDuration">2000</item>
+
+    </style>
+
+    <style name="AnimationPreviewLeft">
+        <item name="android:windowEnterAnimation">@anim/fade_in</item>
+        <item name="android:windowExitAnimation">@anim/fade_out</item>
+    </style>
+
+    <style name="AnimationPreviewRigth">
+        <item name="android:windowEnterAnimation">@anim/fade_in_rigth</item>
+        <item name="android:windowExitAnimation">@anim/fade_out_rigth</item>
+    </style>
+
+    <style name="AnimBottomAlpha" parent="@android:style/Animation">
+        <item name="android:windowEnterAnimation">@anim/share_change_in</item>
+        <item name="android:windowExitAnimation">@anim/share_change_out</item>
+    </style>
+
+    <style name="BottomViewTheme_Defalut">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
+    <style name="BottomToTopAnim">
+        <item name="android:windowEnterAnimation">@anim/push_translate_in</item>
+        <item name="android:windowExitAnimation">@anim/push_translate_out</item>
+    </style>
 
 </resources>

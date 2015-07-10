@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/inv_act_banner">
+
+    <ImageView android:layout_width="match_parent"
+               android:id="@+id/banner_bg"
+               android:src="@drawable/act_banner_01"
+               android:scaleType="centerCrop"
+               android:layout_height="match_parent"/>
+
+    <LinearLayout android:layout_width="wrap_content"
+                  android:id="@+id/title_ly"
+                  android:layout_margin="@dimen/content_gap"
+                  android:orientation="vertical"
+                  android:gravity="center_vertical"
+                  android:layout_height="match_parent">
+        <TextView android:layout_width="wrap_content"
+                  android:text="【国信通信】通信行业电话会议邀请"
+                  android:textSize="@dimen/font_medium"
+                  android:layout_marginBottom="@dimen/content_gap"
+                  android:layout_height="wrap_content"/>
+        <TextView android:layout_width="wrap_content"
+                  android:layout_marginTop="@dimen/content_gap"
+                  android:text="会议时间：2015-03-31 10：00"
+                  android:layout_marginLeft="@dimen/content_gap_small"
+                  android:textSize="@dimen/font_least"
+                  android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <TextView android:layout_width="wrap_content"
+              android:layout_toRightOf="@+id/title_ly"
+              android:layout_marginTop="@dimen/content_gap"
+              android:layout_alignParentRight="true"
+              android:layout_centerVertical="true"
+              android:drawablePadding="@dimen/content_gap_small"
+              android:gravity="center"
+              android:text="我要报名"
+              android:drawableTop="@drawable/act_banner_unsign"
+              android:layout_margin="@dimen/content_gap"
+              android:textSize="@dimen/font_least"
+              android:layout_height="wrap_content"/>
+
+</RelativeLayout>

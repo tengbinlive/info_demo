@@ -43,7 +43,9 @@ dependencies {
     compile 'com.pnikosis:materialish-progress:1.5'
     compile 'com.kyleduo.switchbutton:library:1.2.8'
     compile 'com.github.rey5137:material:1.1.1'
+    compile 'com.joooonho:selectableroundedimageview:1.0.1'
     compile project(':niftymodaldialog')
     compile project(':pulltorefresh')
     compile project(':smarttablayout')
+    compile project(':bingoogolapple')
 }

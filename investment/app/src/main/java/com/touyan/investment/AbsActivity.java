@@ -2,6 +2,7 @@ package com.touyan.investment;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -92,10 +93,10 @@ public abstract class AbsActivity extends SwipeBackActivity implements EInitDate
             window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                     | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            if(color<=0){
-                color = 0x99f12e40;
-            }
-            window.setStatusBarColor(color);
+//            if(color<=0){
+//                color = 0x99f12e40;
+//            }
+            window.setStatusBarColor(Color.TRANSPARENT);
 //            window.setNavigationBarColor(Color.TRANSPARENT);
         }
     }
@@ -105,6 +106,28 @@ public abstract class AbsActivity extends SwipeBackActivity implements EInitDate
 
     private void initAbsActionBar() {
         viewTitleBar = (RelativeLayout) findViewById(R.id.toolbar);
+        if (null == viewTitleBar) {
+            return;
+        }
+
+        menuLeft = (TextView) viewTitleBar.findViewById(R.id.toolbar_left_btn);
+        toolbar_right_tv = (TextView) viewTitleBar.findViewById(R.id.toolbar_right_tv);
+        toolbar_intermediate_tv = (TextView) viewTitleBar.findViewById(R.id.toolbar_intermediate_tv);
+        toolbar_intermediate_btn = (RelativeLayout) viewTitleBar.findViewById(R.id.toolbar_intermediate_btn);
+        toolbar_intermediate_icon = (ImageButton) viewTitleBar.findViewById(R.id.toolbar_intermediate_icon);
+        toolbar_right_btn = (RelativeLayout) viewTitleBar.findViewById(R.id.toolbar_right_btn);
+
+        menuLeft.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                onBackPressed();
+            }
+        });
+    }
+
+    public void initAbsActionBar(RelativeLayout _viewTitleBar) {
+        viewTitleBar = _viewTitleBar;
         if (null == viewTitleBar) {
             return;
         }
@@ -135,9 +158,12 @@ public abstract class AbsActivity extends SwipeBackActivity implements EInitDate
     }
 
     public void setToolbarLeft(int iconid) {
-        Drawable drawable = getResources().getDrawable(iconid);
-        // 这一步必须要做,否则不会显示.
-        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+        Drawable drawable = null;
+        if(iconid>0) {
+            drawable = getResources().getDrawable(iconid);
+            // 这一步必须要做,否则不会显示.
+            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+        }
         menuLeft.setCompoundDrawables(drawable, null, null, null);
     }
 
@@ -193,14 +219,21 @@ public abstract class AbsActivity extends SwipeBackActivity implements EInitDate
         toolbar_right_tv.setText(text);
     }
 
+    /**
+     * 设置标题
+     * @param rId
+     */
     public void setToolbarRightStrID(int rId) {
         toolbar_right_tv.setText(rId);
     }
 
     public void setToolbarRight(int iconid) {
-        Drawable drawable = getResources().getDrawable(iconid);
-        // 这一步必须要做,否则不会显示.
-        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+        Drawable drawable =null;
+        if(iconid>0) {
+            drawable = getResources().getDrawable(iconid);
+            // 这一步必须要做,否则不会显示.
+            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+        }
         toolbar_right_tv.setCompoundDrawables(drawable, null, null, null);
     }
 
@@ -252,14 +285,21 @@ public abstract class AbsActivity extends SwipeBackActivity implements EInitDate
         toolbar_intermediate_tv.setText(text);
     }
 
+    /**
+     * 设置标题
+     * @param rId
+     */
     public void setToolbarIntermediateStrID(int rId) {
         toolbar_intermediate_tv.setText(rId);
     }
 
     public void setToolbarIntermediate(int iconid) {
-        Drawable drawable = getResources().getDrawable(iconid);
-        // 这一步必须要做,否则不会显示.
-        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+        Drawable drawable =null;
+        if(iconid>0) {
+            drawable = getResources().getDrawable(iconid);
+            // 这一步必须要做,否则不会显示.
+            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+        }
         toolbar_intermediate_tv.setCompoundDrawables(drawable, null, null, null);
     }
 
@@ -368,18 +408,10 @@ public abstract class AbsActivity extends SwipeBackActivity implements EInitDate
     }
 
 
-    public void showConfirmDialog(Activity activity, String title, String content, String leftText, View.OnClickListener leftEvent, String rightText, View.OnClickListener rightEvent) {
+    public void showConfirmDialog(Activity activity, String content, String leftText, View.OnClickListener leftEvent, String rightText, View.OnClickListener rightEvent) {
         dialogDismiss();
         LinearLayout linearLayout = new LinearLayout(activity);
         activity.getLayoutInflater().inflate(R.layout.dialog_confirm, linearLayout);
-
-        TextView titleTv = (TextView) linearLayout.findViewById(R.id.dialog_confirm_title);
-        if (StringUtil.isBlank(title)) {
-            titleTv.setVisibility(View.GONE);
-        } else {
-            titleTv.setVisibility(View.VISIBLE);
-            titleTv.setText(title);
-        }
 
         TextView contentTv = (TextView) linearLayout.findViewById(R.id.dialog_confirm_content);
         if (StringUtil.isBlank(content)) {
@@ -411,8 +443,12 @@ public abstract class AbsActivity extends SwipeBackActivity implements EInitDate
             linearLayout.findViewById(R.id.dialog_confirm_point).setVisibility(View.GONE);
         }
 
-        closeLeft.setOnClickListener(leftEvent);
-        closeRight.setOnClickListener(rightEvent);
+        if(leftEvent!=null) {
+            closeLeft.setOnClickListener(leftEvent);
+        }
+        if(rightEvent!=null) {
+            closeRight.setOnClickListener(rightEvent);
+        }
         dialogBuilder = NiftyDialogBuilder.getInstance(activity);
         dialogBuilder.withDuration(700) // def
                 .isCancelableOnTouchOutside(false) // def | isCancelable(true)

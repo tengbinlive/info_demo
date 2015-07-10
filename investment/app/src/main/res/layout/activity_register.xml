@@ -38,7 +38,7 @@
                 android:background="@null"
                 android:textCursorDrawable="@null"
                 android:textColor="@color/black"
-                android:textColorHint="@color/hint_gray"
+                android:textColorHint="@color/gray_hint"
                 />
 
 

@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/info_ly"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+              android:background="@color/white">
+
+    <RelativeLayout android:layout_width="match_parent"
+                    android:paddingRight="@dimen/content_gap"
+                    android:paddingLeft="@dimen/content_gap"
+                    android:layout_marginTop="@dimen/content_gap"
+                    android:layout_height="wrap_content">
+
+        <com.joooonho.SelectableRoundedImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/head"
+                android:src="@drawable/default_head"
+                android:scaleType="centerCrop"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                app:sriv_left_top_corner_radius="4dip"
+                app:sriv_right_top_corner_radius="4dip"
+                app:sriv_left_bottom_corner_radius="4dip"
+                app:sriv_right_bottom_corner_radius="4dip"
+                app:sriv_oval="false"/>
+
+        <TextView android:layout_toRightOf="@+id/head"
+                  android:layout_width="wrap_content"
+                  android:text="南昌地铁"
+                  android:id="@+id/name"
+                  android:layout_marginLeft="@dimen/content_gap"
+                  android:textSize="@dimen/font_small"
+                  android:textColor="@color/blue_title"
+                  android:layout_height="wrap_content"/>
+
+        <TextView android:layout_toRightOf="@+id/head"
+                  android:layout_below="@+id/name"
+                  android:layout_width="wrap_content"
+                  android:layout_marginTop="@dimen/content_gap_small"
+                  android:text="04-21  17:28"
+                  android:layout_marginLeft="@dimen/content_gap"
+                  android:textSize="@dimen/font_least"
+                  android:textColor="@color/gray_hint"
+                  android:layout_height="wrap_content"/>
+
+    </RelativeLayout>
+
+    <TextView android:id="@+id/title"
+              android:layout_marginTop="@dimen/font_small"
+              android:layout_width="wrap_content"
+              android:paddingRight="@dimen/content_gap"
+              android:paddingLeft="@dimen/content_gap"
+              android:text="受偏北气流控制，近三日"
+              android:textSize="@dimen/font_small"
+              android:textColor="@color/textcolor_222"
+              android:layout_height="wrap_content"/>
+
+    <TextView android:id="@+id/value"
+              android:paddingRight="@dimen/content_gap"
+              android:paddingLeft="@dimen/content_gap"
+              android:layout_width="wrap_content"
+              android:layout_marginTop="@dimen/text_linespacing"
+              android:text="\t\t\t受偏北气流控制，近三日受偏北气流控制，近三日受偏北气流控制，近三日受偏北气流控制，近三日受偏北气流控制，近三日受偏北气流控制，近三日受偏北气流控制，近三日"
+              android:textSize="@dimen/font_small"
+              android:lineSpacingExtra="@dimen/text_linespacing"
+              android:textColor="@color/gray_font"
+              android:layout_height="wrap_content"/>
+
+    <com.touyan.investment.mview.MGridView
+            android:id="@+id/gridview"
+            android:numColumns="3"
+            android:paddingRight="@dimen/content_gap"
+            android:paddingLeft="@dimen/content_gap"
+            android:layout_marginTop="@dimen/content_gap_small"
+            android:layout_marginBottom="@dimen/content_gap_small"
+            android:columnWidth="@dimen/inv_info_grid_item"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="@dimen/content_gap"
+            android:horizontalSpacing="@dimen/content_gap"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+    </com.touyan.investment.mview.MGridView>
+
+    <View android:layout_width="match_parent"
+          android:background="@drawable/act_line"
+          android:layout_height="@dimen/content_1px"/>
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:orientation="horizontal"
+                  android:weightSum="3"
+                  android:gravity="center_vertical"
+                  android:layout_height="35dp">
+
+        <LinearLayout android:layout_width="0dp"
+                      android:layout_weight="1"
+                      android:gravity="center"
+                      android:id="@+id/share_ly"
+                      android:duplicateParentState="true"
+                      android:layout_height="match_parent">
+
+            <ImageButton
+                    android:id="@+id/share_ib"
+                    android:background="@null"
+                    android:layout_width="25dp"
+                    android:src="@drawable/selector_share_icon"
+                    android:scaleType="centerInside"
+                    android:layout_height="wrap_content"/>
+
+            <TextView android:id="@+id/share"
+                      android:layout_width="wrap_content"
+                      android:text="10"
+                      android:gravity="center"
+                      android:textSize="@dimen/font_least"
+                      android:lineSpacingExtra="@dimen/text_linespacing"
+                      android:textColor="@color/gray_font"
+                      android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+        <View android:layout_width="@dimen/content_1px"
+              android:background="@drawable/act_line"
+              android:layout_height="@dimen/content_gap"/>
+
+        <LinearLayout android:layout_width="0dp"
+                      android:layout_weight="1"
+                      android:id="@+id/review_ly"
+                      android:gravity="center"
+                      android:layout_height="match_parent">
+
+            <ImageButton android:layout_width="25dp"
+                         android:id="@+id/review_ib"
+                         android:background="@null"
+                         android:src="@drawable/selector_review_icon"
+                         android:scaleType="centerInside"
+                         android:layout_height="wrap_content"/>
+
+            <TextView android:id="@+id/review"
+                      android:layout_width="wrap_content"
+                      android:text="10"
+                      android:gravity="center"
+                      android:textSize="@dimen/font_least"
+                      android:lineSpacingExtra="@dimen/text_linespacing"
+                      android:textColor="@color/gray_font"
+                      android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+        <View android:layout_width="@dimen/content_1px"
+              android:background="@drawable/act_line"
+              android:layout_height="@dimen/content_gap"/>
+
+        <LinearLayout android:layout_width="0dp"
+                      android:layout_weight="1"
+                      android:id="@+id/reward_ly"
+                      android:gravity="center"
+                      android:layout_height="match_parent">
+
+            <ImageButton android:id="@+id/reward_ib"
+                         android:layout_width="25dp"
+                         android:src="@drawable/selector_reward_icon"
+                         android:scaleType="centerInside"
+                         android:background="@null"
+                         android:layout_height="wrap_content"/>
+
+            <TextView android:id="@+id/reward_tv"
+                      android:layout_width="wrap_content"
+                      android:text="10"
+                      android:gravity="center"
+                      android:textSize="@dimen/font_least"
+                      android:lineSpacingExtra="@dimen/text_linespacing"
+                      android:textColor="@color/gray_font"
+                      android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

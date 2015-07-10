@@ -18,7 +18,7 @@ public class RegisterNextActivity extends AbsActivity implements OnClickListener
 
     @Override
     public int getContentView() {
-        return R.layout.activity_registernext;
+        return R.layout.activity_register_next;
     }
 
     @Override
