@@ -31,7 +31,14 @@ public enum BottomMenu {
     //报名
     SIGN(R.string.bottom_menu_unsign, R.string.bottom_menu_sign,R.drawable.sign_press, R.drawable.sign_normal, 0xfff12e40, 0xff808080),
     //回答
-    REPLY(R.string.bottom_menu_reply,R.string.bottom_menu_reply, R.drawable.reply_press, R.drawable.reply_normal, 0xfff12e40, 0xff808080);
+    REPLY(R.string.bottom_menu_reply,R.string.bottom_menu_reply, R.drawable.reply_press, R.drawable.reply_normal, 0xfff12e40, 0xff808080),
+
+    // 小伙伴
+    //朋友
+    FRIEND(-1,-1, R.drawable.friend_press, R.drawable.friend_normal, -1, -1),
+    //群组
+    GROUP(-1,-1, R.drawable.group_press, R.drawable.group_normal, -1, -1);
+
 
     private int title;
     private int title_press;

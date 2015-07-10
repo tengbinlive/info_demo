@@ -1,1 +1,1 @@
-include ':app', ':niftymodaldialog', ':pulltorefresh', ':smarttablayout', ':MyModule', ':bingoogolapple'
+include ':app', ':niftymodaldialog', ':pulltorefresh', ':smarttablayout', ':bingoogolapple'

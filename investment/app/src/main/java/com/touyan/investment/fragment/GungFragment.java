@@ -1,10 +1,10 @@
 package com.touyan.investment.fragment;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +19,8 @@ import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationA
 import com.touyan.investment.AbsActivity;
 import com.touyan.investment.AbsFragment;
 import com.touyan.investment.R;
+import com.touyan.investment.activity.ActDetailActivity;
+import com.touyan.investment.activity.FriendsActivity;
 import com.touyan.investment.adapter.RecommendNewsAdapter;
 import com.touyan.investment.manager.InvestmentManager;
 import com.touyan.investment.mview.BezierView;
@@ -156,7 +158,7 @@ public class GungFragment extends AbsFragment {
         menuRight.setVisibility(View.VISIBLE);
         toolbar_right_tv.setVisibility(View.VISIBLE);
         setToolbarMenuAnchor(menuLeft, R.drawable.notice_nomral, AbsActivity.LEFT);
-        setToolbarMenuAnchor(toolbar_right_tv, R.drawable.group_normal, AbsActivity.RIGHT);
+        setToolbarMenuAnchor(toolbar_right_tv, R.drawable.group_icon, AbsActivity.RIGHT);
         menuLeft.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -169,8 +171,15 @@ public class GungFragment extends AbsFragment {
 
             @Override
             public void onClick(View arg0) {
+                toFriends();
             }
         });
+    }
+
+    private void toFriends() {
+        Intent mIntent = new Intent(getActivity(), FriendsActivity.class);
+        startActivity(mIntent);
+        getActivity().overridePendingTransition(R.anim.push_translate_in_right, 0);
     }
 
     public void setToolbarMenuAnchor(TextView view, int iconid, int anchor) {
