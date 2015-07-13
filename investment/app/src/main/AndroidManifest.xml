@@ -98,7 +98,7 @@
         <activity
                 android:name=".activity.LoginActivity"
                 android:launchMode="singleTop"
-                android:theme="@style/AppTheme">
+                android:theme="@style/AppThemeWTN">
         </activity>
 
         <!--主界面-->

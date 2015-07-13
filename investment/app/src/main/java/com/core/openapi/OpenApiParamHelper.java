@@ -1,6 +1,8 @@
 package com.core.openapi;
 
 
+import com.alibaba.fastjson.JSON;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,9 +16,8 @@ public class OpenApiParamHelper {
 	/** OpenAPI参数名 */
 	public static class Key {
 		/** OpenAPI参数名: OpenAPI 数据 */
-		public static final String OPEN_API_VERSION = "data";
+		public static final String OPEN_API_VERSION = "jsonData";
 	}
-
 
 	/**
 	 * 调用前进行参数处理
@@ -39,7 +40,8 @@ public class OpenApiParamHelper {
 
 		// 生成签名
 		String sign = "";
-
-		return returnMap;
+		HashMap<String, String> jsonMap = new HashMap<String, String>();
+		jsonMap.put(Key.OPEN_API_VERSION, JSON.toJSONString(returnMap));
+		return jsonMap;
 	}
 }

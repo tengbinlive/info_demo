@@ -31,6 +31,19 @@ public class OpenApiSimpleResult implements Serializable {
     private String MESG;
 
     /**
+     * 扩展属性 信息提示
+     */
+    private String CAUSE;
+
+    public String getCAUSE() {
+        return CAUSE;
+    }
+
+    public void setCAUSE(String CAUSE) {
+        this.CAUSE = CAUSE;
+    }
+
+    /**
      * @return 返回代码
      */
     public String getCode() {
@@ -89,10 +102,11 @@ public class OpenApiSimpleResult implements Serializable {
     @Override
     public String toString() {
         return "OpenApiSimpleResult{" +
-                "code='" + CODE + '\'' +
+                "CODE='" + CODE + '\'' +
                 ", error='" + error + '\'' +
                 ", result='" + result + '\'' +
-                ", extMsg='" + MESG + '\'' +
+                ", MESG='" + MESG + '\'' +
+                ", CAUSE='" + CAUSE + '\'' +
                 '}';
     }
 }

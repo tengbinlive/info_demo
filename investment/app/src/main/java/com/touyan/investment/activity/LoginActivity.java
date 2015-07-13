@@ -9,9 +9,14 @@ import android.widget.Button;
 import android.widget.TextView;
 import com.core.CommonResponse;
 import com.core.util.CommonUtil;
+import com.core.util.StringUtil;
 import com.touyan.investment.AbsActivity;
+import com.touyan.investment.App;
+import com.touyan.investment.Constant;
 import com.touyan.investment.R;
 import com.touyan.investment.bean.login.LoginParam;
+import com.touyan.investment.bean.login.LoginResult;
+import com.touyan.investment.helper.SharedPreferencesHelper;
 import com.touyan.investment.manager.LoginManager;
 import com.touyan.investment.mview.EditTextWithDelete;
 
@@ -19,12 +24,17 @@ public class LoginActivity extends AbsActivity implements OnClickListener {
 
     private final static int LOGIN_DATA = 0;
 
-    private TextView register_tv, recover_tv;
+    private TextView register_tv;
+
+    private TextView recover_tv;
 
     private EditTextWithDelete phone_et;
 
     private EditTextWithDelete password_et;
 
+    private String phone;
+
+    private String password;
 
     private Handler activityHandler = new Handler() {
         public void handleMessage(Message msg) {
@@ -47,7 +57,10 @@ public class LoginActivity extends AbsActivity implements OnClickListener {
     private void loadLoginData(CommonResponse resposne) {
         dialogDismiss();
         if (resposne.isSuccess()) {
-
+            SharedPreferencesHelper.setString(this, Constant.LoginUser.SHARED_PREFERENCES_PHONE, phone);
+            LoginResult result = (LoginResult) resposne.getData();
+            App.getInstance().setgUserInfo(result.getUsinfo());
+            toMainActivity();
         } else {
             CommonUtil.showToast(resposne.getErrorTip());
         }
@@ -75,7 +88,7 @@ public class LoginActivity extends AbsActivity implements OnClickListener {
             Intent intent = new Intent(this, ResetPasswordActivity.class);
             startActivity(intent);
         } else if (id == R.id.login_btn) {
-            Login();
+            OWNLogin();
         }
     }
 
@@ -93,16 +106,31 @@ public class LoginActivity extends AbsActivity implements OnClickListener {
         register_tv.setOnClickListener(this);
         recover_tv.setOnClickListener(this);
         login_btn.setOnClickListener(this);
+
+        String phone = SharedPreferencesHelper.getString(this, Constant.LoginUser.SHARED_PREFERENCES_PHONE, "");
+        phone_et.setText(phone);
     }
 
     /**
      * 登录
      */
-    private void Login() {
+    private void Login(String phone, String password) {
+        LoginManager manager = new LoginManager();
+        manager.Login(this, phone, password, null, null, LoginParam.OWN, activityHandler, LOGIN_DATA);
+    }
+
+    /**
+     * 自己服务器登陆
+     */
+    private void OWNLogin() {
         if (isCheck()) {
-            LoginManager manager = new LoginManager();
-            manager.Login(this, ""+phone_et.getText(), ""+password_et.getText(), LoginParam.OWN, activityHandler, LOGIN_DATA);
+            dialogShow(R.string.login_prompt);
+            Login(phone_et.getText().toString(), password_et.getText().toString());
         }
+    }
+
+    private void Share3Login() {
+
     }
 
     /**
@@ -111,7 +139,28 @@ public class LoginActivity extends AbsActivity implements OnClickListener {
      * @return
      */
     private boolean isCheck() {
+        phone = phone_et.getText().toString();
+        if (StringUtil.isBlank(phone)) {
+            CommonUtil.showToast("请输入您的手机号码");
+            return false;
+        }
+
+        if (!StringUtil.checkMobile(phone.replace(" ", ""))) {
+            CommonUtil.showToast("手机号码输入错误啦");
+            return false;
+        }
+
+        password = password_et.getText().toString();
+        if (StringUtil.isBlank(password)) {
+            CommonUtil.showToast("请输入您的密码");
+            return false;
+        }
         return true;
+    }
+
+    private void toMainActivity() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
 }

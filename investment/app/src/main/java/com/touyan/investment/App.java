@@ -16,6 +16,7 @@ import com.core.util.NetworkUtil.NetworkClassEnum;
 import com.dao.DaoMaster;
 import com.dao.DaoMaster.OpenHelper;
 import com.dao.DaoSession;
+import com.touyan.investment.bean.user.UserInfo;
 
 import java.util.ArrayList;
 
@@ -37,6 +38,8 @@ public class App extends Application {
 
     private static App instance;
 
+    private UserInfo gUserInfo;
+
     private static DaoMaster daoMaster;
 
     private static DaoSession daoSession;
@@ -48,6 +51,15 @@ public class App extends Application {
      */
     public static App getInstance() {
         return instance;
+    }
+
+
+    public UserInfo getgUserInfo() {
+        return gUserInfo;
+    }
+
+    public void setgUserInfo(UserInfo gUserInfo) {
+        this.gUserInfo = gUserInfo;
     }
 
     /**

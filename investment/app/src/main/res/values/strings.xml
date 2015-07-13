@@ -96,5 +96,6 @@
     <string name="offer_release_value_hint">请试着将问题尽可能清晰、详细的描述出来，这样回答者们才能更高质量的为您解答</string>
     <string name="money">金币</string>
     <string name="sign_detail">报名情况</string>
+    <string name="login_prompt">正在登陆</string>
 
 </resources>
