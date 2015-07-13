@@ -32,11 +32,6 @@ public class Constant {
 		 */
 		public final static String SHARED_PREFERENCES_PHONE = "phone";
 
-		/**
-		 * 验证码
-		 */
-		public final static String SHARED_PREFERENCES_VERIFICATION = "verification";
-
 	}
 
 

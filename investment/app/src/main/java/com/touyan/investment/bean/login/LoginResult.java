@@ -1,33 +1,35 @@
 package com.touyan.investment.bean.login;
 
 import com.core.openapi.OpenApiSimpleResult;
+import com.touyan.investment.bean.user.UserInfo;
 
 public class LoginResult extends OpenApiSimpleResult {
 
-    private String userid;
-    private String has_master;
+    private UserInfo usinfo;
 
-    public String getUserid() {
-        return userid;
+    private String appStoreUrl;
+
+    public String getAppStoreUrl() {
+        return appStoreUrl;
     }
 
-    public void setUserid(String userid) {
-        this.userid = userid;
+    public void setAppStoreUrl(String appStoreUrl) {
+        this.appStoreUrl = appStoreUrl;
     }
 
-    public String getHas_master() {
-        return has_master;
+    public UserInfo getUsinfo() {
+        return usinfo;
     }
 
-    public void setHas_master(String has_master) {
-        this.has_master = has_master;
+    public void setUsinfo(UserInfo usinfo) {
+        this.usinfo = usinfo;
     }
 
     @Override
     public String toString() {
         return "LoginResult{" +
-                "userid='" + userid + '\'' +
-                ", has_master='" + has_master + '\'' +
+                "usinfo=" + usinfo +
+                ", appStoreUrl='" + appStoreUrl + '\'' +
                 '}';
     }
 }

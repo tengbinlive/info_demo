@@ -41,6 +41,7 @@
                 android:textColor="@color/textcolor_222"/>
 
         <com.touyan.investment.mview.EditTextWithDelete
+                android:id="@+id/phone_et"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
@@ -81,6 +82,7 @@
                 android:textColor="@color/textcolor_222"/>
 
         <com.touyan.investment.mview.EditTextWithDelete
+                android:id="@+id/password_et"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"

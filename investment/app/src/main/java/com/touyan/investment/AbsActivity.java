@@ -401,6 +401,20 @@ public abstract class AbsActivity extends SwipeBackActivity implements EInitDate
 
     }
 
+    public void dialogShow(int title) {
+        dialogDismiss();
+        LinearLayout convertView = (LinearLayout) mInflater.inflate(R.layout.loading_view, null);
+        TextView dialog_confirm_content = (TextView) convertView.findViewById(R.id.dialog_confirm_content);
+        dialog_confirm_content.setText(title);
+        dialogBuilder = NiftyDialogBuilder.getInstance(this);
+        dialogBuilder.withDuration(700) // def
+                .isCancelableOnTouchOutside(false) // def | isCancelable(true)
+                .withEffect(Effectstype.Fadein) // def Effectstype.Slidetop
+                .setCustomView(convertView, this) // .setCustomView(View
+                .show();
+
+    }
+
     public void dialogDismiss() {
         if (null != dialogBuilder && dialogBuilder.isShowing()) {
             dialogBuilder.dismiss();

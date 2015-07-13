@@ -7,9 +7,6 @@ import com.core.CommonDataLoader;
 import com.core.CommonRequest;
 import com.core.openapi.OpenApiMethodEnum;
 import com.core.openapi.OpenApiSimpleResult;
-import com.touyan.investment.bean.login.LoginAuthCodeParam;
-import com.touyan.investment.bean.login.LoginParam;
-import com.touyan.investment.bean.login.LoginResult;
 import com.touyan.investment.bean.main.MainInvActParam;
 
 /**

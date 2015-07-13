@@ -44,6 +44,7 @@ dependencies {
     compile 'com.kyleduo.switchbutton:library:1.2.8'
     compile 'com.github.rey5137:material:1.1.1'
     compile 'com.joooonho:selectableroundedimageview:1.0.1'
+    compile 'se.emilsjolander:stickylistheaders:2.5.0'
     compile project(':niftymodaldialog')
     compile project(':pulltorefresh')
     compile project(':smarttablayout')

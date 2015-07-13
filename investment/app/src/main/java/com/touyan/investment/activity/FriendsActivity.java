@@ -1,88 +1,37 @@
 package com.touyan.investment.activity;
 
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import com.core.CommonResponse;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.touyan.investment.AbsActivity;
 import com.touyan.investment.AbsFragment;
 import com.touyan.investment.R;
 import com.touyan.investment.adapter.FriendsPagerAdapter;
 import com.touyan.investment.enums.BottomMenu;
+import com.touyan.investment.fragment.GungFriendFragment;
 import com.touyan.investment.fragment.InvActFragment;
 import com.touyan.investment.fragment.InvInfoFragment;
-import com.touyan.investment.manager.InvestmentManager;
 
 import java.util.ArrayList;
 
 public class FriendsActivity extends AbsActivity {
 
-    private InvestmentManager manager = new InvestmentManager();
-
     private final static int FRIEND = 0;
 
     private final static int GROUP = FRIEND + 1;
-
-    private static final int INIT_LIST = 0x01;//初始化数据处理
-
-    private static final int COUNT_MAX = 15;//加载数据最大值
 
     private ViewPager viewPager;
 
     private FriendsPagerAdapter adapter;
 
-    private Handler activityHandler = new Handler() {
-        public void handleMessage(Message msg) {
-            int what = msg.what;
-            switch (what) {
-                case INIT_LIST:
-                    loadData((CommonResponse) msg.obj, what);
-                    break;
-                default:
-                    break;
-            }
-        }
-    };
-
-    private void loadData(CommonResponse resposne, int what) {
-        dialogDismiss();
-        if (what == INIT_LIST) {
-            addTestData();
-        } else {
-            addTestData();
-        }
-//        if (resposne.isSuccess()) {
-//            if (what == INIT_LIST) {
-//                review_ly.removeAllViews();
-//                addTestData();
-//             } else {
-//                addTestData();
-//            }
-//        } else {
-//            CommonUtil.showToast(resposne.getErrorTip());
-//        }
-    }
-
-    private void addTestData() {
-    }
-
     @Override
     public void EInit() {
         super.EInit();
         findView();
-        getDataList(INIT_LIST);
-    }
-
-
-    private void getDataList(int what) {
-        manager.LoginAct(this, "", "" + COUNT_MAX, activityHandler, what);
     }
 
     @Override
@@ -94,8 +43,8 @@ public class FriendsActivity extends AbsActivity {
     private void findView() {
 
         ArrayList<AbsFragment> fragments = new ArrayList<AbsFragment>();
-        fragments.add(new InvInfoFragment());
-        fragments.add(new InvActFragment());
+        fragments.add(new GungFriendFragment());
+        fragments.add(new GungFriendFragment());
 
         adapter = new FriendsPagerAdapter(getSupportFragmentManager(), fragments);
         viewPager = (ViewPager) findViewById(R.id.view_pager);
