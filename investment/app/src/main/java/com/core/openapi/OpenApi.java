@@ -14,10 +14,10 @@ public class OpenApi {
 	public final static String URL_TYPE_DATA = "URL_TYPE_DATA";
 
 	/** 调试环境OpenAPI地址 */
-	private static final String DEBUG_API_PATH = "http://121.40.183.185:7779/";
+	private static final String DEBUG_API_PATH = "http://120.26.68.22:8080/investors";
 
 	/** 正式环境OpenAPI地址 */
-	private static final String PROD_API_PATH = "http://42.121.112.13:8089/faceworld/";
+	private static final String PROD_API_PATH = "http://120.26.68.22:8080/investors";
 
 	private static final String CHARSET_UTF8 = "UTF-8";
 

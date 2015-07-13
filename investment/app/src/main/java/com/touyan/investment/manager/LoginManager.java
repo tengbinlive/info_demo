@@ -9,7 +9,6 @@ import com.core.openapi.OpenApiMethodEnum;
 import com.core.openapi.OpenApiSimpleResult;
 import com.touyan.investment.bean.login.LoginAuthCodeParam;
 import com.touyan.investment.bean.login.LoginParam;
-import com.touyan.investment.bean.login.LoginResult;
 
 /**
  * 用户中心业务类.
@@ -48,18 +47,20 @@ public class LoginManager {
      *
      * @param context        上下文
      * @param phone          手机号码
-     * @param pwd            验证码
+     * @param pwd            密码
+     * @param lgtype         登录类型
      * @param handler        在Activity中处理返回结果的Handler
      * @param handlerMsgCode 返回结果的Handler的Msg代码
      */
-    public void Login(Context context, String phone, String pwd, final Handler handler, final int handlerMsgCode) {
+    public void Login(Context context, String phone, String pwd, String lgtype, final Handler handler, final int handlerMsgCode) {
 
         LoginParam param = new LoginParam();
-        param.setPhone_no(phone);
-        param.setPwd(pwd);
+        param.setServno(phone);
+        param.setPasswd(pwd);
+        param.setLgtype(lgtype);
         // 接口参数
         param.setMethod(OpenApiMethodEnum.LOAD_LOGIN);
-        param.setParseTokenType(new TypeReference<LoginResult>() {
+        param.setParseTokenType(new TypeReference<OpenApiSimpleResult>() {
         });
         // 请求对象
         CommonRequest request = new CommonRequest(param, handler, handlerMsgCode);

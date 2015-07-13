@@ -3,4 +3,6 @@
     <item type="id" name="main_tab_select"></item>
     <item type="id" name="button_index"/>
     <item type="id" name="button_value"/>
+    <item type="id" name="item_friend_head_layout"/>
+    <item type="id" name="holder"/>
 </resources>

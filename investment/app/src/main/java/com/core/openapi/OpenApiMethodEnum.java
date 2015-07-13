@@ -14,67 +14,8 @@ public enum OpenApiMethodEnum {
 	LOAD_GET_CODE("index.php/get_cod", "openapi_json",OpenApi.URL_TYPE_DATA),
 
 	/** 登陆 */
-	LOAD_LOGIN("index.php/Login", "openapi_json",OpenApi.URL_TYPE_DATA),
+	LOAD_LOGIN("/user/login.action", "openapi_json",OpenApi.URL_TYPE_DATA);
 
-	/** 添加车牌 */
-	LOAD_ADDPLATE("index.php/User/addPlate", "openapi_json",OpenApi.URL_TYPE_DATA),
-
-	/** 添加照片评分或评论 */
-	LOAD_PHOTOS_SCORE_CMT("appMan/addPhotosCmt.action", "openapi_json",OpenApi.URL_TYPE_DATA),
-
-	/** 获取照片评论列表 */
-	LOAD_PHOTOS_CMT_LIST("appMan/manPhotosCmtList.action", "openapi_json",OpenApi.URL_TYPE_DATA),
-
-	/** 获取照片详情 */
-	LOAD_PHOTOS_DETAIL("appMan/manPhotosCmtDetail.action", "openapi_json",OpenApi.URL_TYPE_DATA),
-
-	/** 获取签到状态 */
-	LOAD_IS_SIGN_IN("appUser/findSignIn.action", "openapi_json",OpenApi.URL_TYPE_DATA),
-
-	/** 签到 */
-	LOAD_ADD_SIGN_IN("appUser/addSignIn.action", "openapi_json",OpenApi.URL_TYPE_DATA),
-
-	/** 获取 recommend man list */
-	LOAD_RECOMMENDMANLIST("appMan/recommendManList.action", "openapi_json",OpenApi.URL_TYPE_DATA),
-
-	/** 获取 puzzle game list */
-	LOAD_GAMELIST("appMan/recommendManPhotosList.action", "openapi_json",OpenApi.URL_TYPE_DATA),
-
-	/** 获取game url */
-	LOAD_GAMEURL("appCommon/jigsawUrl.action", "openapi_json",OpenApi.URL_TYPE_DATA),
-
-	/** 获取man详情 */
-	LOAD_MANDETAIL("appMan/manDetail.action", "openapi_json",OpenApi.URL_TYPE_DATA),
-
-	/** 点赞 */
-	LOAD_ADDPRAISE("appUserAndMan/pointPraise.action", "openapi_json",OpenApi.URL_TYPE_DATA),
-
-	/** 获取F币 */
-	LOAD_FCOIN("appUser/queryUserFCoin.action", "openapi_json",OpenApi.URL_TYPE_DATA),
-
-	/** 获取man 照片列表 */
-	LOAD_MANLIST_PHOTOS("appMan/manPhotosList.action", "openapi_json",OpenApi.URL_TYPE_DATA),
-
-	/** 根据标签获取 man list */
-	LOAD_MANLIST_LABEL("appMan/manListByLabel.action", "openapi_json",OpenApi.URL_TYPE_DATA),
-
-	/** 根据条件获取 man list */
-	LOAD_MANLIST_TYPE("appMan/manList.action", "openapi_json",OpenApi.URL_TYPE_DATA),
-
-	/** 解锁man photos */
-	LOAD_UNLOCKMAN_PHOTOS("appMan/unlockManPhotos.action", "openapi_json",OpenApi.URL_TYPE_DATA),
-
-	/** 解锁man */
-	LOAD_UNLOCKMAN("appMan/unlockMan.action", "openapi_json",OpenApi.URL_TYPE_DATA),
-
-	/** 获取主页列表标签 */
-	LOAD_LEBLE("appCommon/sysLebelList.action", "openapi_json",OpenApi.URL_TYPE_DATA),
-
-	/** 登录 */
-	LOGIN("appUser/regUser.action", "openapi_json",OpenApi.URL_TYPE_DATA),
-
-	/** 评论详情 */
-	PHOTOSCMTDETAIL("appMan/manPhotosCmtDetail.action", "openapi_json",OpenApi.URL_TYPE_IMAGE);
 
 	private String code;
 	private String format;
