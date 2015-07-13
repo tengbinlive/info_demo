@@ -12,6 +12,8 @@ public class MeFragment extends AbsFragment {
 
     private LayoutInflater mInflater;
 
+
+
     @Override
     public boolean onBackPressed() {
         return false;
@@ -31,6 +33,7 @@ public class MeFragment extends AbsFragment {
 
     // 初始化资源
     private void init() {
+
     }
 
     @Override
