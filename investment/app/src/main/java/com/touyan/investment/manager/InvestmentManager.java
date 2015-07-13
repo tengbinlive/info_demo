@@ -7,7 +7,9 @@ import com.core.CommonDataLoader;
 import com.core.CommonRequest;
 import com.core.openapi.OpenApiMethodEnum;
 import com.core.openapi.OpenApiSimpleResult;
-import com.touyan.investment.bean.main.MainInvActParam;
+import com.touyan.investment.App;
+import com.touyan.investment.bean.main.InvInfoParam;
+import com.touyan.investment.bean.main.InvInfoResult;
 
 /**
  * 投研社业务类.
@@ -19,6 +21,32 @@ public class InvestmentManager {
     private static final String TAG = InvestmentManager.class.getSimpleName();
 
     /**
+     * 获取info 列表数据
+     *
+     * @param context
+     * @param page_number    当前页数
+     * @param page_size      获取个数
+     * @param handler
+     * @param handlerMsgCode
+     */
+    public void queryInfos(Context context, String ititle, String page_number, String page_size, final Handler handler, final int handlerMsgCode) {
+
+        InvInfoParam param = new InvInfoParam();
+        param.setItitle(ititle);
+        param.setStartno(page_number);
+        param.setPageSize(page_size);
+        param.setUserid(App.getInstance().getgUserInfo().getServno());
+        // 接口参数
+        param.setMethod(OpenApiMethodEnum.QUERY_INFOS);
+        param.setParseTokenType(new TypeReference<InvInfoResult>() {
+        });
+        // 请求对象
+        CommonRequest request = new CommonRequest(param, handler, handlerMsgCode);
+        // 开始执行加载
+        CommonDataLoader.getInstance(context).load(request);
+    }
+
+    /**
      * 获取act 列表数据
      * @param context
      * @param page_number 当前页数
@@ -28,8 +56,7 @@ public class InvestmentManager {
      */
     public void LoginAct(Context context,String page_number,String page_size, final Handler handler, final int handlerMsgCode) {
 
-        MainInvActParam param = new MainInvActParam();
-        param.setUserId("");
+        InvInfoParam param = new InvInfoParam();
         // 接口参数
         param.setMethod(OpenApiMethodEnum.LOAD_GET_CODE);
         param.setParseTokenType(new TypeReference<OpenApiSimpleResult>() {
@@ -39,7 +66,6 @@ public class InvestmentManager {
         // 开始执行加载
         CommonDataLoader.getInstance(context).load(request);
     }
-
 
 
 }

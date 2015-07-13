@@ -116,7 +116,7 @@ public class LoginActivity extends AbsActivity implements OnClickListener {
      */
     private void Login(String phone, String password) {
         LoginManager manager = new LoginManager();
-        manager.Login(this, phone, password, null, null, LoginParam.OWN, activityHandler, LOGIN_DATA);
+        manager.login(this, phone, password, null, null, LoginParam.OWN, activityHandler, LOGIN_DATA);
     }
 
     /**

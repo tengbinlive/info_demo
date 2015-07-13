@@ -5,11 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import com.touyan.investment.R;
-import com.touyan.investment.bean.main.MainInvActResult;
+import com.touyan.investment.bean.main.InvInfoResult;
 
 import java.util.ArrayList;
 
@@ -17,12 +14,12 @@ public class InvActAdapter extends BaseAdapter {
 
     private LayoutInflater mInflater;
 
-    private ArrayList<MainInvActResult> list;
+    private ArrayList<InvInfoResult> list;
 
     private Context mContext;
 
 
-    public InvActAdapter(Context context, ArrayList<MainInvActResult> _list) {
+    public InvActAdapter(Context context, ArrayList<InvInfoResult> _list) {
         this.list = _list;
         mContext = context;
         mInflater = LayoutInflater.from(mContext);
@@ -43,7 +40,7 @@ public class InvActAdapter extends BaseAdapter {
         return 0;
     }
 
-    public void refresh(ArrayList<MainInvActResult> _list) {
+    public void refresh(ArrayList<InvInfoResult> _list) {
         list = _list;
         notifyDataSetChanged();
     }

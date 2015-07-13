@@ -5,32 +5,29 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.touyan.investment.R;
 
-import java.util.ArrayList;
-
-public class InvActSignAdapter extends BaseAdapter {
+public class InfoGridAdapter extends BaseAdapter {
 
     private LayoutInflater mInflater;
 
-    private ArrayList<String> list;
+    private String[] list;
 
-    private Context mContext;
-
-    public InvActSignAdapter(Context context, ArrayList<String> _list) {
+    public InfoGridAdapter(Context context, String[] _list) {
         this.list = _list;
-        mContext = context;
-        mInflater = LayoutInflater.from(mContext);
+        mInflater = LayoutInflater.from(context);
     }
 
     @Override
     public int getCount() {
-        return null == list ? 0 : list.size();
+        return null == list ? 0 : list.length;
     }
 
     @Override
     public Object getItem(int position) {
-        return list.get(position);
+        return list[position];
     }
 
     @Override
@@ -38,24 +35,28 @@ public class InvActSignAdapter extends BaseAdapter {
         return 0;
     }
 
-    public void refresh(ArrayList<String> _list) {
+    public void refresh(String[] _list) {
         list = _list;
         notifyDataSetChanged();
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder = null;
+        ViewHolder holder;
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.item_inv_act_sign, null);
+            convertView = mInflater.inflate(R.layout.item_inv_info_image, null);
+            holder = new ViewHolder();
+            holder.imageview = (ImageView) convertView.findViewById(R.id.imageview);
+            convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-
+        ImageLoader.getInstance().displayImage(list[position], holder.imageview);
         return convertView;
     }
 
     class ViewHolder {
+        ImageView imageview;
     }
 
 }

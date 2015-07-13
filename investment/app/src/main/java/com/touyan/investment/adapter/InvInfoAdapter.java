@@ -1,20 +1,25 @@
 package com.touyan.investment.adapter;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.*;
+import com.core.util.DateUtil;
+import com.core.util.StringUtil;
+import com.joooonho.SelectableRoundedImageView;
+import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationAdapter;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.touyan.investment.R;
 import com.touyan.investment.activity.InfoDetailActivity;
 import com.touyan.investment.activity.InfoRewardActivity;
-import com.touyan.investment.bean.main.MainInvActResult;
+import com.touyan.investment.bean.main.InvInfoBean;
+import com.touyan.investment.bean.main.InvInfoResult;
+import com.touyan.investment.bean.main.InvInfoUserInfo;
 import com.touyan.investment.mview.BottomView;
+import com.touyan.investment.mview.MGridView;
 
 import java.util.ArrayList;
 
@@ -22,13 +27,13 @@ public class InvInfoAdapter extends BaseAdapter implements View.OnClickListener 
 
     private LayoutInflater mInflater;
 
-    private ArrayList<MainInvActResult> list;
+    private ArrayList<InvInfoBean> list;
 
     private Activity mContext;
 
     private BottomView mBottomView;
 
-    public InvInfoAdapter(Activity context, ArrayList<MainInvActResult> _list) {
+    public InvInfoAdapter(Activity context, ArrayList<InvInfoBean> _list) {
         this.list = _list;
         mContext = context;
         mInflater = LayoutInflater.from(mContext);
@@ -49,14 +54,14 @@ public class InvInfoAdapter extends BaseAdapter implements View.OnClickListener 
         return 0;
     }
 
-    public void refresh(ArrayList<MainInvActResult> _list) {
+    public void refresh(ArrayList<InvInfoBean> _list) {
         list = _list;
         notifyDataSetChanged();
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder = null;
+        ViewHolder holder ;
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.item_inv_info, null);
             holder = new ViewHolder();
@@ -67,6 +72,14 @@ public class InvInfoAdapter extends BaseAdapter implements View.OnClickListener 
             holder.share_ib = (ImageButton) convertView.findViewById(R.id.share_ib);
             holder.review_ib = (ImageButton) convertView.findViewById(R.id.review_ib);
             holder.reward_ib = (ImageButton) convertView.findViewById(R.id.reward_ib);
+            holder.gridview = (MGridView) convertView.findViewById(R.id.gridview);
+            holder.name = (TextView) convertView.findViewById(R.id.name);
+            holder.date = (TextView) convertView.findViewById(R.id.date);
+            holder.title = (TextView) convertView.findViewById(R.id.title);
+            holder.value = (TextView) convertView.findViewById(R.id.value);
+            holder.share_tv = (TextView) convertView.findViewById(R.id.share_tv);
+            holder.review_tv = (TextView) convertView.findViewById(R.id.review_tv);
+            holder.reward_tv = (TextView) convertView.findViewById(R.id.reward_tv);
             holder.share_ib.setOnClickListener(this);
             holder.review_ib.setOnClickListener(this);
             holder.reward_ib.setOnClickListener(this);
@@ -78,6 +91,30 @@ public class InvInfoAdapter extends BaseAdapter implements View.OnClickListener 
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
+        InvInfoBean infoBean = list.get(position);
+        InvInfoUserInfo userInfo = infoBean.getUser();
+        ImageLoader.getInstance().displayImage(userInfo.getUphoto(), holder.head);
+        holder.name.setText(userInfo.getUalias());
+        String dateStr = DateUtil.ConverToString(infoBean.getPubstm(), DateUtil.YYYY_MM_DD_HH_MM_SS);
+        holder.date.setText(dateStr);
+        holder.name.setText(userInfo.getUalias());
+        holder.title.setText(infoBean.getItitle());
+        holder.value.setText(infoBean.getContnt());
+        holder.share_tv.setText(infoBean.getTransNum());
+        holder.review_tv.setText(infoBean.getReplyNum());
+        holder.reward_tv.setText(infoBean.getRewardsAmount());
+
+        String[] photos = StringUtil.split(infoBean.getPubsid(),",");
+        InfoGridAdapter gridAdapter = new InfoGridAdapter(mContext,photos);
+        SwingBottomInAnimationAdapter animationAdapter = new SwingBottomInAnimationAdapter(gridAdapter);
+        animationAdapter.setAbsListView(holder.gridview);
+        holder.gridview.setAdapter(animationAdapter);
+        holder.gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+            }
+        });
         return convertView;
     }
 
@@ -109,6 +146,15 @@ public class InvInfoAdapter extends BaseAdapter implements View.OnClickListener 
     }
 
     class ViewHolder {
+        SelectableRoundedImageView head;
+        MGridView gridview;
+        TextView name;
+        TextView date;
+        TextView title;
+        TextView value;
+        TextView share_tv;
+        TextView review_tv;
+        TextView reward_tv;
         LinearLayout info_ly;
         LinearLayout share_ly;
         LinearLayout review_ly;
