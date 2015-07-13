@@ -192,6 +192,12 @@
                 android:theme="@style/AppTheme">
         </activity>
 
+        <!--编辑个人信息-->
+        <activity
+                android:name=".activity.ModifyUserInfoActivity"
+                android:theme="@style/AppTheme">
+        </activity>
+
     </application>
 
 </manifest>

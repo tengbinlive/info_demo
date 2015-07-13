@@ -16,7 +16,8 @@ import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationA
 import com.touyan.investment.AbsFragment;
 import com.touyan.investment.R;
 import com.touyan.investment.adapter.InvInfoAdapter;
-import com.touyan.investment.bean.main.MainInvActResult;
+import com.touyan.investment.bean.main.InvInfoBean;
+import com.touyan.investment.bean.main.InvInfoResult;
 import com.touyan.investment.manager.InvestmentManager;
 
 import java.util.ArrayList;
@@ -37,7 +38,7 @@ public class InvInfoFragment extends AbsFragment {
     private ListView mActualListView;
     private InvInfoAdapter mAdapter;
 
-    private ArrayList<MainInvActResult> mList;
+    private ArrayList<InvInfoBean> mList;
 
     private Handler activityHandler = new Handler() {
         public void handleMessage(Message msg) {
@@ -55,15 +56,15 @@ public class InvInfoFragment extends AbsFragment {
 
     private void loadData(CommonResponse resposne, int what) {
         dialogDismiss();
-        testData();
         if (resposne.isSuccess()) {
             if (what == INIT_LIST) {
-                mList = (ArrayList<MainInvActResult>) resposne.getData();
+                InvInfoResult result = (InvInfoResult) resposne.getData();
+                mList = result.getInfos();
             } else {
                 if (mList == null) {
-                    mList = new ArrayList<MainInvActResult>();
+                    mList = new ArrayList<InvInfoBean>();
                 }
-                mList.addAll((ArrayList<MainInvActResult>) resposne.getData());
+                mList.addAll(((InvInfoResult) resposne.getData()).getInfos());
             }
             mAdapter.refresh(mList);
         } else {
@@ -131,27 +132,12 @@ public class InvInfoFragment extends AbsFragment {
 
 
     private void getDataList() {
-        int startIndex = mList == null || mList.size() <= 0 ? 1 : mList.size();
-        manager.LoginAct(getActivity(), "", "" + COUNT_MAX, activityHandler, startIndex == 1 ? INIT_LIST : LOAD_DATA);
+        int startIndex = mList == null || mList.size() <= 0 ? 0 : mList.size();
+        manager.queryInfos(getActivity(), "", ""+startIndex,"" + COUNT_MAX, activityHandler, startIndex == 0 ? INIT_LIST : LOAD_DATA);
     }
 
     @Override
     public void scrollToTop() {
-    }
-
-    private void testData(){
-        if(mList==null) {
-            mList = new ArrayList<MainInvActResult>();
-        }
-        mList.add(new MainInvActResult());
-        mList.add(new MainInvActResult());
-        mList.add(new MainInvActResult());
-        mList.add(new MainInvActResult());
-        mList.add(new MainInvActResult());
-        mList.add(new MainInvActResult());
-        mList.add(new MainInvActResult());
-        mAdapter.refresh(mList);
-        mAdapter.notifyDataSetChanged();
     }
 
 }

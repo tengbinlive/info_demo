@@ -5,13 +5,14 @@
     <dimen name="actionbar_statusBar_height">0dip</dimen>
     <dimen name="actionbar_height">45dp</dimen>
 
+    <dimen name="font_title">20sp</dimen>
     <dimen name="font_big">17sp</dimen>
+    <dimen name="font_medium15">15sp</dimen>
+    <dimen name="font_medium">14sp</dimen>
     <dimen name="font_small">13sp</dimen>
     <dimen name="font_small12">12sp</dimen>
-    <dimen name="font_medium">14sp</dimen>
-    <dimen name="font_medium15">15sp</dimen>
     <dimen name="font_least">11sp</dimen>
-    <dimen name="font_title">20sp</dimen>
+
 
     <dimen name="font_actionbar">15sp</dimen>
     <dimen name="font_actionbar_title">17sp</dimen>
@@ -19,7 +20,7 @@
 
     <dimen name="title_icon_margin">24dp</dimen>
 
-     <!-- 页面内容左右两边的空隙 -->
+    <!-- 页面内容左右两边的空隙 -->
     <dimen name="content_height">200dp</dimen>
     <dimen name="content_gap_small">5dp</dimen>
     <dimen name="content_gap">16dp</dimen>
@@ -69,5 +70,6 @@
     <!--消息提示偏移量-->
     <dimen name="tip_offset_x">40dp</dimen>
     <dimen name="tip_offset_y">18dp</dimen>
+
 
 </resources>

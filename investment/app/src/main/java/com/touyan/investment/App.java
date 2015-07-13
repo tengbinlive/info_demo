@@ -16,6 +16,11 @@ import com.core.util.NetworkUtil.NetworkClassEnum;
 import com.dao.DaoMaster;
 import com.dao.DaoMaster.OpenHelper;
 import com.dao.DaoSession;
+import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.touyan.investment.bean.user.UserInfo;
 
 import java.util.ArrayList;
@@ -204,6 +209,8 @@ public class App extends Application {
             // 系统配置业务.
             ConfigManager.init(this);
 
+            initUniversalImageLoader();
+
         }
     }
 
@@ -246,6 +253,43 @@ public class App extends Application {
         }
         activities.clear();
     }
+
+    /**
+     * 设置图片加载配置
+     */
+    private void initUniversalImageLoader() {
+
+//        "http://site.com/image.png" // from Web
+//        "file:///mnt/sdcard/image.png" // from SD card
+//        "file:///mnt/sdcard/video.mp4" // from SD card (video thumbnail)
+//        "content://media/external/images/media/13" // from content provider
+//        "content://media/external/video/media/13" // from content provider (video thumbnail)
+//        "assets://image.png" // from assets
+//        "drawable://" + R.drawable.img // from drawables (non-9patch images)
+
+        DisplayImageOptions options = new DisplayImageOptions.Builder()
+                .showImageOnLoading(R.drawable.logo) // 设置图片下载期间显示的图片
+                .showImageForEmptyUri(R.drawable.logo) // 设置图片Uri为空或是错误的时候显示的图片
+                .showImageOnFail(R.drawable.logo) // 设置图片加载或解码过程中发生错误显示的图片
+                .cacheInMemory(true) // 设置下载的图片是否缓存在内存中
+                .cacheOnDisk(true) // 设置下载的图片是否缓存在SD卡中
+//                .displayer(new RoundedBitmapDisplayer(20)) // 设置成圆角图片
+                .build(); // 构建完成
+
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this)
+//                .memoryCacheExtraOptions(480, 800)
+                .threadPoolSize(5)
+                .threadPriority(Thread.NORM_PRIORITY - 2)
+                .denyCacheImageMultipleSizesInMemory()
+                .memoryCache(new LruMemoryCache(2 * 1024 * 1024)) //可以通过自己的内存缓存实现
+                .diskCacheFileCount(100)  // 可以缓存的文件数量
+                .tasksProcessingOrder(QueueProcessingType.LIFO)
+                .defaultDisplayImageOptions(options)
+                .writeDebugLogs()
+                .build(); //开始构建
+        ImageLoader.getInstance().init(config);
+    }
+
 
     @Override
     public void onTerminate() {

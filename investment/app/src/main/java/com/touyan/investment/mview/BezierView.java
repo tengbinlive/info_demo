@@ -116,6 +116,7 @@ public class BezierView extends FrameLayout {
         this.setVisibility(View.VISIBLE);
         tipImageView.setText(message);
         tipImageView.setVisibility(View.VISIBLE);
+        postInvalidate();
     }
 
     @Override

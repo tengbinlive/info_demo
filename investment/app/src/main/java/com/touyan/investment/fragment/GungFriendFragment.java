@@ -10,14 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.core.CommonResponse;
 import com.nhaarman.listviewanimations.appearance.StickyListHeadersAdapterDecorator;
-import com.nhaarman.listviewanimations.appearance.simple.AlphaInAnimationAdapter;
 import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationAdapter;
 import com.nhaarman.listviewanimations.util.StickyListHeadersListViewWrapper;
 import com.touyan.investment.AbsFragment;
 import com.touyan.investment.R;
 import com.touyan.investment.adapter.FriendListHeadersAdapter;
-import com.touyan.investment.adapter.InvActAdapter;
-import com.touyan.investment.bean.main.MainInvActResult;
 import com.touyan.investment.manager.InvestmentManager;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 

@@ -23,9 +23,8 @@ import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationA
 import com.touyan.investment.AbsFragment;
 import com.touyan.investment.R;
 import com.touyan.investment.activity.ActDetailActivity;
-import com.touyan.investment.activity.InfoRewardActivity;
 import com.touyan.investment.adapter.InvActAdapter;
-import com.touyan.investment.bean.main.MainInvActResult;
+import com.touyan.investment.bean.main.InvInfoResult;
 import com.touyan.investment.manager.InvestmentManager;
 
 import java.util.ArrayList;
@@ -49,7 +48,7 @@ public class InvActFragment extends AbsFragment {
 
     private BGABanner mBanner;
 
-    private ArrayList<MainInvActResult> mList;
+    private ArrayList<InvInfoResult> mList;
 
     private Handler activityHandler = new Handler() {
         public void handleMessage(Message msg) {
@@ -70,12 +69,12 @@ public class InvActFragment extends AbsFragment {
         testData();
         if (resposne.isSuccess()) {
             if (what == INIT_LIST) {
-                mList = (ArrayList<MainInvActResult>) resposne.getData();
+                mList = (ArrayList<InvInfoResult>) resposne.getData();
             } else {
                 if (mList == null) {
-                    mList = new ArrayList<MainInvActResult>();
+                    mList = new ArrayList<InvInfoResult>();
                 }
-                mList.addAll((ArrayList<MainInvActResult>) resposne.getData());
+                mList.addAll((ArrayList<InvInfoResult>) resposne.getData());
             }
             mAdapter.refresh(mList);
         } else {
@@ -205,15 +204,15 @@ public class InvActFragment extends AbsFragment {
 
     private void testData() {
         if (mList == null) {
-            mList = new ArrayList<MainInvActResult>();
+            mList = new ArrayList<InvInfoResult>();
         }
-        mList.add(new MainInvActResult());
-        mList.add(new MainInvActResult());
-        mList.add(new MainInvActResult());
-        mList.add(new MainInvActResult());
-        mList.add(new MainInvActResult());
-        mList.add(new MainInvActResult());
-        mList.add(new MainInvActResult());
+        mList.add(new InvInfoResult());
+        mList.add(new InvInfoResult());
+        mList.add(new InvInfoResult());
+        mList.add(new InvInfoResult());
+        mList.add(new InvInfoResult());
+        mList.add(new InvInfoResult());
+        mList.add(new InvInfoResult());
         mAdapter.refresh(mList);
         mAdapter.notifyDataSetChanged();
     }

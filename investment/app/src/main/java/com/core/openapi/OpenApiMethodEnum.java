@@ -13,6 +13,9 @@ public enum OpenApiMethodEnum {
 	/** 获取验证码 */
 	LOAD_GET_CODE("index.php/get_cod", "openapi_json",OpenApi.URL_TYPE_DATA),
 
+	/** 资讯查询 */
+	QUERY_INFOS("/info/queryInfos.action", "openapi_json",OpenApi.URL_TYPE_DATA),
+
 	/** 登陆 */
 	LOAD_LOGIN("/user/login.action", "openapi_json",OpenApi.URL_TYPE_DATA);
 

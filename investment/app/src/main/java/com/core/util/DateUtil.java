@@ -138,6 +138,12 @@ public class DateUtil {
 		return df.format(date);
 	}
 
+	// 把日期转为字符串
+	public static String ConverToString(Date date,String type) {
+		SimpleDateFormat df = new SimpleDateFormat(type);
+		return df.format(date);
+	}
+
 	// 把字符串转为日期
 	public static Date ConverToDate(String strDate,String type) throws Exception {
 		SimpleDateFormat df = new SimpleDateFormat(type);
