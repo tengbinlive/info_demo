@@ -1,10 +1,12 @@
 package com.touyan.investment.bean.main;
 
-import com.core.openapi.OpenApiSimpleResult;
-
+import java.io.Serializable;
 import java.sql.Date;
 
-public class InvInfoBean extends OpenApiSimpleResult {
+public class InvInfoBean implements Serializable {
+
+    public final static String PUBL_NO = "1";
+    public final static String PUBL_YES = "0";
 
     private String infoid; //资讯ID
 
@@ -14,7 +16,7 @@ public class InvInfoBean extends OpenApiSimpleResult {
 
     private double charge; //费用
 
-    private String ispubl;//是否公开
+    private String ispubl;//是否公开  0公开，1不公开
 
     private String contnt; //资讯内容
 

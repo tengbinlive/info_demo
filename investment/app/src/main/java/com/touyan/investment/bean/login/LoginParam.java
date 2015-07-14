@@ -65,7 +65,7 @@ public class LoginParam extends OpenApiBaseRequest implements OpenApiRequestInte
 	}
 
 	@Override
-	public void fill2Map(HashMap<String, String> param, boolean includeEmptyAttr) {
+	public void fill2Map(HashMap<String, Object> param, boolean includeEmptyAttr) {
         if (includeEmptyAttr || (!includeEmptyAttr && StringUtil.isNotBlank(servno))) param.put("servno", servno);
         if (includeEmptyAttr || (!includeEmptyAttr && StringUtil.isNotBlank(passwd))) param.put("passwd", passwd);
         if (includeEmptyAttr || (!includeEmptyAttr && StringUtil.isNotBlank(uphoto))) param.put("uphoto", uphoto);

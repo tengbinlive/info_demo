@@ -14,7 +14,7 @@ public class UserInfo implements Serializable {
     private String passwd;
     private String postin;
     private String rscope;
-    private ArrayList<TagBean> tags;
+    private String tags;
     private String teleph;
     private String ualias;
     private String uisvip;
@@ -92,11 +92,11 @@ public class UserInfo implements Serializable {
         this.rscope = rscope;
     }
 
-    public ArrayList<TagBean> getTags() {
+    public String getTags() {
         return tags;
     }
 
-    public void setTags(ArrayList<TagBean> tags) {
+    public void setTags(String tags) {
         this.tags = tags;
     }
 
