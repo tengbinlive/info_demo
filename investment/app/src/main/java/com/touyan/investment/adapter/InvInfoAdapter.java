@@ -9,14 +9,11 @@ import android.widget.*;
 import com.core.util.DateUtil;
 import com.core.util.StringUtil;
 import com.joooonho.SelectableRoundedImageView;
-import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationAdapter;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.touyan.investment.R;
 import com.touyan.investment.activity.InfoDetailActivity;
 import com.touyan.investment.activity.InfoRewardActivity;
 import com.touyan.investment.bean.main.InvInfoBean;
-import com.touyan.investment.bean.main.InvInfoResult;
 import com.touyan.investment.bean.main.InvInfoUserInfo;
 import com.touyan.investment.mview.BottomView;
 import com.touyan.investment.mview.MGridView;
@@ -61,7 +58,7 @@ public class InvInfoAdapter extends BaseAdapter implements View.OnClickListener 
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder ;
+        ViewHolder holder;
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.item_inv_info, null);
             holder = new ViewHolder();
@@ -72,6 +69,7 @@ public class InvInfoAdapter extends BaseAdapter implements View.OnClickListener 
             holder.share_ib = (ImageButton) convertView.findViewById(R.id.share_ib);
             holder.review_ib = (ImageButton) convertView.findViewById(R.id.review_ib);
             holder.reward_ib = (ImageButton) convertView.findViewById(R.id.reward_ib);
+            holder.head = (SelectableRoundedImageView) convertView.findViewById(R.id.head);
             holder.gridview = (MGridView) convertView.findViewById(R.id.gridview);
             holder.name = (TextView) convertView.findViewById(R.id.name);
             holder.date = (TextView) convertView.findViewById(R.id.date);
@@ -80,6 +78,13 @@ public class InvInfoAdapter extends BaseAdapter implements View.OnClickListener 
             holder.share_tv = (TextView) convertView.findViewById(R.id.share_tv);
             holder.review_tv = (TextView) convertView.findViewById(R.id.review_tv);
             holder.reward_tv = (TextView) convertView.findViewById(R.id.reward_tv);
+            holder.gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    int position = (Integer) view.getTag();
+                    toInfoDetail(-1, position);
+                }
+            });
             holder.share_ib.setOnClickListener(this);
             holder.review_ib.setOnClickListener(this);
             holder.reward_ib.setOnClickListener(this);
@@ -87,6 +92,8 @@ public class InvInfoAdapter extends BaseAdapter implements View.OnClickListener 
             holder.share_ly.setOnClickListener(this);
             holder.review_ly.setOnClickListener(this);
             holder.reward_ly.setOnClickListener(this);
+            InfoGridAdapter gridAdapter = new InfoGridAdapter(mContext, null);
+            holder.gridview.setAdapter(gridAdapter);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -99,47 +106,56 @@ public class InvInfoAdapter extends BaseAdapter implements View.OnClickListener 
         holder.date.setText(dateStr);
         holder.name.setText(userInfo.getUalias());
         holder.title.setText(infoBean.getItitle());
-        holder.value.setText(infoBean.getContnt());
+        holder.value.setText("\t\t\t" + infoBean.getContnt());
         holder.share_tv.setText(infoBean.getTransNum());
         holder.review_tv.setText(infoBean.getReplyNum());
         holder.reward_tv.setText(infoBean.getRewardsAmount());
 
-        String[] photos = StringUtil.split(infoBean.getPubsid(),",");
-        InfoGridAdapter gridAdapter = new InfoGridAdapter(mContext,photos);
-        SwingBottomInAnimationAdapter animationAdapter = new SwingBottomInAnimationAdapter(gridAdapter);
-        animationAdapter.setAbsListView(holder.gridview);
-        holder.gridview.setAdapter(animationAdapter);
-        holder.gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        String[] photos = StringUtil.split(infoBean.getPictue(), ",");
+        if (photos == null || photos.length <= 0) {
+            holder.gridview.setVisibility(View.GONE);
+        } else {
+            holder.gridview.setVisibility(View.VISIBLE);
+            ((InfoGridAdapter) (holder.gridview.getAdapter())).refresh(photos);
+        }
 
-            }
-        });
+        holder.info_ly.setTag(position);
+        holder.gridview.setTag(position);
+        holder.review_ly.setTag(position);
+        holder.reward_ib.setTag(position);
+        holder.reward_ly.setTag(position);
+        holder.reward_ly.setTag(position);
         return convertView;
     }
 
     @Override
     public void onClick(View view) {
         int id = view.getId();
+        int position;
         if (id == R.id.share_ib || id == R.id.share_ly) {
-            selectPict();
+            position = (Integer) view.getTag();
+            selectPict(position);
         } else if (id == R.id.review_ib || id == R.id.review_ly) {
-            toInfoDetail(1);
+            position = (Integer) view.getTag();
+            toInfoDetail(1, position);
         } else if (id == R.id.reward_ib || id == R.id.reward_ly) {
-            toInfoReward();
+            position = (Integer) view.getTag();
+            toInfoReward(position);
         } else if (id == R.id.info_ly) {
-            toInfoDetail(-1);
+            position = (Integer) view.getTag();
+            toInfoDetail(-1, position);
         }
     }
 
-    private void toInfoDetail(int index) {
+    private void toInfoDetail(int index, int position) {
         Intent mIntent = new Intent(mContext, InfoDetailActivity.class);
         mIntent.putExtra(InfoDetailActivity.KEY, index);
+        mIntent.putExtra(InfoDetailActivity.KEY, list.get(position));
         mContext.startActivity(mIntent);
         mContext.overridePendingTransition(R.anim.push_translate_in_right, 0);
     }
 
-    private void toInfoReward() {
+    private void toInfoReward(int position) {
         Intent mIntent = new Intent(mContext, InfoRewardActivity.class);
         mContext.startActivity(mIntent);
         mContext.overridePendingTransition(R.anim.push_translate_in_right, 0);
@@ -164,7 +180,7 @@ public class InvInfoAdapter extends BaseAdapter implements View.OnClickListener 
         ImageButton reward_ib;
     }
 
-    private void selectPict() {
+    private void selectPict(int position) {
         if (mBottomView != null) {
             mBottomView.showBottomView(true);
             return;

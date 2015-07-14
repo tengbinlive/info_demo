@@ -29,13 +29,13 @@ public class InvestmentManager {
      * @param handler
      * @param handlerMsgCode
      */
-    public void queryInfos(Context context, String ititle, String page_number, String page_size, final Handler handler, final int handlerMsgCode) {
+    public void queryInfos(Context context, String ititle, int page_number, int page_size, final Handler handler, final int handlerMsgCode) {
 
         InvInfoParam param = new InvInfoParam();
+        param.setUserid(App.getInstance().getgUserInfo().getServno());
         param.setItitle(ititle);
         param.setStartno(page_number);
         param.setPageSize(page_size);
-        param.setUserid(App.getInstance().getgUserInfo().getServno());
         // 接口参数
         param.setMethod(OpenApiMethodEnum.QUERY_INFOS);
         param.setParseTokenType(new TypeReference<InvInfoResult>() {

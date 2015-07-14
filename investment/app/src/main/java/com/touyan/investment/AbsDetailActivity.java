@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import com.touyan.investment.bean.main.InvInfoBean;
 import com.touyan.investment.enums.BottomMenu;
 
 import java.util.ArrayList;
@@ -22,6 +23,8 @@ import java.util.ArrayList;
 public abstract class AbsDetailActivity extends AbsActivity {
 
     public final static String KEY = "KEY"; //是否有初始选择按钮 / 如有 key 为按钮编号
+
+    public final static String KEY_DETAIL = "KEY_DETAIL"; // 详情
 
     private ArrayList<BottomMenu> menEnums;
 
