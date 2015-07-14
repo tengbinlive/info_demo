@@ -11,6 +11,7 @@ import java.util.HashMap;
  * Created by Administrator on 2015/7/14.
  */
 public class ModifyUserInfoParam extends OpenApiBaseRequest implements OpenApiRequestInterface {
+
     private String servno;
     private String ualias;
     private String uphoto;
@@ -137,7 +138,7 @@ public class ModifyUserInfoParam extends OpenApiBaseRequest implements OpenApiRe
     }
 
     @Override
-    public void fill2Map(HashMap<String, String> param, boolean includeEmptyAttr) {
+    public void fill2Map(HashMap<String, Object> param, boolean includeEmptyAttr) {
         if (includeEmptyAttr || (!includeEmptyAttr && StringUtil.isNotBlank(servno))) param.put("servno", servno);
         if (includeEmptyAttr || (!includeEmptyAttr && StringUtil.isNotBlank(ualias))) param.put("ualias", ualias);
         if (includeEmptyAttr || (!includeEmptyAttr && StringUtil.isNotBlank(uphoto))) param.put("uphoto", uphoto);
@@ -149,8 +150,8 @@ public class ModifyUserInfoParam extends OpenApiBaseRequest implements OpenApiRe
         if (includeEmptyAttr || (!includeEmptyAttr && StringUtil.isNotBlank(rscope))) param.put("rscope", rscope);
         if (includeEmptyAttr || (!includeEmptyAttr && StringUtil.isNotBlank(uisvip))) param.put("uisvip", uisvip);
         if (includeEmptyAttr || (!includeEmptyAttr && StringUtil.isNotBlank(tagstr))) param.put("tagstr", tagstr);
-        if (includeEmptyAttr || (!includeEmptyAttr && StringUtil.isNotBlank(instags))) param.put("instags", instags);
-        if (includeEmptyAttr || (!includeEmptyAttr && StringUtil.isNotBlank(deltags))) param.put("deltags", deltags);
+        if (includeEmptyAttr || (!includeEmptyAttr && instags.length > 0)) param.put("instags", instags);
+        if (includeEmptyAttr || (!includeEmptyAttr && deltags.length > 0)) param.put("deltags", deltags);
     }
 
     @Override
