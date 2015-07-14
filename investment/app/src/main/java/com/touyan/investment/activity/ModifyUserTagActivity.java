@@ -67,7 +67,8 @@ public class ModifyUserTagActivity extends AbsActivity implements View.OnClickLi
             case R.id.toolbar_right_btn:
                 Intent result = new Intent();
                 result.putIntegerArrayListExtra(KEY, adapter.getSelectItemList());
-                setResult(RESULTCODE_USERTAG);
+                setResult(RESULTCODE_USERTAG, result);
+                scrollToFinishActivity();
                 break;
         }
     }

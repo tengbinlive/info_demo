@@ -6,11 +6,8 @@ import com.alibaba.fastjson.TypeReference;
 import com.core.CommonDataLoader;
 import com.core.CommonRequest;
 import com.core.openapi.OpenApiMethodEnum;
-import com.touyan.investment.bean.login.LoginParam;
-import com.touyan.investment.bean.login.LoginResult;
 import com.touyan.investment.bean.user.ModifyUserInfoParam;
 import com.touyan.investment.bean.user.ModifyUserInfoResult;
-import com.touyan.investment.bean.user.UserTag;
 
 /**
  * 用户中心业务类.
@@ -50,7 +47,7 @@ public class UserManager {
      * @param handler        在Activity中处理返回结果的Handler
      * @param handlerMsgCode 返回结果的Handler的Msg代码
      */
-    public void modifyUserInfo(Context context, String phone, String ualias, String uphoto, String locatn, String inrank, String compny, String postin, String teleph, String rscope, String uisvip, String tagstr, UserTag[] instags, String[] deltags, final Handler handler, final int handlerMsgCode) {
+    public void modifyUserInfo(Context context, String phone, String ualias, String uphoto, String locatn, String inrank, String compny, String postin, String teleph, String rscope, String uisvip, String tagstr, String[] instags, String[] deltags, final Handler handler, final int handlerMsgCode) {
         ModifyUserInfoParam param = new ModifyUserInfoParam();
         param.setServno(phone);
         param.setUalias(ualias);

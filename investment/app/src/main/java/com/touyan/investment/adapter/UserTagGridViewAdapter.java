@@ -29,7 +29,7 @@ public class UserTagGridViewAdapter extends BaseAdapter implements View.OnClickL
     private int whiteColos;
 
     public ArrayList<Integer> getSelectItemList() {
-        return selectItemList.size() == 0 ? null : selectItemList;
+        return selectItemList.size() <= 0 ? null : selectItemList;
     }
 
     public UserTagGridViewAdapter(ModifyUserTagActivity context, String[] _list) {

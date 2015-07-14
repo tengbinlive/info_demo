@@ -126,7 +126,6 @@
 
     <string name="modify_usertag_gridview_headtext">请选择不多于三个最符合您身份的标签：</string>
 
-<<<<<<< HEAD
     <string-array name="user_tag_array">
         <item>采掘</item>
         <item>化工</item>
@@ -157,12 +156,12 @@
         <item>非银金融</item>
         <item>综合</item>
     </string-array>
-=======
+
     <string name="contents_not_empty">内容不能为空哦</string>
 
     <string name="reviewing">正在发表</string>
 
     <string name="success">操作成功</string>
 
->>>>>>> 118f66c9722bfea5888048534521736bb8e125bc
+    <string name="data_uploading">数据上传中</string>
 </resources>

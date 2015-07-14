@@ -8,13 +8,15 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import com.core.CommonResponse;
+import com.core.util.CommonUtil;
 import com.core.util.StringUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.touyan.investment.AbsActivity;
 import com.touyan.investment.App;
 import com.touyan.investment.R;
+import com.touyan.investment.bean.user.ModifyUserInfoResult;
 import com.touyan.investment.bean.user.UserInfo;
-import com.touyan.investment.bean.user.UserTag;
 import com.touyan.investment.manager.UserManager;
 
 import java.util.ArrayList;
@@ -39,20 +41,36 @@ public class ModifyUserInfoActivity extends AbsActivity implements View.OnClickL
     private LinearLayout userHeadBtn;
     private LinearLayout userTagBtn;
 
-    private UserTag[] userTags = null;
+    private StringBuffer tagsStr = null;
 
     private Handler activityHandler = new Handler() {
         public void handleMessage(Message msg) {
             dialogDismiss();
             switch (msg.what) {
                 case MODIFY_DATA:
-
+                    loadModifyUserInfoData((CommonResponse) msg.obj);
                     break;
                 default:
                     break;
             }
         }
     };
+
+    /**
+     * 处理登陆数据
+     *
+     * @param resposne
+     */
+    private void loadModifyUserInfoData(CommonResponse resposne) {
+        dialogDismiss();
+        if (resposne.isSuccess()) {
+            ModifyUserInfoResult result = (ModifyUserInfoResult) resposne.getData();
+            App.getInstance().setgUserInfo(result.getUsinfo());
+            scrollToFinishActivity();
+        } else {
+            CommonUtil.showToast(resposne.getErrorTip());
+        }
+    }
 
     @Override
     public void EInit() {
@@ -134,11 +152,12 @@ public class ModifyUserInfoActivity extends AbsActivity implements View.OnClickL
                         userInfo.getTeleph(),
                         userInfo.getRscope(),
                         userInfo.getUisvip(),
-                        userInfo.getTags(),
-                        userTags,
+                        StringUtil.isNotBlank(tagsStr.toString()) ? tagsStr.toString() : userInfo.getTags(),
+                        null,
                         null,
                         activityHandler,
                         MODIFY_DATA);
+                dialogShow(R.string.data_uploading);
                 break;
             case R.id.user_head_btn:
                 break;
@@ -162,10 +181,13 @@ public class ModifyUserInfoActivity extends AbsActivity implements View.OnClickL
             if (userTagItemList == null) {
                 return;
             }
-            userTags = new UserTag[userTagItemList.size()];
+
+            String[] userTagArray = getResources().getStringArray(R.array.user_tag_array);
+            tagsStr = new StringBuffer();
             for (int i = 0; i < userTagItemList.size(); i++) {
-                userTags[i].setTgname(getResources().getStringArray(R.array.user_tag_array)[i]);
+                tagsStr.append(userTagArray[userTagItemList.get(i)]).append("/");
             }
+
         }
     }
 }
