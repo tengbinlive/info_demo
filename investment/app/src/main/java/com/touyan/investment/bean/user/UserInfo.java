@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 public class UserInfo implements Serializable {
 
+    public static final String ISVIP_CODE = "0";
+
     private String servno;
     private String aucode;
     private String compny;

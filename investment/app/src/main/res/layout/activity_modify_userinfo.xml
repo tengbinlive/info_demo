@@ -1,0 +1,176 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/gray_layout">
+
+    <include android:id="@+id/toolbar"
+             android:layout_height="wrap_content"
+             android:layout_width="match_parent"
+             layout="@layout/action_toolbar"/>
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:layout_below="@id/toolbar"
+                  android:orientation="vertical"
+                  android:layout_marginTop="@dimen/content_10dp">
+        <TextView android:layout_width="match_parent"
+                  android:layout_height="@dimen/content_1dp"
+                  android:background="@drawable/user_horizontal_divider"/>
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="80dp"
+                      android:orientation="horizontal"
+                      android:background="@color/white">
+            <TextView android:layout_width="0dp"
+                      android:layout_height="match_parent"
+                      android:layout_weight="1"
+                      android:text="@string/user_head"
+                      android:textColor="@color/textcolor_444"
+                      android:textSize="@dimen/font_small"
+                      android:gravity="center_vertical"
+                      android:paddingLeft="@dimen/content_gap"
+                    />
+            <ImageView
+                    android:id="@+id/user_head"
+                    android:layout_width="@dimen/content_60dp"
+                    android:layout_height="@dimen/content_60dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="@dimen/content_gap"
+                    android:src="@drawable/default_head"
+                    android:scaleType="fitCenter"/>
+
+            <ImageView android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_gravity="center_vertical"
+                       android:layout_marginRight="@dimen/content_gap"
+                       android:src="@drawable/arrow_dark_gray"
+                       android:scaleType="center"/>
+        </LinearLayout>
+        <TextView android:layout_width="match_parent"
+                  android:layout_height="@dimen/content_1dp"
+                  android:background="@drawable/user_horizontal_divider"/>
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="@dimen/content_60dp"
+                      android:orientation="horizontal"
+                      android:background="@color/white">
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="match_parent"
+                      android:text="@string/user_name"
+                      android:textColor="@color/textcolor_444"
+                      android:textSize="@dimen/font_small"
+                      android:gravity="center_vertical"
+                      android:paddingLeft="@dimen/content_gap"
+                      android:paddingRight="@dimen/content_gap"
+                    />
+            <EditText
+                    android:id="@+id/user_name"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/white"
+                    android:layout_marginRight="@dimen/content_gap"
+                    android:textCursorDrawable="@null"
+                    android:gravity="center_vertical|right"
+                    android:textColor="@color/textcolor_444"
+                    android:hint="@string/user_name"
+                    android:textColorHint="@color/textcolor_888"
+                    android:textSize="@dimen/font_small"
+                    />
+        </LinearLayout>
+        <TextView android:layout_width="match_parent"
+                  android:layout_height="@dimen/content_1dp"
+                  android:background="@drawable/user_horizontal_divider"/>
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="@dimen/content_60dp"
+                      android:orientation="horizontal"
+                      android:background="@color/white">
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="match_parent"
+                      android:text="@string/user_occupation"
+                      android:textColor="@color/textcolor_444"
+                      android:textSize="@dimen/font_small"
+                      android:gravity="center_vertical"
+                      android:paddingLeft="@dimen/content_gap"
+                      android:paddingRight="@dimen/content_gap"
+                    />
+            <EditText
+                    android:id="@+id/user_occupation"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/white"
+                    android:layout_marginRight="@dimen/content_gap"
+                    android:gravity="center_vertical|right"
+                    android:textCursorDrawable="@null"
+                    android:textColor="@color/textcolor_444"
+                    android:hint="@string/user_occupation"
+                    android:textColorHint="@color/textcolor_888"
+                    android:textSize="@dimen/font_small"
+                    />
+        </LinearLayout>
+        <TextView android:layout_width="match_parent"
+                  android:layout_height="@dimen/content_1dp"
+                  android:background="@drawable/user_horizontal_divider"/>
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="@dimen/content_60dp"
+                      android:orientation="horizontal"
+                      android:background="@color/white">
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="match_parent"
+                      android:text="@string/user_city"
+                      android:textColor="@color/textcolor_444"
+                      android:textSize="@dimen/font_small"
+                      android:gravity="center_vertical"
+                      android:paddingLeft="@dimen/content_gap"
+                      android:paddingRight="@dimen/content_gap"
+                    />
+            <EditText
+                    android:id="@+id/user_city"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/white"
+                    android:layout_marginRight="@dimen/content_gap"
+                    android:gravity="center_vertical|right"
+                    android:textCursorDrawable="@null"
+                    android:textColor="@color/textcolor_444"
+                    android:hint="@string/user_city"
+                    android:textColorHint="@color/textcolor_888"
+                    android:textSize="@dimen/font_small"
+                    />
+        </LinearLayout>
+        <TextView android:layout_width="match_parent"
+                  android:layout_height="@dimen/content_1dp"
+                  android:background="@drawable/user_horizontal_divider"/>
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="@dimen/content_60dp"
+                      android:orientation="horizontal"
+                      android:background="@color/white">
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="match_parent"
+                      android:text="@string/user_company"
+                      android:textColor="@color/textcolor_444"
+                      android:textSize="@dimen/font_small"
+                      android:gravity="center_vertical"
+                      android:paddingLeft="@dimen/content_gap"
+                      android:paddingRight="@dimen/content_gap"
+                    />
+            <EditText
+                    android:id="@+id/user_company"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/white"
+                    android:layout_marginRight="@dimen/content_gap"
+                    android:gravity="center_vertical|right"
+                    android:hint="@string/user_company"
+                    android:textCursorDrawable="@null"
+                    android:textColor="@color/textcolor_444"
+                    android:textColorHint="@color/textcolor_888"
+                    android:textSize="@dimen/font_small"
+                    />
+        </LinearLayout>
+        <TextView android:layout_width="match_parent"
+                  android:layout_height="@dimen/content_1dp"
+                  android:background="@drawable/user_horizontal_divider"/>
+    </LinearLayout>
+</RelativeLayout>
