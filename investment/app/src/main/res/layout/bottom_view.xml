@@ -20,6 +20,7 @@
                 android:textSize="@dimen/font_small"/>
 
         <View
+                android:id="@+id/divider1"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/content_1px"
                 android:background="@drawable/act_line">
@@ -35,6 +36,7 @@
                 android:textSize="@dimen/font_medium"/>
 
         <View
+                android:id="@+id/divider2"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/content_1px"
                 android:background="@drawable/act_line">

@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import com.core.CommonResponse;
 import com.core.util.CommonUtil;
 import com.core.util.StringUtil;
@@ -18,6 +19,7 @@ import com.touyan.investment.R;
 import com.touyan.investment.bean.user.ModifyUserInfoResult;
 import com.touyan.investment.bean.user.UserInfo;
 import com.touyan.investment.manager.UserManager;
+import com.touyan.investment.mview.BottomView;
 
 import java.util.ArrayList;
 
@@ -42,6 +44,8 @@ public class ModifyUserInfoActivity extends AbsActivity implements View.OnClickL
     private LinearLayout userTagBtn;
 
     private StringBuffer tagsStr = null;
+
+    private BottomView mBottomView;
 
     private Handler activityHandler = new Handler() {
         public void handleMessage(Message msg) {
@@ -160,6 +164,7 @@ public class ModifyUserInfoActivity extends AbsActivity implements View.OnClickL
                 dialogShow(R.string.data_uploading);
                 break;
             case R.id.user_head_btn:
+                selectPict();
                 break;
             case R.id.user_tag_btn:
                 toActivityForResult(ModifyUserInfoActivity.this, ModifyUserTagActivity.class, REQUESTCODE_USERTAG);
@@ -188,6 +193,51 @@ public class ModifyUserInfoActivity extends AbsActivity implements View.OnClickL
                 tagsStr.append(userTagArray[userTagItemList.get(i)]).append("/");
             }
 
+        }
+    }
+
+    private void selectPict() {
+        if (mBottomView != null) {
+            mBottomView.showBottomView(true);
+            return;
+        }
+        mBottomView = new BottomView(ModifyUserInfoActivity.this, R.style.BottomViewTheme_Defalut, R.layout.bottom_view);
+        mBottomView.setAnimation(R.style.BottomToTopAnim);
+
+        TextView top = (TextView) mBottomView.getView().findViewById(R.id.bottom_tv_1);
+        TextView shareFriend = (TextView) mBottomView.getView().findViewById(R.id.bottom_tv_2);
+        TextView shareGroup = (TextView) mBottomView.getView().findViewById(R.id.bottom_tv_3);
+        TextView cancel = (TextView) mBottomView.getView().findViewById(R.id.bottom_tv_cancel);
+        View divider1 = (View) mBottomView.getView().findViewById(R.id.divider1);
+
+        top.setVisibility(View.GONE);
+        divider1.setVisibility(View.GONE);
+
+        shareFriend.setText("拍照");
+        shareGroup.setText("从相册获取");
+
+        ShareButtonOnClickListener listener = new ShareButtonOnClickListener();
+        shareFriend.setOnClickListener(listener);
+        shareGroup.setOnClickListener(listener);
+        cancel.setOnClickListener(listener);
+
+        mBottomView.showBottomView(true);
+    }
+
+    class ShareButtonOnClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.bottom_tv_2:
+
+                    break;
+                case R.id.bottom_tv_3:
+
+                    break;
+                case R.id.bottom_tv_cancel:
+                    mBottomView.dismissBottomView();
+                    break;
+            }
         }
     }
 }
