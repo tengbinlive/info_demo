@@ -13,13 +13,18 @@
                   android:layout_below="@id/toolbar"
                   android:orientation="vertical"
                   android:layout_marginTop="@dimen/content_10dp">
+
         <TextView android:layout_width="match_parent"
                   android:layout_height="@dimen/content_1dp"
                   android:background="@drawable/user_horizontal_divider"/>
-        <LinearLayout android:layout_width="match_parent"
-                      android:layout_height="80dp"
-                      android:orientation="horizontal"
-                      android:background="@color/white">
+
+        <LinearLayout
+                android:id="@+id/user_head_btn"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:orientation="horizontal"
+                android:background="@color/white">
+
             <TextView android:layout_width="0dp"
                       android:layout_height="match_parent"
                       android:layout_weight="1"
@@ -27,8 +32,8 @@
                       android:textColor="@color/textcolor_444"
                       android:textSize="@dimen/font_small"
                       android:gravity="center_vertical"
-                      android:paddingLeft="@dimen/content_gap"
-                    />
+                      android:paddingLeft="@dimen/content_gap"/>
+
             <ImageView
                     android:id="@+id/user_head"
                     android:layout_width="@dimen/content_60dp"
@@ -44,10 +49,13 @@
                        android:layout_marginRight="@dimen/content_gap"
                        android:src="@drawable/arrow_dark_gray"
                        android:scaleType="center"/>
+
         </LinearLayout>
+
         <TextView android:layout_width="match_parent"
                   android:layout_height="@dimen/content_1dp"
                   android:background="@drawable/user_horizontal_divider"/>
+
         <LinearLayout android:layout_width="match_parent"
                       android:layout_height="@dimen/content_60dp"
                       android:orientation="horizontal"
@@ -59,8 +67,7 @@
                       android:textSize="@dimen/font_small"
                       android:gravity="center_vertical"
                       android:paddingLeft="@dimen/content_gap"
-                      android:paddingRight="@dimen/content_gap"
-                    />
+                      android:paddingRight="@dimen/content_gap"/>
             <EditText
                     android:id="@+id/user_name"
                     android:layout_width="0dp"
@@ -73,12 +80,13 @@
                     android:textColor="@color/textcolor_444"
                     android:hint="@string/user_name"
                     android:textColorHint="@color/textcolor_888"
-                    android:textSize="@dimen/font_small"
-                    />
+                    android:textSize="@dimen/font_small"/>
         </LinearLayout>
+
         <TextView android:layout_width="match_parent"
                   android:layout_height="@dimen/content_1dp"
                   android:background="@drawable/user_horizontal_divider"/>
+
         <LinearLayout android:layout_width="match_parent"
                       android:layout_height="@dimen/content_60dp"
                       android:orientation="horizontal"
@@ -90,8 +98,7 @@
                       android:textSize="@dimen/font_small"
                       android:gravity="center_vertical"
                       android:paddingLeft="@dimen/content_gap"
-                      android:paddingRight="@dimen/content_gap"
-                    />
+                      android:paddingRight="@dimen/content_gap"/>
             <EditText
                     android:id="@+id/user_occupation"
                     android:layout_width="0dp"
@@ -104,12 +111,13 @@
                     android:textColor="@color/textcolor_444"
                     android:hint="@string/user_occupation"
                     android:textColorHint="@color/textcolor_888"
-                    android:textSize="@dimen/font_small"
-                    />
+                    android:textSize="@dimen/font_small"/>
         </LinearLayout>
+
         <TextView android:layout_width="match_parent"
                   android:layout_height="@dimen/content_1dp"
                   android:background="@drawable/user_horizontal_divider"/>
+
         <LinearLayout android:layout_width="match_parent"
                       android:layout_height="@dimen/content_60dp"
                       android:orientation="horizontal"
@@ -121,8 +129,7 @@
                       android:textSize="@dimen/font_small"
                       android:gravity="center_vertical"
                       android:paddingLeft="@dimen/content_gap"
-                      android:paddingRight="@dimen/content_gap"
-                    />
+                      android:paddingRight="@dimen/content_gap"/>
             <EditText
                     android:id="@+id/user_city"
                     android:layout_width="0dp"
@@ -135,16 +142,18 @@
                     android:textColor="@color/textcolor_444"
                     android:hint="@string/user_city"
                     android:textColorHint="@color/textcolor_888"
-                    android:textSize="@dimen/font_small"
-                    />
+                    android:textSize="@dimen/font_small"/>
         </LinearLayout>
+
         <TextView android:layout_width="match_parent"
                   android:layout_height="@dimen/content_1dp"
                   android:background="@drawable/user_horizontal_divider"/>
+
         <LinearLayout android:layout_width="match_parent"
                       android:layout_height="@dimen/content_60dp"
                       android:orientation="horizontal"
                       android:background="@color/white">
+
             <TextView android:layout_width="wrap_content"
                       android:layout_height="match_parent"
                       android:text="@string/user_company"
@@ -152,8 +161,7 @@
                       android:textSize="@dimen/font_small"
                       android:gravity="center_vertical"
                       android:paddingLeft="@dimen/content_gap"
-                      android:paddingRight="@dimen/content_gap"
-                    />
+                      android:paddingRight="@dimen/content_gap"/>
             <EditText
                     android:id="@+id/user_company"
                     android:layout_width="0dp"
@@ -166,11 +174,40 @@
                     android:textCursorDrawable="@null"
                     android:textColor="@color/textcolor_444"
                     android:textColorHint="@color/textcolor_888"
-                    android:textSize="@dimen/font_small"
-                    />
+                    android:textSize="@dimen/font_small"/>
         </LinearLayout>
+
         <TextView android:layout_width="match_parent"
                   android:layout_height="@dimen/content_1dp"
                   android:background="@drawable/user_horizontal_divider"/>
+
+        <LinearLayout
+                android:id="@+id/user_tag_btn"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/content_60dp"
+                android:orientation="horizontal"
+                android:background="@color/white">
+            <TextView android:layout_width="0dp"
+                      android:layout_height="match_parent"
+                      android:layout_weight="1"
+                      android:text="@string/user_tag"
+                      android:textColor="@color/textcolor_444"
+                      android:textSize="@dimen/font_small"
+                      android:gravity="center_vertical"
+                      android:paddingLeft="@dimen/content_gap"/>
+
+            <ImageView android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_gravity="center_vertical"
+                       android:layout_marginRight="@dimen/content_gap"
+                       android:src="@drawable/arrow_dark_gray"
+                       android:scaleType="center"/>
+
+        </LinearLayout>
+
+        <TextView android:layout_width="match_parent"
+                  android:layout_height="@dimen/content_1dp"
+                  android:background="@drawable/user_horizontal_divider"/>
+
     </LinearLayout>
 </RelativeLayout>

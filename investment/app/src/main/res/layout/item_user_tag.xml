@@ -10,8 +10,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/user_label"
             android:textColor="@color/theme"
-            android:paddingLeft="@dimen/content_gap"
             android:text="计算机"
-            android:gravity="center_vertical"
+            android:gravity="center"
             android:textSize="@dimen/font_small12"/>
 </RelativeLayout>

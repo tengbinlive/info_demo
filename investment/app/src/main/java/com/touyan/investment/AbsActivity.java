@@ -38,6 +38,7 @@ public abstract class AbsActivity extends SwipeBackActivity implements EInitDate
     public boolean activityFinish;
     public LayoutInflater mInflater;
 
+
     //actionbar
     private RelativeLayout viewTitleBar;
     private TextView menuLeft;
@@ -73,7 +74,7 @@ public abstract class AbsActivity extends SwipeBackActivity implements EInitDate
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         App.getInstance().addActivity(this);
-        int colos = getIntent().getIntExtra(STATUSBAR_COLOS,0);
+        int colos = getIntent().getIntExtra(STATUSBAR_COLOS, 0);
         setStatusBar(colos);
         mInflater = LayoutInflater.from(this);
         mainLayout = mInflater.inflate(getContentView(), null);
@@ -161,7 +162,7 @@ public abstract class AbsActivity extends SwipeBackActivity implements EInitDate
 
     public void setToolbarLeft(int iconid) {
         Drawable drawable = null;
-        if(iconid>0) {
+        if (iconid > 0) {
             drawable = getResources().getDrawable(iconid);
             // 这一步必须要做,否则不会显示.
             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
@@ -223,6 +224,7 @@ public abstract class AbsActivity extends SwipeBackActivity implements EInitDate
 
     /**
      * 设置标题
+     *
      * @param rId
      */
     public void setToolbarRightStrID(int rId) {
@@ -230,8 +232,8 @@ public abstract class AbsActivity extends SwipeBackActivity implements EInitDate
     }
 
     public void setToolbarRight(int iconid) {
-        Drawable drawable =null;
-        if(iconid>0) {
+        Drawable drawable = null;
+        if (iconid > 0) {
             drawable = getResources().getDrawable(iconid);
             // 这一步必须要做,否则不会显示.
             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
@@ -289,6 +291,7 @@ public abstract class AbsActivity extends SwipeBackActivity implements EInitDate
 
     /**
      * 设置标题
+     *
      * @param rId
      */
     public void setToolbarIntermediateStrID(int rId) {
@@ -296,8 +299,8 @@ public abstract class AbsActivity extends SwipeBackActivity implements EInitDate
     }
 
     public void setToolbarIntermediate(int iconid) {
-        Drawable drawable =null;
-        if(iconid>0) {
+        Drawable drawable = null;
+        if (iconid > 0) {
             drawable = getResources().getDrawable(iconid);
             // 这一步必须要做,否则不会显示.
             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
@@ -459,10 +462,10 @@ public abstract class AbsActivity extends SwipeBackActivity implements EInitDate
             linearLayout.findViewById(R.id.dialog_confirm_point).setVisibility(View.GONE);
         }
 
-        if(leftEvent!=null) {
+        if (leftEvent != null) {
             closeLeft.setOnClickListener(leftEvent);
         }
-        if(rightEvent!=null) {
+        if (rightEvent != null) {
             closeRight.setOnClickListener(rightEvent);
         }
         dialogBuilder = NiftyDialogBuilder.getInstance(activity);

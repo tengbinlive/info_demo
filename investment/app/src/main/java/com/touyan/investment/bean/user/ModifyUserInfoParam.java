@@ -139,19 +139,19 @@ public class ModifyUserInfoParam extends OpenApiBaseRequest implements OpenApiRe
 
     @Override
     public void fill2Map(HashMap<String, Object> param, boolean includeEmptyAttr) {
-        if (includeEmptyAttr || (!includeEmptyAttr && StringUtil.isNotBlank(servno))) param.put("servno", servno);
-        if (includeEmptyAttr || (!includeEmptyAttr && StringUtil.isNotBlank(ualias))) param.put("ualias", ualias);
-        if (includeEmptyAttr || (!includeEmptyAttr && StringUtil.isNotBlank(uphoto))) param.put("uphoto", uphoto);
-        if (includeEmptyAttr || (!includeEmptyAttr && StringUtil.isNotBlank(locatn))) param.put("locatn", locatn);
-        if (includeEmptyAttr || (!includeEmptyAttr && StringUtil.isNotBlank(inrank))) param.put("inrank", inrank);
-        if (includeEmptyAttr || (!includeEmptyAttr && StringUtil.isNotBlank(compny))) param.put("compny", compny);
-        if (includeEmptyAttr || (!includeEmptyAttr && StringUtil.isNotBlank(postin))) param.put("postin", postin);
-        if (includeEmptyAttr || (!includeEmptyAttr && StringUtil.isNotBlank(teleph))) param.put("teleph", teleph);
-        if (includeEmptyAttr || (!includeEmptyAttr && StringUtil.isNotBlank(rscope))) param.put("rscope", rscope);
-        if (includeEmptyAttr || (!includeEmptyAttr && StringUtil.isNotBlank(uisvip))) param.put("uisvip", uisvip);
-        if (includeEmptyAttr || (!includeEmptyAttr && StringUtil.isNotBlank(tagstr))) param.put("tagstr", tagstr);
-        if (includeEmptyAttr || (!includeEmptyAttr && instags.length > 0)) param.put("instags", instags);
-        if (includeEmptyAttr || (!includeEmptyAttr && deltags.length > 0)) param.put("deltags", deltags);
+        if (includeEmptyAttr || (!includeEmptyAttr)) param.put("servno", servno);
+        if (includeEmptyAttr || (!includeEmptyAttr)) param.put("ualias", ualias);
+        if (includeEmptyAttr || (!includeEmptyAttr)) param.put("uphoto", uphoto);
+        if (includeEmptyAttr || (!includeEmptyAttr)) param.put("locatn", locatn);
+        if (includeEmptyAttr || (!includeEmptyAttr)) param.put("inrank", inrank);
+        if (includeEmptyAttr || (!includeEmptyAttr)) param.put("compny", compny);
+        if (includeEmptyAttr || (!includeEmptyAttr)) param.put("postin", postin);
+        if (includeEmptyAttr || (!includeEmptyAttr)) param.put("teleph", teleph);
+        if (includeEmptyAttr || (!includeEmptyAttr)) param.put("rscope", rscope);
+        if (includeEmptyAttr || (!includeEmptyAttr)) param.put("uisvip", uisvip);
+        if (includeEmptyAttr || (!includeEmptyAttr)) param.put("tagstr", tagstr);
+        if (includeEmptyAttr || (!includeEmptyAttr)) param.put("instags", instags);
+        if (includeEmptyAttr || (!includeEmptyAttr)) param.put("deltags", deltags);
     }
 
     @Override

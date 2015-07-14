@@ -119,12 +119,50 @@
     <string name="user_setting">我的设置</string>
     <string name="user_authenticated_btn">申请认证</string>
 
-    <string name="modify_userinfo_toolbar_title">编辑</string>
+    <string name="user_tag">标签</string>
 
+    <string name="modify_userinfo_toolbar_title">编辑</string>
+    <string name="modify_usertag_toolbar_title">编辑标签</string>
+
+    <string name="modify_usertag_gridview_headtext">请选择不多于三个最符合您身份的标签：</string>
+
+<<<<<<< HEAD
+    <string-array name="user_tag_array">
+        <item>采掘</item>
+        <item>化工</item>
+        <item>钢铁</item>
+        <item>有色金属</item>
+        <item>建筑材料</item>
+        <item>建筑装饰</item>
+        <item>电气设备</item>
+        <item>机械设备</item>
+        <item>国防军工</item>
+        <item>汽车</item>
+        <item>家用电器</item>
+        <item>纺织服装</item>
+        <item>轻工制造</item>
+        <item>商业贸易</item>
+        <item>农林牧渔</item>
+        <item>食品饮料</item>
+        <item>休闲服务</item>
+        <item>医药生物</item>
+        <item>公用事业</item>
+        <item>交通运输</item>
+        <item>房地产</item>
+        <item>电子</item>
+        <item>计算机</item>
+        <item>传媒</item>
+        <item>通信</item>
+        <item>银行</item>
+        <item>非银金融</item>
+        <item>综合</item>
+    </string-array>
+=======
     <string name="contents_not_empty">内容不能为空哦</string>
 
     <string name="reviewing">正在发表</string>
 
     <string name="success">操作成功</string>
 
+>>>>>>> 118f66c9722bfea5888048534521736bb8e125bc
 </resources>

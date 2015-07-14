@@ -1,11 +1,13 @@
 package com.touyan.investment.activity;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import com.core.CommonResponse;
+import android.widget.LinearLayout;
 import com.core.util.StringUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.touyan.investment.AbsActivity;
@@ -15,11 +17,13 @@ import com.touyan.investment.bean.user.UserInfo;
 import com.touyan.investment.manager.UserManager;
 
 /**
- * Created by Administrator on 2015/7/13.
+ * Created by zxh on 2015/7/13.
  */
 public class ModifyUserInfoActivity extends AbsActivity implements View.OnClickListener {
 
     private final static int MODIFY_DATA = 0;
+
+    private final static int REQUESTCODE_USERTAG = 0;
 
     private UserInfo userInfo;
 
@@ -28,6 +32,10 @@ public class ModifyUserInfoActivity extends AbsActivity implements View.OnClickL
     private EditText userCompanyEdit;
     private EditText userCityEdit;
     private EditText userOccupationEdit;
+
+    private LinearLayout userHeadBtn;
+    private LinearLayout userTagBtn;
+
 
     private Handler activityHandler = new Handler() {
         public void handleMessage(Message msg) {
@@ -41,11 +49,13 @@ public class ModifyUserInfoActivity extends AbsActivity implements View.OnClickL
             }
         }
     };
+
     @Override
     public void EInit() {
         super.EInit();
         setSwipeBackEnable(true);
         findView();
+        initBtnListener();
         initUserInfoViews();
     }
 
@@ -74,6 +84,16 @@ public class ModifyUserInfoActivity extends AbsActivity implements View.OnClickL
         userCompanyEdit = (EditText) findViewById(R.id.user_company);
         userCityEdit = (EditText) findViewById(R.id.user_city);
         userOccupationEdit = (EditText) findViewById(R.id.user_occupation);
+
+        userHeadBtn = (LinearLayout) findViewById(R.id.user_head_btn);
+        userTagBtn = (LinearLayout) findViewById(R.id.user_tag_btn);
+
+
+    }
+
+    private void initBtnListener() {
+        userHeadBtn.setOnClickListener(this);
+        userTagBtn.setOnClickListener(this);
     }
 
     private void initUserInfoViews() {
@@ -116,6 +136,23 @@ public class ModifyUserInfoActivity extends AbsActivity implements View.OnClickL
                         activityHandler,
                         MODIFY_DATA);
                 break;
+            case R.id.user_head_btn:
+                break;
+            case R.id.user_tag_btn:
+                toActivityForResult(ModifyUserInfoActivity.this, ModifyUserTagActivity.class, REQUESTCODE_USERTAG);
+                break;
         }
+    }
+
+    private void toActivityForResult(Activity activity, Class activityClass, int requestCode) {
+        Intent intent = new Intent(activity, activityClass);
+        startActivityForResult(intent, requestCode);
+        activity.overridePendingTransition(R.anim.push_translate_in_right, 0);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
     }
 }
