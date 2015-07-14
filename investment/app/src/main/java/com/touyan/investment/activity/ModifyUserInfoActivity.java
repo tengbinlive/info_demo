@@ -17,11 +17,11 @@ public class ModifyUserInfoActivity extends AbsActivity implements View.OnClickL
 
     private UserInfo userInfo;
 
-    private ImageView userHeadImage;                 //用户头像
-    private EditText userNameEdit;                   //用户姓名
-    private EditText userCompanyEdit;                //用户公司
-    private EditText userCityEdit;                   //用户城市
-    private EditText userOccupationEdit;             //用户职位
+    private ImageView userHeadImage;
+    private EditText userNameEdit;
+    private EditText userCompanyEdit;
+    private EditText userCityEdit;
+    private EditText userOccupationEdit;
 
 
     @Override

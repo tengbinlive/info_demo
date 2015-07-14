@@ -6,6 +6,7 @@
               android:layout_height="wrap_content">
 
     <TextView
+            android:id="@+id/title"
             android:layout_width="wrap_content"
             android:text="天气质量报告"
             android:layout_gravity="center_horizontal"
@@ -20,6 +21,7 @@
                android:layout_height="wrap_content"/>
 
     <TextView
+            android:id="@+id/title_charge"
             android:layout_width="wrap_content"
             android:layout_marginTop="@dimen/content_10dp"
             android:text="资讯加密了，需要支付15金币才能查看哦 ！"
