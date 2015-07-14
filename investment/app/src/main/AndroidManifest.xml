@@ -198,6 +198,12 @@
                 android:theme="@style/AppTheme">
         </activity>
 
+        <!--编辑标签信息-->
+        <activity
+                android:name=".activity.ModifyUserTagActivity"
+                android:theme="@style/AppTheme">
+        </activity>
+
     </application>
 
 </manifest>

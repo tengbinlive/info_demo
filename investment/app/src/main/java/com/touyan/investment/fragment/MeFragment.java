@@ -2,6 +2,7 @@ package com.touyan.investment.fragment;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -126,7 +127,7 @@ public class MeFragment extends AbsFragment implements View.OnClickListener {
     }
 
     private String[] getUserTags(String tagStr) {
-        String[] split = StringUtil.split(tagStr, ",");
+        String[] split = StringUtil.split(tagStr, "、");
         return split;
     }
 
@@ -163,7 +164,7 @@ public class MeFragment extends AbsFragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.user_modify:
-                toActivity(ModifyUserInfoActivity.class);
+                toActivity(MeFragment.this.getActivity(), ModifyUserInfoActivity.class);
                 break;
             case R.id.user_follow:
                 break;
@@ -186,8 +187,7 @@ public class MeFragment extends AbsFragment implements View.OnClickListener {
         }
     }
 
-    private void toActivity(Class activityClass) {
-        Activity activity = MeFragment.this.getActivity();
+    private void toActivity(Activity activity, Class activityClass) {
         Intent intent = new Intent(activity, activityClass);
         startActivity(intent);
         activity.overridePendingTransition(R.anim.push_translate_in_right, 0);

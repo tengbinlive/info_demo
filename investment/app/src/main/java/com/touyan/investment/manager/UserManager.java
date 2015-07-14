@@ -9,6 +9,7 @@ import com.core.openapi.OpenApiMethodEnum;
 import com.touyan.investment.bean.login.LoginParam;
 import com.touyan.investment.bean.login.LoginResult;
 import com.touyan.investment.bean.user.ModifyUserInfoParam;
+import com.touyan.investment.bean.user.ModifyUserInfoResult;
 import com.touyan.investment.bean.user.UserTag;
 
 /**
@@ -65,8 +66,8 @@ public class UserManager {
         param.setInstags(instags);
         param.setDeltags(deltags);
         // 接口参数
-        param.setMethod(OpenApiMethodEnum.LOAD_LOGIN);
-        param.setParseTokenType(new TypeReference<LoginResult>() {
+        param.setMethod(OpenApiMethodEnum.MODIFY_USER_INFO);
+        param.setParseTokenType(new TypeReference<ModifyUserInfoResult>() {
         });
         // 请求对象
         CommonRequest request = new CommonRequest(param, handler, handlerMsgCode);

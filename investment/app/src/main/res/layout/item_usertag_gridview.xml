@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_width="match_parent">
+    <Button
+            android:id="@+id/tag_bt"
+            android:background="@drawable/selector_reward_money"
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:text="@string/user_tag"
+            android:textSize="@dimen/font_small"
+            android:textColor="@color/textcolor_222"
+            android:layout_height="35dp"/>
+</RelativeLayout>

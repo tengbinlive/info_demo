@@ -36,6 +36,8 @@ public abstract class AbsActivity extends SwipeBackActivity implements EInitDate
     public boolean activityFinish;
     public LayoutInflater mInflater;
 
+
+
     //actionbar
     private RelativeLayout viewTitleBar;
     private TextView menuLeft;
