@@ -1,6 +1,5 @@
 package com.touyan.investment.fragment;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,10 +15,7 @@ import com.touyan.investment.AbsFragment;
 import com.touyan.investment.App;
 import com.touyan.investment.R;
 import com.touyan.investment.activity.ModifyUserInfoActivity;
-import com.touyan.investment.bean.user.TagBean;
 import com.touyan.investment.bean.user.UserInfo;
-
-import java.util.ArrayList;
 
 public class MeFragment extends AbsFragment implements View.OnClickListener {
 
@@ -112,10 +108,10 @@ public class MeFragment extends AbsFragment implements View.OnClickListener {
                 userAuthenticationText.setText(R.string.user_authenticated);
             }
         }
-
-        if (userInfo.getTags() != null) {
-            if (userInfo.getTags().size() > 0) {
-                initUserTag(userInfo.getTags());
+        String[] tags = getUserTags(userInfo.getTags());
+        if (tags != null) {
+            if (tags.length > 0) {
+                initUserTag(tags);
                 userTagLayout.setVisibility(View.VISIBLE);
             } else {
                 userTagLayout.setVisibility(View.GONE);
@@ -123,18 +119,21 @@ public class MeFragment extends AbsFragment implements View.OnClickListener {
         } else {
             userTagLayout.setVisibility(View.GONE);
         }
-
-
     }
 
-    private void initUserTag(ArrayList<TagBean> tags) {
+    private String[] getUserTags(String tagStr) {
+        String[] split = StringUtil.split(tagStr, ",");
+        return split;
+    }
+
+    private void initUserTag(String[] tags) {
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         layoutParams.setMargins(getResources().getDimensionPixelSize(R.dimen.content_10dp), 0, getResources().getDimensionPixelSize(R.dimen.content_10dp), 0);
-        for (int i = 0; i < tags.size(); i++) {
+        for (int i = 0; i < tags.length; i++) {
             RelativeLayout tagItem = (RelativeLayout) mInflater.inflate(R.layout.item_user_tag, null);
             tagItem.setLayoutParams(layoutParams);
             TextView tagName = (TextView) tagItem.findViewById(R.id.tag_name);
-            tagName.setText(tags.get(i).getTgname());
+            tagName.setText(tags[i]);
             userTagLayout.addView(tagItem);
         }
     }
