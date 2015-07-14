@@ -16,6 +16,11 @@ public enum OpenApiMethodEnum {
     LOAD_GET_CODE("index.php/get_cod", "openapi_json", OpenApi.URL_TYPE_DATA),
 
     /**
+     * 收藏
+     */
+    LOAD_STORE_MSG("/user/storeMsg.action", "openapi_json", OpenApi.URL_TYPE_DATA),
+
+    /**
      * 资讯查询
      */
     QUERY_INFOS("/info/queryInfos.action", "openapi_json", OpenApi.URL_TYPE_DATA),

@@ -22,8 +22,6 @@ import java.util.ArrayList;
  */
 public abstract class AbsDetailActivity extends AbsActivity {
 
-    public final static String KEY = "KEY"; //是否有初始选择按钮 / 如有 key 为按钮编号
-
     public final static String KEY_DETAIL = "KEY_DETAIL"; // 详情
 
     private ArrayList<BottomMenu> menEnums;

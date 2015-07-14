@@ -142,6 +142,12 @@
                 android:theme="@style/AppTheme">
         </activity>
 
+        <!--回复界面-->
+        <activity
+                android:name=".activity.InvReviewActivity"
+                android:theme="@style/AppTheme">
+        </activity>
+
         <!--打赏-->
         <activity
                 android:name=".activity.InfoRewardActivity"

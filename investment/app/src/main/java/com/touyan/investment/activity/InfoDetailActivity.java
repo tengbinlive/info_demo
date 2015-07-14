@@ -18,11 +18,9 @@ import com.handmark.pulltorefresh.PullToRefreshScrollView;
 import com.joooonho.SelectableRoundedImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.touyan.investment.AbsDetailActivity;
+import com.touyan.investment.App;
 import com.touyan.investment.R;
-import com.touyan.investment.bean.main.InvInfoBean;
-import com.touyan.investment.bean.main.InvInfoUserInfo;
-import com.touyan.investment.bean.main.InvReplysBean;
-import com.touyan.investment.bean.main.InvReplysResult;
+import com.touyan.investment.bean.main.*;
 import com.touyan.investment.enums.BottomMenu;
 import com.touyan.investment.manager.InvestmentManager;
 import com.touyan.investment.mview.BottomView;
@@ -34,7 +32,9 @@ public class InfoDetailActivity extends AbsDetailActivity {
     private static final int INIT_LIST = 0x01;//初始化数据处理
     private static final int LOAD_DATA = 0x02;//加载数据处理
 
-    private static final int COUNT_MAX = 5;//加载数据最大值
+    private static final int LOAD_COLLECT = 0x03;//收藏
+
+    private static final int COUNT_MAX = 8;//加载数据最大值
 
     private int currentPager = 0;
 
@@ -56,6 +56,9 @@ public class InfoDetailActivity extends AbsDetailActivity {
                 case INIT_LIST:
                 case LOAD_DATA:
                     loadData((CommonResponse) msg.obj, what);
+                    break;
+                case LOAD_COLLECT:
+                    loadDataCollect((CommonResponse) msg.obj);
                     break;
                 default:
                     break;
@@ -80,6 +83,15 @@ public class InfoDetailActivity extends AbsDetailActivity {
         mScrollView.onRefreshComplete();
     }
 
+    private void loadDataCollect(CommonResponse resposne) {
+        dialogDismiss();
+        if (resposne.isSuccess()) {
+            CommonUtil.showToast(R.string.success);
+        } else {
+            CommonUtil.showToast(resposne.getErrorTip());
+        }
+    }
+
     private void addData(ArrayList<InvReplysBean> replys) {
         if (replys == null) {
             return;
@@ -91,7 +103,7 @@ public class InfoDetailActivity extends AbsDetailActivity {
 
     private LinearLayout getReView(InvReplysBean replysBean) {
         LinearLayout custom_ly = (LinearLayout) mInflater.inflate(R.layout.item_inv_review, review_ly, false);
-        InvInfoUserInfo userInfo =  replysBean.getUser();
+        InvInfoUserInfo userInfo = replysBean.getUser();
         TextView name = (TextView) custom_ly.findViewById(R.id.name);
         TextView date = (TextView) custom_ly.findViewById(R.id.date);
         TextView value = (TextView) custom_ly.findViewById(R.id.value);
@@ -130,6 +142,11 @@ public class InfoDetailActivity extends AbsDetailActivity {
     private void getDataList(int currentPager) {
         int what = currentPager <= 0 ? INIT_LIST : LOAD_DATA;
         manager.queryReplys(this, invInfoBean.getInfoid(), currentPager, COUNT_MAX, activityHandler, what);
+    }
+
+    private void loadCollect() {
+        dialogShow(R.string.collecting);
+        manager.storeMsg(this,invInfoBean.getInfoid(),InvCollectParam.TYPE_INFO, activityHandler, LOAD_COLLECT);
     }
 
     @Override
@@ -187,8 +204,12 @@ public class InfoDetailActivity extends AbsDetailActivity {
             public void onClick(View view, BottomMenu menu, boolean status) {
                 if (menu == BottomMenu.REWARD) {
                     toInfoReward();
-                }else  if (menu == BottomMenu.SHARE) {
+                } else if (menu == BottomMenu.SHARE) {
                     selectPict(invInfoBean);
+                } else if (menu == BottomMenu.REVIEW) {
+                    toReview(invInfoBean);
+                }else if (menu == BottomMenu.COLLECT) {
+                    loadCollect();
                 }
             }
         });
@@ -206,6 +227,14 @@ public class InfoDetailActivity extends AbsDetailActivity {
 
     private void toInfoReward() {
         Intent mIntent = new Intent(this, InfoRewardActivity.class);
+        startActivity(mIntent);
+        overridePendingTransition(R.anim.push_translate_in_right, 0);
+    }
+
+    private void toReview(InvInfoBean invInfoBean) {
+        Intent mIntent = new Intent(this, InvReviewActivity.class);
+        mIntent.putExtra(KEY,invInfoBean);
+        mIntent.putExtra(InvReviewActivity.KEY_TYPE, InvReViewParam.TYPE_INFO);
         startActivity(mIntent);
         overridePendingTransition(R.anim.push_translate_in_right, 0);
     }
@@ -242,4 +271,5 @@ public class InfoDetailActivity extends AbsDetailActivity {
             }
         }
     }
+
 }

@@ -15,7 +15,7 @@ import com.touyan.investment.mview.EditTextWithDelete;
 
 public class InvReviewActivity extends AbsActivity {
 
-    private final static String KEY_TYPE = "KEY_TYPE";
+    public final static String KEY_TYPE = "KEY_TYPE";
 
     private String reviewType;
 
@@ -41,7 +41,8 @@ public class InvReviewActivity extends AbsActivity {
     private void loadData(CommonResponse resposne) {
         dialogDismiss();
         if (resposne.isSuccess()) {
-            CommonUtil.showToast(R.string.success);
+            CommonUtil.showToast(R.string.success_review);
+            finish();
         } else {
             CommonUtil.showToast(resposne.getErrorTip());
         }
