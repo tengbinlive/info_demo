@@ -41,6 +41,7 @@ public class ModifyUserInfoActivity extends AbsActivity implements View.OnClickL
             }
         }
     };
+
     @Override
     public void EInit() {
         super.EInit();
