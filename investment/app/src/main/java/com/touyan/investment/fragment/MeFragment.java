@@ -1,6 +1,5 @@
 package com.touyan.investment.fragment;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -17,10 +16,7 @@ import com.touyan.investment.AbsFragment;
 import com.touyan.investment.App;
 import com.touyan.investment.R;
 import com.touyan.investment.activity.ModifyUserInfoActivity;
-import com.touyan.investment.bean.user.TagBean;
 import com.touyan.investment.bean.user.UserInfo;
-
-import java.util.ArrayList;
 
 public class MeFragment extends AbsFragment implements View.OnClickListener {
 

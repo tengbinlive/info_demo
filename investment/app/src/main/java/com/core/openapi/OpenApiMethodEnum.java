@@ -23,13 +23,22 @@ public enum OpenApiMethodEnum {
     /**
      * 修改用户信息
      */
-    MODIFY_USER_INFO("/user/update.action","openapi_json",OpenApi.URL_TYPE_DATA),
+    MODIFY_USER_INFO("/user/update.action", "openapi_json", OpenApi.URL_TYPE_DATA),
+    /**
+     * 评论资讯/回复悬赏
+     */
+    REPLY_DISCUSS("/reply/discuss.action", "openapi_json", OpenApi.URL_TYPE_DATA),
+
+    /**
+     * 回复查询
+     */
+    QUERY_REPLYS("/reply/queryReplys.action", "openapi_json", OpenApi.URL_TYPE_DATA),
+
 
     /**
      * 登陆
      */
     LOAD_LOGIN("/user/login.action", "openapi_json", OpenApi.URL_TYPE_DATA);
-
 
 
     private String code;

@@ -34,7 +34,17 @@ public class InvInfoBean implements Serializable {
 
     private String rewardsAmount; //打赏总金额
 
+    private String h5url;//详情
+
     private InvInfoUserInfo user;//发布者用户信息
+
+    public String getH5url() {
+        return h5url;
+    }
+
+    public void setH5url(String h5url) {
+        this.h5url = h5url;
+    }
 
     public InvInfoUserInfo getUser() {
         return user;
@@ -164,6 +174,7 @@ public class InvInfoBean implements Serializable {
                 ", transNum='" + transNum + '\'' +
                 ", replyNum='" + replyNum + '\'' +
                 ", rewardsAmount='" + rewardsAmount + '\'' +
+                ", h5url='" + h5url + '\'' +
                 ", user=" + user +
                 '}';
     }

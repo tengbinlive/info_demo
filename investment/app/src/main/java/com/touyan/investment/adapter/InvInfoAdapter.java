@@ -81,7 +81,7 @@ public class InvInfoAdapter extends BaseAdapter implements View.OnClickListener 
             holder.gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    int position = (Integer) view.getTag();
+                    int position = (Integer) view.getTag(R.id.item_position);
                     toInfoDetail(-1, position);
                 }
             });
@@ -94,9 +94,9 @@ public class InvInfoAdapter extends BaseAdapter implements View.OnClickListener 
             holder.reward_ly.setOnClickListener(this);
             InfoGridAdapter gridAdapter = new InfoGridAdapter(mContext, null);
             holder.gridview.setAdapter(gridAdapter);
-            convertView.setTag(holder);
+            convertView.setTag(R.id.item_holder,holder);
         } else {
-            holder = (ViewHolder) convertView.getTag();
+            holder = (ViewHolder) convertView.getTag(R.id.item_holder);
         }
         InvInfoBean infoBean = list.get(position);
         InvInfoUserInfo userInfo = infoBean.getUser();
@@ -119,12 +119,12 @@ public class InvInfoAdapter extends BaseAdapter implements View.OnClickListener 
             ((InfoGridAdapter) (holder.gridview.getAdapter())).refresh(photos);
         }
 
-        holder.info_ly.setTag(position);
-        holder.gridview.setTag(position);
-        holder.review_ly.setTag(position);
-        holder.reward_ib.setTag(position);
-        holder.reward_ly.setTag(position);
-        holder.reward_ly.setTag(position);
+        holder.info_ly.setTag(R.id.item_position,position);
+        holder.gridview.setTag(R.id.item_position,position);
+        holder.review_ly.setTag(R.id.item_position,position);
+        holder.reward_ib.setTag(R.id.item_position,position);
+        holder.reward_ly.setTag(R.id.item_position,position);
+        holder.reward_ly.setTag(R.id.item_position,position);
         return convertView;
     }
 
@@ -133,16 +133,16 @@ public class InvInfoAdapter extends BaseAdapter implements View.OnClickListener 
         int id = view.getId();
         int position;
         if (id == R.id.share_ib || id == R.id.share_ly) {
-            position = (Integer) view.getTag();
+            position = (Integer) view.getTag(R.id.item_position);
             selectPict(position);
         } else if (id == R.id.review_ib || id == R.id.review_ly) {
-            position = (Integer) view.getTag();
+            position = (Integer) view.getTag(R.id.item_position);
             toInfoDetail(1, position);
         } else if (id == R.id.reward_ib || id == R.id.reward_ly) {
-            position = (Integer) view.getTag();
+            position = (Integer) view.getTag(R.id.item_position);
             toInfoReward(position);
         } else if (id == R.id.info_ly) {
-            position = (Integer) view.getTag();
+            position = (Integer) view.getTag(R.id.item_position);
             toInfoDetail(-1, position);
         }
     }
@@ -150,7 +150,7 @@ public class InvInfoAdapter extends BaseAdapter implements View.OnClickListener 
     private void toInfoDetail(int index, int position) {
         Intent mIntent = new Intent(mContext, InfoDetailActivity.class);
         mIntent.putExtra(InfoDetailActivity.KEY, index);
-        mIntent.putExtra(InfoDetailActivity.KEY, list.get(position));
+        mIntent.putExtra(InfoDetailActivity.KEY_DETAIL, list.get(position));
         mContext.startActivity(mIntent);
         mContext.overridePendingTransition(R.anim.push_translate_in_right, 0);
     }

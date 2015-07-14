@@ -5,8 +5,8 @@
 
     <string name="app_name">投研社</string>
     <string name="press_more_times_for_exit">再按一次退出客户端</string>
-    <string name="list_empty">暂时没有数据!</string>
-    <string name="list_loading">列表加载中...</string>
+    <string name="list_empty">让研究更有价值</string>
+    <string name="list_loading">列表加载中</string>
     <string name="refresh_failed">数据获取失败</string>
     <string name="check_network_retry">请检查网络后轻点屏幕重试</string>
     <string name="refresh_lists">刷新列表...</string>
@@ -45,9 +45,12 @@
     <string name="release_switch_coin">资讯收费</string>
     <string name="release_photo_count">添加图片\n(0/9)</string>
     <string name="release_hint_value">填写内容</string>
+    <string name="review_hint_value">写评论...</string>
     <string name="release_hint_title">添加标题</string>
     <string name="release_info">发布资讯</string>
+    <string name="review">发表评论</string>
     <string name="release">发布</string>
+    <string name="send">发送</string>
     <string name="share_friend">转发给朋友</string>
     <string name="share_group">转发到群组</string>
     <string name="share">转发</string>
@@ -123,6 +126,7 @@
 
     <string name="modify_usertag_gridview_headtext">请选择不多于三个最符合您身份的标签：</string>
 
+<<<<<<< HEAD
     <string-array name="user_tag_array">
         <item>采掘</item>
         <item>化工</item>
@@ -153,4 +157,12 @@
         <item>非银金融</item>
         <item>综合</item>
     </string-array>
+=======
+    <string name="contents_not_empty">内容不能为空哦</string>
+
+    <string name="reviewing">正在发表</string>
+
+    <string name="success">操作成功</string>
+
+>>>>>>> 118f66c9722bfea5888048534521736bb8e125bc
 </resources>
