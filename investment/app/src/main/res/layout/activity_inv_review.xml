@@ -1,0 +1,24 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <include android:id="@+id/toolbar"
+             android:layout_height="wrap_content"
+             android:layout_width="match_parent"
+             layout="@layout/action_toolbar"/>
+
+    <com.touyan.investment.mview.EditTextWithDelete
+            android:id="@+id/review_value"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="left|top"
+            android:padding="@dimen/content_gap_small"
+            android:background="@drawable/release_info_value_bg"
+            android:textCursorDrawable="@null"
+            android:textSize="@dimen/font_small"
+            android:textColor="@color/textcolor_222"
+            android:textColorHint="@color/gray_hint"
+            android:hint="@string/review_hint_value"/>
+
+</LinearLayout>

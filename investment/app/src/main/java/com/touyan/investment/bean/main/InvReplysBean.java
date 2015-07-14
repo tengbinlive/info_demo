@@ -14,7 +14,9 @@ public class InvReplysBean implements Serializable {
 
     private String isShow; //是否显示（悬赏）
 
-    private double mesgid; //资讯或悬赏ID
+    private String mesgid; //资讯或悬赏ID
+
+    private String mesgtp;
 
     private String repyid;//回复ID
 
@@ -22,7 +24,7 @@ public class InvReplysBean implements Serializable {
 
     private String rpuser; //回复者ID
 
-    private InvInfoUserInfo user;//发布者用户信息
+    private InvInfoUserInfo user;// 回复者用户信息
 
     public String getContnt() {
         return contnt;
@@ -48,12 +50,20 @@ public class InvReplysBean implements Serializable {
         this.isShow = isShow;
     }
 
-    public double getMesgid() {
+    public String getMesgid() {
         return mesgid;
     }
 
-    public void setMesgid(double mesgid) {
+    public void setMesgid(String mesgid) {
         this.mesgid = mesgid;
+    }
+
+    public String getMesgtp() {
+        return mesgtp;
+    }
+
+    public void setMesgtp(String mesgtp) {
+        this.mesgtp = mesgtp;
     }
 
     public String getRepyid() {
@@ -94,9 +104,10 @@ public class InvReplysBean implements Serializable {
                 "contnt='" + contnt + '\'' +
                 ", iadopt='" + iadopt + '\'' +
                 ", isShow='" + isShow + '\'' +
-                ", mesgid=" + mesgid +
+                ", mesgid='" + mesgid + '\'' +
+                ", mesgtp='" + mesgtp + '\'' +
                 ", repyid='" + repyid + '\'' +
-                ", rptime='" + rptime + '\'' +
+                ", rptime=" + rptime +
                 ", rpuser='" + rpuser + '\'' +
                 ", user=" + user +
                 '}';

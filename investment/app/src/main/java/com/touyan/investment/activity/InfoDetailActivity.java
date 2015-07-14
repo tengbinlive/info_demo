@@ -16,13 +16,16 @@ import com.core.util.DateUtil;
 import com.handmark.pulltorefresh.PullToRefreshBase;
 import com.handmark.pulltorefresh.PullToRefreshScrollView;
 import com.joooonho.SelectableRoundedImageView;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.touyan.investment.AbsDetailActivity;
 import com.touyan.investment.R;
 import com.touyan.investment.bean.main.InvInfoBean;
+import com.touyan.investment.bean.main.InvInfoUserInfo;
 import com.touyan.investment.bean.main.InvReplysBean;
 import com.touyan.investment.bean.main.InvReplysResult;
 import com.touyan.investment.enums.BottomMenu;
 import com.touyan.investment.manager.InvestmentManager;
+import com.touyan.investment.mview.BottomView;
 
 import java.util.ArrayList;
 
@@ -40,6 +43,8 @@ public class InfoDetailActivity extends AbsDetailActivity {
     private InvestmentManager manager = new InvestmentManager();
 
     private LinearLayout review_ly;
+
+    private BottomView mBottomView;
 
     //列表
     private PullToRefreshScrollView mScrollView;
@@ -86,12 +91,16 @@ public class InfoDetailActivity extends AbsDetailActivity {
 
     private LinearLayout getReView(InvReplysBean replysBean) {
         LinearLayout custom_ly = (LinearLayout) mInflater.inflate(R.layout.item_inv_review, review_ly, false);
+        InvInfoUserInfo userInfo =  replysBean.getUser();
         TextView name = (TextView) custom_ly.findViewById(R.id.name);
         TextView date = (TextView) custom_ly.findViewById(R.id.date);
         TextView value = (TextView) custom_ly.findViewById(R.id.value);
         SelectableRoundedImageView head = (SelectableRoundedImageView) custom_ly.findViewById(R.id.head);
         String dateStr = DateUtil.ConverToString(replysBean.getRptime(), DateUtil.YYYY_MM_DD_HH_MM_SS);
+        name.setText(userInfo.getUalias());
         date.setText(dateStr);
+        value.setText(replysBean.getContnt());
+        ImageLoader.getInstance().displayImage(userInfo.getUphoto(), head);
         return custom_ly;
     }
 
@@ -168,7 +177,9 @@ public class InfoDetailActivity extends AbsDetailActivity {
             });
 
         } else {
+            LinearLayout scrollview_ly = (LinearLayout) findViewById(R.id.scrollview_ly);
             initWebView(invInfoBean.getH5url());
+            scrollview_ly.addView(webview_ly, 0);
         }
 
         setOnMenuButtonClick(new OnMenuButtonClick() {
@@ -176,6 +187,8 @@ public class InfoDetailActivity extends AbsDetailActivity {
             public void onClick(View view, BottomMenu menu, boolean status) {
                 if (menu == BottomMenu.REWARD) {
                     toInfoReward();
+                }else  if (menu == BottomMenu.SHARE) {
+                    selectPict(invInfoBean);
                 }
             }
         });
@@ -195,5 +208,38 @@ public class InfoDetailActivity extends AbsDetailActivity {
         Intent mIntent = new Intent(this, InfoRewardActivity.class);
         startActivity(mIntent);
         overridePendingTransition(R.anim.push_translate_in_right, 0);
+    }
+
+    private void selectPict(InvInfoBean invInfoBean) {
+        if (mBottomView != null) {
+            mBottomView.showBottomView(true);
+            return;
+        }
+        mBottomView = new BottomView(this, R.style.BottomViewTheme_Defalut, R.layout.bottom_view);
+        mBottomView.setAnimation(R.style.BottomToTopAnim);
+        TextView shareFriend = (TextView) mBottomView.getView().findViewById(R.id.bottom_tv_2);
+        TextView shareGroup = (TextView) mBottomView.getView().findViewById(R.id.bottom_tv_3);
+        TextView cancel = (TextView) mBottomView.getView().findViewById(R.id.bottom_tv_cancel);
+
+        ShareButtonOnClickListener listener = new ShareButtonOnClickListener();
+        shareFriend.setOnClickListener(listener);
+        shareGroup.setOnClickListener(listener);
+        cancel.setOnClickListener(listener);
+
+        mBottomView.showBottomView(true);
+    }
+
+    class ShareButtonOnClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.bottom_tv_2:
+                case R.id.bottom_tv_3:
+                    break;
+                case R.id.bottom_tv_cancel:
+                    mBottomView.dismissBottomView();
+                    break;
+            }
+        }
     }
 }

@@ -8,10 +8,7 @@ import com.core.CommonRequest;
 import com.core.openapi.OpenApiMethodEnum;
 import com.core.openapi.OpenApiSimpleResult;
 import com.touyan.investment.App;
-import com.touyan.investment.bean.main.InvInfoParam;
-import com.touyan.investment.bean.main.InvInfoResult;
-import com.touyan.investment.bean.main.InvReplysParam;
-import com.touyan.investment.bean.main.InvReplysResult;
+import com.touyan.investment.bean.main.*;
 
 /**
  * 投研社业务类.
@@ -73,7 +70,6 @@ public class InvestmentManager {
         CommonDataLoader.getInstance(context).load(request);
     }
 
-
     /**
      * 获取act 列表数据
      * @param context
@@ -95,5 +91,32 @@ public class InvestmentManager {
         CommonDataLoader.getInstance(context).load(request);
     }
 
+    /**
+     * 评论资讯/回复悬赏
+     * @param context
+     * @param mesgid 资讯/悬赏ID
+     * @param rpuser  回复用户ID
+     * @param contnt  回复内容
+     * @param mesgtp  回复类型 1资讯，2活动，3悬赏
+     * @param handler
+     * @param handlerMsgCode
+     */
+    public void replyDiscuss(Context context,String mesgid,String rpuser, String contnt,String mesgtp,final Handler handler, final int handlerMsgCode) {
+
+        InvReViewParam param = new InvReViewParam();
+
+        param.setMesgid(mesgid);
+        param.setContnt(contnt);
+        param.setRpuser(rpuser);
+        param.setMesgtp(mesgtp);
+        // 接口参数
+        param.setMethod(OpenApiMethodEnum.REPLY_DISCUSS);
+        param.setParseTokenType(new TypeReference<OpenApiSimpleResult>() {
+        });
+        // 请求对象
+        CommonRequest request = new CommonRequest(param, handler, handlerMsgCode);
+        // 开始执行加载
+        CommonDataLoader.getInstance(context).load(request);
+    }
 
 }
