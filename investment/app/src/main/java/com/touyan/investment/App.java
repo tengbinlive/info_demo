@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.core.CrashHandler;
 import com.core.enums.ConfigKeyEnum;
 import com.core.manager.ConfigManager;
@@ -22,6 +24,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.touyan.investment.bean.user.UserInfo;
+import com.touyan.investment.helper.SharedPreferencesHelper;
 
 import java.util.ArrayList;
 
@@ -60,6 +63,11 @@ public class App extends Application {
 
 
     public UserInfo getgUserInfo() {
+        if (gUserInfo == null) {
+            String userinfo = SharedPreferencesHelper.getString(this, Constant.LoginUser.SHARED_PREFERENCES_USER, "");
+            gUserInfo = JSON.parseObject(userinfo, new TypeReference<UserInfo>() {
+            });
+        }
         return gUserInfo;
     }
 

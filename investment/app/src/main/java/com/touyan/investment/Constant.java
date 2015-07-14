@@ -32,6 +32,11 @@ public class Constant {
 		 */
 		public final static String SHARED_PREFERENCES_PHONE = "phone";
 
+		/**
+		 * 用户信息
+		 */
+		public final static String SHARED_PREFERENCES_USER= "user";
+
 	}
 
 

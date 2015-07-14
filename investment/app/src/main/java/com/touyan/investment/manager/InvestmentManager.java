@@ -119,4 +119,29 @@ public class InvestmentManager {
         CommonDataLoader.getInstance(context).load(request);
     }
 
+    /**
+     * 收藏
+     * @param context
+     * @param mesgid 资讯/悬赏ID
+     * @param mesgtp  回复类型 1资讯，2活动，3悬赏
+     * @param handler
+     * @param handlerMsgCode
+     */
+    public void storeMsg(Context context ,String mesgid, String mesgtp,final Handler handler, final int handlerMsgCode) {
+
+        InvCollectParam param = new InvCollectParam();
+
+        param.setMesgid(mesgid);
+        param.setUserid(App.getInstance().getgUserInfo().getServno());
+        param.setMesgtp(mesgtp);
+        // 接口参数
+        param.setMethod(OpenApiMethodEnum.LOAD_STORE_MSG);
+        param.setParseTokenType(new TypeReference<OpenApiSimpleResult>() {
+        });
+        // 请求对象
+        CommonRequest request = new CommonRequest(param, handler, handlerMsgCode);
+        // 开始执行加载
+        CommonDataLoader.getInstance(context).load(request);
+    }
+
 }
