@@ -6,21 +6,21 @@ import com.core.openapi.OpenApiSimpleResult;
  * Created by Administrator on 2015/7/14.
  */
 public class ModifyUserInfoResult extends OpenApiSimpleResult {
-    private UserInfo usinfo;
 
+    private UserInfo user;
 
-    public UserInfo getUsinfo() {
-        return usinfo;
+    public UserInfo getUser() {
+        return user;
     }
 
-    public void setUsinfo(UserInfo usinfo) {
-        this.usinfo = usinfo;
+    public void setUser(UserInfo user) {
+        this.user = user;
     }
 
     @Override
     public String toString() {
         return "ModifyUserInfoResult{" +
-                "usinfo=" + usinfo +
+                "user=" + user +
                 '}';
     }
 }

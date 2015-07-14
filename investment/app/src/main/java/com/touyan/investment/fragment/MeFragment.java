@@ -132,6 +132,7 @@ public class MeFragment extends AbsFragment implements View.OnClickListener {
     }
 
     private void initUserTag(String[] tags) {
+        userTagLayout.removeAllViews();
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         layoutParams.setMargins(getResources().getDimensionPixelSize(R.dimen.content_10dp), 0, getResources().getDimensionPixelSize(R.dimen.content_10dp), 0);
         for (int i = 0; i < tags.length; i++) {

@@ -65,7 +65,7 @@ public class ModifyUserInfoActivity extends AbsActivity implements View.OnClickL
         dialogDismiss();
         if (resposne.isSuccess()) {
             ModifyUserInfoResult result = (ModifyUserInfoResult) resposne.getData();
-            App.getInstance().setgUserInfo(result.getUsinfo());
+            App.getInstance().setgUserInfo(result.getUser());
             scrollToFinishActivity();
         } else {
             CommonUtil.showToast(resposne.getErrorTip());
@@ -152,7 +152,7 @@ public class ModifyUserInfoActivity extends AbsActivity implements View.OnClickL
                         userInfo.getTeleph(),
                         userInfo.getRscope(),
                         userInfo.getUisvip(),
-                        StringUtil.isNotBlank(tagsStr.toString()) ? tagsStr.toString() : userInfo.getTags(),
+                        tagsStr != null ? tagsStr.toString() : userInfo.getTags(),
                         null,
                         null,
                         activityHandler,
