@@ -16,7 +16,6 @@ import com.touyan.investment.mview.GridViewWithHeaderAndFooter;
 public class ModifyUserTagActivity extends AbsActivity implements View.OnClickListener {
 
     private final static int RESULTCODE_USERTAG = 0;
-    private final static String KEY = "KEY";
 
     private LayoutInflater mInflater;
     private GridViewWithHeaderAndFooter gridView;

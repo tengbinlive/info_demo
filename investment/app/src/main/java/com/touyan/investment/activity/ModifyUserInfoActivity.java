@@ -14,7 +14,10 @@ import com.touyan.investment.AbsActivity;
 import com.touyan.investment.App;
 import com.touyan.investment.R;
 import com.touyan.investment.bean.user.UserInfo;
+import com.touyan.investment.bean.user.UserTag;
 import com.touyan.investment.manager.UserManager;
+
+import java.util.ArrayList;
 
 /**
  * Created by zxh on 2015/7/13.
@@ -36,6 +39,7 @@ public class ModifyUserInfoActivity extends AbsActivity implements View.OnClickL
     private LinearLayout userHeadBtn;
     private LinearLayout userTagBtn;
 
+    private UserTag[] userTags = null;
 
     private Handler activityHandler = new Handler() {
         public void handleMessage(Message msg) {
@@ -131,7 +135,7 @@ public class ModifyUserInfoActivity extends AbsActivity implements View.OnClickL
                         userInfo.getRscope(),
                         userInfo.getUisvip(),
                         userInfo.getTags(),
-                        null,
+                        userTags,
                         null,
                         activityHandler,
                         MODIFY_DATA);
@@ -154,7 +158,14 @@ public class ModifyUserInfoActivity extends AbsActivity implements View.OnClickL
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUESTCODE_USERTAG && data != null) {
-
+            ArrayList<Integer> userTagItemList = data.getIntegerArrayListExtra(KEY);
+            if (userTagItemList == null) {
+                return;
+            }
+            userTags = new UserTag[userTagItemList.size()];
+            for (int i = 0; i < userTagItemList.size(); i++) {
+                userTags[i].setTgname(getResources().getStringArray(R.array.user_tag_array)[i]);
+            }
         }
     }
 }

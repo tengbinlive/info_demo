@@ -23,6 +23,8 @@ import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 
 public abstract class AbsActivity extends SwipeBackActivity implements EInitDate {
 
+    public final static String KEY = "KEY";
+
     public final static int TOP = 0;
     public final static int BOTTOM = TOP + 1;
     public final static int LEFT = BOTTOM + 1;
