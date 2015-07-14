@@ -29,7 +29,7 @@ public class ModifyUserInfoActivity extends AbsActivity implements View.OnClickL
         super.EInit();
         setSwipeBackEnable(true);
         findView();
-        initViews();
+        initUserInfoViews();
     }
 
     @Override
@@ -59,7 +59,7 @@ public class ModifyUserInfoActivity extends AbsActivity implements View.OnClickL
         userOccupationEdit = (EditText) findViewById(R.id.user_occupation);
     }
 
-    private void initViews() {
+    private void initUserInfoViews() {
         userInfo = App.getInstance().getgUserInfo();
         ImageLoader.getInstance().displayImage(userInfo.getUphoto(), userHeadImage);
         if (StringUtil.isNotBlank(userInfo.getUalias())) {
