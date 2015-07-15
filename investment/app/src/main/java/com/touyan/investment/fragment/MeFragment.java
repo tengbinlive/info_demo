@@ -15,6 +15,7 @@ import com.touyan.investment.AbsFragment;
 import com.touyan.investment.App;
 import com.touyan.investment.R;
 import com.touyan.investment.activity.ModifyUserInfoActivity;
+import com.touyan.investment.activity.UserFansActivity;
 import com.touyan.investment.bean.user.UserInfo;
 
 public class MeFragment extends AbsFragment implements View.OnClickListener {
@@ -107,9 +108,11 @@ public class MeFragment extends AbsFragment implements View.OnClickListener {
         if (StringUtil.isNotBlank(userInfo.getUisvip())) {
             if (userInfo.getUisvip().equals(UserInfo.ISVIP_CODE)) {
                 userAuthenticationText.setBackgroundResource(R.drawable.user_unauthenticated);
+                userAuthenticationText.setTextColor(getResources().getColor(R.color.white));
                 userAuthenticationText.setText(R.string.user_unauthenticated);
             } else {
                 userAuthenticationText.setBackgroundResource(R.drawable.user_authenticated);
+                userAuthenticationText.setTextColor(getResources().getColor(R.color.theme));
                 userAuthenticationText.setText(R.string.user_authenticated);
             }
         }
@@ -170,6 +173,7 @@ public class MeFragment extends AbsFragment implements View.OnClickListener {
             case R.id.user_follow:
                 break;
             case R.id.user_fans:
+                toActivity(MeFragment.this.getActivity(), UserFansActivity.class);
                 break;
             case R.id.user_collect:
                 break;

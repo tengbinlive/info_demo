@@ -39,7 +39,14 @@ public enum OpenApiMethodEnum {
      */
     QUERY_REPLYS("/reply/queryReplys.action", "openapi_json", OpenApi.URL_TYPE_DATA),
 
-
+    /**
+     * 查询粉丝
+     */
+    QUERY_USERFANS("/subscribe/querySubMyscribers.action", "openapi_json", OpenApi.URL_TYPE_DATA),
+    /**
+     * 查询他人信息
+     */
+    QUERY_OTHERINFO("/center/getOtherInfo.action", "openapi_json", OpenApi.URL_TYPE_DATA),
     /**
      * 登陆
      */
