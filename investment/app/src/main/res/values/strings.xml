@@ -104,9 +104,19 @@
 
 
 
-<!--我设置的字符串-->
+    <!--我设置的字符串-->
 
     <string name="setting_str">设置</string>
+    <string name="reset_password">修改密码</string>
+    <string name="receive_message">接收新消息</string>
+    <string name="clean_message">清空聊天记录</string>
+    <string name="about_investment">关于投研社</string>
+    <string name="login_out">退出登录</string>
+
+    <!--我-我的悬赏-->
+    <string name="me_offer_reward">我的悬赏</string>
+    <string name="me_offer_reward_edit">编辑</string>
+
 
     <string name="user_head">头像</string>
     <string name="user_name">名字</string>

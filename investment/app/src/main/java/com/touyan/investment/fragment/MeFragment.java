@@ -14,6 +14,8 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.touyan.investment.AbsFragment;
 import com.touyan.investment.App;
 import com.touyan.investment.R;
+import com.touyan.investment.activity.MeOfferRewardActivity;
+import com.touyan.investment.activity.MeSettingActivity;
 import com.touyan.investment.activity.ModifyUserInfoActivity;
 import com.touyan.investment.bean.user.UserInfo;
 
@@ -163,6 +165,7 @@ public class MeFragment extends AbsFragment implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
+        Intent intent=null;
         switch (view.getId()) {
             case R.id.user_modify:
                 toActivityForResult(MeFragment.this.getActivity(), ModifyUserInfoActivity.class, REQUESTCODE_MODIFYUSERINFO);
@@ -180,8 +183,12 @@ public class MeFragment extends AbsFragment implements View.OnClickListener {
             case R.id.user_activity:
                 break;
             case R.id.user_reward:
+                intent = new Intent(getActivity(), MeOfferRewardActivity.class);
+                startActivity(intent);
                 break;
             case R.id.user_setting:
+                intent = new Intent(getActivity(), MeSettingActivity.class);
+                startActivity(intent);
                 break;
             case R.id.user_authenticated_btn:
                 break;
