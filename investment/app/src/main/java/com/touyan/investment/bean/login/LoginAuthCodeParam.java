@@ -25,7 +25,7 @@ public class LoginAuthCodeParam extends OpenApiBaseRequest implements OpenApiReq
 	}
 
 	@Override
-	public void fill2Map(HashMap<String, String> param, boolean includeEmptyAttr) {
+	public void fill2Map(HashMap<String, Object> param, boolean includeEmptyAttr) {
         if (includeEmptyAttr || (!includeEmptyAttr && StringUtil.isNotBlank(phone_no))) param.put("phone_no", phone_no);
 	}
 

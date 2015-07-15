@@ -37,5 +37,5 @@ public interface OpenApiRequestInterface {
 	 * 
 	 * @return OpenAPI接口的参数MAP对象
 	 */
-	public HashMap<String, String> getParamMap();
+	public HashMap<String, Object> getParamMap();
 }

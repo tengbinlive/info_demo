@@ -25,24 +25,27 @@
                     app:sriv_right_bottom_corner_radius="360dp"
                     app:sriv_border_width="3dp"
                     android:layout_marginTop="@dimen/content_10dp"
+                    android:layout_marginBottom="@dimen/content_10dp"
                     app:sriv_border_color="#aa882831"
                     />
-            <ImageButton android:layout_width="40dp"
-                         android:layout_height="40dp"
-                         android:src="@drawable/user_pencil"
-                         android:background="@color/transparent"
-                         android:layout_alignParentRight="true"
-                         android:scaleType="center"
+            <ImageButton
+                    android:id="@+id/user_modify"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/user_pencil"
+                    android:background="@color/transparent"
+                    android:layout_alignParentRight="true"
+                    android:scaleType="center"
                     />
             <TextView
                     android:id="@+id/user_name"
                     android:layout_below="@id/user_head"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/content_10dp"
+                    android:layout_marginBottom="@dimen/content_10dp"
                     android:textColor="#ffffff"
-                    android:text="name"
-                    android:textSize="@dimen/font_big"
+                    android:text="@string/user_name"
+                    android:textSize="@dimen/font_medium15"
                     android:gravity="center_horizontal"
                     android:textStyle="bold"/>
             <TextView
@@ -50,10 +53,10 @@
                     android:layout_below="@id/user_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/content_10dp"
+                    android:layout_marginBottom="@dimen/content_10dp"
                     android:textColor="#ffffff"
-                    android:text="company"
-                    android:textSize="@dimen/font_big"
+                    android:text="@string/user_company"
+                    android:textSize="@dimen/font_medium"
                     android:gravity="center_horizontal"
                     />
             <LinearLayout
@@ -61,7 +64,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/user_company"
-                    android:layout_marginTop="@dimen/content_10dp"
+                    android:layout_marginBottom="@dimen/content_10dp"
                     android:orientation="horizontal">
 
                 <TextView android:layout_width="0dp"
@@ -75,10 +78,9 @@
                         android:drawableLeft="@drawable/user_place"
                         android:maxLines="1"
                         android:ellipsize="end"
-                        android:drawablePadding="@dimen/content_gap_small"
                         android:gravity="center"
-                        android:textSize="@dimen/font_medium"
-                        android:text="city"
+                        android:textSize="@dimen/font_small"
+                        android:text="@string/user_city"
                         android:textColor="@color/white"/>
 
                 <TextView android:layout_width="0dp"
@@ -92,10 +94,9 @@
                         android:drawableLeft="@drawable/user_person"
                         android:maxLines="1"
                         android:ellipsize="end"
-                        android:drawablePadding="@dimen/content_gap_small"
                         android:gravity="center"
-                        android:textSize="@dimen/font_medium"
-                        android:text="occupation"
+                        android:textSize="@dimen/font_small"
+                        android:text="@string/user_occupation"
                         android:textColor="@color/white"/>
 
                 <TextView android:layout_width="0dp"
@@ -109,7 +110,7 @@
                         android:gravity="center"
                         android:textSize="@dimen/font_small12"
                         android:background="@drawable/user_unauthenticated"
-                        android:text="未认证"
+                        android:text="@string/user_unauthenticated"
                         android:textColor="@color/white"/>
 
                 <TextView android:layout_width="0dp"
@@ -120,9 +121,12 @@
             <LinearLayout android:id="@+id/user_tag_list"
                           android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
-                          android:layout_marginTop="@dimen/content_10dp"
+                          android:layout_marginBottom="@dimen/content_10dp"
+                          android:animateLayoutChanges="true"
+                          android:layout_centerHorizontal="true"
                           android:layout_below="@id/user_more"
-                          android:orientation="horizontal">
+                          android:orientation="horizontal"
+                          android:visibility="gone">
 
             </LinearLayout>
 
@@ -142,57 +146,65 @@
                           android:background="@color/white"
                           android:orientation="horizontal">
 
-                <TextView android:layout_width="0dp"
-                          android:layout_height="match_parent"
-                          android:layout_weight="1"
-                          android:drawableTop="@drawable/user_follow"
-                          android:textSize="@dimen/font_medium"
-                          android:text="关注"
-                          android:gravity="center_horizontal"
-                          android:paddingTop="@dimen/content_10dp"
-                          android:textColor="@color/gray_font"/>
+                <TextView
+                        android:id="@+id/user_follow"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:drawableTop="@drawable/user_follow"
+                        android:textSize="@dimen/font_small"
+                        android:text="@string/user_follow"
+                        android:gravity="center_horizontal"
+                        android:paddingTop="@dimen/content_10dp"
+                        android:textColor="@color/gray_font"/>
 
                 <TextView android:layout_width="@dimen/content_1dp"
                           android:layout_height="match_parent"
                           android:background="@drawable/user_vertical_divider"/>
 
-                <TextView android:layout_width="0dp"
-                          android:layout_height="match_parent"
-                          android:layout_weight="1"
-                          android:paddingTop="@dimen/content_10dp"
-                          android:drawableTop="@drawable/user_fans"
-                          android:textSize="@dimen/font_medium"
-                          android:text="粉丝"
-                          android:gravity="center_horizontal"
-                          android:textColor="@color/gray_font"/>
+                <TextView
+                        android:id="@+id/user_fans"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:paddingTop="@dimen/content_10dp"
+                        android:drawableTop="@drawable/user_fans"
+                        android:textSize="@dimen/font_small"
+                        android:text="@string/user_fans"
+                        android:gravity="center_horizontal"
+                        android:textColor="@color/gray_font"/>
 
                 <TextView android:layout_width="@dimen/content_1dp"
                           android:layout_height="match_parent"
                           android:background="@drawable/user_vertical_divider"/>
 
-                <TextView android:layout_width="0dp"
-                          android:layout_height="match_parent"
-                          android:layout_weight="1"
-                          android:drawableTop="@drawable/user_collect"
-                          android:textSize="@dimen/font_medium"
-                          android:paddingTop="@dimen/content_10dp"
-                          android:text="收藏"
-                          android:gravity="center_horizontal"
-                          android:textColor="@color/gray_font"/>
+                <TextView
+                        android:id="@+id/user_collect"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:drawableTop="@drawable/user_collect"
+                        android:textSize="@dimen/font_small"
+                        android:paddingTop="@dimen/content_10dp"
+                        android:text="@string/user_collect"
+                        android:gravity="center_horizontal"
+                        android:textColor="@color/gray_font"/>
 
                 <TextView android:layout_width="@dimen/content_1dp"
                           android:layout_height="match_parent"
                           android:background="@drawable/user_vertical_divider"/>
 
-                <TextView android:layout_width="0dp"
-                          android:layout_height="match_parent"
-                          android:layout_weight="1"
-                          android:drawableTop="@drawable/user_wallet"
-                          android:paddingTop="@dimen/content_10dp"
-                          android:textSize="@dimen/font_medium"
-                          android:text="钱包"
-                          android:gravity="center_horizontal"
-                          android:textColor="@color/gray_font"/>
+                <TextView
+                        android:id="@+id/user_wallet"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:drawableTop="@drawable/user_wallet"
+                        android:paddingTop="@dimen/content_10dp"
+                        android:textSize="@dimen/font_small"
+                        android:text="@string/user_wallet"
+                        android:gravity="center_horizontal"
+                        android:textColor="@color/gray_font"/>
 
                 <TextView android:layout_width="@dimen/content_1dp"
                           android:layout_height="match_parent"
@@ -207,10 +219,12 @@
                       android:layout_height="@dimen/content_1dp"
                       android:background="@drawable/user_horizontal_divider"
                       android:layout_marginTop="@dimen/content_10dp"/>
-            <LinearLayout android:layout_width="match_parent"
-                          android:layout_height="@dimen/content_60dp"
-                          android:orientation="horizontal"
-                          android:background="@color/white">
+            <LinearLayout
+                    android:id="@+id/user_information"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/content_60dp"
+                    android:orientation="horizontal"
+                    android:background="@color/white">
                 <ImageView android:layout_width="wrap_content"
                            android:layout_height="match_parent"
                            android:src="@drawable/user_information"
@@ -219,9 +233,9 @@
                            android:paddingRight="@dimen/content_right_margin"/>
                 <TextView android:layout_width="match_parent"
                           android:layout_height="match_parent"
-                          android:text="我的资讯"
+                          android:text="@string/user_information"
                           android:gravity="center_vertical"
-                          android:textSize="@dimen/font_medium15"
+                          android:textSize="@dimen/font_small"
                           android:textColor="@color/textcolor_444"/>
             </LinearLayout>
 
@@ -229,10 +243,12 @@
                       android:layout_height="@dimen/content_1dp"
                       android:background="@drawable/user_horizontal_divider"/>
 
-            <LinearLayout android:layout_width="match_parent"
-                          android:layout_height="@dimen/content_60dp"
-                          android:orientation="horizontal"
-                          android:background="@color/white">
+            <LinearLayout
+                    android:id="@+id/user_activity"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/content_60dp"
+                    android:orientation="horizontal"
+                    android:background="@color/white">
                 <ImageView android:layout_width="wrap_content"
                            android:layout_height="match_parent"
                            android:src="@drawable/user_activity"
@@ -241,8 +257,8 @@
                            android:paddingRight="@dimen/content_right_margin"/>
                 <TextView android:layout_width="match_parent"
                           android:layout_height="match_parent"
-                          android:text="我的活动"
-                          android:textSize="@dimen/font_medium15"
+                          android:text="@string/user_activity"
+                          android:textSize="@dimen/font_small"
                           android:gravity="center_vertical"
                           android:textColor="@color/textcolor_444"/>
             </LinearLayout>
@@ -251,10 +267,12 @@
                       android:layout_height="@dimen/content_1dp"
                       android:background="@drawable/user_horizontal_divider"/>
 
-            <LinearLayout android:layout_width="match_parent"
-                          android:layout_height="@dimen/content_60dp"
-                          android:orientation="horizontal"
-                          android:background="@color/white">
+            <LinearLayout
+                    android:id="@+id/user_reward"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/content_60dp"
+                    android:orientation="horizontal"
+                    android:background="@color/white">
                 <ImageView android:layout_width="wrap_content"
                            android:layout_height="match_parent"
                            android:src="@drawable/user_reward"
@@ -263,8 +281,8 @@
                            android:paddingRight="@dimen/content_right_margin"/>
                 <TextView android:layout_width="match_parent"
                           android:layout_height="match_parent"
-                          android:text="我的悬赏"
-                          android:textSize="@dimen/font_medium15"
+                          android:text="@string/user_reward"
+                          android:textSize="@dimen/font_small"
                           android:gravity="center_vertical"
                           android:textColor="@color/textcolor_444"/>
             </LinearLayout>
@@ -278,10 +296,12 @@
                       android:background="@drawable/user_horizontal_divider"
                       android:layout_marginTop="@dimen/content_10dp"/>
 
-            <LinearLayout android:layout_width="match_parent"
-                          android:layout_height="@dimen/content_60dp"
-                          android:orientation="horizontal"
-                          android:background="@color/white">
+            <LinearLayout
+                    android:id="@+id/user_setting"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/content_60dp"
+                    android:orientation="horizontal"
+                    android:background="@color/white">
                 <ImageView android:layout_width="wrap_content"
                            android:layout_height="match_parent"
                            android:src="@drawable/user_setting"
@@ -290,8 +310,8 @@
                            android:paddingRight="@dimen/content_right_margin"/>
                 <TextView android:layout_width="match_parent"
                           android:layout_height="match_parent"
-                          android:text="我的设置"
-                          android:textSize="@dimen/font_medium15"
+                          android:text="@string/user_setting"
+                          android:textSize="@dimen/font_small"
                           android:gravity="center_vertical"
                           android:textColor="@color/textcolor_444"/>
             </LinearLayout>
@@ -300,13 +320,15 @@
                       android:layout_height="@dimen/content_1dp"
                       android:background="@drawable/user_horizontal_divider"/>
 
-            <Button android:layout_width="match_parent"
+            <Button
+                    android:id="@+id/user_authenticated_btn"
+                    android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:layout_marginTop="@dimen/content_10dp"
                     android:background="@drawable/user_authenticated_btn_bg"
                     android:layout_marginLeft="@dimen/content_left_margin"
                     android:layout_marginRight="@dimen/content_right_margin"
-                    android:text="申请认证"
+                    android:text="@string/user_authenticated_btn"
                     android:textSize="@dimen/font_btn"
                     android:textColor="@color/textcolor_444"
                     android:layout_marginBottom="@dimen/content_10dp"/>

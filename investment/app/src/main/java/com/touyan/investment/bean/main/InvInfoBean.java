@@ -1,10 +1,12 @@
 package com.touyan.investment.bean.main;
 
-import com.core.openapi.OpenApiSimpleResult;
-
+import java.io.Serializable;
 import java.sql.Date;
 
-public class InvInfoBean extends OpenApiSimpleResult {
+public class InvInfoBean implements Serializable {
+
+    public final static String PUBL_NO = "1";
+    public final static String PUBL_YES = "0";
 
     private String infoid; //资讯ID
 
@@ -14,7 +16,7 @@ public class InvInfoBean extends OpenApiSimpleResult {
 
     private double charge; //费用
 
-    private String ispubl;//是否公开
+    private String ispubl;//是否公开  0公开，1不公开
 
     private String contnt; //资讯内容
 
@@ -32,7 +34,17 @@ public class InvInfoBean extends OpenApiSimpleResult {
 
     private String rewardsAmount; //打赏总金额
 
+    private String h5url;//详情
+
     private InvInfoUserInfo user;//发布者用户信息
+
+    public String getH5url() {
+        return h5url;
+    }
+
+    public void setH5url(String h5url) {
+        this.h5url = h5url;
+    }
 
     public InvInfoUserInfo getUser() {
         return user;
@@ -162,6 +174,7 @@ public class InvInfoBean extends OpenApiSimpleResult {
                 ", transNum='" + transNum + '\'' +
                 ", replyNum='" + replyNum + '\'' +
                 ", rewardsAmount='" + rewardsAmount + '\'' +
+                ", h5url='" + h5url + '\'' +
                 ", user=" + user +
                 '}';
     }

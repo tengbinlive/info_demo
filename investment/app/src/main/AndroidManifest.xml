@@ -142,6 +142,12 @@
                 android:theme="@style/AppTheme">
         </activity>
 
+        <!--回复界面-->
+        <activity
+                android:name=".activity.InvReviewActivity"
+                android:theme="@style/AppTheme">
+        </activity>
+
         <!--打赏-->
         <activity
                 android:name=".activity.InfoRewardActivity"
@@ -189,6 +195,18 @@
         <!--好友-->
         <activity
                 android:name=".activity.FriendsActivity"
+                android:theme="@style/AppTheme">
+        </activity>
+
+        <!--编辑个人信息-->
+        <activity
+                android:name=".activity.ModifyUserInfoActivity"
+                android:theme="@style/AppTheme">
+        </activity>
+
+        <!--编辑标签信息-->
+        <activity
+                android:name=".activity.ModifyUserTagActivity"
                 android:theme="@style/AppTheme">
         </activity>
 

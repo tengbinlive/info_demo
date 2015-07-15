@@ -10,8 +10,8 @@ public class InvInfoParam extends OpenApiBaseRequest implements OpenApiRequestIn
 
     private String ititle;
     private String userid;
-    private String startno;
-    private String pageSize;
+    private int startno;
+    private int pageSize;
 
     public String getItitle() {
         return ititle;
@@ -29,20 +29,20 @@ public class InvInfoParam extends OpenApiBaseRequest implements OpenApiRequestIn
         this.userid = userid;
     }
 
-    public String getStartno() {
-        return startno;
-    }
-
-    public void setStartno(String startno) {
-        this.startno = startno;
-    }
-
-    public String getPageSize() {
+    public int getPageSize() {
         return pageSize;
     }
 
-    public void setPageSize(String pageSize) {
+    public void setPageSize(int pageSize) {
         this.pageSize = pageSize;
+    }
+
+    public int getStartno() {
+        return startno;
+    }
+
+    public void setStartno(int startno) {
+        this.startno = startno;
     }
 
     @Override
@@ -54,12 +54,12 @@ public class InvInfoParam extends OpenApiBaseRequest implements OpenApiRequestIn
 	}
 
 	@Override
-	public void fill2Map(HashMap<String, String> param, boolean includeEmptyAttr) {
-        if (includeEmptyAttr || (!includeEmptyAttr && StringUtil.isNotBlank(ititle))) param.put("ititle", ititle);
+	public void fill2Map(HashMap<String, Object> param, boolean includeEmptyAttr) {
         if (includeEmptyAttr || (!includeEmptyAttr && StringUtil.isNotBlank(userid))) param.put("userid", userid);
+        if (includeEmptyAttr || (!includeEmptyAttr && StringUtil.isNotBlank(ititle))) param.put("ititle", ititle);
         if (includeEmptyAttr || (!includeEmptyAttr && StringUtil.isNotBlank(startno))) param.put("startno", startno);
         if (includeEmptyAttr || (!includeEmptyAttr && StringUtil.isNotBlank(pageSize))) param.put("pageSize", pageSize);
-	}
+    }
 
     @Override
     public String toString() {

@@ -29,7 +29,7 @@ public class InvInfoFragment extends AbsFragment {
     private static final int INIT_LIST = 0x01;//初始化数据处理
     private static final int LOAD_DATA = 0x02;//加载数据处理
 
-    private static final int COUNT_MAX = 15;//加载数据最大值
+    private static final int COUNT_MAX = 5;//加载数据最大值
 
     private LayoutInflater mInflater;
 
@@ -133,7 +133,7 @@ public class InvInfoFragment extends AbsFragment {
 
     private void getDataList() {
         int startIndex = mList == null || mList.size() <= 0 ? 0 : mList.size();
-        manager.queryInfos(getActivity(), "", ""+startIndex,"" + COUNT_MAX, activityHandler, startIndex == 0 ? INIT_LIST : LOAD_DATA);
+        manager.queryInfos(getActivity(), "", startIndex, COUNT_MAX, activityHandler, startIndex == 0 ? INIT_LIST : LOAD_DATA);
     }
 
     @Override

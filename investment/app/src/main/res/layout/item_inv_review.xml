@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
-              android:paddingBottom="@dimen/content_gap"
               android:orientation="vertical"
               android:layout_height="wrap_content">
 
@@ -64,9 +63,9 @@
                   android:layout_below="@+id/date"
                   android:layout_alignLeft="@+id/date"
                   android:paddingRight="@dimen/content_gap"
+                  android:gravity="center_vertical"
                   android:layout_marginTop="@dimen/content_10dp"
                   android:layout_width="wrap_content"
-                  android:text="受偏北气流控制，近三日"
                   android:textSize="@dimen/font_small"
                   android:textColor="@color/textcolor_222"
                   android:layout_height="wrap_content"/>
@@ -75,5 +74,6 @@
 
     <View android:layout_width="match_parent"
           android:background="@drawable/act_line"
+          android:layout_marginBottom="@dimen/content_gap"
           android:layout_height="@dimen/content_1px"/>
 </LinearLayout>

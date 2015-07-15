@@ -40,14 +40,14 @@ public abstract class OpenApiBaseRequest implements OpenApiRequestInterface {
 	 * @param param 属性HashMap对象
 	 * @param includeEmptyAttr 包含空值的属性
 	 */
-	public abstract void fill2Map(HashMap<String, String> param, boolean includeEmptyAttr);
+	public abstract void fill2Map(HashMap<String, Object> param, boolean includeEmptyAttr);
 
 	/**
 	 * 获得属性HashMap对象, 不包含空值的属性
 	 * 
 	 * @return 属性HashMap对象
 	 */
-	public HashMap<String, String> getParamMap() {
+	public HashMap<String, Object> getParamMap() {
 		return getParamMap(null);
 	}
 
@@ -57,15 +57,15 @@ public abstract class OpenApiBaseRequest implements OpenApiRequestInterface {
 	 * @param param 属性HashMap对象
 	 * @return 属性HashMap对象
 	 */
-	public HashMap<String, String> getParamMap(HashMap<String, String> param) {
-		if (param == null) param = new HashMap<String, String>();
+	public HashMap<String, Object> getParamMap(HashMap<String, Object> param) {
+		if (param == null) param = new HashMap<String, Object>();
 		fill2Map(param, false);
 		return param;
 	}
 
 	@Override
 	public String toString() {
-		HashMap<String, String> map = getParamMap();
+		HashMap<String, Object> map = getParamMap();
 		map.put("method", method.toString());
 		map.put("parseTokenType", parseTokenType.toString());
 		return map.toString();

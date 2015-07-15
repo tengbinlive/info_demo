@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
+import com.alibaba.fastjson.JSON;
 import com.core.CommonResponse;
 import com.core.util.CommonUtil;
 import com.core.util.StringUtil;
@@ -16,6 +17,7 @@ import com.touyan.investment.Constant;
 import com.touyan.investment.R;
 import com.touyan.investment.bean.login.LoginParam;
 import com.touyan.investment.bean.login.LoginResult;
+import com.touyan.investment.bean.user.UserInfo;
 import com.touyan.investment.helper.SharedPreferencesHelper;
 import com.touyan.investment.manager.LoginManager;
 import com.touyan.investment.mview.EditTextWithDelete;
@@ -59,6 +61,9 @@ public class LoginActivity extends AbsActivity implements OnClickListener {
         if (resposne.isSuccess()) {
             SharedPreferencesHelper.setString(this, Constant.LoginUser.SHARED_PREFERENCES_PHONE, phone);
             LoginResult result = (LoginResult) resposne.getData();
+            UserInfo userInfo = result.getUsinfo();
+            String userJson = JSON.toJSONString(userInfo);
+            SharedPreferencesHelper.setString(this, Constant.LoginUser.SHARED_PREFERENCES_USER,userJson );
             App.getInstance().setgUserInfo(result.getUsinfo());
             toMainActivity();
         } else {
