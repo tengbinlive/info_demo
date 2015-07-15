@@ -21,6 +21,15 @@ public class UserInfo implements Serializable {
     private String ualias;
     private String uisvip;
     private String uphoto;
+    private double uavail;
+
+    public double getUavail() {
+        return uavail;
+    }
+
+    public void setUavail(double uavail) {
+        this.uavail = uavail;
+    }
 
     public String getServno() {
         return servno;
@@ -138,7 +147,7 @@ public class UserInfo implements Serializable {
     public String toString() {
         return "UserInfo{" +
                 "servno='" + servno + '\'' +
-                "aucode='" + aucode + '\'' +
+                ", aucode='" + aucode + '\'' +
                 ", compny='" + compny + '\'' +
                 ", inrank='" + inrank + '\'' +
                 ", ivcode='" + ivcode + '\'' +
@@ -146,11 +155,12 @@ public class UserInfo implements Serializable {
                 ", passwd='" + passwd + '\'' +
                 ", postin='" + postin + '\'' +
                 ", rscope='" + rscope + '\'' +
-                ", tags=" + tags +
+                ", tags='" + tags + '\'' +
                 ", teleph='" + teleph + '\'' +
                 ", ualias='" + ualias + '\'' +
                 ", uisvip='" + uisvip + '\'' +
                 ", uphoto='" + uphoto + '\'' +
+                ", uavail=" + uavail +
                 '}';
     }
 }

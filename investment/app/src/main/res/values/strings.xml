@@ -135,5 +135,9 @@
     <string name="success_review">操作成功,刷新下看看吧</string>
 
     <string name="collecting">正在收藏</string>
+    <string name="audit">审核中</string>
+    <string name="not_participate">我要报名</string>
+    <string name="no_by">未通过</string>
+    <string name="by">已报名</string>
 
 </resources>

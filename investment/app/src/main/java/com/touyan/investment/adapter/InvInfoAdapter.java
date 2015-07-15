@@ -14,7 +14,7 @@ import com.touyan.investment.R;
 import com.touyan.investment.activity.InfoDetailActivity;
 import com.touyan.investment.activity.InfoRewardActivity;
 import com.touyan.investment.bean.main.InvInfoBean;
-import com.touyan.investment.bean.main.InvInfoUserInfo;
+import com.touyan.investment.bean.user.UserInfo;
 import com.touyan.investment.mview.BottomView;
 import com.touyan.investment.mview.MGridView;
 
@@ -99,7 +99,7 @@ public class InvInfoAdapter extends BaseAdapter implements View.OnClickListener 
             holder = (ViewHolder) convertView.getTag(R.id.item_holder);
         }
         InvInfoBean infoBean = list.get(position);
-        InvInfoUserInfo userInfo = infoBean.getUser();
+        UserInfo userInfo = infoBean.getUser();
         ImageLoader.getInstance().displayImage(userInfo.getUphoto(), holder.head);
         holder.name.setText(userInfo.getUalias());
         String dateStr = DateUtil.ConverToString(infoBean.getPubstm(), DateUtil.YYYY_MM_DD_HH_MM_SS);
@@ -123,6 +123,8 @@ public class InvInfoAdapter extends BaseAdapter implements View.OnClickListener 
         holder.gridview.setTag(R.id.item_position,position);
         holder.review_ly.setTag(R.id.item_position,position);
         holder.reward_ib.setTag(R.id.item_position,position);
+        holder.review_ib.setTag(R.id.item_position,position);
+        holder.share_ib.setTag(R.id.item_position,position);
         holder.reward_ly.setTag(R.id.item_position,position);
         holder.reward_ly.setTag(R.id.item_position,position);
         return convertView;
@@ -157,6 +159,7 @@ public class InvInfoAdapter extends BaseAdapter implements View.OnClickListener 
 
     private void toInfoReward(int position) {
         Intent mIntent = new Intent(mContext, InfoRewardActivity.class);
+        mIntent.putExtra(InfoRewardActivity.KEY, list.get(position));
         mContext.startActivity(mIntent);
         mContext.overridePendingTransition(R.anim.push_translate_in_right, 0);
     }

@@ -11,6 +11,11 @@ package com.core.openapi;
 public enum OpenApiMethodEnum {
 
     /**
+     * 广场活动列表
+     */
+    LOAD_ACT_LIST("/active/list.action", "openapi_json", OpenApi.URL_TYPE_DATA),
+
+    /**
      * 获取验证码
      */
     LOAD_GET_CODE("index.php/get_cod", "openapi_json", OpenApi.URL_TYPE_DATA),
@@ -19,6 +24,16 @@ public enum OpenApiMethodEnum {
      * 收藏
      */
     LOAD_STORE_MSG("/user/storeMsg.action", "openapi_json", OpenApi.URL_TYPE_DATA),
+
+   /**
+     * 打赏
+     */
+    LOAD_BUY_INFO("/info/buyInfo.action", "openapi_json", OpenApi.URL_TYPE_DATA),
+
+    /**
+     * 活动报名
+     */
+    LOAD_ACT_SIGN("/active/apply.action", "openapi_json", OpenApi.URL_TYPE_DATA),
 
     /**
      * 资讯查询
@@ -29,6 +44,7 @@ public enum OpenApiMethodEnum {
      * 修改用户信息
      */
     MODIFY_USER_INFO("/user/update.action", "openapi_json", OpenApi.URL_TYPE_DATA),
+
     /**
      * 评论资讯/回复悬赏
      */
@@ -39,6 +55,20 @@ public enum OpenApiMethodEnum {
      */
     QUERY_REPLYS("/reply/queryReplys.action", "openapi_json", OpenApi.URL_TYPE_DATA),
 
+    /**
+     * 资讯详情
+     */
+    QUERY_INFO_DETAIL("/info/queryById.action", "openapi_json", OpenApi.URL_TYPE_DATA),
+
+    /**
+     * 活动详情
+     */
+    QUERY_ACT_DETAIL("/active/detail.action", "openapi_json", OpenApi.URL_TYPE_DATA),
+
+    /**
+     * 活动 参与人员信息
+     */
+    QUERY_ACT_JOIN_USER("/active/jionUserList.action", "openapi_json", OpenApi.URL_TYPE_DATA),
 
     /**
      * 登陆

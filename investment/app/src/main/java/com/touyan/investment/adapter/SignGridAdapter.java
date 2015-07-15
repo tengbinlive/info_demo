@@ -7,26 +7,29 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 import com.touyan.investment.R;
+import com.touyan.investment.bean.main.InvActJoinUsersBean;
+
+import java.util.ArrayList;
 
 public class SignGridAdapter extends BaseAdapter {
 
     private LayoutInflater mInflater;
 
-    private String[] list;
+    private ArrayList<InvActJoinUsersBean>  list;
 
-    public SignGridAdapter(Context context, String[] _list) {
+    public SignGridAdapter(Context context,ArrayList<InvActJoinUsersBean> _list) {
         this.list = _list;
         mInflater = LayoutInflater.from(context);
     }
 
     @Override
     public int getCount() {
-        return null == list ? 0 : list.length;
+        return null == list ? 0 : list.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return list[position];
+        return list.get(position);
     }
 
     @Override
@@ -34,14 +37,14 @@ public class SignGridAdapter extends BaseAdapter {
         return 0;
     }
 
-    public void refresh(String[] _list) {
+    public void refresh(ArrayList<InvActJoinUsersBean> _list) {
         list = _list;
         notifyDataSetChanged();
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder = null;
+        ViewHolder holder;
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.item_inv_act_reward_sign, null);
             holder = new ViewHolder();
@@ -50,7 +53,8 @@ public class SignGridAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        holder.textView.setText(list[position]);
+        InvActJoinUsersBean bean = list.get(position);
+        holder.textView.setText(bean.getUalias());
         return convertView;
     }
 

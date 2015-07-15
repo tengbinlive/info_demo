@@ -42,6 +42,8 @@ public class InvOfferFragment extends AbsFragment {
 
     private ArrayList<InvInfoResult> mList;
 
+    private boolean isInit = false;
+
     private Handler activityHandler = new Handler() {
         public void handleMessage(Message msg) {
             int what = msg.what;
@@ -70,7 +72,12 @@ public class InvOfferFragment extends AbsFragment {
             }
             mAdapter.refresh(mList);
         } else {
-            CommonUtil.showToast(resposne.getErrorTip());
+            //避免第一次应用启动时 创建fragment加载数据多次提示
+            if(isInit) {
+                CommonUtil.showToast(resposne.getErrorTip());
+            }else {
+                isInit = true;
+            }
         }
         mListView.onRefreshComplete();
     }
@@ -97,7 +104,6 @@ public class InvOfferFragment extends AbsFragment {
     private void init() {
         mListView = (PullToRefreshListView) getView().findViewById(R.id.pull_refresh_list);
         initListView();
-        dialogShow();
         getDataList();
     }
 

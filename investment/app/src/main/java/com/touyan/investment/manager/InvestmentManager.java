@@ -71,14 +71,85 @@ public class InvestmentManager {
     }
 
     /**
-     * 获取act 列表数据
+     * 资讯详情
+     *
      * @param context
-     * @param page_number 当前页数
-     * @param page_size  获取个数
+     * @param infoid         资讯id
      * @param handler
      * @param handlerMsgCode
      */
-    public void LoginAct(Context context,String page_number,String page_size, final Handler handler, final int handlerMsgCode) {
+    public void queryInfoDetail(Context context, String infoid, final Handler handler, final int handlerMsgCode) {
+
+        InvActParam param = new InvActParam();
+        param.setUserid(App.getInstance().getgUserInfo().getServno());
+        param.setInfoid(infoid);
+        // 接口参数
+        param.setMethod(OpenApiMethodEnum.QUERY_INFO_DETAIL);
+        param.setParseTokenType(new TypeReference<InvInfoDetailResult>() {
+        });
+        // 请求对象
+        CommonRequest request = new CommonRequest(param, handler, handlerMsgCode);
+        // 开始执行加载
+        CommonDataLoader.getInstance(context).load(request);
+    }
+
+    /**
+     * 活动详情
+     *
+     * @param context
+     * @param actid          活动id
+     * @param handler
+     * @param handlerMsgCode
+     */
+    public void queryActDetail(Context context, String actid, final Handler handler, final int handlerMsgCode) {
+
+        InvActParam param = new InvActParam();
+        param.setUserid(App.getInstance().getgUserInfo().getServno());
+        param.setActvid(actid);
+        // 接口参数
+        param.setMethod(OpenApiMethodEnum.QUERY_ACT_DETAIL);
+        param.setParseTokenType(new TypeReference<InvActDetailResult>() {
+        });
+        // 请求对象
+        CommonRequest request = new CommonRequest(param, handler, handlerMsgCode);
+        // 开始执行加载
+        CommonDataLoader.getInstance(context).load(request);
+    }
+
+    /**
+     * 活动 报名人员信息
+     *
+     * @param context
+     * @param actid          活动id
+     * @param handler
+     * @param handlerMsgCode
+     */
+    public void queryActJoinUser(Context context, String actid, final Handler handler, final int handlerMsgCode) {
+
+        InvActParam param = new InvActParam();
+        param.setUserid(App.getInstance().getgUserInfo().getServno());
+        param.setActvid(actid);
+        // 接口参数
+        param.setMethod(OpenApiMethodEnum.QUERY_ACT_JOIN_USER);
+        param.setParseTokenType(new TypeReference<InvActJoinResult>() {
+        });
+        // 请求对象
+        CommonRequest request = new CommonRequest(param, handler, handlerMsgCode);
+        // 开始执行加载
+        CommonDataLoader.getInstance(context).load(request);
+    }
+
+
+    /**
+     * 获取act 列表数据
+     *
+     * @param context
+     * @param page_number    当前页数
+     * @param page_size      获取个数
+     * @param handler
+     * @param handlerMsgCode
+     */
+    public void LoginAct(Context context, String page_number, String page_size, final Handler handler, final int handlerMsgCode) {
 
         InvInfoParam param = new InvInfoParam();
         // 接口参数
@@ -93,15 +164,16 @@ public class InvestmentManager {
 
     /**
      * 评论资讯/回复悬赏
+     *
      * @param context
-     * @param mesgid 资讯/悬赏ID
-     * @param rpuser  回复用户ID
-     * @param contnt  回复内容
-     * @param mesgtp  回复类型 1资讯，2活动，3悬赏
+     * @param mesgid         资讯/悬赏ID
+     * @param rpuser         回复用户ID
+     * @param contnt         回复内容
+     * @param mesgtp         回复类型 1资讯，2活动，3悬赏
      * @param handler
      * @param handlerMsgCode
      */
-    public void replyDiscuss(Context context,String mesgid,String rpuser, String contnt,String mesgtp,final Handler handler, final int handlerMsgCode) {
+    public void replyDiscuss(Context context, String mesgid, String rpuser, String contnt, String mesgtp, final Handler handler, final int handlerMsgCode) {
 
         InvReViewParam param = new InvReViewParam();
 
@@ -121,13 +193,14 @@ public class InvestmentManager {
 
     /**
      * 收藏
+     *
      * @param context
-     * @param mesgid 资讯/悬赏ID
-     * @param mesgtp  回复类型 1资讯，2活动，3悬赏
+     * @param mesgid         资讯/悬赏ID
+     * @param mesgtp         回复类型 1资讯，2活动，3悬赏
      * @param handler
      * @param handlerMsgCode
      */
-    public void storeMsg(Context context ,String mesgid, String mesgtp,final Handler handler, final int handlerMsgCode) {
+    public void storeMsg(Context context, String mesgid, String mesgtp, final Handler handler, final int handlerMsgCode) {
 
         InvCollectParam param = new InvCollectParam();
 
@@ -137,6 +210,84 @@ public class InvestmentManager {
         // 接口参数
         param.setMethod(OpenApiMethodEnum.LOAD_STORE_MSG);
         param.setParseTokenType(new TypeReference<OpenApiSimpleResult>() {
+        });
+        // 请求对象
+        CommonRequest request = new CommonRequest(param, handler, handlerMsgCode);
+        // 开始执行加载
+        CommonDataLoader.getInstance(context).load(request);
+    }
+
+    /**
+     * 购买
+     *
+     * @param context
+     * @param infoid         资讯/悬赏ID
+     * @param price          费用
+     * @param handler
+     * @param handlerMsgCode
+     */
+    public void buyInfo(Context context, String infoid, Double price, final Handler handler, final int handlerMsgCode) {
+
+        InvBuyInfoParam param = new InvBuyInfoParam();
+
+        param.setInfoid(infoid);
+        param.setPrice(price);
+        param.setUserid(App.getInstance().getgUserInfo().getServno());
+        // 接口参数
+        param.setMethod(OpenApiMethodEnum.LOAD_BUY_INFO);
+        param.setParseTokenType(new TypeReference<OpenApiSimpleResult>() {
+        });
+        // 请求对象
+        CommonRequest request = new CommonRequest(param, handler, handlerMsgCode);
+        // 开始执行加载
+        CommonDataLoader.getInstance(context).load(request);
+    }
+
+    /**
+     * 报名
+     *
+     * @param context
+     * @param actvid         活动ID
+     * @param price          花费
+     * @param handler
+     * @param handlerMsgCode
+     */
+    public void actSign(Context context, String actvid, String price, final Handler handler, final int handlerMsgCode) {
+
+        InvActSignParam param = new InvActSignParam();
+
+        param.setActvid(actvid);
+        param.setUserid(App.getInstance().getgUserInfo().getServno());
+        param.setPrice(price);
+        // 接口参数
+        param.setMethod(OpenApiMethodEnum.LOAD_ACT_SIGN);
+        param.setParseTokenType(new TypeReference<OpenApiSimpleResult>() {
+        });
+        // 请求对象
+        CommonRequest request = new CommonRequest(param, handler, handlerMsgCode);
+        // 开始执行加载
+        CommonDataLoader.getInstance(context).load(request);
+    }
+
+    /**
+     * 收藏
+     *
+     * @param context
+     * @param page_number    分页 当前页
+     * @param page_size      数据个数
+     * @param handler
+     * @param handlerMsgCode
+     */
+    public void actList(Context context, int page_number, int page_size, final Handler handler, final int handlerMsgCode) {
+
+        InvActListParam param = new InvActListParam();
+
+        param.setStatno(page_number);
+        param.setPageno(page_size);
+        param.setServno(App.getInstance().getgUserInfo().getServno());
+        // 接口参数
+        param.setMethod(OpenApiMethodEnum.LOAD_ACT_LIST);
+        param.setParseTokenType(new TypeReference<InvActListResult>() {
         });
         // 请求对象
         CommonRequest request = new CommonRequest(param, handler, handlerMsgCode);

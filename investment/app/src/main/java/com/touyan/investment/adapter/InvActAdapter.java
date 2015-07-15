@@ -5,8 +5,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
 import com.touyan.investment.R;
-import com.touyan.investment.bean.main.InvInfoResult;
+import com.touyan.investment.bean.main.InvActBean;
+import com.touyan.investment.helper.Util;
 
 import java.util.ArrayList;
 
@@ -14,12 +17,12 @@ public class InvActAdapter extends BaseAdapter {
 
     private LayoutInflater mInflater;
 
-    private ArrayList<InvInfoResult> list;
+    private ArrayList<InvActBean> list;
 
     private Context mContext;
 
 
-    public InvActAdapter(Context context, ArrayList<InvInfoResult> _list) {
+    public InvActAdapter(Context context, ArrayList<InvActBean> _list) {
         this.list = _list;
         mContext = context;
         mInflater = LayoutInflater.from(mContext);
@@ -40,33 +43,80 @@ public class InvActAdapter extends BaseAdapter {
         return 0;
     }
 
-    public void refresh(ArrayList<InvInfoResult> _list) {
+    public void refresh(ArrayList<InvActBean> _list) {
         list = _list;
         notifyDataSetChanged();
     }
 
-//    private void updateView(int itemIndex){
-//        intvisiblePosition = yourListView.getFirstVisiblePosition();
-//        Viewv = yourListView.getChildAt(itemIndex - visiblePosition);
-//        ViewHolder viewHolder =(ViewHolder)v.getTag();
-//        if(viewHolder!= null){
-//        }
-//    }
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder = null;
+        ViewHolder holder;
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.item_inv_act, null);
+            holder = new ViewHolder();
+            holder.head = (ImageView) convertView.findViewById(R.id.head);
+            holder.contents_tv = (TextView) convertView.findViewById(R.id.contents_tv);
+            holder.sign_tv = (TextView) convertView.findViewById(R.id.sign_tv);
+            convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
+        InvActBean bean = list.get(position);
+
+        setSignStatus(holder.sign_tv, bean.getIsJoin());
+
+        String type = bean.getActvtp();
+
+        setImageIcon(holder.head, type);
+
+        setContent(holder.contents_tv, type, bean.getAtitle());
 
         return convertView;
     }
 
+    private void setSignStatus(TextView view, String status) {
+        if (InvActBean.STATUS_AUDIT.equals(status)) {
+            view.setText(R.string.audit);
+            Util.setTextViewDrawaleAnchor(mContext, view, R.drawable.act_unsign, Util.TOP);
+        } else if (InvActBean.STATUS_NOT_PARTICIPATE.equals(status)) {
+            view.setText(R.string.not_participate);
+            Util.setTextViewDrawaleAnchor(mContext, view, R.drawable.act_unsign, Util.TOP);
+        } else if (InvActBean.STATUS_NO_BY.equals(status)) {
+            view.setText(R.string.no_by);
+            Util.setTextViewDrawaleAnchor(mContext, view, R.drawable.act_unsign, Util.TOP);
+        } else if (InvActBean.STATUS_BY.equals(status)) {
+            Util.setTextViewDrawaleAnchor(mContext, view, R.drawable.act_sign, Util.TOP);
+            view.setText(R.string.by);
+        }
+    }
+
+    private void setImageIcon(ImageView head, String type) {
+        if (InvActBean.TYPE_ROADSHOW.equals(type)) {
+            head.setImageResource(R.drawable.act_roadshow);
+        } else {
+            head.setImageResource(R.drawable.act_product);
+        }
+    }
+
+    private void setContent(TextView view, String type, String content) {
+        view.setText(content);
+        if (InvActBean.TYPE_ROADSHOW.equals(type)) {
+            Util.setTextViewDrawaleAnchor(mContext, view, R.drawable.act_location, Util.LEFT);
+        } else {
+            Util.setTextViewDrawaleAnchor(mContext, view, 0, 0);
+        }
+    }
+
+    private boolean isSignCilc(String status) {
+        if (InvActBean.STATUS_NOT_PARTICIPATE.equals(status)) return true;
+        return false;
+    }
+
     class ViewHolder {
+        ImageView head;
+        TextView contents_tv;
+        TextView sign_tv;
     }
 
 }

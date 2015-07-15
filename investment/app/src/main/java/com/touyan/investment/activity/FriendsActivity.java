@@ -61,7 +61,7 @@ public class FriendsActivity extends AbsActivity {
                         setIconInfo(custom_ly, BottomMenu.FRIEND, true);
                         break;
                     case GROUP:
-                        setIconInfo(custom_ly, BottomMenu.GROUP, true);
+                        setIconInfo(custom_ly, BottomMenu.GROUP, false);
                         break;
                     default:
                         throw new IllegalStateException("Invalid position: " + position);

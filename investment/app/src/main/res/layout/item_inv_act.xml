@@ -14,12 +14,14 @@
 
         <ImageView android:layout_width="0dp"
                    android:layout_weight="1"
+                   android:id="@+id/head"
                    android:scaleType="centerInside"
-                   android:src="@drawable/act_info"
+                   android:src="@drawable/act_roadshow"
                    android:layout_height="wrap_content"/>
 
         <TextView android:layout_width="0dp"
                   android:layout_weight="4"
+                  android:id="@+id/contents_tv"
                   android:gravity="center_vertical"
                   android:drawableLeft="@drawable/act_location"
                   android:drawablePadding="@dimen/content_gap_small"
@@ -32,12 +34,13 @@
                   android:ellipsize="end"
                   android:layout_height="wrap_content"/>
 
-        <TextView android:layout_width="0dp"
+        <TextView android:id="@+id/sign_tv"
+                  android:layout_width="0dp"
                   android:layout_weight="1"
-                  android:drawableTop="@drawable/act_sign"
+                  android:drawableTop="@drawable/act_unsign"
                   android:gravity="center"
                   android:drawablePadding="@dimen/content_gap_small"
-                  android:text="已报名"
+                  android:text="我要报名"
                   android:textSize="@dimen/font_least"
                   android:textColor="@color/textcolor_222"
                   android:layout_height="wrap_content"/>

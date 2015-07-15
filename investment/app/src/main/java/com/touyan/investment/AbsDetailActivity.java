@@ -161,6 +161,10 @@ public abstract class AbsDetailActivity extends AbsActivity {
         }
     }
 
+    public ViewGroup getViewGroup(int index){
+        return menLayouts.get(index);
+    }
+
     /**
      * 设置按钮选择状态
      *
@@ -185,6 +189,12 @@ public abstract class AbsDetailActivity extends AbsActivity {
             }
             i++;
         }
+    }
+
+    public void setBackOrTag(int index,boolean isSelect) {
+        LinearLayout menu  = menLayouts.get(index);
+        setSelectedBackground(menu, isSelect);
+        menu.setTag(R.id.main_tab_select, isSelect);
     }
 
     @Override

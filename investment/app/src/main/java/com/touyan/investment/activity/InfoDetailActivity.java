@@ -18,10 +18,12 @@ import com.handmark.pulltorefresh.PullToRefreshScrollView;
 import com.joooonho.SelectableRoundedImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.touyan.investment.AbsDetailActivity;
-import com.touyan.investment.App;
 import com.touyan.investment.R;
 import com.touyan.investment.bean.main.*;
+import com.touyan.investment.bean.user.UserInfo;
 import com.touyan.investment.enums.BottomMenu;
+import com.touyan.investment.enums.YesOrNoEnum;
+import com.touyan.investment.helper.Util;
 import com.touyan.investment.manager.InvestmentManager;
 import com.touyan.investment.mview.BottomView;
 
@@ -30,9 +32,14 @@ import java.util.ArrayList;
 public class InfoDetailActivity extends AbsDetailActivity {
 
     private static final int INIT_LIST = 0x01;//初始化数据处理
+
+    private static final int LOAD_DETAIL = 0x04;//详情
+
     private static final int LOAD_DATA = 0x02;//加载数据处理
 
     private static final int LOAD_COLLECT = 0x03;//收藏
+
+    private static final int LOAD_BUY_INFO = 0x05;//收藏
 
     private static final int COUNT_MAX = 8;//加载数据最大值
 
@@ -40,14 +47,24 @@ public class InfoDetailActivity extends AbsDetailActivity {
 
     private InvInfoBean invInfoBean;
 
+    private InvInfoDetailResult infoDetailResult;
+
     private InvestmentManager manager = new InvestmentManager();
 
     private LinearLayout review_ly;
 
     private BottomView mBottomView;
 
+    private View collectView;
+
+    private LinearLayout scrollview_ly;
+
+    private ViewStub stub;
+
     //列表
     private PullToRefreshScrollView mScrollView;
+
+    private boolean isStore = false;
 
     private Handler activityHandler = new Handler() {
         public void handleMessage(Message msg) {
@@ -60,6 +77,12 @@ public class InfoDetailActivity extends AbsDetailActivity {
                 case LOAD_COLLECT:
                     loadDataCollect((CommonResponse) msg.obj);
                     break;
+                case LOAD_DETAIL:
+                    loadDataDetail((CommonResponse) msg.obj);
+                    break;
+                case LOAD_BUY_INFO:
+                    loadDataBuyInfo((CommonResponse) msg.obj);
+                    break;
                 default:
                     break;
             }
@@ -67,7 +90,6 @@ public class InfoDetailActivity extends AbsDetailActivity {
     };
 
     private void loadData(CommonResponse resposne, int what) {
-        dialogDismiss();
         if (resposne.isSuccess()) {
             InvReplysResult replysResult = (InvReplysResult) resposne.getData();
             if (what == INIT_LIST) {
@@ -76,7 +98,7 @@ public class InfoDetailActivity extends AbsDetailActivity {
             } else {
                 currentPager += COUNT_MAX;
             }
-            addData(replysResult.getReplys());
+            addReplyLayout(replysResult.getReplys());
         } else {
             CommonUtil.showToast(resposne.getErrorTip());
         }
@@ -84,15 +106,41 @@ public class InfoDetailActivity extends AbsDetailActivity {
     }
 
     private void loadDataCollect(CommonResponse resposne) {
-        dialogDismiss();
         if (resposne.isSuccess()) {
-            CommonUtil.showToast(R.string.success);
+            isStore = true;
+            setBackOrTag(2, true);
+            View view  = collectView.findViewById(R.id.menu_icon);
+            if(view!=null) {
+                Util.viewScaleAnimation(view);
+            }
         } else {
             CommonUtil.showToast(resposne.getErrorTip());
         }
     }
 
-    private void addData(ArrayList<InvReplysBean> replys) {
+    private void loadDataDetail(CommonResponse resposne) {
+        dialogDismiss();
+        if (resposne.isSuccess()) {
+            infoDetailResult= (InvInfoDetailResult) resposne.getData();
+            initData();
+        } else {
+            CommonUtil.showToast(resposne.getErrorTip());
+        }
+    }
+
+    private void loadDataBuyInfo(CommonResponse resposne) {
+        dialogDismiss();
+        if (resposne.isSuccess()) {
+            scrollview_ly = (LinearLayout) findViewById(R.id.scrollview_ly);
+            stub.setVisibility(View.GONE);
+            initWebView(invInfoBean.getH5url());
+            scrollview_ly.addView(webview_ly, 0);
+        } else {
+            CommonUtil.showToast(resposne.getErrorTip());
+        }
+    }
+
+    private void addReplyLayout(ArrayList<InvReplysBean> replys) {
         if (replys == null) {
             return;
         }
@@ -103,7 +151,7 @@ public class InfoDetailActivity extends AbsDetailActivity {
 
     private LinearLayout getReView(InvReplysBean replysBean) {
         LinearLayout custom_ly = (LinearLayout) mInflater.inflate(R.layout.item_inv_review, review_ly, false);
-        InvInfoUserInfo userInfo = replysBean.getUser();
+        UserInfo userInfo = replysBean.getUser();
         TextView name = (TextView) custom_ly.findViewById(R.id.name);
         TextView date = (TextView) custom_ly.findViewById(R.id.date);
         TextView value = (TextView) custom_ly.findViewById(R.id.value);
@@ -122,54 +170,21 @@ public class InfoDetailActivity extends AbsDetailActivity {
         super.EInit();
         findView();
         initmScrollView();
-        getDataList(0);
+        getDetail();
+        getDataReplyList(0);
     }
-
-    private void initmScrollView() {
-        mScrollView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ScrollView>() {
-            @Override
-            public void onPullDownToRefresh(PullToRefreshBase<ScrollView> refreshView) {
-                getDataList(currentPager);
-            }
-
-            @Override
-            public void onPullUpToRefresh(PullToRefreshBase<ScrollView> refreshView) {
-                getDataList(currentPager);
-            }
-        });
-    }
-
-    private void getDataList(int currentPager) {
-        int what = currentPager <= 0 ? INIT_LIST : LOAD_DATA;
-        manager.queryReplys(this, invInfoBean.getInfoid(), currentPager, COUNT_MAX, activityHandler, what);
-    }
-
-    private void loadCollect() {
-        dialogShow(R.string.collecting);
-        manager.storeMsg(this,invInfoBean.getInfoid(),InvCollectParam.TYPE_INFO, activityHandler, LOAD_COLLECT);
-    }
-
-    @Override
-    public int getContentView() {
-        return R.layout.activity_info_detail;
-    }
-
-    @Override
-    public void initActionBar() {
-        setToolbarIntermediateStrID(R.string.info_detail);
-        setToolbarRightVisbility(View.VISIBLE, View.VISIBLE);
-        setToolbarRight(R.drawable.detail_share);
-    }
-
-    private void findView() {
-        mScrollView = (PullToRefreshScrollView) findViewById(R.id.pull_scrollview);
-        review_ly = (LinearLayout) findViewById(R.id.review_ly);
+    
+    private void initData(){
+        if(YesOrNoEnum.YES.getCode().equals(infoDetailResult.getIsStore())) {
+            isStore = true;
+            setBackOrTag(2, true);
+        }
         TextView review_title = (TextView) findViewById(R.id.review_title);
         TextView offer_title = (TextView) findViewById(R.id.offer_title);
-        review_title.setText("评论 " + invInfoBean.getReplyNum());
+        review_title.setText("评论 " + infoDetailResult.getReplyCount());
         offer_title.setText("已打赏" + invInfoBean.getRewardsAmount() + "金币");
-        if (InvInfoBean.PUBL_NO.equals(invInfoBean.getIspubl())) {
-            ViewStub stub = (ViewStub) findViewById(R.id.info_detail_stub);
+        if (YesOrNoEnum.YES.equals(infoDetailResult.getIsBuy())) {
+            stub = (ViewStub) findViewById(R.id.info_detail_stub);
             stub.inflate();
             TextView title = (TextView) findViewById(R.id.title);
             TextView title_charge = (TextView) findViewById(R.id.title_charge);
@@ -187,14 +202,15 @@ public class InfoDetailActivity extends AbsDetailActivity {
                     }, "确定", new OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            dialogDismiss();
+                            dialogShow("正在购买");
+                            getBuyInfo();
                         }
                     });
                 }
             });
 
         } else {
-            LinearLayout scrollview_ly = (LinearLayout) findViewById(R.id.scrollview_ly);
+            scrollview_ly = (LinearLayout) findViewById(R.id.scrollview_ly);
             initWebView(invInfoBean.getH5url());
             scrollview_ly.addView(webview_ly, 0);
         }
@@ -209,10 +225,67 @@ public class InfoDetailActivity extends AbsDetailActivity {
                 } else if (menu == BottomMenu.REVIEW) {
                     toReview(invInfoBean);
                 }else if (menu == BottomMenu.COLLECT) {
-                    loadCollect();
+                    if(isStore){
+                        View icon  = view.findViewById(R.id.menu_icon);
+                        if(icon!=null) {
+                            Util.viewScaleAnimation(icon);
+                        }
+                        return;
+                    }
+                    collectView = view;
+                    getCollect();
                 }
             }
         });
+    }
+
+    private void initmScrollView() {
+        mScrollView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ScrollView>() {
+            @Override
+            public void onPullDownToRefresh(PullToRefreshBase<ScrollView> refreshView) {
+                getDataReplyList(currentPager);
+            }
+
+            @Override
+            public void onPullUpToRefresh(PullToRefreshBase<ScrollView> refreshView) {
+                getDataReplyList(currentPager);
+            }
+        });
+    }
+
+    private void getDataReplyList(int currentPager) {
+        int what = currentPager <= 0 ? INIT_LIST : LOAD_DATA;
+        manager.queryReplys(this, invInfoBean.getInfoid(), currentPager, COUNT_MAX, activityHandler, what);
+    }
+
+    private void getDetail() {
+        dialogShow();
+        manager.queryInfoDetail(this, invInfoBean.getInfoid(), activityHandler, LOAD_DETAIL);
+    }
+
+    private void getCollect() {
+        manager.storeMsg(this,invInfoBean.getInfoid(),InvCollectParam.TYPE_INFO, activityHandler, LOAD_COLLECT);
+    }
+
+    private void getBuyInfo() {
+        manager.buyInfo(this, invInfoBean.getInfoid(), invInfoBean.getCharge(), activityHandler, LOAD_BUY_INFO);
+    }
+
+    @Override
+    public int getContentView() {
+        return R.layout.activity_info_detail;
+    }
+
+    @Override
+    public void initActionBar() {
+        setToolbarIntermediateStrID(R.string.info_detail);
+        setToolbarRightVisbility(View.VISIBLE, View.VISIBLE);
+        setToolbarRight(R.drawable.detail_share);
+    }
+
+    private void findView() {
+        mScrollView = (PullToRefreshScrollView) findViewById(R.id.pull_scrollview);
+        review_ly = (LinearLayout) findViewById(R.id.review_ly);
     }
 
     @Override
@@ -233,7 +306,7 @@ public class InfoDetailActivity extends AbsDetailActivity {
 
     private void toReview(InvInfoBean invInfoBean) {
         Intent mIntent = new Intent(this, InvReviewActivity.class);
-        mIntent.putExtra(KEY,invInfoBean);
+        mIntent.putExtra(KEY,invInfoBean.getInfoid());
         mIntent.putExtra(InvReviewActivity.KEY_TYPE, InvReViewParam.TYPE_INFO);
         startActivity(mIntent);
         overridePendingTransition(R.anim.push_translate_in_right, 0);

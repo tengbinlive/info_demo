@@ -28,6 +28,7 @@
 
 
             <TextView
+                    android:id="@+id/sign_num_tv"
                     android:layout_marginTop="@dimen/content_gap"
                     android:layout_width="match_parent"
                     android:text="已报名"
@@ -47,6 +48,7 @@
             <com.touyan.investment.mview.MGridView
                     android:layout_width="match_parent"
                     android:id="@+id/mgridview"
+                    android:visibility="gone"
                     android:paddingLeft="@dimen/content_gap"
                     android:paddingRight="@dimen/content_gap"
                     android:paddingTop="@dimen/content_gap_small"
@@ -64,6 +66,7 @@
             </com.touyan.investment.mview.MGridView>
 
             <TextView
+                    android:id="@+id/review_num_tv"
                     android:layout_width="match_parent"
                     android:text="评论"
                     android:paddingLeft="@dimen/content_gap"

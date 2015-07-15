@@ -9,7 +9,6 @@ import com.core.util.StringUtil;
 import com.touyan.investment.AbsActivity;
 import com.touyan.investment.App;
 import com.touyan.investment.R;
-import com.touyan.investment.bean.main.InvInfoBean;
 import com.touyan.investment.manager.InvestmentManager;
 import com.touyan.investment.mview.EditTextWithDelete;
 
@@ -21,7 +20,7 @@ public class InvReviewActivity extends AbsActivity {
 
     private EditTextWithDelete review_value;
 
-    private InvInfoBean invInfoBean;
+    private String id;
 
     private static final int LOAD_DATA = 0x01;//初始化数据处理
 
@@ -51,7 +50,7 @@ public class InvReviewActivity extends AbsActivity {
     @Override
     public void EInit() {
         reviewType = getIntent().getStringExtra(KEY_TYPE);
-        invInfoBean = (InvInfoBean) getIntent().getSerializableExtra(KEY);
+        id = getIntent().getStringExtra(KEY);
         super.EInit();
         findView();
     }
@@ -88,7 +87,7 @@ public class InvReviewActivity extends AbsActivity {
         }
         dialogShow(R.string.reviewing);
         InvestmentManager manager = new InvestmentManager();
-        manager.replyDiscuss(this, invInfoBean.getInfoid(), App.getInstance().getgUserInfo().getServno(), contnt, reviewType, activityHandler, LOAD_DATA);
+        manager.replyDiscuss(this, id, App.getInstance().getgUserInfo().getServno(), contnt, reviewType, activityHandler, LOAD_DATA);
     }
 
 }

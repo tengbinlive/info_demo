@@ -24,6 +24,8 @@ import com.touyan.investment.AbsFragment;
 import com.touyan.investment.R;
 import com.touyan.investment.activity.ActDetailActivity;
 import com.touyan.investment.adapter.InvActAdapter;
+import com.touyan.investment.bean.main.InvActBean;
+import com.touyan.investment.bean.main.InvActListResult;
 import com.touyan.investment.bean.main.InvInfoResult;
 import com.touyan.investment.manager.InvestmentManager;
 
@@ -48,7 +50,9 @@ public class InvActFragment extends AbsFragment {
 
     private BGABanner mBanner;
 
-    private ArrayList<InvInfoResult> mList;
+    private ArrayList<InvActBean> mList;
+
+    private boolean isInit = false;
 
     private Handler activityHandler = new Handler() {
         public void handleMessage(Message msg) {
@@ -66,19 +70,24 @@ public class InvActFragment extends AbsFragment {
 
     private void loadData(CommonResponse resposne, int what) {
         dialogDismiss();
-        testData();
         if (resposne.isSuccess()) {
             if (what == INIT_LIST) {
-                mList = (ArrayList<InvInfoResult>) resposne.getData();
+                InvActListResult result  = (InvActListResult) resposne.getData();
+                mList = result.getActives();
             } else {
                 if (mList == null) {
-                    mList = new ArrayList<InvInfoResult>();
+                    mList = new ArrayList<InvActBean>();
                 }
-                mList.addAll((ArrayList<InvInfoResult>) resposne.getData());
+                mList.addAll(((InvActListResult) resposne.getData()).getActives());
             }
             mAdapter.refresh(mList);
         } else {
-            CommonUtil.showToast(resposne.getErrorTip());
+            //避免第一次应用启动时 创建fragment加载数据多次提示
+            if(isInit) {
+                CommonUtil.showToast(resposne.getErrorTip());
+            }else {
+                isInit = true;
+            }
         }
         mListView.onRefreshComplete();
     }
@@ -104,7 +113,6 @@ public class InvActFragment extends AbsFragment {
     private void init() {
         mListView = (PullToRefreshListView) getView().findViewById(R.id.pull_refresh_list);
         initListView();
-        dialogShow();
         getDataList();
     }
 
@@ -114,6 +122,7 @@ public class InvActFragment extends AbsFragment {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 mList = null;
+                dialogShow();
                 getDataList();
             }
 
@@ -145,7 +154,7 @@ public class InvActFragment extends AbsFragment {
         mActualListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                toActDetail();
+                toActDetail(mList.get(i-2));
             }
         });
 
@@ -154,8 +163,9 @@ public class InvActFragment extends AbsFragment {
         initViewPager();
     }
 
-    private void toActDetail() {
+    private void toActDetail(InvActBean bean) {
         Intent mIntent = new Intent(getActivity(), ActDetailActivity.class);
+        mIntent.putExtra(ActDetailActivity.KEY_DETAIL,bean);
         startActivity(mIntent);
         getActivity().overridePendingTransition(R.anim.push_translate_in_right, 0);
     }
@@ -163,6 +173,12 @@ public class InvActFragment extends AbsFragment {
     private void initViewPager() {
         mBanner.setOnTouchListener(touchListenerForHeaderIntercept);
         initViewPagerData();
+        mBanner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //屏蔽点击
+            }
+        });
         mBanner.setCurrentItem(0);
     }
 
@@ -189,32 +205,17 @@ public class InvActFragment extends AbsFragment {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
             mActualListView.requestDisallowInterceptTouchEvent(true);
-            return false;
+            return true;
         }
     };
 
     private void getDataList() {
-        int startIndex = mList == null || mList.size() <= 0 ? 1 : mList.size();
-        manager.LoginAct(getActivity(), "", "" + COUNT_MAX, activityHandler, startIndex == 1 ? INIT_LIST : LOAD_DATA);
+        int startIndex = mList == null || mList.size() <= 0 ? 0 : mList.size();
+        manager.actList(getActivity(), startIndex, COUNT_MAX, activityHandler, startIndex == 0 ? INIT_LIST : LOAD_DATA);
     }
 
     @Override
     public void scrollToTop() {
-    }
-
-    private void testData() {
-        if (mList == null) {
-            mList = new ArrayList<InvInfoResult>();
-        }
-        mList.add(new InvInfoResult());
-        mList.add(new InvInfoResult());
-        mList.add(new InvInfoResult());
-        mList.add(new InvInfoResult());
-        mList.add(new InvInfoResult());
-        mList.add(new InvInfoResult());
-        mList.add(new InvInfoResult());
-        mAdapter.refresh(mList);
-        mAdapter.notifyDataSetChanged();
     }
 
 }

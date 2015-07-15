@@ -1,12 +1,11 @@
 package com.touyan.investment.bean.main;
 
+import com.touyan.investment.bean.user.UserInfo;
+
 import java.io.Serializable;
 import java.sql.Date;
 
 public class InvInfoBean implements Serializable {
-
-    public final static String PUBL_NO = "1";
-    public final static String PUBL_YES = "0";
 
     private String infoid; //资讯ID
 
@@ -16,7 +15,7 @@ public class InvInfoBean implements Serializable {
 
     private double charge; //费用
 
-    private String ispubl;//是否公开  0公开，1不公开
+    private String ispubl;//是否公开
 
     private String contnt; //资讯内容
 
@@ -26,7 +25,7 @@ public class InvInfoBean implements Serializable {
 
     private String pictue;//资讯图片
 
-    private String isbuyer; //是否购买过这条资讯
+    private String isbuyer; //是否购买过这条资讯 0 没有购买，1购买
 
     private String transNum; //转发次数
 
@@ -36,7 +35,7 @@ public class InvInfoBean implements Serializable {
 
     private String h5url;//详情
 
-    private InvInfoUserInfo user;//发布者用户信息
+    private UserInfo user;//发布者用户信息
 
     public String getH5url() {
         return h5url;
@@ -46,11 +45,11 @@ public class InvInfoBean implements Serializable {
         this.h5url = h5url;
     }
 
-    public InvInfoUserInfo getUser() {
+    public UserInfo getUser() {
         return user;
     }
 
-    public void setUser(InvInfoUserInfo user) {
+    public void setUser(UserInfo user) {
         this.user = user;
     }
 
