@@ -222,6 +222,17 @@
                 android:theme="@style/AppTheme">
         </activity>
 
+        <!--粉丝-->
+        <activity
+                android:name=".activity.UserFansActivity"
+                android:theme="@style/AppTheme">
+        </activity>
+
+        <!--粉丝详情-->
+        <activity
+                android:name=".activity.UserFansDetailsActivity"
+                android:theme="@style/AppTheme">
+        </activity>
     </application>
 
 </manifest>

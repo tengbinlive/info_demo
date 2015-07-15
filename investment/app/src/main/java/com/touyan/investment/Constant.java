@@ -54,6 +54,8 @@ public class Constant {
 		public static final String IMAGE_TEMP = ROOT_DIR + "/images/temp.jpg";
 		/** 临时拍照文件位置 */
 		public static final String CAMERA_TEMP = ROOT_DIR + "/images/camera_temp.jpg";
+		/** 临时头像位置 */
+		public static final String HEAD_IMAGE_TEMP = ROOT_DIR + "/images/headimg_temp.jpg";
 	}
 
 }

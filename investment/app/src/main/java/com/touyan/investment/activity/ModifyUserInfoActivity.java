@@ -1,20 +1,27 @@
 package com.touyan.investment.activity;
 
+
 import android.app.Activity;
+
 import android.content.Intent;
-import android.os.Handler;
-import android.os.Message;
+
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.*;
+
+import android.provider.MediaStore;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.*;
 import com.core.CommonResponse;
 import com.core.util.CommonUtil;
+
 import com.core.util.StringUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.touyan.investment.AbsActivity;
 import com.touyan.investment.App;
+import com.touyan.investment.Constant;
 import com.touyan.investment.R;
 import com.touyan.investment.bean.user.ModifyUserInfoResult;
 import com.touyan.investment.bean.user.UserInfo;
@@ -30,7 +37,17 @@ public class ModifyUserInfoActivity extends AbsActivity implements View.OnClickL
 
     private final static int MODIFY_DATA = 0;
 
+
+    /* 头像名称 */
+    private Uri headImageUri = Uri.parse(Constant.Dir.HEAD_IMAGE_TEMP);//The Uri to store the big bitmap
+
+    /* 请求码 */
     private final static int REQUESTCODE_USERTAG = 0;
+
+    private static final int IMAGE_REQUEST_CODE = 2;
+    private static final int CAMERA_REQUEST_CODE = 3;
+    private static final int RESULT_REQUEST_CODE = 4;
+
 
     private UserInfo userInfo;
 
@@ -60,11 +77,7 @@ public class ModifyUserInfoActivity extends AbsActivity implements View.OnClickL
         }
     };
 
-    /**
-     * 处理登陆数据
-     *
-     * @param resposne
-     */
+
     private void loadModifyUserInfoData(CommonResponse resposne) {
         dialogDismiss();
         if (resposne.isSuccess()) {
@@ -192,7 +205,29 @@ public class ModifyUserInfoActivity extends AbsActivity implements View.OnClickL
             for (int i = 0; i < userTagItemList.size(); i++) {
                 tagsStr.append(userTagArray[userTagItemList.get(i)]).append("/");
             }
+        }
+        //结果码不等于取消时候
+        if (resultCode != RESULT_CANCELED) {
 
+            switch (requestCode) {
+                case IMAGE_REQUEST_CODE:
+
+                    startPhotoZoom(headImageUri);
+                    break;
+                case CAMERA_REQUEST_CODE:
+                    if (hasSdcard()) {
+                        startPhotoZoom(headImageUri);
+                    } else {
+                        CommonUtil.showToast("未找到存储卡，无法存储照片！");
+                    }
+                    break;
+                case RESULT_REQUEST_CODE:
+
+                    getImageToView(headImageUri);
+                    break;
+            }
+        } else {
+            CommonUtil.showToast("操作取消");
         }
     }
 
@@ -230,8 +265,23 @@ public class ModifyUserInfoActivity extends AbsActivity implements View.OnClickL
             switch (v.getId()) {
                 case R.id.bottom_tv_2:
 
+                    Intent intentFromCapture = new Intent(
+                            MediaStore.ACTION_IMAGE_CAPTURE);
+                    if (hasSdcard()) {
+                        intentFromCapture.putExtra(
+                                MediaStore.EXTRA_OUTPUT,
+                                headImageUri);
+                    }
+                    startActivityForResult(intentFromCapture,
+                            CAMERA_REQUEST_CODE);
                     break;
                 case R.id.bottom_tv_3:
+
+                    Intent intentFromGallery = new Intent();
+                    intentFromGallery.setType("image/*"); // 设置文件类型
+                    intentFromGallery
+                            .setAction(Intent.ACTION_GET_CONTENT);
+                    startActivityForResult(intentFromGallery, IMAGE_REQUEST_CODE);
 
                     break;
                 case R.id.bottom_tv_cancel:
@@ -240,4 +290,64 @@ public class ModifyUserInfoActivity extends AbsActivity implements View.OnClickL
             }
         }
     }
+
+    /**
+     * 裁剪图片方法实现
+     *
+     * @param uri
+     */
+    public void startPhotoZoom(Uri uri) {
+
+        Intent intent = new Intent("com.android.camera.action.CROP");
+
+        intent.setDataAndType(uri, "image/*");
+        // 下面这个crop=true是设置在开启的Intent中设置显示的VIEW可裁剪
+        intent.putExtra("crop", "true");
+        intent.putExtra("scale", true);// 去黑边
+        intent.putExtra("scaleUpIfNeeded", true);// 去黑边
+        // aspectX aspectY 是宽高的比例
+        intent.putExtra("aspectX", 1);//输出是X方向的比例
+        intent.putExtra("aspectY", 1);
+        // outputX outputY 是裁剪图片宽高
+        intent.putExtra("outputX", 300);//输出X方向的像素
+        intent.putExtra("outputY", 300);
+        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
+        intent.putExtra("noFaceDetection", true);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+        intent.putExtra("return-data", false);//设置为不返回数据
+
+        startActivityForResult(intent, 2);
+    }
+
+    /**
+     * 保存裁剪之后的图片数据
+     *
+     * @param uri
+     */
+    private void getImageToView(Uri uri) {
+
+        try {
+            Bitmap photo = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+            Drawable drawable = new BitmapDrawable(getResources(), photo);
+            userHeadImage.setImageDrawable(drawable);
+        } catch (Exception e) {
+            CommonUtil.showToast("头像读取失败");
+        }
+
+    }
+
+    /**
+     * 检查是否存在SDCard
+     *
+     * @return
+     */
+    public static boolean hasSdcard() {
+        String state = Environment.getExternalStorageState();
+        if (state.equals(Environment.MEDIA_MOUNTED)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }
