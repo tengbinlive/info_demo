@@ -71,6 +71,15 @@ public enum OpenApiMethodEnum {
     QUERY_ACT_JOIN_USER("/active/jionUserList.action", "openapi_json", OpenApi.URL_TYPE_DATA),
 
     /**
+     * 查询粉丝
+     */
+    QUERY_USERFANS("/subscribe/querySubMyscribers.action", "openapi_json", OpenApi.URL_TYPE_DATA),
+    /**
+     * 查询他人信息
+     */
+    QUERY_OTHERINFO("/center/getOtherInfo.action", "openapi_json", OpenApi.URL_TYPE_DATA),
+
+    /**
      * 登陆
      */
     LOAD_LOGIN("/user/login.action", "openapi_json", OpenApi.URL_TYPE_DATA);

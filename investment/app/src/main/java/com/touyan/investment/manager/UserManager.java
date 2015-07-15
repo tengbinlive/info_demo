@@ -6,11 +6,7 @@ import com.alibaba.fastjson.TypeReference;
 import com.core.CommonDataLoader;
 import com.core.CommonRequest;
 import com.core.openapi.OpenApiMethodEnum;
-import com.touyan.investment.bean.login.LoginParam;
-import com.touyan.investment.bean.login.LoginResult;
-import com.touyan.investment.bean.user.ModifyUserInfoParam;
-import com.touyan.investment.bean.user.ModifyUserInfoResult;
-import com.touyan.investment.bean.user.UserTag;
+import com.touyan.investment.bean.user.*;
 
 /**
  * 用户中心业务类.
@@ -50,7 +46,7 @@ public class UserManager {
      * @param handler        在Activity中处理返回结果的Handler
      * @param handlerMsgCode 返回结果的Handler的Msg代码
      */
-    public void modifyUserInfo(Context context, String phone, String ualias, String uphoto, String locatn, String inrank, String compny, String postin, String teleph, String rscope, String uisvip, String tagstr, UserTag[] instags, String[] deltags, final Handler handler, final int handlerMsgCode) {
+    public void modifyUserInfo(Context context, String phone, String ualias, String uphoto, String locatn, String inrank, String compny, String postin, String teleph, String rscope, String uisvip, String tagstr, String[] instags, String[] deltags, final Handler handler, final int handlerMsgCode) {
         ModifyUserInfoParam param = new ModifyUserInfoParam();
         param.setServno(phone);
         param.setUalias(ualias);
@@ -74,4 +70,51 @@ public class UserManager {
         // 开始执行加载
         CommonDataLoader.getInstance(context).load(request);
     }
+
+    /**
+     * 用户粉丝
+     *
+     * @param context        上下文
+     * @param userId         用户ID
+     * @param handler        在Activity中处理返回结果的Handler
+     * @param handlerMsgCode 返回结果的Handler的Msg代码
+     */
+    public void queryUserFansInfo(Context context, String userId, final Handler handler, final int handlerMsgCode) {
+        QueryUserFansParam param = new QueryUserFansParam();
+        param.setUserid(userId);
+
+        // 接口参数
+        param.setMethod(OpenApiMethodEnum.QUERY_USERFANS);
+        param.setParseTokenType(new TypeReference<QueryUserFansResult>() {
+        });
+        // 请求对象
+        CommonRequest request = new CommonRequest(param, handler, handlerMsgCode);
+        // 开始执行加载
+        CommonDataLoader.getInstance(context).load(request);
+    }
+
+    /**
+     * 他人详情
+     *
+     * @param context        上下文
+     * @param otherId        他人用户ID
+     * @param userId         用户ID
+     * @param handler        在Activity中处理返回结果的Handler
+     * @param handlerMsgCode 返回结果的Handler的Msg代码
+     */
+    public void queryOtherInfo(Context context, String otherId, String userId, final Handler handler, final int handlerMsgCode) {
+        OtherInfoParam param = new OtherInfoParam();
+        param.setServno(otherId);
+        param.setUserid(userId);
+
+        // 接口参数
+        param.setMethod(OpenApiMethodEnum.QUERY_OTHERINFO);
+        param.setParseTokenType(new TypeReference<OtherInfoResult>() {
+        });
+        // 请求对象
+        CommonRequest request = new CommonRequest(param, handler, handlerMsgCode);
+        // 开始执行加载
+        CommonDataLoader.getInstance(context).load(request);
+    }
+
 }

@@ -1,7 +1,6 @@
 package com.touyan.investment.fragment;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,9 +15,12 @@ import com.touyan.investment.AbsFragment;
 import com.touyan.investment.App;
 import com.touyan.investment.R;
 import com.touyan.investment.activity.ModifyUserInfoActivity;
+import com.touyan.investment.activity.UserFansActivity;
 import com.touyan.investment.bean.user.UserInfo;
 
 public class MeFragment extends AbsFragment implements View.OnClickListener {
+
+    private final static int REQUESTCODE_MODIFYUSERINFO = 0;
 
     private LayoutInflater mInflater;
 
@@ -87,6 +89,9 @@ public class MeFragment extends AbsFragment implements View.OnClickListener {
 
     private void initUserInfo() {
         userInfo = App.getInstance().getgUserInfo();
+        if (userInfo == null) {
+            return;
+        }
         ImageLoader.getInstance().displayImage(userInfo.getUphoto(), userHeadImage);
         if (StringUtil.isNotBlank(userInfo.getUalias())) {
             userNameText.setText(userInfo.getUalias());
@@ -103,9 +108,11 @@ public class MeFragment extends AbsFragment implements View.OnClickListener {
         if (StringUtil.isNotBlank(userInfo.getUisvip())) {
             if (userInfo.getUisvip().equals(UserInfo.ISVIP_CODE)) {
                 userAuthenticationText.setBackgroundResource(R.drawable.user_unauthenticated);
+                userAuthenticationText.setTextColor(getResources().getColor(R.color.white));
                 userAuthenticationText.setText(R.string.user_unauthenticated);
             } else {
                 userAuthenticationText.setBackgroundResource(R.drawable.user_authenticated);
+                userAuthenticationText.setTextColor(getResources().getColor(R.color.theme));
                 userAuthenticationText.setText(R.string.user_authenticated);
             }
         }
@@ -123,11 +130,12 @@ public class MeFragment extends AbsFragment implements View.OnClickListener {
     }
 
     private String[] getUserTags(String tagStr) {
-        String[] split = StringUtil.split(tagStr, "、");
+        String[] split = StringUtil.split(tagStr, "/");
         return split;
     }
 
     private void initUserTag(String[] tags) {
+        userTagLayout.removeAllViews();
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         layoutParams.setMargins(getResources().getDimensionPixelSize(R.dimen.content_10dp), 0, getResources().getDimensionPixelSize(R.dimen.content_10dp), 0);
         for (int i = 0; i < tags.length; i++) {
@@ -160,11 +168,12 @@ public class MeFragment extends AbsFragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.user_modify:
-                toActivity(MeFragment.this.getActivity(), ModifyUserInfoActivity.class);
+                toActivityForResult(MeFragment.this.getActivity(), ModifyUserInfoActivity.class, REQUESTCODE_MODIFYUSERINFO);
                 break;
             case R.id.user_follow:
                 break;
             case R.id.user_fans:
+                toActivity(MeFragment.this.getActivity(), UserFansActivity.class);
                 break;
             case R.id.user_collect:
                 break;
@@ -187,5 +196,19 @@ public class MeFragment extends AbsFragment implements View.OnClickListener {
         Intent intent = new Intent(activity, activityClass);
         startActivity(intent);
         activity.overridePendingTransition(R.anim.push_translate_in_right, 0);
+    }
+
+    private void toActivityForResult(Activity activity, Class activityClass, int requestCode) {
+        Intent intent = new Intent(activity, activityClass);
+        startActivityForResult(intent, requestCode);
+        activity.overridePendingTransition(R.anim.push_translate_in_right, 0);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUESTCODE_MODIFYUSERINFO) {
+            initUserInfo();
+        }
     }
 }

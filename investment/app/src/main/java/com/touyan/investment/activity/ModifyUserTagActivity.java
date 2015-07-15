@@ -16,7 +16,6 @@ import com.touyan.investment.mview.GridViewWithHeaderAndFooter;
 public class ModifyUserTagActivity extends AbsActivity implements View.OnClickListener {
 
     private final static int RESULTCODE_USERTAG = 0;
-    private final static String KEY = "KEY";
 
     private LayoutInflater mInflater;
     private GridViewWithHeaderAndFooter gridView;
@@ -68,7 +67,8 @@ public class ModifyUserTagActivity extends AbsActivity implements View.OnClickLi
             case R.id.toolbar_right_btn:
                 Intent result = new Intent();
                 result.putIntegerArrayListExtra(KEY, adapter.getSelectItemList());
-                setResult(RESULTCODE_USERTAG);
+                setResult(RESULTCODE_USERTAG, result);
+                scrollToFinishActivity();
                 break;
         }
     }

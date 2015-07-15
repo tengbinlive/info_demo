@@ -34,7 +34,7 @@
     <!-- agreementdialog -->
     <color name="agreementdialog_bg">#676767</color>
 
-    <!--注册界面背景-->
+    <!--注册界面背景 也是全局背景-->
     <color name="register_white">#F2F2F2</color>
 
     <color name="textcolor_222">#222</color>

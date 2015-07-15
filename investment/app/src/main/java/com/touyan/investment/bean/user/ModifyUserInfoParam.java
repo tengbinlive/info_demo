@@ -24,7 +24,7 @@ public class ModifyUserInfoParam extends OpenApiBaseRequest implements OpenApiRe
     private String uisvip;
     private String tagstr;
 
-    private UserTag[] instags;
+    private String[] instags;
     private String[] deltags;
 
     public String getServno() {
@@ -115,11 +115,11 @@ public class ModifyUserInfoParam extends OpenApiBaseRequest implements OpenApiRe
         this.tagstr = tagstr;
     }
 
-    public UserTag[] getInstags() {
+    public String[] getInstags() {
         return instags;
     }
 
-    public void setInstags(UserTag[] instags) {
+    public void setInstags(String[] instags) {
         this.instags = instags;
     }
 

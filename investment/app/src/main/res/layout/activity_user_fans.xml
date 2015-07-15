@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/gray_layout">
+
+    <include android:id="@+id/toolbar"
+             android:layout_height="wrap_content"
+             android:layout_width="match_parent"
+             layout="@layout/action_toolbar"/>
+    <com.touyan.investment.mview.GridViewWithHeaderAndFooter
+            android:id="@+id/usertag_gridview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:numColumns="3"
+            android:columnWidth="100dp"
+            android:layout_below="@id/toolbar"
+            android:background="@color/white"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="10dp"
+            android:gravity="center"
+            android:horizontalSpacing="10dp"
+            android:cacheColorHint="@color/transparent"
+            android:listSelector="@color/transparent"
+            android:padding="@dimen/content_gap">
+    </com.touyan.investment.mview.GridViewWithHeaderAndFooter>
+
+</RelativeLayout>
