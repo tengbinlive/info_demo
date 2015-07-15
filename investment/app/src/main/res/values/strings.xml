@@ -98,4 +98,10 @@
     <string name="sign_detail">报名情况</string>
     <string name="login_prompt">正在登陆</string>
 
+
+
+<!--我设置的字符串-->
+
+    <string name="setting_str">设置</string>
+
 </resources>
