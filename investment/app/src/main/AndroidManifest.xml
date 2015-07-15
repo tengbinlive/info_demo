@@ -210,6 +210,18 @@
                 android:theme="@style/AppTheme">
         </activity>
 
+        <!--我的设置-->
+        <activity
+                android:name=".activity.MeSettingActivity"
+                android:theme="@style/AppTheme">
+        </activity>
+
+        <!--我的悬赏-->
+        <activity
+                android:name=".activity.MeOfferRewardActivity"
+                android:theme="@style/AppTheme">
+        </activity>
+
         <!--粉丝-->
         <activity
                 android:name=".activity.UserFansActivity"
