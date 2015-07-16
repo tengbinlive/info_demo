@@ -240,4 +240,9 @@ public class InvestmentFragment extends AbsFragment {
         }
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        getChildFragmentManager().getFragments().get(currentPager).onActivityResult(requestCode, resultCode, data);
+    }
 }

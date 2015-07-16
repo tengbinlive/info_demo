@@ -26,7 +26,6 @@ import com.touyan.investment.activity.ActDetailActivity;
 import com.touyan.investment.adapter.InvActAdapter;
 import com.touyan.investment.bean.main.InvActBean;
 import com.touyan.investment.bean.main.InvActListResult;
-import com.touyan.investment.bean.main.InvInfoResult;
 import com.touyan.investment.manager.InvestmentManager;
 
 import java.util.ArrayList;
@@ -35,6 +34,8 @@ import java.util.List;
 public class InvActFragment extends AbsFragment {
 
     private InvestmentManager manager = new InvestmentManager();
+
+    public final  static int REQUSETCODE = 1;
 
     private static final int INIT_LIST = 0x01;//初始化数据处理
     private static final int LOAD_DATA = 0x02;//加载数据处理
@@ -53,6 +54,8 @@ public class InvActFragment extends AbsFragment {
     private ArrayList<InvActBean> mList;
 
     private boolean isInit = false;
+
+    private int currentIndex;
 
     private Handler activityHandler = new Handler() {
         public void handleMessage(Message msg) {
@@ -154,7 +157,8 @@ public class InvActFragment extends AbsFragment {
         mActualListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                toActDetail(mList.get(i-2));
+                currentIndex  = i-2;
+                toActDetail(mList.get(currentIndex));
             }
         });
 
@@ -166,7 +170,7 @@ public class InvActFragment extends AbsFragment {
     private void toActDetail(InvActBean bean) {
         Intent mIntent = new Intent(getActivity(), ActDetailActivity.class);
         mIntent.putExtra(ActDetailActivity.KEY_DETAIL,bean);
-        startActivity(mIntent);
+        getParentFragment().startActivityForResult(mIntent, REQUSETCODE);
         getActivity().overridePendingTransition(R.anim.push_translate_in_right, 0);
     }
 
@@ -212,6 +216,15 @@ public class InvActFragment extends AbsFragment {
     private void getDataList() {
         int startIndex = mList == null || mList.size() <= 0 ? 0 : mList.size();
         manager.actList(getActivity(), startIndex, COUNT_MAX, activityHandler, startIndex == 0 ? INIT_LIST : LOAD_DATA);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == REQUSETCODE) {
+            mList.get(currentIndex).setIsJoin(InvActBean.STATUS_BY);
+            mAdapter.refresh(mList);
+        }
     }
 
     @Override

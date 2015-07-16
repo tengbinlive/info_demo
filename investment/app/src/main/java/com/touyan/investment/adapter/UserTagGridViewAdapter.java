@@ -102,7 +102,7 @@ public class UserTagGridViewAdapter extends BaseAdapter implements View.OnClickL
                 if (selectItemList.size() >= 3) {
                     selectItemList.remove(0);
                 }
-                selectItemList.add((Integer) position);
+                selectItemList.add( position);
                 view.setSelected(true);
                 notifyDataSetChanged();
             }

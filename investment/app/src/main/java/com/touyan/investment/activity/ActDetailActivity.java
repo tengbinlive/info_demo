@@ -28,6 +28,7 @@ import com.touyan.investment.bean.main.*;
 import com.touyan.investment.bean.user.UserInfo;
 import com.touyan.investment.enums.BottomMenu;
 import com.touyan.investment.enums.YesOrNoEnum;
+import com.touyan.investment.fragment.InvActFragment;
 import com.touyan.investment.helper.Util;
 import com.touyan.investment.manager.InvestmentManager;
 import com.touyan.investment.mview.BottomView;
@@ -147,6 +148,7 @@ public class ActDetailActivity extends AbsDetailActivity {
 
     private void loadDataSign(CommonResponse resposne) {
         if (resposne.isSuccess()) {
+            setResult(InvActFragment.REQUSETCODE);
             isSign = true;
             setBackOrTag(3, true);
             View view = collectView.findViewById(R.id.menu_icon);
@@ -199,7 +201,7 @@ public class ActDetailActivity extends AbsDetailActivity {
         findView();
         initmScrollView();
         getDetail();
-        getDataReplyList(0);
+        getDataReplyList(INIT_LIST);
         getJoinUser();
     }
 
@@ -207,18 +209,17 @@ public class ActDetailActivity extends AbsDetailActivity {
         mScrollView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ScrollView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ScrollView> refreshView) {
-                getDataReplyList(currentPager);
+                getDataReplyList(INIT_LIST);
             }
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ScrollView> refreshView) {
-                getDataReplyList(currentPager);
+                getDataReplyList(LOAD_DATA);
             }
         });
     }
 
-    private void getDataReplyList(int currentPager) {
-        int what = currentPager <= 0 ? INIT_LIST : LOAD_DATA;
+    private void getDataReplyList(int what) {
         manager.queryReplys(this, invActBean.getActvid(), currentPager, COUNT_MAX, activityHandler, what);
     }
 

@@ -82,7 +82,6 @@ public class InvOfferFragment extends AbsFragment {
         mListView.onRefreshComplete();
     }
 
-
     @Override
     public boolean onBackPressed() {
         return false;

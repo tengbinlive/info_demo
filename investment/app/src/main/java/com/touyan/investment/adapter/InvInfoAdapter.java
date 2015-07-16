@@ -15,6 +15,7 @@ import com.touyan.investment.activity.InfoDetailActivity;
 import com.touyan.investment.activity.InfoRewardActivity;
 import com.touyan.investment.bean.main.InvInfoBean;
 import com.touyan.investment.bean.user.UserInfo;
+import com.touyan.investment.fragment.InvInfoFragment;
 import com.touyan.investment.mview.BottomView;
 import com.touyan.investment.mview.MGridView;
 
@@ -28,11 +29,14 @@ public class InvInfoAdapter extends BaseAdapter implements View.OnClickListener 
 
     private Activity mContext;
 
+    private InvInfoFragment fragment;
+
     private BottomView mBottomView;
 
-    public InvInfoAdapter(Activity context, ArrayList<InvInfoBean> _list) {
+    public InvInfoAdapter(Activity context,InvInfoFragment fragment, ArrayList<InvInfoBean> _list) {
         this.list = _list;
         mContext = context;
+        this.fragment = fragment;
         mInflater = LayoutInflater.from(mContext);
     }
 
@@ -81,7 +85,8 @@ public class InvInfoAdapter extends BaseAdapter implements View.OnClickListener 
             holder.gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    int position = (Integer) view.getTag(R.id.item_position);
+                    MGridView gridView = (MGridView) view.getParent();
+                    int position = (Integer) gridView.getTag(R.id.item_position);
                     toInfoDetail(-1, position);
                 }
             });
@@ -109,7 +114,7 @@ public class InvInfoAdapter extends BaseAdapter implements View.OnClickListener 
         holder.value.setText("\t\t\t" + infoBean.getContnt());
         holder.share_tv.setText(infoBean.getTransNum());
         holder.review_tv.setText(infoBean.getReplyNum());
-        holder.reward_tv.setText(infoBean.getRewardsAmount());
+        holder.reward_tv.setText(""+infoBean.getRewardsAmount());
 
         String[] photos = StringUtil.split(infoBean.getPictue(), ",");
         if (photos == null || photos.length <= 0) {
@@ -158,6 +163,7 @@ public class InvInfoAdapter extends BaseAdapter implements View.OnClickListener 
     }
 
     private void toInfoReward(int position) {
+        this.fragment.currentItemIndex = position;
         Intent mIntent = new Intent(mContext, InfoRewardActivity.class);
         mIntent.putExtra(InfoRewardActivity.KEY, list.get(position));
         mContext.startActivity(mIntent);

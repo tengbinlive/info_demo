@@ -223,7 +223,7 @@ public class BGABanner extends RelativeLayout {
         mViews = views;
         mTips = tips;
         mViewPager.setAdapter(new PageAdapter());
-        mViewPager.addOnPageChangeListener(new ChangePointListener());
+        mViewPager.setOnPageChangeListener(new ChangePointListener());
 
         initPoints();
         processAutoPlay();

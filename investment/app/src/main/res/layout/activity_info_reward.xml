@@ -112,8 +112,12 @@
                               android:background="@null"
                               android:layout_alignParentRight="true"
                               android:text="18金币"
+                              android:textCursorDrawable="@null"
+                              android:id="@+id/need_et"
+                              android:inputType="number"
                               android:textColor="@color/red"
                               android:textSize="@dimen/font_medium"
+                              android:enabled="false"
                               android:layout_height="wrap_content"/>
 
                 </RelativeLayout>
@@ -137,9 +141,11 @@
 
                     <EditText android:layout_width="wrap_content"
                               android:background="@null"
+                              android:id="@+id/balance_et"
                               android:layout_alignParentRight="true"
-                              android:text="18金币"
-                              android:editable="false"
+                              android:text="0金币"
+                              android:enabled="false"
+                              android:textCursorDrawable="@null"
                               android:textColor="@color/textcolor_222"
                               android:textSize="@dimen/font_medium"
                               android:layout_height="wrap_content"/>
@@ -152,6 +158,7 @@
 
                 <Button android:layout_width="match_parent"
                         android:layout_marginLeft="@dimen/content_gap"
+                        android:id="@+id/reward_bt"
                         android:layout_marginTop="@dimen/content_60dp"
                         android:text="@string/bottom_menu_reward"
                         android:layout_marginRight="@dimen/content_gap"

@@ -70,8 +70,7 @@ public class MoneyAdapter extends BaseAdapter implements View.OnClickListener {
             holder.money_bt.setSelected(false);
             holder.money_bt.setTextColor(blackColos);
         }
-        holder.money_bt.setTag(R.id.button_index, position);
-        holder.money_bt.setTag(R.id.button_value,list[position]);
+        holder.money_bt.setTag(R.id.item_position, position);
         holder.money_bt.setText(list[position]);
         return convertView;
     }
@@ -80,10 +79,9 @@ public class MoneyAdapter extends BaseAdapter implements View.OnClickListener {
     public void onClick(View view) {
         int id = view.getId();
         if (id == R.id.money_bt) {
-            String mo = (String) view.getTag(R.id.button_value);
-            int position = (Integer) view.getTag(R.id.button_index);
+            int position = (Integer) view.getTag(R.id.item_position);
             select = position;
-            mContext.currentMoney = mo;
+            mContext.setGridViewSelect(position);
             view.setSelected(true);
             notifyDataSetChanged();
         }

@@ -25,10 +25,20 @@ public enum OpenApiMethodEnum {
      */
     LOAD_STORE_MSG("/user/storeMsg.action", "openapi_json", OpenApi.URL_TYPE_DATA),
 
-   /**
-     * 打赏
+    /**
+     * 购买资讯
      */
     LOAD_BUY_INFO("/info/buyInfo.action", "openapi_json", OpenApi.URL_TYPE_DATA),
+
+    /**
+     * 账号查询
+     */
+    LOAD_ACCOUNT("/account/queryById.action", "openapi_json", OpenApi.URL_TYPE_DATA),
+
+    /**
+     * 打赏
+     */
+    RECORD_REWARDS("/info/recordRewards.action", "openapi_json", OpenApi.URL_TYPE_DATA),
 
     /**
      * 活动报名

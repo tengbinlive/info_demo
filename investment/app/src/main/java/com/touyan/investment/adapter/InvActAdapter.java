@@ -1,19 +1,29 @@
 package com.touyan.investment.adapter;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.core.CommonResponse;
+import com.core.util.CommonUtil;
 import com.touyan.investment.R;
 import com.touyan.investment.bean.main.InvActBean;
+import com.touyan.investment.fragment.InvActFragment;
 import com.touyan.investment.helper.Util;
+import com.touyan.investment.manager.InvestmentManager;
 
 import java.util.ArrayList;
 
 public class InvActAdapter extends BaseAdapter {
+
+    private static final int LOAD_SIGN = 0x01;//报名
+
+    private InvestmentManager manager = new InvestmentManager();
 
     private LayoutInflater mInflater;
 
@@ -21,6 +31,29 @@ public class InvActAdapter extends BaseAdapter {
 
     private Context mContext;
 
+    private int currentIndex;
+
+    private Handler activityHandler = new Handler() {
+        public void handleMessage(Message msg) {
+            int what = msg.what;
+            switch (what) {
+                case LOAD_SIGN:
+                    loadDataSign((CommonResponse) msg.obj);
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+
+    private void loadDataSign(CommonResponse resposne) {
+        if (resposne.isSuccess()) {
+            list.get(currentIndex).setIsJoin(InvActBean.STATUS_BY);
+            notifyDataSetChanged();
+        } else {
+            CommonUtil.showToast(resposne.getErrorTip());
+        }
+    }
 
     public InvActAdapter(Context context, ArrayList<InvActBean> _list) {
         this.list = _list;
@@ -57,6 +90,13 @@ public class InvActAdapter extends BaseAdapter {
             holder.head = (ImageView) convertView.findViewById(R.id.head);
             holder.contents_tv = (TextView) convertView.findViewById(R.id.contents_tv);
             holder.sign_tv = (TextView) convertView.findViewById(R.id.sign_tv);
+            holder.sign_tv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    currentIndex = (Integer)view.getTag();
+                    getSign(currentIndex);
+                }
+            });
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -69,6 +109,8 @@ public class InvActAdapter extends BaseAdapter {
         String type = bean.getActvtp();
 
         setImageIcon(holder.head, type);
+
+        holder.sign_tv.setTag(position);
 
         setContent(holder.contents_tv, type, bean.getAtitle());
 
@@ -89,6 +131,11 @@ public class InvActAdapter extends BaseAdapter {
             Util.setTextViewDrawaleAnchor(mContext, view, R.drawable.act_sign, Util.TOP);
             view.setText(R.string.by);
         }
+    }
+
+    private void getSign(int index) {
+        InvActBean bean = list.get(index);
+        manager.actSign(mContext, bean.getActvid(), "" + bean.getCharge(), activityHandler, LOAD_SIGN);
     }
 
     private void setImageIcon(ImageView head, String type) {

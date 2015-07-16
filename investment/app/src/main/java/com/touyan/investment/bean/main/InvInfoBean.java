@@ -31,7 +31,7 @@ public class InvInfoBean implements Serializable {
 
     private String replyNum; //评论数
 
-    private String rewardsAmount; //打赏总金额
+    private Double rewardsAmount; //打赏总金额
 
     private String h5url;//详情
 
@@ -149,11 +149,11 @@ public class InvInfoBean implements Serializable {
         this.replyNum = replyNum;
     }
 
-    public String getRewardsAmount() {
+    public Double getRewardsAmount() {
         return rewardsAmount;
     }
 
-    public void setRewardsAmount(String rewardsAmount) {
+    public void setRewardsAmount(Double rewardsAmount) {
         this.rewardsAmount = rewardsAmount;
     }
 

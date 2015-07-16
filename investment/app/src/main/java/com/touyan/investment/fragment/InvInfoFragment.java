@@ -1,5 +1,6 @@
 package com.touyan.investment.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -16,6 +17,7 @@ import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationA
 import com.touyan.investment.AbsFragment;
 import com.touyan.investment.R;
 import com.touyan.investment.adapter.InvInfoAdapter;
+import com.touyan.investment.bean.main.InvActBean;
 import com.touyan.investment.bean.main.InvInfoBean;
 import com.touyan.investment.bean.main.InvInfoResult;
 import com.touyan.investment.manager.InvestmentManager;
@@ -25,6 +27,8 @@ import java.util.ArrayList;
 public class InvInfoFragment extends AbsFragment {
 
     private InvestmentManager manager = new InvestmentManager();
+
+    public final  static int REQUSETCODE = 1;
 
     private static final int INIT_LIST = 0x01;//初始化数据处理
     private static final int LOAD_DATA = 0x02;//加载数据处理
@@ -39,6 +43,8 @@ public class InvInfoFragment extends AbsFragment {
     private InvInfoAdapter mAdapter;
 
     private ArrayList<InvInfoBean> mList;
+
+    public int currentItemIndex;
 
     private Handler activityHandler = new Handler() {
         public void handleMessage(Message msg) {
@@ -118,7 +124,7 @@ public class InvInfoFragment extends AbsFragment {
         // Need to use the Actual ListView when registering for Context Menu
         registerForContextMenu(mActualListView);
 
-        mAdapter = new InvInfoAdapter(getActivity(), mList);
+        mAdapter = new InvInfoAdapter(getActivity(),this, mList);
 
         SwingBottomInAnimationAdapter animationAdapter = new SwingBottomInAnimationAdapter(mAdapter);
 
@@ -139,5 +145,16 @@ public class InvInfoFragment extends AbsFragment {
     @Override
     public void scrollToTop() {
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == REQUSETCODE&&null!=data) {
+            Double amount = data.getDoubleExtra(KEY,mList.get(currentItemIndex).getRewardsAmount());
+            mList.get(currentItemIndex).setRewardsAmount(amount);
+            mAdapter.refresh(mList);
+        }
+    }
+
 
 }

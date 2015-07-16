@@ -23,6 +23,7 @@ import com.touyan.investment.bean.main.*;
 import com.touyan.investment.bean.user.UserInfo;
 import com.touyan.investment.enums.BottomMenu;
 import com.touyan.investment.enums.YesOrNoEnum;
+import com.touyan.investment.fragment.InvInfoFragment;
 import com.touyan.investment.helper.Util;
 import com.touyan.investment.manager.InvestmentManager;
 import com.touyan.investment.mview.BottomView;
@@ -60,6 +61,8 @@ public class InfoDetailActivity extends AbsDetailActivity {
     private LinearLayout scrollview_ly;
 
     private ViewStub stub;
+
+    private TextView reward_title;
 
     //列表
     private PullToRefreshScrollView mScrollView;
@@ -171,7 +174,7 @@ public class InfoDetailActivity extends AbsDetailActivity {
         findView();
         initmScrollView();
         getDetail();
-        getDataReplyList(0);
+        getDataReplyList(INIT_LIST);
     }
     
     private void initData(){
@@ -180,9 +183,9 @@ public class InfoDetailActivity extends AbsDetailActivity {
             setBackOrTag(2, true);
         }
         TextView review_title = (TextView) findViewById(R.id.review_title);
-        TextView offer_title = (TextView) findViewById(R.id.offer_title);
+        reward_title = (TextView) findViewById(R.id.reward_title);
         review_title.setText("评论 " + infoDetailResult.getReplyCount());
-        offer_title.setText("已打赏" + invInfoBean.getRewardsAmount() + "金币");
+        reward_title.setText("已打赏" + invInfoBean.getRewardsAmount() + "金币");
         if (YesOrNoEnum.YES.equals(infoDetailResult.getIsBuy())) {
             stub = (ViewStub) findViewById(R.id.info_detail_stub);
             stub.inflate();
@@ -219,7 +222,7 @@ public class InfoDetailActivity extends AbsDetailActivity {
             @Override
             public void onClick(View view, BottomMenu menu, boolean status) {
                 if (menu == BottomMenu.REWARD) {
-                    toInfoReward();
+                    toInfoReward(invInfoBean);
                 } else if (menu == BottomMenu.SHARE) {
                     selectPict(invInfoBean);
                 } else if (menu == BottomMenu.REVIEW) {
@@ -243,18 +246,17 @@ public class InfoDetailActivity extends AbsDetailActivity {
         mScrollView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ScrollView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ScrollView> refreshView) {
-                getDataReplyList(currentPager);
+                getDataReplyList(INIT_LIST);
             }
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ScrollView> refreshView) {
-                getDataReplyList(currentPager);
+                getDataReplyList(LOAD_DATA);
             }
         });
     }
 
-    private void getDataReplyList(int currentPager) {
-        int what = currentPager <= 0 ? INIT_LIST : LOAD_DATA;
+    private void getDataReplyList(int what) {
         manager.queryReplys(this, invInfoBean.getInfoid(), currentPager, COUNT_MAX, activityHandler, what);
     }
 
@@ -298,9 +300,10 @@ public class InfoDetailActivity extends AbsDetailActivity {
         return menus;
     }
 
-    private void toInfoReward() {
+    private void toInfoReward(InvInfoBean bean) {
         Intent mIntent = new Intent(this, InfoRewardActivity.class);
-        startActivity(mIntent);
+        mIntent.putExtra(KEY,bean);
+        startActivityForResult(mIntent,InvInfoFragment.REQUSETCODE);
         overridePendingTransition(R.anim.push_translate_in_right, 0);
     }
 
@@ -342,6 +345,15 @@ public class InfoDetailActivity extends AbsDetailActivity {
                     mBottomView.dismissBottomView();
                     break;
             }
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == InvInfoFragment.REQUSETCODE&&null!=data) {
+            Double amount = data.getDoubleExtra(KEY,invInfoBean.getRewardsAmount());
+            reward_title.setText("已打赏" + amount + "金币");
         }
     }
 

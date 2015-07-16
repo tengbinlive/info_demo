@@ -9,6 +9,8 @@ import com.core.openapi.OpenApiMethodEnum;
 import com.core.openapi.OpenApiSimpleResult;
 import com.touyan.investment.App;
 import com.touyan.investment.bean.main.*;
+import com.touyan.investment.bean.user.AccountParam;
+import com.touyan.investment.bean.user.AccountResult;
 
 /**
  * 投研社业务类.
@@ -152,6 +154,10 @@ public class InvestmentManager {
     public void LoginAct(Context context, String page_number, String page_size, final Handler handler, final int handlerMsgCode) {
 
         InvInfoParam param = new InvInfoParam();
+        param.setUserid(App.getInstance().getgUserInfo().getServno());
+        param.setItitle("111");
+        param.setStartno(111);
+        param.setPageSize(111);
         // 接口参数
         param.setMethod(OpenApiMethodEnum.LOAD_GET_CODE);
         param.setParseTokenType(new TypeReference<OpenApiSimpleResult>() {
@@ -242,6 +248,57 @@ public class InvestmentManager {
         // 开始执行加载
         CommonDataLoader.getInstance(context).load(request);
     }
+
+    /**
+     * 账户查询
+     *
+     * @param context
+     * @param handler
+     * @param handlerMsgCode
+     */
+    public void queryAccount(Context context, final Handler handler, final int handlerMsgCode) {
+
+        AccountParam param = new AccountParam();
+
+        param.setUserid(App.getInstance().getgUserInfo().getServno());
+        // 接口参数
+        param.setMethod(OpenApiMethodEnum.LOAD_ACCOUNT);
+        param.setParseTokenType(new TypeReference<AccountResult>() {
+        });
+        // 请求对象
+        CommonRequest request = new CommonRequest(param, handler, handlerMsgCode);
+        // 开始执行加载
+        CommonDataLoader.getInstance(context).load(request);
+    }
+
+    /**
+     * 打赏
+     *
+     * @param context
+     * @param infoid         资讯ID
+     * @param targetid       打赏目标id
+     * @param amount         打赏金额
+     * @param handler
+     * @param handlerMsgCode
+     */
+    public void recordRewards(Context context, String infoid, String targetid, Double amount, final Handler handler, final int handlerMsgCode) {
+
+        InvRecordRewardsParam param = new InvRecordRewardsParam();
+
+        param.setInfoid(infoid);
+        param.setTargetid(targetid);
+        param.setAmount(amount);
+        param.setUserid(App.getInstance().getgUserInfo().getServno());
+        // 接口参数
+        param.setMethod(OpenApiMethodEnum.RECORD_REWARDS);
+        param.setParseTokenType(new TypeReference<InvRecordRewardsResult>() {
+        });
+        // 请求对象
+        CommonRequest request = new CommonRequest(param, handler, handlerMsgCode);
+        // 开始执行加载
+        CommonDataLoader.getInstance(context).load(request);
+    }
+
 
     /**
      * 报名

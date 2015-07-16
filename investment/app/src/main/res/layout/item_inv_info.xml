@@ -60,6 +60,7 @@
     <TextView android:id="@+id/value"
               android:paddingRight="@dimen/content_gap"
               android:paddingLeft="@dimen/content_gap"
+              android:paddingBottom="@dimen/content_gap"
               android:maxLines="3"
               android:layout_width="wrap_content"
               android:layout_marginTop="@dimen/text_linespacing"

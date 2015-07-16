@@ -14,6 +14,8 @@ public abstract class AbsFragment extends Fragment {
 
     protected final String TAG = AbsFragment.class.getSimpleName();
 
+    public final static String KEY = "KEY";
+
     public NiftyDialogBuilder dialogBuilder;
 
     public abstract boolean onBackPressed();
