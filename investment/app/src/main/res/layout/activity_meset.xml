@@ -42,7 +42,7 @@
                                         android:layout_centerVertical="true"
                                         android:layout_toRightOf="@+id/pw_iv"
                                         android:layout_marginLeft="@dimen/view_padding"
-                                        android:textSize="@dimen/font_medium15"
+                                        android:textSize="@dimen/font_small"
                                         android:text="@string/reset_password"
                                         android:textColor="@color/textcolor_444"
                                         />
@@ -74,7 +74,7 @@
                                         android:layout_centerVertical="true"
                                         android:layout_toRightOf="@+id/msg_iv"
                                         android:layout_marginLeft="@dimen/view_padding"
-                                        android:textSize="@dimen/font_medium15"
+                                        android:textSize="@dimen/font_small"
                                         android:text="@string/receive_message"
                                         android:textColor="@color/textcolor_444"
                                         />
@@ -124,7 +124,7 @@
                                         android:layout_centerVertical="true"
                                         android:layout_toRightOf="@+id/clean_msg_iv"
                                         android:layout_marginLeft="@dimen/view_padding"
-                                        android:textSize="@dimen/font_medium15"
+                                        android:textSize="@dimen/font_small"
                                         android:text="@string/clean_message"
                                         android:textColor="@color/textcolor_444"
                                         />
@@ -154,7 +154,7 @@
                                         android:layout_centerVertical="true"
                                         android:layout_toRightOf="@+id/about_iv"
                                         android:layout_marginLeft="@dimen/view_padding"
-                                        android:textSize="@dimen/font_medium15"
+                                        android:textSize="@dimen/font_small"
                                         android:text="@string/about_investment"
                                         android:textColor="@color/textcolor_444"
                                         />
@@ -167,6 +167,7 @@
                                 android:layout_marginLeft="35dp"
                                 android:layout_marginRight="35dp"
                                 android:text="@string/login_out"
+                                android:textSize="@dimen/font_medium"
                                 android:background="@drawable/bt_red_nomral"
                                 android:layout_height="wrap_content"/>
 

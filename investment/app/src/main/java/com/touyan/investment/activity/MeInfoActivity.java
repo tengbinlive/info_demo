@@ -12,16 +12,17 @@ import com.touyan.investment.AbsActivity;
 import com.touyan.investment.AbsFragment;
 import com.touyan.investment.R;
 import com.touyan.investment.adapter.InvestmentPagerAdapter;
-import com.touyan.investment.fragment.MeOfferRewFragment;
+import com.touyan.investment.fragment.InvInfoFragment;
+import com.touyan.investment.fragment.MeActivityFragment;
 
 import java.util.ArrayList;
 
-public class MeOfferRewardActivity extends AbsActivity implements OnClickListener {
+public class MeInfoActivity extends AbsActivity implements OnClickListener {
 
     private ViewPager viewPager;
     private InvestmentPagerAdapter adapter;
-    private final static int REWARD_MYRELEASE = 0;//我发布的
-    private final static int REWARD_MYPARTAKE = REWARD_MYRELEASE + 1;//我参与的
+    private final static int REWARD_MYRELEASE = 0;//原创资讯
+    private final static int REWARD_MYPARTAKE = REWARD_MYRELEASE + 1;//购买资讯
 
     private int currentPager = REWARD_MYRELEASE;
     @Override
@@ -38,7 +39,7 @@ public class MeOfferRewardActivity extends AbsActivity implements OnClickListene
     @Override
     public void initActionBar() {
         setToolbarLeftStrID(R.string.back);
-        setToolbarIntermediateStrID(R.string.me_offer_reward);
+        setToolbarIntermediateStrID(R.string.me_info);
         setToolbarRightVisbility(View.VISIBLE,View.VISIBLE);
         setToolbarRightStrID(R.string.me_offer_reward_edit);
     }
@@ -53,8 +54,8 @@ public class MeOfferRewardActivity extends AbsActivity implements OnClickListene
     private void findView() {
 
         ArrayList<AbsFragment> fragments = new ArrayList<AbsFragment>();
-        fragments.add(new MeOfferRewFragment());
-        fragments.add(new MeOfferRewFragment());
+        fragments.add(new InvInfoFragment());
+        fragments.add(new InvInfoFragment());
 
         adapter = new InvestmentPagerAdapter(getSupportFragmentManager(), fragments);
         viewPager = (ViewPager) findViewById(R.id.view_pager);
@@ -67,10 +68,10 @@ public class MeOfferRewardActivity extends AbsActivity implements OnClickListene
                 LinearLayout custom_ly = (LinearLayout) mInflater.inflate(R.layout.tab_offerreward_icon, container, false);
                 switch (position) {
                     case REWARD_MYRELEASE:
-                        setIconInfo(custom_ly, R.string.me_myrelease);
+                        setIconInfo(custom_ly, R.string.me_original_info);
                         break;
                     case REWARD_MYPARTAKE:
-                        setIconInfo(custom_ly, R.string.me_mypartake);
+                        setIconInfo(custom_ly, R.string.me_purchase_info);
                         break;
                     default:
                         throw new IllegalStateException("Invalid position: " + position);

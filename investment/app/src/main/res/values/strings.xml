@@ -113,10 +113,25 @@
     <string name="about_investment">关于投研社</string>
     <string name="login_out">退出登录</string>
 
-    <!--我-我的悬赏-->
+    <!--我-我的悬赏   我的活动     我的资讯-->
     <string name="me_offer_reward">我的悬赏</string>
+    <string name="me_activity">我的活动</string>
+    <string name="me_info">我的资讯</string>
+
     <string name="me_offer_reward_edit">编辑</string>
 
+    <string name="me_original_info">原创资讯</string>
+    <string name="me_purchase_info">购买资讯</string>
+
+    <string name="me_myrelease">我发布的</string>
+    <string name="me_mypartake">我参与的</string>
+
+    <string name="about_inv">关于</string>
+    <string name="about_version">投研社1.2</string>
+    <string name="about_check_update">检测更新</string>
+    <string name="about_goscore">去评分</string>
+    <string name="about_email">Email：yixiao.shi@touyanshe.com</string>
+    <string name="about_company">上海投言互联网科技有限公司 版权所有</string>
 
     <string name="user_head">头像</string>
     <string name="user_name">名字</string>

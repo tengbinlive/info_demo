@@ -6,9 +6,7 @@ import android.widget.Button;
 import com.touyan.investment.AbsActivity;
 import com.touyan.investment.R;
 
-public class ResetPasswordActivity extends AbsActivity implements OnClickListener {
-    private Button submit_btn ;
-    private boolean isAgree = false;
+public class AboutInvActivity extends AbsActivity implements OnClickListener {
     @Override
     public void EInit() {
         super.EInit();
@@ -17,26 +15,24 @@ public class ResetPasswordActivity extends AbsActivity implements OnClickListene
 
     @Override
     public int getContentView() {
-        return R.layout.activity_reset_password;
+        return R.layout.activity_aboutinv;
     }
 
     @Override
     public void initActionBar() {
         setToolbarLeftStrID(R.string.back);
-        setToolbarIntermediateStrID(R.string.resetpassword);
+        setToolbarIntermediateStrID(R.string.about_inv);
     }
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.submit_btn) {
-        }
+
     }
     @Override
     public void onResume() {
         super.onResume();
     }
     private void findView() {
-        submit_btn = (Button) findViewById(R.id.submit_btn);
-        submit_btn.setOnClickListener(this);
+
     }
 
 }
