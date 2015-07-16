@@ -4,13 +4,13 @@ import com.core.openapi.OpenApiSimpleResult;
 
 public class InvRecordRewardsResult extends OpenApiSimpleResult {
 
-    private Double rewardsAmount = 0.0;//打赏总金额
+    private double rewardsAmount = 0.0;//打赏总金额
 
-    public Double getRewardsAmount() {
+    public double getRewardsAmount() {
         return rewardsAmount;
     }
 
-    public void setRewardsAmount(Double rewardsAmount) {
+    public void setRewardsAmount(double rewardsAmount) {
         this.rewardsAmount = rewardsAmount;
     }
 

@@ -10,7 +10,7 @@ public class InvBuyInfoParam extends OpenApiBaseRequest implements OpenApiReques
 
     private String userid;
     private String infoid;
-    private Double price;
+    private double price;
 
     public String getUserid() {
         return userid;
@@ -28,7 +28,7 @@ public class InvBuyInfoParam extends OpenApiBaseRequest implements OpenApiReques
         this.infoid = infoid;
     }
 
-    public Double getPrice() {
+    public double getPrice() {
         return price;
     }
 
@@ -40,7 +40,7 @@ public class InvBuyInfoParam extends OpenApiBaseRequest implements OpenApiReques
     public boolean validate() {
         if (StringUtil.isBlank(this.userid)) return false;
         if (StringUtil.isBlank(this.infoid)) return false;
-        if (this.price == null) return false;
+        if (this.price <=0) return false;
         return true;
     }
 
@@ -48,7 +48,7 @@ public class InvBuyInfoParam extends OpenApiBaseRequest implements OpenApiReques
     public void fill2Map(HashMap<String, Object> param, boolean includeEmptyAttr) {
         if (includeEmptyAttr || (!includeEmptyAttr && StringUtil.isNotBlank(userid))) param.put("userid", userid);
         if (includeEmptyAttr || (!includeEmptyAttr && StringUtil.isNotBlank(infoid))) param.put("infoid", infoid);
-        if (includeEmptyAttr || (!includeEmptyAttr && this.price != null)) param.put("price", price);
+        if (includeEmptyAttr || (!includeEmptyAttr && this.price >0)) param.put("price", price);
     }
 
     @Override

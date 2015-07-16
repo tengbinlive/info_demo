@@ -45,7 +45,7 @@ public class OpenApiParser {
 				String cause = jsonObject.getString(JSON_ELEMENT_CAUSE);
 
 				// 先判断code
-				if (StringUtil.isNotBlank(code) && !JSON_VALUE_SUCCESS_CODE.equals(code)) {
+				if (StringUtil.isBlank(code) || !JSON_VALUE_SUCCESS_CODE.equals(code)) {
 					response.setData(null);
 					response.setCode(code);
 					response.setMsg(StringUtil.isBlank(cause)?mesg:cause);

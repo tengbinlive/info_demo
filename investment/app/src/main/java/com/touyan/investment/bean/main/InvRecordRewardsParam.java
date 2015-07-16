@@ -11,7 +11,7 @@ public class InvRecordRewardsParam extends OpenApiBaseRequest implements OpenApi
     private String userid;
     private String infoid;
     private String targetid;
-    private Double amount;
+    private double amount;
 
     public String getUserid() {
         return userid;
@@ -37,11 +37,11 @@ public class InvRecordRewardsParam extends OpenApiBaseRequest implements OpenApi
         this.targetid = targetid;
     }
 
-    public Double getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(Double amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 
@@ -50,7 +50,7 @@ public class InvRecordRewardsParam extends OpenApiBaseRequest implements OpenApi
         if (StringUtil.isBlank(this.userid)) return false;
         if (StringUtil.isBlank(this.infoid)) return false;
         if (StringUtil.isBlank(this.targetid)) return false;
-        if (this.amount == null) return false;
+        if (this.amount <=0) return false;
         return true;
     }
 
@@ -59,7 +59,7 @@ public class InvRecordRewardsParam extends OpenApiBaseRequest implements OpenApi
         if (includeEmptyAttr || (!includeEmptyAttr && StringUtil.isNotBlank(userid))) param.put("userid", userid);
         if (includeEmptyAttr || (!includeEmptyAttr && StringUtil.isNotBlank(infoid))) param.put("infoid", infoid);
         if (includeEmptyAttr || (!includeEmptyAttr && StringUtil.isNotBlank(targetid))) param.put("targetid", targetid);
-        if (includeEmptyAttr || (!includeEmptyAttr && this.amount != null)) param.put("amount", amount);
+        if (includeEmptyAttr || (!includeEmptyAttr && this.amount >0)) param.put("amount", amount);
     }
 
     @Override

@@ -45,7 +45,7 @@
     <string name="release_switch_coin">资讯收费</string>
     <string name="release_photo_count">添加图片\n(0/9)</string>
     <string name="release_hint_value">填写内容</string>
-    <string name="review_hint_value">写评论...</string>
+    <string name="review_hint_value">写点什么吧...</string>
     <string name="release_hint_title">添加标题</string>
     <string name="release_info">发布资讯</string>
     <string name="review">发表评论</string>
@@ -68,7 +68,8 @@
     <string name="unpacking">拆封</string>
     <string name="info_detail">资讯详情</string>
     <string name="friends">小伙伴</string>
-    <string name="release_act">发布路演</string>
+    <string name="release_act_roadshow">发布路演</string>
+    <string name="release_act_product">发布产品</string>
     <string name="act_attri">活动属性</string>
     <string name="act_limit_number">人数限制</string>
     <string name="act_people">人</string>
@@ -146,7 +147,7 @@
 
     <string name="contents_not_empty">内容不能为空哦</string>
 
-    <string name="reviewing">正在发表</string>
+    <string name="reviewing">稍等一会</string>
 
     <string name="success">操作成功</string>
 
@@ -162,6 +163,8 @@
     <string name="not_participate">我要报名</string>
     <string name="no_by">未通过</string>
     <string name="by">已报名</string>
+
+    <string name="me_attention">我的关注</string>
 
 
 

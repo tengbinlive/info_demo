@@ -51,7 +51,7 @@
                 <TextView
                         android:id="@+id/reward_title"
                         android:layout_width="wrap_content"
-                        android:text="已打赏0金币"
+                        android:text="已打赏0.0金币"
                         android:layout_alignParentRight="true"
                         android:textSize="@dimen/font_small"
                         android:textColor="@color/orange"

@@ -14,10 +14,10 @@ import com.core.util.CommonUtil;
 import com.handmark.pulltorefresh.PullToRefreshBase;
 import com.handmark.pulltorefresh.PullToRefreshListView;
 import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationAdapter;
+import com.touyan.investment.AbsDetailActivity;
 import com.touyan.investment.AbsFragment;
 import com.touyan.investment.R;
 import com.touyan.investment.adapter.InvInfoAdapter;
-import com.touyan.investment.bean.main.InvActBean;
 import com.touyan.investment.bean.main.InvInfoBean;
 import com.touyan.investment.bean.main.InvInfoResult;
 import com.touyan.investment.manager.InvestmentManager;
@@ -27,8 +27,6 @@ import java.util.ArrayList;
 public class InvInfoFragment extends AbsFragment {
 
     private InvestmentManager manager = new InvestmentManager();
-
-    public final  static int REQUSETCODE = 1;
 
     private static final int INIT_LIST = 0x01;//初始化数据处理
     private static final int LOAD_DATA = 0x02;//加载数据处理
@@ -124,7 +122,7 @@ public class InvInfoFragment extends AbsFragment {
         // Need to use the Actual ListView when registering for Context Menu
         registerForContextMenu(mActualListView);
 
-        mAdapter = new InvInfoAdapter(getActivity(),this, mList);
+        mAdapter = new InvInfoAdapter(this, mList);
 
         SwingBottomInAnimationAdapter animationAdapter = new SwingBottomInAnimationAdapter(mAdapter);
 
@@ -149,9 +147,9 @@ public class InvInfoFragment extends AbsFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == REQUSETCODE&&null!=data) {
-            Double amount = data.getDoubleExtra(KEY,mList.get(currentItemIndex).getRewardsAmount());
-            mList.get(currentItemIndex).setRewardsAmount(amount);
+        if (resultCode == AbsDetailActivity.REQUSETCODE && null != data) {
+            InvInfoBean bean = (InvInfoBean) data.getSerializableExtra(KEY);
+            mList.set(currentItemIndex, bean);
             mAdapter.refresh(mList);
         }
     }

@@ -32,6 +32,7 @@
 
             <TextView android:layout_width="match_parent"
                       android:text="我的关注"
+                      android:id="@+id/attention_tv"
                       android:textSize="@dimen/font_medium"
                       android:textStyle="bold"
                       android:textColor="@color/white"
@@ -67,6 +68,7 @@
 
             <TextView android:layout_width="match_parent"
                       android:text="组合产品"
+                      android:id="@+id/product_tv"
                       android:textSize="@dimen/font_medium"
                       android:textStyle="bold"
                       android:textColor="@color/white"
@@ -81,6 +83,7 @@
 
             <TextView android:layout_width="match_parent"
                       android:text="互动路演"
+                      android:id="@+id/roadshow_tv"
                       android:textSize="@dimen/font_medium"
                       android:textStyle="bold"
                       android:textColor="@color/white"

@@ -42,7 +42,6 @@
                   android:layout_width="wrap_content"
                   android:text="@string/adoption_reply"
                   android:id="@+id/adoption_tv"
-                  android:layout_marginRight="@dimen/content_gap"
                   android:visibility="gone"
                   android:textSize="@dimen/font_small"
                   android:textColor="@color/red"

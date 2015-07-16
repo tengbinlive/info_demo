@@ -38,7 +38,7 @@
                     android:paddingTop="@dimen/content_10dp"
                     android:paddingBottom="@dimen/content_10dp"
                     android:textSize="@dimen/font_small"
-                    android:textColor="@color/textcolor_222"
+                    android:textColor="@color/gray_font"
                     android:layout_height="wrap_content"/>
 
             <View android:layout_width="match_parent"
@@ -76,7 +76,7 @@
                     android:layout_marginTop="@dimen/content_gap"
                     android:textSize="@dimen/font_small"
                     android:background="@color/white"
-                    android:textColor="@color/textcolor_222"
+                    android:textColor="@color/gray_font"
                     android:layout_height="wrap_content"/>
 
             <LinearLayout android:layout_width="match_parent"

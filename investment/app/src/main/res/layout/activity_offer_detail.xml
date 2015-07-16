@@ -29,6 +29,7 @@
             <TextView
                     android:layout_width="match_parent"
                     android:text="回答"
+                    android:id="@+id/review_num_tv"
                     android:paddingLeft="@dimen/content_gap"
                     android:paddingRight="@dimen/content_gap"
                     android:paddingTop="@dimen/content_10dp"
@@ -36,7 +37,7 @@
                     android:layout_marginTop="@dimen/content_gap"
                     android:textSize="@dimen/font_small"
                     android:background="@color/white"
-                    android:textColor="@color/textcolor_222"
+                    android:textColor="@color/gray_font"
                     android:layout_height="wrap_content"/>
 
             <LinearLayout android:layout_width="match_parent"

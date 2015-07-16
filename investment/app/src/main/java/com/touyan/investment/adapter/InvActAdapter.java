@@ -112,7 +112,7 @@ public class InvActAdapter extends BaseAdapter {
 
         holder.sign_tv.setTag(position);
 
-        setContent(holder.contents_tv, type, bean.getAtitle());
+        setContent(holder.contents_tv, type, bean.getByloct()+" "+bean.getAtitle());
 
         return convertView;
     }

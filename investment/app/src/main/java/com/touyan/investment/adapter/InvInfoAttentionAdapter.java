@@ -1,6 +1,5 @@
 package com.touyan.investment.adapter;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,32 +11,29 @@ import com.joooonho.SelectableRoundedImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.touyan.investment.AbsDetailActivity;
 import com.touyan.investment.R;
+import com.touyan.investment.activity.InfoAttentionActivity;
 import com.touyan.investment.activity.InfoDetailActivity;
 import com.touyan.investment.activity.InfoRewardActivity;
 import com.touyan.investment.bean.main.InvInfoBean;
 import com.touyan.investment.bean.user.UserInfo;
-import com.touyan.investment.fragment.InvInfoFragment;
 import com.touyan.investment.mview.BottomView;
 import com.touyan.investment.mview.MGridView;
 
 import java.util.ArrayList;
 
-public class InvInfoAdapter extends BaseAdapter implements View.OnClickListener {
+public class InvInfoAttentionAdapter extends BaseAdapter implements View.OnClickListener {
 
     private LayoutInflater mInflater;
 
     private ArrayList<InvInfoBean> list;
 
-    private Activity mContext;
-
-    private InvInfoFragment fragment;
+    private InfoAttentionActivity mContext;
 
     private BottomView mBottomView;
 
-    public InvInfoAdapter(InvInfoFragment fragment, ArrayList<InvInfoBean> _list) {
+    public InvInfoAttentionAdapter(InfoAttentionActivity context, ArrayList<InvInfoBean> _list) {
         this.list = _list;
-        this.fragment = fragment;
-        mContext = this.fragment.getActivity();
+        mContext = context;
         mInflater = LayoutInflater.from(mContext);
     }
 
@@ -100,7 +96,7 @@ public class InvInfoAdapter extends BaseAdapter implements View.OnClickListener 
             holder.reward_ly.setOnClickListener(this);
             InfoGridAdapter gridAdapter = new InfoGridAdapter(mContext, null);
             holder.gridview.setAdapter(gridAdapter);
-            convertView.setTag(R.id.item_holder,holder);
+            convertView.setTag(R.id.item_holder, holder);
         } else {
             holder = (ViewHolder) convertView.getTag(R.id.item_holder);
         }
@@ -113,8 +109,8 @@ public class InvInfoAdapter extends BaseAdapter implements View.OnClickListener 
         holder.name.setText(userInfo.getUalias());
         holder.title.setText(infoBean.getItitle());
         holder.value.setText("\t\t\t" + infoBean.getContnt());
-        holder.share_tv.setText(""+infoBean.getTransNum());
-        holder.review_tv.setText(""+infoBean.getReplyNum());
+        holder.share_tv.setText("" + infoBean.getTransNum());
+        holder.review_tv.setText("" + infoBean.getReplyNum());
         Double rewardsAmount = infoBean.getRewardsAmount();
         if(rewardsAmount!=null) {
             holder.reward_tv.setText("" +rewardsAmount);
@@ -128,14 +124,14 @@ public class InvInfoAdapter extends BaseAdapter implements View.OnClickListener 
             ((InfoGridAdapter) (holder.gridview.getAdapter())).refresh(photos);
         }
 
-        holder.info_ly.setTag(R.id.item_position,position);
-        holder.gridview.setTag(R.id.item_position,position);
-        holder.review_ly.setTag(R.id.item_position,position);
-        holder.reward_ib.setTag(R.id.item_position,position);
-        holder.review_ib.setTag(R.id.item_position,position);
-        holder.share_ib.setTag(R.id.item_position,position);
-        holder.reward_ly.setTag(R.id.item_position,position);
-        holder.reward_ly.setTag(R.id.item_position,position);
+        holder.info_ly.setTag(R.id.item_position, position);
+        holder.gridview.setTag(R.id.item_position, position);
+        holder.review_ly.setTag(R.id.item_position, position);
+        holder.reward_ib.setTag(R.id.item_position, position);
+        holder.review_ib.setTag(R.id.item_position, position);
+        holder.share_ib.setTag(R.id.item_position, position);
+        holder.reward_ly.setTag(R.id.item_position, position);
+        holder.reward_ly.setTag(R.id.item_position, position);
         return convertView;
     }
 
@@ -162,15 +158,15 @@ public class InvInfoAdapter extends BaseAdapter implements View.OnClickListener 
         Intent mIntent = new Intent(mContext, InfoDetailActivity.class);
         mIntent.putExtra(InfoDetailActivity.KEY, index);
         mIntent.putExtra(InfoDetailActivity.KEY_DETAIL, list.get(position));
-        fragment.startActivityForResult(mIntent, AbsDetailActivity.REQUSETCODE);
+        mContext.startActivityForResult(mIntent, AbsDetailActivity.REQUSETCODE);
         mContext.overridePendingTransition(R.anim.push_translate_in_right, 0);
     }
 
     private void toInfoReward(int position) {
-        this.fragment.currentItemIndex = position;
+        this.mContext.currentItemIndex = position;
         Intent mIntent = new Intent(mContext, InfoRewardActivity.class);
         mIntent.putExtra(InfoRewardActivity.KEY, list.get(position));
-        fragment.startActivityForResult(mIntent, AbsDetailActivity.REQUSETCODE);
+        mContext.startActivityForResult(mIntent, AbsDetailActivity.REQUSETCODE);
         mContext.overridePendingTransition(R.anim.push_translate_in_right, 0);
     }
 

@@ -16,10 +16,7 @@ import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.touyan.investment.AbsActivity;
 import com.touyan.investment.AbsFragment;
 import com.touyan.investment.R;
-import com.touyan.investment.activity.ActReleaseProductActivity;
-import com.touyan.investment.activity.ActReleaseRoadshowActivity;
-import com.touyan.investment.activity.InfoReleaseActivity;
-import com.touyan.investment.activity.OfferReleaseActivity;
+import com.touyan.investment.activity.*;
 import com.touyan.investment.adapter.InvestmentPagerAdapter;
 import com.touyan.investment.mview.FilterView;
 
@@ -166,6 +163,12 @@ public class InvestmentFragment extends AbsFragment {
         }
     }
 
+    private void toInfoAttention() {
+        Intent mIntent = new Intent(getActivity(), InfoAttentionActivity.class);
+        getActivity().startActivity(mIntent);
+        getActivity().overridePendingTransition(R.anim.push_translate_in_right, 0);
+    }
+
     private void toOfferRelease() {
         Intent mIntent = new Intent(getActivity(), OfferReleaseActivity.class);
         getActivity().startActivity(mIntent);
@@ -195,6 +198,30 @@ public class InvestmentFragment extends AbsFragment {
         if (menuLeftPoupWindow == null) {
             gapLeft = (int) getResources().getDimension(R.dimen.content_10dp);
             RelativeLayout conentView = (RelativeLayout) mInflater.inflate(R.layout.dialog_inv_info_menu, null);
+            TextView attention_tv = (TextView) conentView.findViewById(R.id.attention_tv);
+            TextView product_tv = (TextView) conentView.findViewById(R.id.product_tv);
+            TextView roadshow_tv = (TextView) conentView.findViewById(R.id.roadshow_tv);
+            attention_tv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    menuLeftPoupWindow.dismiss();
+                    toInfoAttention();
+                }
+            });
+            product_tv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    menuLeftPoupWindow.dismiss();
+                    toInfoAttention();
+                }
+            });
+            roadshow_tv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    menuLeftPoupWindow.dismiss();
+                    toInfoAttention();
+                }
+            });
             menuLeftPoupWindow = new FilterView(getActivity(), conentView, R.style.AnimationPreviewLeft);
         }
         menuLeftPoupWindow.showPopupWindow(menuLeft, 0, -gapLeft);
@@ -209,14 +236,14 @@ public class InvestmentFragment extends AbsFragment {
             product_tv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    menuRightPoupWindow.showPopupWindow(menuRight, 0, -gapRigth);
+                    menuRightPoupWindow.dismiss();
                     toReleaseProduct();
                 }
             });
             roadshow_tv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    menuRightPoupWindow.showPopupWindow(menuRight, 0, -gapRigth);
+                    menuRightPoupWindow.dismiss();
                     toReleaseRoadshow();
                 }
             });

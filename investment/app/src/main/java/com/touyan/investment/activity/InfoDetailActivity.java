@@ -23,7 +23,6 @@ import com.touyan.investment.bean.main.*;
 import com.touyan.investment.bean.user.UserInfo;
 import com.touyan.investment.enums.BottomMenu;
 import com.touyan.investment.enums.YesOrNoEnum;
-import com.touyan.investment.fragment.InvInfoFragment;
 import com.touyan.investment.helper.Util;
 import com.touyan.investment.manager.InvestmentManager;
 import com.touyan.investment.mview.BottomView;
@@ -31,6 +30,8 @@ import com.touyan.investment.mview.BottomView;
 import java.util.ArrayList;
 
 public class InfoDetailActivity extends AbsDetailActivity {
+
+    public static final int REQUSETCODE_REWARD = 3;//打赏
 
     private static final int INIT_LIST = 0x01;//初始化数据处理
 
@@ -40,7 +41,7 @@ public class InfoDetailActivity extends AbsDetailActivity {
 
     private static final int LOAD_COLLECT = 0x03;//收藏
 
-    private static final int LOAD_BUY_INFO = 0x05;//收藏
+    private static final int LOAD_BUY_INFO = 0x05;//购买
 
     private static final int COUNT_MAX = 8;//加载数据最大值
 
@@ -63,6 +64,8 @@ public class InfoDetailActivity extends AbsDetailActivity {
     private ViewStub stub;
 
     private TextView reward_title;
+
+    private TextView review_title;
 
     //列表
     private PullToRefreshScrollView mScrollView;
@@ -112,8 +115,8 @@ public class InfoDetailActivity extends AbsDetailActivity {
         if (resposne.isSuccess()) {
             isStore = true;
             setBackOrTag(2, true);
-            View view  = collectView.findViewById(R.id.menu_icon);
-            if(view!=null) {
+            View view = collectView.findViewById(R.id.menu_icon);
+            if (view != null) {
                 Util.viewScaleAnimation(view);
             }
         } else {
@@ -124,7 +127,7 @@ public class InfoDetailActivity extends AbsDetailActivity {
     private void loadDataDetail(CommonResponse resposne) {
         dialogDismiss();
         if (resposne.isSuccess()) {
-            infoDetailResult= (InvInfoDetailResult) resposne.getData();
+            infoDetailResult = (InvInfoDetailResult) resposne.getData();
             initData();
         } else {
             CommonUtil.showToast(resposne.getErrorTip());
@@ -176,16 +179,19 @@ public class InfoDetailActivity extends AbsDetailActivity {
         getDetail();
         getDataReplyList(INIT_LIST);
     }
-    
-    private void initData(){
-        if(YesOrNoEnum.YES.getCode().equals(infoDetailResult.getIsStore())) {
+
+    private void initData() {
+        if (YesOrNoEnum.YES.getCode().equals(infoDetailResult.getIsStore())) {
             isStore = true;
             setBackOrTag(2, true);
         }
-        TextView review_title = (TextView) findViewById(R.id.review_title);
+        review_title = (TextView) findViewById(R.id.review_title);
         reward_title = (TextView) findViewById(R.id.reward_title);
         review_title.setText("评论 " + infoDetailResult.getReplyCount());
-        reward_title.setText("已打赏" + invInfoBean.getRewardsAmount() + "金币");
+        Double rewardsAmount = invInfoBean.getRewardsAmount();
+        if(rewardsAmount!=null) {
+            reward_title.setText("已打赏" + rewardsAmount + "金币");
+        }
         if (YesOrNoEnum.YES.equals(infoDetailResult.getIsBuy())) {
             stub = (ViewStub) findViewById(R.id.info_detail_stub);
             stub.inflate();
@@ -227,10 +233,10 @@ public class InfoDetailActivity extends AbsDetailActivity {
                     selectPict(invInfoBean);
                 } else if (menu == BottomMenu.REVIEW) {
                     toReview(invInfoBean);
-                }else if (menu == BottomMenu.COLLECT) {
-                    if(isStore){
-                        View icon  = view.findViewById(R.id.menu_icon);
-                        if(icon!=null) {
+                } else if (menu == BottomMenu.COLLECT) {
+                    if (isStore) {
+                        View icon = view.findViewById(R.id.menu_icon);
+                        if (icon != null) {
                             Util.viewScaleAnimation(icon);
                         }
                         return;
@@ -266,7 +272,7 @@ public class InfoDetailActivity extends AbsDetailActivity {
     }
 
     private void getCollect() {
-        manager.storeMsg(this,invInfoBean.getInfoid(),InvCollectParam.TYPE_INFO, activityHandler, LOAD_COLLECT);
+        manager.storeMsg(this, invInfoBean.getInfoid(), InvCollectParam.TYPE_INFO, activityHandler, LOAD_COLLECT);
     }
 
     private void getBuyInfo() {
@@ -302,16 +308,16 @@ public class InfoDetailActivity extends AbsDetailActivity {
 
     private void toInfoReward(InvInfoBean bean) {
         Intent mIntent = new Intent(this, InfoRewardActivity.class);
-        mIntent.putExtra(KEY,bean);
-        startActivityForResult(mIntent,InvInfoFragment.REQUSETCODE);
+        mIntent.putExtra(KEY, bean);
+        startActivityForResult(mIntent, REQUSETCODE_REWARD);
         overridePendingTransition(R.anim.push_translate_in_right, 0);
     }
 
     private void toReview(InvInfoBean invInfoBean) {
         Intent mIntent = new Intent(this, InvReviewActivity.class);
-        mIntent.putExtra(KEY,invInfoBean.getInfoid());
+        mIntent.putExtra(KEY, invInfoBean.getInfoid());
         mIntent.putExtra(InvReviewActivity.KEY_TYPE, InvReViewParam.TYPE_INFO);
-        startActivity(mIntent);
+        startActivityForResult(mIntent, REQUSETCODE);
         overridePendingTransition(R.anim.push_translate_in_right, 0);
     }
 
@@ -351,9 +357,31 @@ public class InfoDetailActivity extends AbsDetailActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == InvInfoFragment.REQUSETCODE&&null!=data) {
-            Double amount = data.getDoubleExtra(KEY,invInfoBean.getRewardsAmount());
-            reward_title.setText("已打赏" + amount + "金币");
+        if (resultCode == REQUSETCODE_REWARD && null != data) {
+            invInfoBean = (InvInfoBean) data.getSerializableExtra(KEY);
+            Double rewardsAmount = invInfoBean.getRewardsAmount();
+            if(rewardsAmount!=null) {
+                reward_title.setText("已打赏" + rewardsAmount + "金币");
+            }
+            Intent intent = new Intent();
+            intent.putExtra(KEY, invInfoBean);
+            setResult(REQUSETCODE, intent);
+        } else if (resultCode == REQUSETCODE && null != data) {
+            InvReplysBean replysBean = (InvReplysBean) data.getSerializableExtra(KEY);
+            if (null != replysBean) {
+                if (currentPager <= 0) {
+                    review_ly.addView(getReView(replysBean));
+                } else {
+                    review_ly.addView(getReView(replysBean), 0);
+                }
+                int replyNum = invInfoBean.getReplyNum()+1;
+                invInfoBean.setReplyNum(replyNum);
+                review_title.setText("评论 " + replyNum);
+                Intent intent = new Intent();
+                intent.putExtra(KEY, invInfoBean);
+                setResult(REQUSETCODE, intent);
+                currentPager++;
+            }
         }
     }
 

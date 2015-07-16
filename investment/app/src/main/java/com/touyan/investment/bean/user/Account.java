@@ -4,50 +4,50 @@ import java.io.Serializable;
 
 public class Account implements Serializable {
 
-    private Double amount;
-    private Double frozen;
-    private Double income;
-    private Double losted;
-    private Double uavail;
+    private double amount;
+    private double frozen;
+    private double income;
+    private double losted;
+    private double uavail;
     private String userid;
 
-    public Double getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(Double amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 
-    public Double getFrozen() {
+    public double getFrozen() {
         return frozen;
     }
 
-    public void setFrozen(Double frozen) {
+    public void setFrozen(double frozen) {
         this.frozen = frozen;
     }
 
-    public Double getIncome() {
+    public double getIncome() {
         return income;
     }
 
-    public void setIncome(Double income) {
+    public void setIncome(double income) {
         this.income = income;
     }
 
-    public Double getLosted() {
+    public double getLosted() {
         return losted;
     }
 
-    public void setLosted(Double losted) {
+    public void setLosted(double losted) {
         this.losted = losted;
     }
 
-    public Double getUavail() {
+    public double getUavail() {
         return uavail;
     }
 
-    public void setUavail(Double uavail) {
+    public void setUavail(double uavail) {
         this.uavail = uavail;
     }
 

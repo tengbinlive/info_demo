@@ -48,6 +48,31 @@ public class InvestmentManager {
     }
 
     /**
+     * 获取info 列表数据
+     *
+     * @param context
+     * @param page_number    当前页数
+     * @param page_size      获取个数
+     * @param handler
+     * @param handlerMsgCode
+     */
+    public void querySubscribe(Context context, int page_number, int page_size, final Handler handler, final int handlerMsgCode) {
+
+        InvInfoAttentionParam param = new InvInfoAttentionParam();
+        param.setServno(App.getInstance().getgUserInfo().getServno());
+        param.setPageno(page_size);
+        param.setStatno(page_number);
+        // 接口参数
+        param.setMethod(OpenApiMethodEnum.QUERY_SUBSCRIBE);
+        param.setParseTokenType(new TypeReference<InvInfoResult>() {
+        });
+        // 请求对象
+        CommonRequest request = new CommonRequest(param, handler, handlerMsgCode);
+        // 开始执行加载
+        CommonDataLoader.getInstance(context).load(request);
+    }
+
+    /**
      * 获取回复 列表数据
      *
      * @param context
@@ -345,6 +370,32 @@ public class InvestmentManager {
         // 接口参数
         param.setMethod(OpenApiMethodEnum.LOAD_ACT_LIST);
         param.setParseTokenType(new TypeReference<InvActListResult>() {
+        });
+        // 请求对象
+        CommonRequest request = new CommonRequest(param, handler, handlerMsgCode);
+        // 开始执行加载
+        CommonDataLoader.getInstance(context).load(request);
+    }
+
+    /**
+     * 悬赏列表
+     *
+     * @param context
+     * @param page_number    分页 当前页
+     * @param page_size      数据个数
+     * @param handler
+     * @param handlerMsgCode
+     */
+    public void offerList(Context context, int page_number, int page_size, final Handler handler, final int handlerMsgCode) {
+
+        InvOfferListParam param = new InvOfferListParam();
+
+        param.setStartno(page_number);
+        param.setPageSize(page_size);
+        param.setUserid(App.getInstance().getgUserInfo().getServno());
+        // 接口参数
+        param.setMethod(OpenApiMethodEnum.QUERY_REWARDS);
+        param.setParseTokenType(new TypeReference<InvOfferListResult>() {
         });
         // 请求对象
         CommonRequest request = new CommonRequest(param, handler, handlerMsgCode);

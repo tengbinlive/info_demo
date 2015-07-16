@@ -36,7 +36,7 @@ public class InvActBean implements Serializable {
     private Date endtim;
     private String istrans;
     private String adress;
-    private Double charge;
+    private double charge;
     private String pubsid;
     private String msgsta;
     private Integer pintno;
@@ -216,11 +216,11 @@ public class InvActBean implements Serializable {
         this.adress = adress;
     }
 
-    public Double getCharge() {
+    public double getCharge() {
         return charge;
     }
 
-    public void setCharge(Double charge) {
+    public void setCharge(double charge) {
         this.charge = charge;
     }
 

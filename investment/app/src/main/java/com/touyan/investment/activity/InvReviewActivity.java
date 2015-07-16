@@ -1,5 +1,6 @@
 package com.touyan.investment.activity;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
@@ -7,10 +8,15 @@ import com.core.CommonResponse;
 import com.core.util.CommonUtil;
 import com.core.util.StringUtil;
 import com.touyan.investment.AbsActivity;
+import com.touyan.investment.AbsDetailActivity;
 import com.touyan.investment.App;
 import com.touyan.investment.R;
+import com.touyan.investment.bean.main.InvReViewParam;
+import com.touyan.investment.bean.main.InvReplysBean;
 import com.touyan.investment.manager.InvestmentManager;
 import com.touyan.investment.mview.EditTextWithDelete;
+
+import java.sql.Date;
 
 public class InvReviewActivity extends AbsActivity {
 
@@ -21,6 +27,8 @@ public class InvReviewActivity extends AbsActivity {
     private EditTextWithDelete review_value;
 
     private String id;
+
+    private InvReplysBean replysBean;
 
     private static final int LOAD_DATA = 0x01;//初始化数据处理
 
@@ -41,6 +49,9 @@ public class InvReviewActivity extends AbsActivity {
         dialogDismiss();
         if (resposne.isSuccess()) {
             CommonUtil.showToast(R.string.success_review);
+            Intent intent = new Intent();
+            intent.putExtra(KEY, replysBean);
+            setResult(AbsDetailActivity.REQUSETCODE);
             finish();
         } else {
             CommonUtil.showToast(resposne.getErrorTip());
@@ -51,6 +62,7 @@ public class InvReviewActivity extends AbsActivity {
     public void EInit() {
         reviewType = getIntent().getStringExtra(KEY_TYPE);
         id = getIntent().getStringExtra(KEY);
+        setToolbarIntermediateStrID(InvReViewParam.TYPE_OFFER.equals(reviewType) ? R.string.bottom_menu_reply : R.string.review);
         super.EInit();
         findView();
     }
@@ -63,7 +75,6 @@ public class InvReviewActivity extends AbsActivity {
     @Override
     public void initActionBar() {
         setToolbarLeft(0, R.string.cancel);
-        setToolbarIntermediateStrID(R.string.review);
         setToolbarRightVisbility(View.VISIBLE, View.VISIBLE);
         setToolbarRightStrID(R.string.send);
         setToolbarRightOnClick(new View.OnClickListener() {
@@ -86,6 +97,11 @@ public class InvReviewActivity extends AbsActivity {
             return;
         }
         dialogShow(R.string.reviewing);
+        replysBean = new InvReplysBean();
+        replysBean.setUser(App.getInstance().getgUserInfo());
+        replysBean.setContnt(contnt);
+        Date curDate = new Date(System.currentTimeMillis());//获取当前时间
+        replysBean.setRptime(curDate);
         InvestmentManager manager = new InvestmentManager();
         manager.replyDiscuss(this, id, App.getInstance().getgUserInfo().getServno(), contnt, reviewType, activityHandler, LOAD_DATA);
     }

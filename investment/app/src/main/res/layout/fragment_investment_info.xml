@@ -17,7 +17,7 @@
             android:fastScrollEnabled="false"
             android:footerDividersEnabled="false"
             android:headerDividersEnabled="false"
-            android:scrollbars="vertical"
+            android:scrollbars="none"
             android:smoothScrollbar="true"
             ptr:ptrAnimationStyle="flip"
             ptr:ptrMode="both"/>

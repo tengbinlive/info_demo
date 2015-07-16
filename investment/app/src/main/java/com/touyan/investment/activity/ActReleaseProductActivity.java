@@ -28,7 +28,7 @@ public class ActReleaseProductActivity extends AbsActivity implements OnClickLis
     @Override
     public void initActionBar() {
         setToolbarLeft(0, R.string.cancel);
-        setToolbarIntermediateStrID(R.string.release_act);
+        setToolbarIntermediateStrID(R.string.release_act_product);
         setToolbarRightVisbility(View.VISIBLE, View.VISIBLE);
         setToolbarRightStrID(R.string.release);
     }

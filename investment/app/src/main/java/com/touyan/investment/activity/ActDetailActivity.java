@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.Interpolator;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -17,9 +15,6 @@ import com.handmark.pulltorefresh.PullToRefreshBase;
 import com.handmark.pulltorefresh.PullToRefreshScrollView;
 import com.joooonho.SelectableRoundedImageView;
 import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationAdapter;
-import com.nineoldandroids.animation.ObjectAnimator;
-import com.nineoldandroids.animation.PropertyValuesHolder;
-import com.nineoldandroids.view.ViewHelper;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.touyan.investment.AbsDetailActivity;
 import com.touyan.investment.R;
@@ -28,7 +23,6 @@ import com.touyan.investment.bean.main.*;
 import com.touyan.investment.bean.user.UserInfo;
 import com.touyan.investment.enums.BottomMenu;
 import com.touyan.investment.enums.YesOrNoEnum;
-import com.touyan.investment.fragment.InvActFragment;
 import com.touyan.investment.helper.Util;
 import com.touyan.investment.manager.InvestmentManager;
 import com.touyan.investment.mview.BottomView;
@@ -139,7 +133,7 @@ public class ActDetailActivity extends AbsDetailActivity {
     private void loadDataJoin(CommonResponse resposne) {
         if (resposne.isSuccess()) {
             InvActJoinResult result = (InvActJoinResult) resposne.getData();
-            sign_num_tv.setText("已报名 "+result.getJionNum());
+            sign_num_tv.setText("已报名 " + result.getJionNum());
             initGridView(result.getJoinUsers());
         } else {
             CommonUtil.showToast(resposne.getErrorTip());
@@ -148,13 +142,14 @@ public class ActDetailActivity extends AbsDetailActivity {
 
     private void loadDataSign(CommonResponse resposne) {
         if (resposne.isSuccess()) {
-            setResult(InvActFragment.REQUSETCODE);
+            setResult(REQUSETCODE);
             isSign = true;
             setBackOrTag(3, true);
             View view = collectView.findViewById(R.id.menu_icon);
             if (view != null) {
                 Util.viewScaleAnimation(view);
             }
+            getJoinUser();
         } else {
             CommonUtil.showToast(resposne.getErrorTip());
         }
@@ -237,7 +232,7 @@ public class ActDetailActivity extends AbsDetailActivity {
     }
 
     private void getSign() {
-        manager.actSign(this, invActBean.getActvid(), ""+invActBean.getCharge(), activityHandler, LOAD_SIGN);
+        manager.actSign(this, invActBean.getActvid(), "" + invActBean.getCharge(), activityHandler, LOAD_SIGN);
     }
 
     @Override
@@ -283,7 +278,7 @@ public class ActDetailActivity extends AbsDetailActivity {
                     }
                     collectView = view;
                     getCollect();
-                }else if (menu == BottomMenu.SIGN) {
+                } else if (menu == BottomMenu.SIGN) {
                     if (isSign) {
                         View icon = view.findViewById(R.id.menu_icon);
                         if (icon != null) {
@@ -298,7 +293,7 @@ public class ActDetailActivity extends AbsDetailActivity {
         });
 
         String joinStatus = invActBean.getIsJoin();
-        if(InvActBean.STATUS_BY.equals(joinStatus)||InvActBean.STATUS_AUDIT.equals(joinStatus)) {
+        if (InvActBean.STATUS_BY.equals(joinStatus) || InvActBean.STATUS_AUDIT.equals(joinStatus)) {
             isSign = true;
             setBackOrTag(3, true);
         }
@@ -307,16 +302,16 @@ public class ActDetailActivity extends AbsDetailActivity {
     private void initData() {
         InvActBean bean = invActDetailResult.getDetail();
         int replyNum = bean.getReplyCount();
-        if(YesOrNoEnum.YES.getCode().equals(bean.getIsStore())) {
+        if (YesOrNoEnum.YES.getCode().equals(bean.getIsStore())) {
             isStore = true;
             setBackOrTag(2, true);
         }
-        review_num_tv.setText("评论 "+replyNum);
+        review_num_tv.setText("评论 " + replyNum);
     }
 
     private void initGridView(ArrayList<InvActJoinUsersBean> joinUsers) {
 
-        if(joinUsers==null||joinUsers.size()<=0){
+        if (joinUsers == null || joinUsers.size() <= 0) {
             return;
         }
 
@@ -392,6 +387,26 @@ public class ActDetailActivity extends AbsDetailActivity {
                 case R.id.bottom_tv_cancel:
                     mBottomView.dismissBottomView();
                     break;
+            }
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == REQUSETCODE && null != data) {
+            InvReplysBean replysBean = (InvReplysBean) data.getSerializableExtra(KEY);
+            if (null != replysBean) {
+                if (currentPager <= 0) {
+                    review_ly.addView(getReView(replysBean));
+                } else {
+                    review_ly.addView(getReView(replysBean), 0);
+                }
+                InvActBean bean = invActDetailResult.getDetail();
+                int replyNum = bean.getReplyCount() + 1;
+                invActDetailResult.getDetail().setReplyCount(replyNum);
+                review_num_tv.setText("评论 " + replyNum);
+                currentPager++;
             }
         }
     }

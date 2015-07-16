@@ -27,9 +27,9 @@ public class InvInfoBean implements Serializable {
 
     private String isbuyer; //是否购买过这条资讯 0 没有购买，1购买
 
-    private String transNum; //转发次数
+    private int transNum; //转发次数
 
-    private String replyNum; //评论数
+    private int replyNum; //评论数
 
     private Double rewardsAmount; //打赏总金额
 
@@ -133,19 +133,19 @@ public class InvInfoBean implements Serializable {
         this.isbuyer = isbuyer;
     }
 
-    public String getTransNum() {
+    public int getTransNum() {
         return transNum;
     }
 
-    public void setTransNum(String transNum) {
+    public void setTransNum(int transNum) {
         this.transNum = transNum;
     }
 
-    public String getReplyNum() {
+    public int getReplyNum() {
         return replyNum;
     }
 
-    public void setReplyNum(String replyNum) {
+    public void setReplyNum(int replyNum) {
         this.replyNum = replyNum;
     }
 

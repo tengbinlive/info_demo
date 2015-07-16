@@ -16,6 +16,11 @@ public enum OpenApiMethodEnum {
     LOAD_ACT_LIST("/active/list.action", "openapi_json", OpenApi.URL_TYPE_DATA),
 
     /**
+     * 查询悬赏
+     */
+    QUERY_REWARDS("/reward/queryRewards.action", "openapi_json", OpenApi.URL_TYPE_DATA),
+
+    /**
      * 获取验证码
      */
     LOAD_GET_CODE("index.php/get_cod", "openapi_json", OpenApi.URL_TYPE_DATA),
@@ -49,6 +54,11 @@ public enum OpenApiMethodEnum {
      * 资讯查询
      */
     QUERY_INFOS("/info/queryInfos.action", "openapi_json", OpenApi.URL_TYPE_DATA),
+
+    /**
+     * 订阅人资讯列表
+     */
+    QUERY_SUBSCRIBE("/info/subscribe.action", "openapi_json", OpenApi.URL_TYPE_DATA),
 
     /**
      * 修改用户信息

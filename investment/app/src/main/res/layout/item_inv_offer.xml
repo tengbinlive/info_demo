@@ -27,7 +27,7 @@
 
         <TextView android:layout_toRightOf="@+id/head"
                   android:layout_width="wrap_content"
-                  android:text="南昌地铁"
+                  android:text="name"
                   android:id="@+id/name"
                   android:layout_marginLeft="@dimen/content_gap"
                   android:textSize="@dimen/font_small"
@@ -36,6 +36,7 @@
 
         <TextView android:layout_toRightOf="@+id/head"
                   android:layout_below="@+id/name"
+                  android:id="@+id/date"
                   android:layout_width="wrap_content"
                   android:layout_marginTop="@dimen/content_gap_small"
                   android:text="04-21  17:28"
@@ -47,40 +48,22 @@
         <TextView android:layout_alignParentRight="true"
                   android:layout_width="wrap_content"
                   android:layout_centerVertical="true"
+                  android:id="@+id/status"
                   android:layout_marginTop="@dimen/content_gap_small"
                   android:text="已解决"
-                  android:layout_marginRight="@dimen/content_gap"
                   android:textSize="@dimen/font_small12"
                   android:textColor="@color/red"
                   android:layout_height="wrap_content"/>
 
     </RelativeLayout>
 
-    <TextView android:id="@+id/title"
-              android:layout_marginTop="@dimen/content_10dp"
+    <TextView android:id="@+id/contents"
               android:layout_width="wrap_content"
-              android:paddingRight="@dimen/content_gap"
-              android:paddingLeft="@dimen/content_gap"
+              android:padding="@dimen/content_gap"
               android:text="受偏北气流控制，近三日"
               android:textSize="@dimen/font_small"
               android:textColor="@color/textcolor_222"
               android:layout_height="wrap_content"/>
-
-    <com.touyan.investment.mview.MGridView
-            android:id="@+id/gridview"
-            android:numColumns="3"
-            android:paddingRight="@dimen/content_gap"
-            android:paddingLeft="@dimen/content_gap"
-            android:layout_marginTop="@dimen/content_gap_small"
-            android:layout_marginBottom="@dimen/content_gap_small"
-            android:columnWidth="@dimen/inv_info_grid_item"
-            android:stretchMode="columnWidth"
-            android:verticalSpacing="@dimen/content_gap"
-            android:horizontalSpacing="@dimen/content_gap"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-    </com.touyan.investment.mview.MGridView>
 
     <View android:layout_width="match_parent"
           android:background="@drawable/act_line"
@@ -91,7 +74,8 @@
 
         <TextView
                 android:layout_width="wrap_content"
-                android:text="￥ 1000 金币"
+                android:text="￥ 0.0 金币"
+                android:id="@+id/reward_money"
                 android:gravity="center"
                 android:layout_marginLeft="@dimen/content_gap"
                 android:layout_marginTop="@dimen/content_gap_small"
@@ -102,6 +86,7 @@
                 android:layout_height="wrap_content"/>
 
         <TextView
+                android:id="@+id/review_people_num"
                 android:layout_width="wrap_content"
                 android:text="2个人回答"
                 android:gravity="center"

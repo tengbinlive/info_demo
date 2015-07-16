@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.touyan.investment.App;
 import com.touyan.investment.R;
 
 public class InfoGridAdapter extends BaseAdapter {
@@ -51,7 +52,7 @@ public class InfoGridAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        ImageLoader.getInstance().displayImage(list[position], holder.imageview);
+        ImageLoader.getInstance().displayImage(list[position], holder.imageview, App.getInstance().getOptionsImage());
         return convertView;
     }
 

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -20,7 +19,6 @@ import com.touyan.investment.bean.main.InvInfoBean;
 import com.touyan.investment.bean.main.InvRecordRewardsResult;
 import com.touyan.investment.bean.user.AccountResult;
 import com.touyan.investment.bean.user.UserInfo;
-import com.touyan.investment.fragment.InvInfoFragment;
 import com.touyan.investment.manager.InvestmentManager;
 import com.touyan.investment.mview.MGridView;
 
@@ -44,9 +42,9 @@ public class InfoRewardActivity extends AbsActivity {
 
     private Button reward_bt;
 
-    private Double currentMoney;
+    private double currentMoney;
 
-    private Double need;
+    private double need;
 
     private final static String[] moneys = new String[]{"18金币", "38金币", "58金币", "88金币", "188金币", "其他金额"};
 
@@ -80,15 +78,16 @@ public class InfoRewardActivity extends AbsActivity {
         dialogDismiss();
         if (resposne.isSuccess()) {
             InvRecordRewardsResult recordRewardsResult = (InvRecordRewardsResult) resposne.getData();
-            Double rewardsAmount = recordRewardsResult.getRewardsAmount();
+            double rewardsAmount = recordRewardsResult.getRewardsAmount();
             if (rewardsAmount <= 0) {
                 rewardsAmount = invInfoBean.getRewardsAmount() + need;
             }
+            invInfoBean.setRewardsAmount(rewardsAmount);
             CommonUtil.showToast("打赏成功拉");
             balance_et.setText(currentMoney + "金币");
             Intent intent = new Intent();
-            intent.putExtra(KEY, rewardsAmount);
-            setResult(InvInfoFragment.REQUSETCODE, intent);
+            intent.putExtra(KEY, invInfoBean);
+            setResult(InfoDetailActivity.REQUSETCODE_REWARD, intent);
             finish();
         } else {
             CommonUtil.showToast(resposne.getErrorTip());
@@ -124,7 +123,7 @@ public class InfoRewardActivity extends AbsActivity {
 
     private void getReward() {
         String balanceStr = balance_et.getText().toString();
-        Double balance = Double.valueOf(balanceStr.replace("金币", ""));
+        double balance = Double.valueOf(balanceStr.replace("金币", ""));
         String needStr = need_et.getText().toString();
         need = Double.valueOf(needStr.replace("金币", ""));
         if (balance < need) {
