@@ -12,11 +12,11 @@ import com.touyan.investment.AbsActivity;
 import com.touyan.investment.AbsFragment;
 import com.touyan.investment.R;
 import com.touyan.investment.adapter.InvestmentPagerAdapter;
-import com.touyan.investment.fragment.MeOfferRewFragment;
+import com.touyan.investment.fragment.MeActivityFragment;
 
 import java.util.ArrayList;
 
-public class MeOfferRewardActivity extends AbsActivity implements OnClickListener {
+public class MeActActivity extends AbsActivity implements OnClickListener {
 
     private ViewPager viewPager;
     private InvestmentPagerAdapter adapter;
@@ -38,7 +38,7 @@ public class MeOfferRewardActivity extends AbsActivity implements OnClickListene
     @Override
     public void initActionBar() {
         setToolbarLeftStrID(R.string.back);
-        setToolbarIntermediateStrID(R.string.me_offer_reward);
+        setToolbarIntermediateStrID(R.string.me_activity);
         setToolbarRightVisbility(View.VISIBLE,View.VISIBLE);
         setToolbarRightStrID(R.string.me_offer_reward_edit);
     }
@@ -53,8 +53,8 @@ public class MeOfferRewardActivity extends AbsActivity implements OnClickListene
     private void findView() {
 
         ArrayList<AbsFragment> fragments = new ArrayList<AbsFragment>();
-        fragments.add(new MeOfferRewFragment());
-        fragments.add(new MeOfferRewFragment());
+        fragments.add(new MeActivityFragment());
+        fragments.add(new MeActivityFragment());
 
         adapter = new InvestmentPagerAdapter(getSupportFragmentManager(), fragments);
         viewPager = (ViewPager) findViewById(R.id.view_pager);

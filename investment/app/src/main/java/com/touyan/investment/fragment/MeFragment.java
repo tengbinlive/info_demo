@@ -14,10 +14,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.touyan.investment.AbsFragment;
 import com.touyan.investment.App;
 import com.touyan.investment.R;
-import com.touyan.investment.activity.MeOfferRewardActivity;
-import com.touyan.investment.activity.MeSettingActivity;
-import com.touyan.investment.activity.ModifyUserInfoActivity;
-import com.touyan.investment.activity.UserFansActivity;
+import com.touyan.investment.activity.*;
 import com.touyan.investment.bean.user.UserInfo;
 
 public class MeFragment extends AbsFragment implements View.OnClickListener {
@@ -183,8 +180,12 @@ public class MeFragment extends AbsFragment implements View.OnClickListener {
             case R.id.user_wallet:
                 break;
             case R.id.user_information:
+                intent = new Intent(getActivity(), MeInfoActivity.class);
+                startActivity(intent);
                 break;
             case R.id.user_activity:
+                intent = new Intent(getActivity(), MeActActivity.class);
+                startActivity(intent);
                 break;
             case R.id.user_reward:
                 intent = new Intent(getActivity(), MeOfferRewardActivity.class);

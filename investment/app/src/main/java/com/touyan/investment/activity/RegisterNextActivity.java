@@ -12,7 +12,6 @@ public class RegisterNextActivity extends AbsActivity implements OnClickListener
     @Override
     public void EInit() {
         super.EInit();
-        setSwipeBackEnable(false);
         findView();
     }
 

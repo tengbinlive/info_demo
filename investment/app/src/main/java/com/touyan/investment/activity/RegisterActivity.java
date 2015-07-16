@@ -24,9 +24,7 @@ public class RegisterActivity extends AbsActivity implements OnClickListener {
     @Override
     public void EInit() {
         super.EInit();
-        setSwipeBackEnable(false);
         findView();
-
         showAgreementAlert(null ,null);
     }
 

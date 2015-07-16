@@ -216,13 +216,30 @@
                 android:theme="@style/AppTheme">
         </activity>
 
+        <!--关于-->
+        <activity
+                android:name=".activity.AboutInvActivity"
+                android:theme="@style/AppTheme">
+        </activity>
+
         <!--我的悬赏-->
         <activity
                 android:name=".activity.MeOfferRewardActivity"
                 android:theme="@style/AppTheme">
         </activity>
 
-        <!--粉丝-->
+        <!--我的活动-->
+        <activity
+                android:name=".activity.MeActActivity"
+                android:theme="@style/AppTheme">
+        </activity>
+
+        <!--我的资讯-->
+        <activity
+                android:name=".activity.MeInfoActivity"
+                android:theme="@style/AppTheme">
+        </activity>
+
         <activity
                 android:name=".activity.UserFansActivity"
                 android:theme="@style/AppTheme">
