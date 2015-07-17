@@ -222,6 +222,12 @@
                 android:theme="@style/AppTheme">
         </activity>
 
+        <!--修改密码-->
+        <activity
+                android:name=".activity.ChangePasswordActivity"
+                android:theme="@style/AppTheme">
+        </activity>
+
         <!--我的悬赏-->
         <activity
                 android:name=".activity.MeOfferRewardActivity"

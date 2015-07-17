@@ -133,6 +133,17 @@
     <string name="about_email">Email：yixiao.shi@touyanshe.com</string>
     <string name="about_company">上海投言互联网科技有限公司 版权所有</string>
 
+    <!--我-修改密码 -->
+    <string name="change_pw">修改密码</string>
+    <string name="original_pw">原密码</string>
+    <string name="original_pw_hint">请输入原始密码</string>
+    <string name="new_pw">新密码</string>
+    <string name="new_pw_hint">请设置新密码</string>
+    <string name="second_new_pw">重复密码</string>
+    <string name="second_new_pw_hint">请再次输入新密码</string>
+    <string name="confirm">确认</string>
+
+
     <string name="user_head">头像</string>
     <string name="user_name">名字</string>
     <string name="user_company">公司</string>

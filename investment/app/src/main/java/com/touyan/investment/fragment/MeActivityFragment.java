@@ -20,9 +20,11 @@ import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationA
 import com.touyan.investment.AbsFragment;
 import com.touyan.investment.R;
 import com.touyan.investment.activity.ActDetailActivity;
+import com.touyan.investment.activity.MeActActivity;
 import com.touyan.investment.adapter.InvActAdapter;
 import com.touyan.investment.bean.main.InvActBean;
 import com.touyan.investment.bean.main.InvActListResult;
+import com.touyan.investment.bean.main.MyActListResult;
 import com.touyan.investment.manager.InvestmentManager;
 
 import java.util.ArrayList;
@@ -54,6 +56,17 @@ public class MeActivityFragment extends AbsFragment {
 
     private int currentIndex;
 
+    private int viewType;//根据这个类型去判断调用那个接口。
+
+    public static MeActivityFragment newsInstance( int viewType)
+    {
+        MeActivityFragment meActivityFragment = new MeActivityFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt( "viewType", viewType );
+        meActivityFragment.setArguments( bundle );
+        return meActivityFragment;
+    }
+
     private Handler activityHandler = new Handler() {
         public void handleMessage(Message msg) {
             int what = msg.what;
@@ -72,13 +85,13 @@ public class MeActivityFragment extends AbsFragment {
         dialogDismiss();
         if (resposne.isSuccess()) {
             if (what == INIT_LIST) {
-                InvActListResult result  = (InvActListResult) resposne.getData();
-                mList = result.getActives();
+                MyActListResult result  = (MyActListResult) resposne.getData();
+                mList = result.getActivitys();
             } else {
                 if (mList == null) {
                     mList = new ArrayList<InvActBean>();
                 }
-                mList.addAll(((InvActListResult) resposne.getData()).getActives());
+                mList.addAll(((MyActListResult) resposne.getData()).getActivitys());
             }
             mAdapter.refresh(mList);
         } else {
@@ -100,6 +113,7 @@ public class MeActivityFragment extends AbsFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         this.mInflater = getActivity().getLayoutInflater();
+        viewType = getArguments().getInt( "viewType" );
         return mInflater.inflate(R.layout.fragment_investment_act, container, false);
     }
 
@@ -168,6 +182,11 @@ public class MeActivityFragment extends AbsFragment {
     private void getDataList() {
         int startIndex = mList == null || mList.size() <= 0 ? 0 : mList.size();
         manager.actList(getActivity(),null ,startIndex, COUNT_MAX, activityHandler, startIndex == 0 ? INIT_LIST : LOAD_DATA);
+        if (viewType == MeActActivity.REWARD_MYRELEASE){
+            manager.myReleaseActList(getActivity(), startIndex, COUNT_MAX, activityHandler, startIndex == 0 ? INIT_LIST : LOAD_DATA);
+        }else if (viewType == MeActActivity.REWARD_MYPARTAKE){
+           // manager.myPartakeActList(getActivity(), startIndex, COUNT_MAX, null,activityHandler, startIndex == 0 ? INIT_LIST : LOAD_DATA);
+        }
     }
 
     @Override

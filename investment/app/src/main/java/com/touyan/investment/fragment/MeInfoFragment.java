@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import com.core.CommonResponse;
 import com.core.util.CommonUtil;
@@ -18,35 +17,43 @@ import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationA
 import com.touyan.investment.AbsDetailActivity;
 import com.touyan.investment.AbsFragment;
 import com.touyan.investment.R;
-import com.touyan.investment.activity.OfferDetailActivity;
-import com.touyan.investment.adapter.InvOfferAdapter;
-import com.touyan.investment.bean.main.InvOfferBean;
-import com.touyan.investment.bean.main.InvOfferListResult;
+import com.touyan.investment.activity.MeInfoActivity;
+import com.touyan.investment.adapter.MyOriginalInvInfoAdapter;
+import com.touyan.investment.bean.main.InvInfoBean;
+import com.touyan.investment.bean.main.InvInfoResult;
 import com.touyan.investment.manager.InvestmentManager;
 
 import java.util.ArrayList;
 
-public class MeOfferRewFragment extends AbsFragment {
+public class MeInfoFragment extends AbsFragment {
 
     private InvestmentManager manager = new InvestmentManager();
 
     private static final int INIT_LIST = 0x01;//初始化数据处理
     private static final int LOAD_DATA = 0x02;//加载数据处理
 
-    private static final int COUNT_MAX = 15;//加载数据最大值
+    private static final int COUNT_MAX = 5;//加载数据最大值
 
     private LayoutInflater mInflater;
 
     //列表
     private PullToRefreshListView mListView;
     private ListView mActualListView;
-    private InvOfferAdapter mAdapter;
+    private MyOriginalInvInfoAdapter mAdapter;
 
-    private ArrayList<InvOfferBean> mList;
+    private ArrayList<InvInfoBean> mList;
+    public int currentItemIndex;
 
-    private boolean isInit = false;
 
-    private int currentItemIndex;
+    private int viewType;//根据这个类型去判断调用那个接口。
+    public static MeInfoFragment newsInstance( int viewType)
+    {
+        MeInfoFragment meInfoFragment = new MeInfoFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt( "viewType", viewType );
+        meInfoFragment.setArguments( bundle );
+        return meInfoFragment;
+    }
 
     private Handler activityHandler = new Handler() {
         public void handleMessage(Message msg) {
@@ -66,22 +73,17 @@ public class MeOfferRewFragment extends AbsFragment {
         dialogDismiss();
         if (resposne.isSuccess()) {
             if (what == INIT_LIST) {
-                InvOfferListResult result = (InvOfferListResult) resposne.getData();
-                mList = result.getRewards();
+                InvInfoResult result = (InvInfoResult) resposne.getData();
+                mList = result.getInfos();
             } else {
                 if (mList == null) {
-                    mList = new ArrayList<InvOfferBean>();
+                    mList = new ArrayList<InvInfoBean>();
                 }
-                mList.addAll(((InvOfferListResult) resposne.getData()).getRewards());
+                mList.addAll(((InvInfoResult) resposne.getData()).getInfos());
             }
             mAdapter.refresh(mList);
         } else {
-            //避免第一次应用启动时 创建fragment加载数据多次提示
-            if (isInit) {
-                CommonUtil.showToast(resposne.getErrorTip());
-            } else {
-                isInit = true;
-            }
+            CommonUtil.showToast(resposne.getErrorTip());
         }
         mListView.onRefreshComplete();
     }
@@ -94,7 +96,9 @@ public class MeOfferRewFragment extends AbsFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         this.mInflater = getActivity().getLayoutInflater();
-        return mInflater.inflate(R.layout.fragment_investment_offer, container, false);
+
+        viewType = getArguments().getInt( "viewType" );
+        return mInflater.inflate(R.layout.fragment_investment_info, container, false);
     }
 
     @Override
@@ -107,6 +111,7 @@ public class MeOfferRewFragment extends AbsFragment {
     private void init() {
         mListView = (PullToRefreshListView) getView().findViewById(R.id.pull_refresh_list);
         initListView();
+        dialogShow();
         getDataList();
     }
 
@@ -130,7 +135,7 @@ public class MeOfferRewFragment extends AbsFragment {
         // Need to use the Actual ListView when registering for Context Menu
         registerForContextMenu(mActualListView);
 
-        mAdapter = new InvOfferAdapter(getActivity(), mList);
+        mAdapter = new MyOriginalInvInfoAdapter(this, mList);
 
         SwingBottomInAnimationAdapter animationAdapter = new SwingBottomInAnimationAdapter(mAdapter);
 
@@ -138,29 +143,18 @@ public class MeOfferRewFragment extends AbsFragment {
 
         mActualListView.setAdapter(animationAdapter);
 
-        mActualListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                currentItemIndex = i-1;
-                toOfferDetail(mList.get(currentItemIndex));
-            }
-        });
-
         View ll_listEmpty = getView().findViewById(R.id.ll_listEmpty);
         mActualListView.setEmptyView(ll_listEmpty);
-
     }
 
-    private void toOfferDetail(InvOfferBean bean) {
-        Intent mIntent = new Intent(getActivity(), OfferDetailActivity.class);
-        mIntent.putExtra(KEY, bean);
-        startActivityForResult(mIntent, AbsDetailActivity.REQUSETCODE);
-        getActivity().overridePendingTransition(R.anim.push_translate_in_right, 0);
-    }
 
     private void getDataList() {
         int startIndex = mList == null || mList.size() <= 0 ? 0 : mList.size();
-        manager.offerList(getActivity(), startIndex, COUNT_MAX, activityHandler, startIndex == 0 ? INIT_LIST : LOAD_DATA);
+        if (viewType == MeInfoActivity.REWARD_MYORIGINAL){
+            manager.queryMyOriginalInfos(getActivity(), startIndex, COUNT_MAX, activityHandler, startIndex == 0 ? INIT_LIST : LOAD_DATA);
+        }else if (viewType == MeInfoActivity.REWARD_MYPURCHASE){
+            manager.queryMyPurchaseInfos(getActivity(), startIndex, COUNT_MAX, activityHandler, startIndex == 0 ? INIT_LIST : LOAD_DATA);
+        }
     }
 
     @Override
@@ -170,8 +164,8 @@ public class MeOfferRewFragment extends AbsFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == AbsDetailActivity.REQUSETCODE &&null!=data) {
-            InvOfferBean bean = (InvOfferBean) data.getSerializableExtra(KEY);
+        if (resultCode == AbsDetailActivity.REQUSETCODE && null != data) {
+            InvInfoBean bean = (InvInfoBean) data.getSerializableExtra(KEY);
             mList.set(currentItemIndex, bean);
             mAdapter.refresh(mList);
         }

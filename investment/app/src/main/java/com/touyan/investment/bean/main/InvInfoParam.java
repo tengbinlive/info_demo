@@ -12,6 +12,16 @@ public class InvInfoParam extends OpenApiBaseRequest implements OpenApiRequestIn
     private String userid;
     private int startno;
     private int pageSize;
+    private String pubsid;
+
+
+    public String getPubsid() {
+        return pubsid;
+    }
+
+    public void setPubsid(String pubsid) {
+        this.pubsid = pubsid;
+    }
 
     public String getItitle() {
         return ititle;
@@ -59,15 +69,16 @@ public class InvInfoParam extends OpenApiBaseRequest implements OpenApiRequestIn
         if (includeEmptyAttr || (!includeEmptyAttr && StringUtil.isNotBlank(ititle))) param.put("ititle", ititle);
         if (includeEmptyAttr || (!includeEmptyAttr && StringUtil.isNotBlank(startno))) param.put("startno", startno);
         if (includeEmptyAttr || (!includeEmptyAttr && StringUtil.isNotBlank(pageSize))) param.put("pageSize", pageSize);
+        if (includeEmptyAttr || (!includeEmptyAttr && StringUtil.isNotBlank(pageSize))) param.put("pubsid", pubsid);
     }
-
     @Override
     public String toString() {
         return "InvInfoParam{" +
                 "ititle='" + ititle + '\'' +
                 ", userid='" + userid + '\'' +
-                ", startno='" + startno + '\'' +
-                ", pageSize='" + pageSize + '\'' +
+                ", startno=" + startno +
+                ", pageSize=" + pageSize +
+                ", pubsid='" + pubsid + '\'' +
                 '}';
     }
 }
