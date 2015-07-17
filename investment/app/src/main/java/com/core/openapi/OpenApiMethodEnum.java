@@ -120,7 +120,18 @@ public enum OpenApiMethodEnum {
      * 我参加的活动
      */
     LOAD_MYPARTAKE_ACT("/center/myJoinedActivity.action", "openapi_json", OpenApi.URL_TYPE_DATA),
-
+    /*
+     * 查询已收藏资讯列表
+     */
+    QUERY_COLLECTED_INFOS("/center/myStoreInfos.action", "openapi_json", OpenApi.URL_TYPE_DATA),
+    /**
+     * 查询已收藏活动列表
+     */
+    QUERY_COLLECTED_ACTS("/center/myStoreActivity.action", "openapi_json", OpenApi.URL_TYPE_DATA),
+    /**
+     * 查询已收藏悬赏
+     */
+    QUERY_COLLECTED_REWARDS("/center/myStoreRewards.action", "openapi_json", OpenApi.URL_TYPE_DATA),
     /**
      * 登陆
      */

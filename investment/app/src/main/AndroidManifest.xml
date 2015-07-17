@@ -257,9 +257,16 @@
                 android:theme="@style/AppTheme">
         </activity>
 
+
         <!--我的关注-->
         <activity
                 android:name=".activity.InfoAttentionActivity"
+                android:theme="@style/AppTheme">
+        </activity>
+
+        <!--用户收藏-->
+        <activity
+                android:name=".activity.UserCollectActivity"
                 android:theme="@style/AppTheme">
         </activity>
 
@@ -279,6 +286,7 @@
         <activity android:name=".activity.AuthClipPictureActivity"
                   android:theme="@style/AppThemeWTN">
         </activity>
+
 
     </application>
 

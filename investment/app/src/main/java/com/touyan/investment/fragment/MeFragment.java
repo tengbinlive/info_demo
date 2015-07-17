@@ -165,7 +165,7 @@ public class MeFragment extends AbsFragment implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-        Intent intent=null;
+        Intent intent = null;
         switch (view.getId()) {
             case R.id.user_modify:
                 toActivityForResult(MeFragment.this.getActivity(), ModifyUserInfoActivity.class, REQUESTCODE_MODIFYUSERINFO);
@@ -176,6 +176,7 @@ public class MeFragment extends AbsFragment implements View.OnClickListener {
                 toActivity(MeFragment.this.getActivity(), UserFansActivity.class);
                 break;
             case R.id.user_collect:
+                toActivity(MeFragment.this.getActivity(), UserCollectActivity.class);
                 break;
             case R.id.user_wallet:
                 break;

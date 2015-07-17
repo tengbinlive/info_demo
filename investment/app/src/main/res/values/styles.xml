@@ -93,5 +93,9 @@
         <item name="android:windowEnterAnimation">@anim/push_translate_in</item>
         <item name="android:windowExitAnimation">@anim/push_translate_out</item>
     </style>
-
+    <!--红色复选框样式-->
+    <style name="RedCheckBox">
+        <item name="cbd_strokeColor">@color/red</item>
+        <item name="cbd_tickColor">@color/white</item>
+    </style>
 </resources>
