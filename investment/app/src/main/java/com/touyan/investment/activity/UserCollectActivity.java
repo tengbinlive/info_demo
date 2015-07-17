@@ -1,5 +1,6 @@
 package com.touyan.investment.activity;
 
+import android.graphics.Typeface;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -13,9 +14,7 @@ import com.touyan.investment.AbsActivity;
 import com.touyan.investment.AbsFragment;
 import com.touyan.investment.R;
 import com.touyan.investment.adapter.InvestmentPagerAdapter;
-import com.touyan.investment.fragment.InvActFragment;
-import com.touyan.investment.fragment.InvInfoFragment;
-import com.touyan.investment.fragment.InvOfferFragment;
+import com.touyan.investment.fragment.*;
 
 import java.util.ArrayList;
 
@@ -41,6 +40,7 @@ public class UserCollectActivity extends AbsActivity {
     public void EInit() {
         super.EInit();
         setSwipeBackEnable(true);
+        this.mInflater = getLayoutInflater();
         findView();
         initViewPager(getSupportFragmentManager());
     }
@@ -54,7 +54,7 @@ public class UserCollectActivity extends AbsActivity {
     public void initActionBar() {
         setToolbarLeftStrID(R.string.back);
         setToolbarIntermediateStrID(R.string.user_collect);
-        setToolbarRight(R.string.modify_userinfo_toolbar_title);
+        setToolbarRightStrID(R.string.modify_userinfo_toolbar_title);
         setToolbarRightVisbility(View.VISIBLE, View.VISIBLE);
     }
 
@@ -70,11 +70,13 @@ public class UserCollectActivity extends AbsActivity {
 
     private void initViewPager(FragmentManager fm) {
         ArrayList<AbsFragment> fragments = new ArrayList<AbsFragment>();
-        fragments.add(new InvInfoFragment());
-        fragments.add(new InvActFragment());
-        fragments.add(new InvOfferFragment());
+        fragments.add(new CollectedInvInfoFragment());
+        fragments.add(new CollectedInvActFragment());
+        fragments.add(new CollectedInvOfferFragment());
 
         adapter = new InvestmentPagerAdapter(fm, fragments);
+
+        viewPager.setAdapter(adapter);
 
         viewPagerTab.setCustomTabView(new SmartTabLayout.TabProvider() {
             @Override
@@ -121,6 +123,9 @@ public class UserCollectActivity extends AbsActivity {
         TextView title = (TextView) custom_ly.findViewById(R.id.title);
         TextView title_es = (TextView) custom_ly.findViewById(R.id.title_es);
         title.setText(stringid);
+        title.setTextColor(getResources().getColor(R.color.red));
+        title.setTypeface(Typeface.DEFAULT);
         title_es.setText(es_stringid);
+        title_es.setVisibility(View.GONE);
     }
 }

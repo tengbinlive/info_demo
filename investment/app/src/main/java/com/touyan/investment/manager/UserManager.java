@@ -6,6 +6,8 @@ import com.alibaba.fastjson.TypeReference;
 import com.core.CommonDataLoader;
 import com.core.CommonRequest;
 import com.core.openapi.OpenApiMethodEnum;
+import com.touyan.investment.App;
+import com.touyan.investment.bean.main.*;
 import com.touyan.investment.bean.user.*;
 
 /**
@@ -111,6 +113,84 @@ public class UserManager {
         param.setMethod(OpenApiMethodEnum.QUERY_OTHERINFO);
         param.setParseTokenType(new TypeReference<OtherInfoResult>() {
         });
+        // 请求对象
+        CommonRequest request = new CommonRequest(param, handler, handlerMsgCode);
+        // 开始执行加载
+        CommonDataLoader.getInstance(context).load(request);
+    }
+
+    /**
+     * 获取用户收藏资讯列表数据
+     *
+     * @param context
+     * @param page_number    当前页数
+     * @param page_size      获取个数
+     * @param handler
+     * @param handlerMsgCode
+     */
+    public void queryCollectedInfos(Context context, int page_number, int page_size, final Handler handler, final int handlerMsgCode) {
+
+        CollectedParam param = new CollectedParam();
+        param.setUserid(App.getInstance().getgUserInfo().getServno());
+        param.setStartno(page_number);
+        param.setPageSize(page_size);
+        // 接口参数
+        param.setMethod(OpenApiMethodEnum.QUERY_COLLECTED_INFOS);
+        param.setParseTokenType(new TypeReference<InvInfoResult>() {
+        });
+        // 请求对象
+        CommonRequest request = new CommonRequest(param, handler, handlerMsgCode);
+        // 开始执行加载
+        CommonDataLoader.getInstance(context).load(request);
+    }
+
+    /**
+     * 获取用户收藏活动列表
+     *
+     * @param context
+     * @param page_number    分页 当前页
+     * @param page_size      数据个数
+     * @param handler
+     * @param handlerMsgCode
+     */
+    public void queryCollectedActs(Context context, int page_number, int page_size, final Handler handler, final int handlerMsgCode) {
+
+        CollectedParam param = new CollectedParam();
+
+        param.setUserid(App.getInstance().getgUserInfo().getServno());
+        param.setStartno(page_number);
+        param.setPageSize(page_size);
+        // 接口参数
+        param.setMethod(OpenApiMethodEnum.QUERY_COLLECTED_ACTS);
+        param.setParseTokenType(new TypeReference<CollectedActResult>() {
+        });
+        // 请求对象
+        CommonRequest request = new CommonRequest(param, handler, handlerMsgCode);
+        // 开始执行加载
+        CommonDataLoader.getInstance(context).load(request);
+    }
+
+    /**
+     * 获取用户收藏悬赏列表
+     *
+     * @param context
+     * @param page_number    分页 当前页
+     * @param page_size      数据个数
+     * @param handler
+     * @param handlerMsgCode
+     */
+    public void queryCollectedOffers(Context context, int page_number, int page_size, final Handler handler, final int handlerMsgCode) {
+
+        CollectedParam param = new CollectedParam();
+        param.setUserid(App.getInstance().getgUserInfo().getServno());
+        param.setStartno(page_number);
+        param.setPageSize(page_size);
+
+        // 接口参数
+        param.setMethod(OpenApiMethodEnum.QUERY_COLLECTED_REWARDS);
+        param.setParseTokenType(new TypeReference<CollectedOfferResult>() {
+        });
+
         // 请求对象
         CommonRequest request = new CommonRequest(param, handler, handlerMsgCode);
         // 开始执行加载
