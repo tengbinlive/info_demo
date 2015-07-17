@@ -87,7 +87,7 @@ public class InfoRewardActivity extends AbsActivity {
             balance_et.setText(currentMoney + "金币");
             Intent intent = new Intent();
             intent.putExtra(KEY, invInfoBean);
-            setResult(InfoDetailActivity.REQUSETCODE_REWARD, intent);
+            setResult(InfoDetailActivity.REQUSETCODE, intent);
             finish();
         } else {
             CommonUtil.showToast(resposne.getErrorTip());
@@ -131,7 +131,7 @@ public class InfoRewardActivity extends AbsActivity {
             return;
         }
         dialogShow("正在打赏");
-        currentMoney = need - balance;
+        currentMoney = balance - need;
         manager.recordRewards(this, invInfoBean.getInfoid(), invInfoBean.getPubsid(), need, activityHandler, LOAD_REWARD);
     }
 

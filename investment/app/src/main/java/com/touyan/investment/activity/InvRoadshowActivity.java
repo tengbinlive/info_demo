@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import com.core.CommonResponse;
 import com.core.util.CommonUtil;
@@ -13,14 +14,14 @@ import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationA
 import com.touyan.investment.AbsActivity;
 import com.touyan.investment.AbsDetailActivity;
 import com.touyan.investment.R;
-import com.touyan.investment.adapter.InvInfoAttentionAdapter;
-import com.touyan.investment.bean.main.InvInfoBean;
-import com.touyan.investment.bean.main.InvInfoResult;
+import com.touyan.investment.adapter.InvActAdapter;
+import com.touyan.investment.bean.main.InvActBean;
+import com.touyan.investment.bean.main.InvActListResult;
 import com.touyan.investment.manager.InvestmentManager;
 
 import java.util.ArrayList;
 
-public class InfoAttentionActivity extends AbsActivity {
+public class InvRoadshowActivity extends AbsActivity {
 
     private InvestmentManager manager = new InvestmentManager();
 
@@ -29,15 +30,14 @@ public class InfoAttentionActivity extends AbsActivity {
 
     private static final int COUNT_MAX = 5;//加载数据最大值
 
-
     //列表
     private PullToRefreshListView mListView;
     private ListView mActualListView;
-    private InvInfoAttentionAdapter mAdapter;
+    private InvActAdapter mAdapter;
 
-    private ArrayList<InvInfoBean> mList;
+    private ArrayList<InvActBean> mList;
 
-    public int currentItemIndex;
+    private int currentIndex;
 
     private Handler activityHandler = new Handler() {
         public void handleMessage(Message msg) {
@@ -57,13 +57,13 @@ public class InfoAttentionActivity extends AbsActivity {
         dialogDismiss();
         if (resposne.isSuccess()) {
             if (what == INIT_LIST) {
-                InvInfoResult result = (InvInfoResult) resposne.getData();
-                mList = result.getInfos();
+                InvActListResult result = (InvActListResult) resposne.getData();
+                mList = result.getActives();
             } else {
                 if (mList == null) {
-                    mList = new ArrayList<InvInfoBean>();
+                    mList = new ArrayList<InvActBean>();
                 }
-                mList.addAll(((InvInfoResult) resposne.getData()).getInfos());
+                mList.addAll(((InvActListResult) resposne.getData()).getActives());
             }
             mAdapter.refresh(mList);
         } else {
@@ -94,7 +94,7 @@ public class InfoAttentionActivity extends AbsActivity {
 
     @Override
     public void initActionBar() {
-        setToolbarIntermediateStrID(R.string.me_attention);
+        setToolbarIntermediateStrID(R.string.act_release_roadshow);
     }
 
     @Override
@@ -122,7 +122,7 @@ public class InfoAttentionActivity extends AbsActivity {
         // Need to use the Actual ListView when registering for Context Menu
         registerForContextMenu(mActualListView);
 
-        mAdapter = new InvInfoAttentionAdapter(this, mList);
+        mAdapter = new InvActAdapter(this, mList);
 
         SwingBottomInAnimationAdapter animationAdapter = new SwingBottomInAnimationAdapter(mAdapter);
 
@@ -130,27 +130,37 @@ public class InfoAttentionActivity extends AbsActivity {
 
         mActualListView.setAdapter(animationAdapter);
 
+        mActualListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                currentIndex  = i-2;
+                toActDetail(mList.get(currentIndex));
+            }
+        });
+
         View ll_listEmpty = findViewById(R.id.ll_listEmpty);
         mActualListView.setEmptyView(ll_listEmpty);
     }
 
+    private void toActDetail(InvActBean bean) {
+        Intent mIntent = new Intent(this, ActDetailActivity.class);
+        mIntent.putExtra(ActDetailActivity.KEY_DETAIL,bean);
+        startActivityForResult(mIntent, AbsDetailActivity.REQUSETCODE);
+        overridePendingTransition(R.anim.push_translate_in_right, 0);
+    }
 
     private void getDataList() {
         int startIndex = mList == null || mList.size() <= 0 ? 0 : mList.size();
-        manager.querySubscribe(this, startIndex, COUNT_MAX, activityHandler, startIndex == 0 ? INIT_LIST : LOAD_DATA);
+        manager.actList(this, startIndex, COUNT_MAX, activityHandler, startIndex == 0 ? INIT_LIST : LOAD_DATA);
     }
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == AbsDetailActivity.REQUSETCODE && null != data) {
-            InvInfoBean bean = (InvInfoBean) data.getSerializableExtra(KEY);
-            mList.set(currentItemIndex, bean);
+        if (resultCode == AbsDetailActivity.REQUSETCODE) {
+            mList.get(currentIndex).setIsJoin(InvActBean.STATUS_BY);
             mAdapter.refresh(mList);
         }
     }
-
-
 
 }

@@ -13,7 +13,6 @@ import com.core.CommonResponse;
 import com.core.util.CommonUtil;
 import com.touyan.investment.R;
 import com.touyan.investment.bean.main.InvActBean;
-import com.touyan.investment.fragment.InvActFragment;
 import com.touyan.investment.helper.Util;
 import com.touyan.investment.manager.InvestmentManager;
 
@@ -93,7 +92,7 @@ public class InvActAdapter extends BaseAdapter {
             holder.sign_tv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    currentIndex = (Integer)view.getTag();
+                    currentIndex = (Integer) view.getTag();
                     getSign(currentIndex);
                 }
             });
@@ -112,7 +111,7 @@ public class InvActAdapter extends BaseAdapter {
 
         holder.sign_tv.setTag(position);
 
-        setContent(holder.contents_tv, type, bean.getByloct()+" "+bean.getAtitle());
+        setContent(holder.contents_tv, type, bean.getByloct() + " " + bean.getAtitle());
 
         return convertView;
     }
@@ -153,11 +152,6 @@ public class InvActAdapter extends BaseAdapter {
         } else {
             Util.setTextViewDrawaleAnchor(mContext, view, 0, 0);
         }
-    }
-
-    private boolean isSignCilc(String status) {
-        if (InvActBean.STATUS_NOT_PARTICIPATE.equals(status)) return true;
-        return false;
     }
 
     class ViewHolder {

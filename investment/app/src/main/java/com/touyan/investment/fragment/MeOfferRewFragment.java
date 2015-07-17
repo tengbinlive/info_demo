@@ -20,6 +20,8 @@ import com.touyan.investment.R;
 import com.touyan.investment.activity.OfferDetailActivity;
 import com.touyan.investment.adapter.InvOfferAdapter;
 import com.touyan.investment.bean.main.InvInfoResult;
+import com.touyan.investment.bean.main.InvOfferBean;
+import com.touyan.investment.bean.main.InvOfferListResult;
 import com.touyan.investment.manager.InvestmentManager;
 
 import java.util.ArrayList;
@@ -40,7 +42,7 @@ public class MeOfferRewFragment extends AbsFragment {
     private ListView mActualListView;
     private InvOfferAdapter mAdapter;
 
-    private ArrayList<InvInfoResult> mList;
+    private ArrayList<InvOfferBean> mList;
 
     private boolean isInit = false;
 
@@ -63,12 +65,13 @@ public class MeOfferRewFragment extends AbsFragment {
         testData();
         if (resposne.isSuccess()) {
             if (what == INIT_LIST) {
-                mList = (ArrayList<InvInfoResult>) resposne.getData();
+                InvOfferListResult result = (InvOfferListResult) resposne.getData();
+                mList = result.getRewards();
             } else {
                 if (mList == null) {
-                    mList = new ArrayList<InvInfoResult>();
+                    mList = new ArrayList<InvOfferBean>();
                 }
-                mList.addAll((ArrayList<InvInfoResult>) resposne.getData());
+                mList.addAll(((InvOfferListResult) resposne.getData()).getRewards());
             }
             mAdapter.refresh(mList);
         } else {
@@ -159,15 +162,15 @@ public class MeOfferRewFragment extends AbsFragment {
 
     private void testData(){
         if(mList==null) {
-            mList = new ArrayList<InvInfoResult>();
+            mList = new ArrayList<InvOfferBean>();
         }
-        mList.add(new InvInfoResult());
-        mList.add(new InvInfoResult());
-        mList.add(new InvInfoResult());
-        mList.add(new InvInfoResult());
-        mList.add(new InvInfoResult());
-        mList.add(new InvInfoResult());
-        mList.add(new InvInfoResult());
+        mList.add(new InvOfferBean());
+        mList.add(new InvOfferBean());
+        mList.add(new InvOfferBean());
+        mList.add(new InvOfferBean());
+        mList.add(new InvOfferBean());
+        mList.add(new InvOfferBean());
+        mList.add(new InvOfferBean());
         mAdapter.refresh(mList);
         mAdapter.notifyDataSetChanged();
     }

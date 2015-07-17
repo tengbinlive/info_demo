@@ -159,6 +159,7 @@ public class InvInfoAdapter extends BaseAdapter implements View.OnClickListener 
     }
 
     private void toInfoDetail(int index, int position) {
+        this.fragment.currentItemIndex = position;
         Intent mIntent = new Intent(mContext, InfoDetailActivity.class);
         mIntent.putExtra(InfoDetailActivity.KEY, index);
         mIntent.putExtra(InfoDetailActivity.KEY_DETAIL, list.get(position));
