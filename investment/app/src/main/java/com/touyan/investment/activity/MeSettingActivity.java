@@ -36,7 +36,8 @@ public class MeSettingActivity extends AbsActivity implements OnClickListener {
 
         }
         else if(v.getId() == R.id.password_rl){
-
+            Intent intent = new Intent(context, ChangePasswordActivity.class);
+            startActivity(intent);
         }
         else if(v.getId() == R.id.about_rl){
             Intent intent = new Intent(context, AboutInvActivity.class);
@@ -58,6 +59,7 @@ public class MeSettingActivity extends AbsActivity implements OnClickListener {
         about_rl = (RelativeLayout)findViewById(R.id.about_rl);
 
         loginout_btn.setOnClickListener(this);
+        password_rl.setOnClickListener(this);
         about_rl.setOnClickListener(this);
     }
 

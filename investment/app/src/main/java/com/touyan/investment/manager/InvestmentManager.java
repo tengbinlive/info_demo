@@ -378,6 +378,116 @@ public class InvestmentManager {
     }
 
     /**
+     * 获取 原创资讯 列表数据
+     *
+     * @param context
+     * @param page_number    当前页数
+     * @param page_size      获取个数
+     * @param handler
+     * @param handlerMsgCode
+     */
+    public void queryMyOriginalInfos(Context context, int page_number, int page_size, final Handler handler, final int handlerMsgCode) {
+
+        MyOriInfoParam param = new MyOriInfoParam();
+        //param.setUserid(App.getInstance().getgUserInfo().getServno());
+        param.setPubsid(App.getInstance().getgUserInfo().getServno());
+        param.setStartno(page_number);
+        param.setPageSize(page_size);
+        // 接口参数
+        param.setMethod(OpenApiMethodEnum.LOAD_ORIGINAL_INFO);
+
+        param.setParseTokenType(new TypeReference<InvInfoResult>() {
+        });
+        // 请求对象
+        CommonRequest request = new CommonRequest(param, handler, handlerMsgCode);
+        // 开始执行加载
+        CommonDataLoader.getInstance(context).load(request);
+    }
+
+
+
+    /**
+     * 获取 原创资讯 列表数据
+     *
+     * @param context
+     * @param page_number    当前页数
+     * @param page_size      获取个数
+     * @param handler
+     * @param handlerMsgCode
+     */
+    public void queryMyPurchaseInfos(Context context, int page_number, int page_size, final Handler handler, final int handlerMsgCode) {
+
+        MyOriInfoParam param = new MyOriInfoParam();
+        param.setUserid(App.getInstance().getgUserInfo().getServno());
+        param.setStartno(page_number);
+        param.setPageSize(page_size);
+        // 接口参数
+        param.setMethod(OpenApiMethodEnum.LOAD_PURCHASE_INFO);
+
+        param.setParseTokenType(new TypeReference<InvInfoResult>() {
+        });
+        // 请求对象
+        CommonRequest request = new CommonRequest(param, handler, handlerMsgCode);
+        // 开始执行加载
+        CommonDataLoader.getInstance(context).load(request);
+    }
+
+
+    /**
+     * 我发布的活动
+     *
+     * @param context
+     * @param page_number    分页 当前页RELEASE
+     * @param page_size      数据个数
+     * @param handler
+     * @param handlerMsgCode
+     */
+    public void myReleaseActList(Context context, int page_number, int page_size, final Handler handler, final int handlerMsgCode) {
+
+        MyActivityParam param = new MyActivityParam();
+
+        param.setUserid(App.getInstance().getgUserInfo().getServno());
+        param.setStartno(page_number);
+        param.setPageSize(page_size);
+        // 接口参数
+        param.setMethod(OpenApiMethodEnum.LOAD_MYRELEASE_ACT);
+        param.setParseTokenType(new TypeReference<MyActListResult>() {
+        });
+        // 请求对象
+        CommonRequest request = new CommonRequest(param, handler, handlerMsgCode);
+        // 开始执行加载
+        CommonDataLoader.getInstance(context).load(request);
+    }
+
+
+    /**
+     * 我参与的活动
+     *
+     * @param context
+     * @param page_number    分页 当前页PARTAKE
+     * @param page_size      数据个数
+     * @param handler
+     * @param handlerMsgCode
+     */
+    public void myPartakeActList(Context context, int page_number, int page_size, String ckstau ,final Handler handler, final int handlerMsgCode) {
+
+        MyActivityParam param = new MyActivityParam();
+
+        param.setUserid(App.getInstance().getgUserInfo().getServno());
+        param.setStartno(page_number);
+        param.setPageSize(page_size);
+        param.setCkstau(ckstau);
+
+        // 接口参数
+        param.setMethod(OpenApiMethodEnum.LOAD_MYPARTAKE_ACT);
+        param.setParseTokenType(new TypeReference<InvActListResult>() {
+        });
+        // 请求对象
+        CommonRequest request = new CommonRequest(param, handler, handlerMsgCode);
+        // 开始执行加载
+        CommonDataLoader.getInstance(context).load(request);
+    }
+    /**
      * 悬赏列表
      *
      * @param context

@@ -12,8 +12,7 @@ import com.touyan.investment.AbsActivity;
 import com.touyan.investment.AbsFragment;
 import com.touyan.investment.R;
 import com.touyan.investment.adapter.InvestmentPagerAdapter;
-import com.touyan.investment.fragment.InvInfoFragment;
-import com.touyan.investment.fragment.MeActivityFragment;
+import com.touyan.investment.fragment.MeInfoFragment;
 
 import java.util.ArrayList;
 
@@ -21,10 +20,10 @@ public class MeInfoActivity extends AbsActivity implements OnClickListener {
 
     private ViewPager viewPager;
     private InvestmentPagerAdapter adapter;
-    private final static int REWARD_MYRELEASE = 0;//原创资讯
-    private final static int REWARD_MYPARTAKE = REWARD_MYRELEASE + 1;//购买资讯
+    public final static int REWARD_MYORIGINAL = 0;//原创资讯original
+    public final static int REWARD_MYPURCHASE = REWARD_MYORIGINAL + 1;//purchase
 
-    private int currentPager = REWARD_MYRELEASE;
+    private int currentPager = REWARD_MYORIGINAL;
     @Override
     public void EInit() {
         super.EInit();
@@ -54,8 +53,8 @@ public class MeInfoActivity extends AbsActivity implements OnClickListener {
     private void findView() {
 
         ArrayList<AbsFragment> fragments = new ArrayList<AbsFragment>();
-        fragments.add(new InvInfoFragment());
-        fragments.add(new InvInfoFragment());
+        fragments.add(MeInfoFragment.newsInstance(REWARD_MYORIGINAL));
+        fragments.add(MeInfoFragment.newsInstance(REWARD_MYPURCHASE));
 
         adapter = new InvestmentPagerAdapter(getSupportFragmentManager(), fragments);
         viewPager = (ViewPager) findViewById(R.id.view_pager);
@@ -67,10 +66,10 @@ public class MeInfoActivity extends AbsActivity implements OnClickListener {
             public View createTabView(ViewGroup container, int position, PagerAdapter adapter) {
                 LinearLayout custom_ly = (LinearLayout) mInflater.inflate(R.layout.tab_offerreward_icon, container, false);
                 switch (position) {
-                    case REWARD_MYRELEASE:
+                    case REWARD_MYORIGINAL:
                         setIconInfo(custom_ly, R.string.me_original_info);
                         break;
-                    case REWARD_MYPARTAKE:
+                    case REWARD_MYPURCHASE:
                         setIconInfo(custom_ly, R.string.me_purchase_info);
                         break;
                     default:

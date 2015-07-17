@@ -15,11 +15,11 @@ import com.core.util.CommonUtil;
 import com.handmark.pulltorefresh.PullToRefreshBase;
 import com.handmark.pulltorefresh.PullToRefreshListView;
 import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationAdapter;
+import com.touyan.investment.AbsDetailActivity;
 import com.touyan.investment.AbsFragment;
 import com.touyan.investment.R;
 import com.touyan.investment.activity.OfferDetailActivity;
 import com.touyan.investment.adapter.InvOfferAdapter;
-import com.touyan.investment.bean.main.InvInfoResult;
 import com.touyan.investment.bean.main.InvOfferBean;
 import com.touyan.investment.bean.main.InvOfferListResult;
 import com.touyan.investment.manager.InvestmentManager;
@@ -46,6 +46,8 @@ public class MeOfferRewFragment extends AbsFragment {
 
     private boolean isInit = false;
 
+    private int currentItemIndex;
+
     private Handler activityHandler = new Handler() {
         public void handleMessage(Message msg) {
             int what = msg.what;
@@ -62,7 +64,6 @@ public class MeOfferRewFragment extends AbsFragment {
 
     private void loadData(CommonResponse resposne, int what) {
         dialogDismiss();
-        testData();
         if (resposne.isSuccess()) {
             if (what == INIT_LIST) {
                 InvOfferListResult result = (InvOfferListResult) resposne.getData();
@@ -76,9 +77,9 @@ public class MeOfferRewFragment extends AbsFragment {
             mAdapter.refresh(mList);
         } else {
             //避免第一次应用启动时 创建fragment加载数据多次提示
-            if(isInit) {
+            if (isInit) {
                 CommonUtil.showToast(resposne.getErrorTip());
-            }else {
+            } else {
                 isInit = true;
             }
         }
@@ -140,7 +141,8 @@ public class MeOfferRewFragment extends AbsFragment {
         mActualListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                toOfferDetail();
+                currentItemIndex = i-1;
+                toOfferDetail(mList.get(currentItemIndex));
             }
         });
 
@@ -149,34 +151,31 @@ public class MeOfferRewFragment extends AbsFragment {
 
     }
 
-    private void toOfferDetail() {
+    private void toOfferDetail(InvOfferBean bean) {
         Intent mIntent = new Intent(getActivity(), OfferDetailActivity.class);
-        startActivity(mIntent);
+        mIntent.putExtra(KEY, bean);
+        startActivityForResult(mIntent, AbsDetailActivity.REQUSETCODE);
         getActivity().overridePendingTransition(R.anim.push_translate_in_right, 0);
     }
 
     private void getDataList() {
-        int startIndex = mList == null || mList.size() <= 0 ? 1 : mList.size();
-        manager.LoginAct(getActivity(), "", "" + COUNT_MAX, activityHandler, startIndex == 1 ? INIT_LIST : LOAD_DATA);
-    }
-
-    private void testData(){
-        if(mList==null) {
-            mList = new ArrayList<InvOfferBean>();
-        }
-        mList.add(new InvOfferBean());
-        mList.add(new InvOfferBean());
-        mList.add(new InvOfferBean());
-        mList.add(new InvOfferBean());
-        mList.add(new InvOfferBean());
-        mList.add(new InvOfferBean());
-        mList.add(new InvOfferBean());
-        mAdapter.refresh(mList);
-        mAdapter.notifyDataSetChanged();
+        int startIndex = mList == null || mList.size() <= 0 ? 0 : mList.size();
+        manager.offerList(getActivity(), startIndex, COUNT_MAX, activityHandler, startIndex == 0 ? INIT_LIST : LOAD_DATA);
     }
 
     @Override
     public void scrollToTop() {
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == AbsDetailActivity.REQUSETCODE &&null!=data) {
+            InvOfferBean bean = (InvOfferBean) data.getSerializableExtra(KEY);
+            mList.set(currentItemIndex, bean);
+            mAdapter.refresh(mList);
+        }
+    }
+
 
 }

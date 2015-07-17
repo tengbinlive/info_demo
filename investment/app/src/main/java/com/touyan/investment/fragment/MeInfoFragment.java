@@ -4,67 +4,55 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import com.core.CommonResponse;
 import com.core.util.CommonUtil;
 import com.handmark.pulltorefresh.PullToRefreshBase;
 import com.handmark.pulltorefresh.PullToRefreshListView;
 import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationAdapter;
+import com.touyan.investment.AbsDetailActivity;
 import com.touyan.investment.AbsFragment;
 import com.touyan.investment.R;
-import com.touyan.investment.activity.ActDetailActivity;
-import com.touyan.investment.activity.MeActActivity;
-import com.touyan.investment.adapter.InvActAdapter;
-import com.touyan.investment.bean.main.InvActBean;
-import com.touyan.investment.bean.main.InvActListResult;
-import com.touyan.investment.bean.main.MyActListResult;
+import com.touyan.investment.activity.MeInfoActivity;
+import com.touyan.investment.adapter.MyOriginalInvInfoAdapter;
+import com.touyan.investment.bean.main.InvInfoBean;
+import com.touyan.investment.bean.main.InvInfoResult;
 import com.touyan.investment.manager.InvestmentManager;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class MeActivityFragment extends AbsFragment {
+public class MeInfoFragment extends AbsFragment {
 
     private InvestmentManager manager = new InvestmentManager();
-
-    public final  static int REQUSETCODE = 1;
 
     private static final int INIT_LIST = 0x01;//初始化数据处理
     private static final int LOAD_DATA = 0x02;//加载数据处理
 
-    private static final int COUNT_MAX = 15;//加载数据最大值
+    private static final int COUNT_MAX = 5;//加载数据最大值
 
     private LayoutInflater mInflater;
 
     //列表
     private PullToRefreshListView mListView;
     private ListView mActualListView;
-    private InvActAdapter mAdapter;
+    private MyOriginalInvInfoAdapter mAdapter;
 
-    //private BGABanner mBanner;
+    private ArrayList<InvInfoBean> mList;
+    public int currentItemIndex;
 
-    private ArrayList<InvActBean> mList;
-
-    private boolean isInit = false;
-
-    private int currentIndex;
 
     private int viewType;//根据这个类型去判断调用那个接口。
-
-    public static MeActivityFragment newsInstance( int viewType)
+    public static MeInfoFragment newsInstance( int viewType)
     {
-        MeActivityFragment meActivityFragment = new MeActivityFragment();
+        MeInfoFragment meInfoFragment = new MeInfoFragment();
         Bundle bundle = new Bundle();
         bundle.putInt( "viewType", viewType );
-        meActivityFragment.setArguments( bundle );
-        return meActivityFragment;
+        meInfoFragment.setArguments( bundle );
+        return meInfoFragment;
     }
 
     private Handler activityHandler = new Handler() {
@@ -85,22 +73,17 @@ public class MeActivityFragment extends AbsFragment {
         dialogDismiss();
         if (resposne.isSuccess()) {
             if (what == INIT_LIST) {
-                MyActListResult result  = (MyActListResult) resposne.getData();
-                mList = result.getActivitys();
+                InvInfoResult result = (InvInfoResult) resposne.getData();
+                mList = result.getInfos();
             } else {
                 if (mList == null) {
-                    mList = new ArrayList<InvActBean>();
+                    mList = new ArrayList<InvInfoBean>();
                 }
-                mList.addAll(((MyActListResult) resposne.getData()).getActivitys());
+                mList.addAll(((InvInfoResult) resposne.getData()).getInfos());
             }
             mAdapter.refresh(mList);
         } else {
-            //避免第一次应用启动时 创建fragment加载数据多次提示
-            if(isInit) {
-                CommonUtil.showToast(resposne.getErrorTip());
-            }else {
-                isInit = true;
-            }
+            CommonUtil.showToast(resposne.getErrorTip());
         }
         mListView.onRefreshComplete();
     }
@@ -113,8 +96,9 @@ public class MeActivityFragment extends AbsFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         this.mInflater = getActivity().getLayoutInflater();
+
         viewType = getArguments().getInt( "viewType" );
-        return mInflater.inflate(R.layout.fragment_investment_act, container, false);
+        return mInflater.inflate(R.layout.fragment_investment_info, container, false);
     }
 
     @Override
@@ -127,6 +111,7 @@ public class MeActivityFragment extends AbsFragment {
     private void init() {
         mListView = (PullToRefreshListView) getView().findViewById(R.id.pull_refresh_list);
         initListView();
+        dialogShow();
         getDataList();
     }
 
@@ -136,7 +121,6 @@ public class MeActivityFragment extends AbsFragment {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 mList = null;
-                dialogShow();
                 getDataList();
             }
 
@@ -151,7 +135,7 @@ public class MeActivityFragment extends AbsFragment {
         // Need to use the Actual ListView when registering for Context Menu
         registerForContextMenu(mActualListView);
 
-        mAdapter = new InvActAdapter(getActivity(), mList);
+        mAdapter = new MyOriginalInvInfoAdapter(this, mList);
 
         SwingBottomInAnimationAdapter animationAdapter = new SwingBottomInAnimationAdapter(mAdapter);
 
@@ -159,47 +143,33 @@ public class MeActivityFragment extends AbsFragment {
 
         mActualListView.setAdapter(animationAdapter);
 
-        mActualListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                currentIndex  = i-1;
-                          toActDetail(mList.get(currentIndex));
-            }
-        });
-
         View ll_listEmpty = getView().findViewById(R.id.ll_listEmpty);
         mActualListView.setEmptyView(ll_listEmpty);
-    }
-
-    private void toActDetail(InvActBean bean) {
-        Intent mIntent = new Intent(getActivity(), ActDetailActivity.class);
-        mIntent.putExtra(ActDetailActivity.KEY_DETAIL,bean);
-             startActivityForResult(mIntent, REQUSETCODE);
-        getActivity().overridePendingTransition(R.anim.push_translate_in_right, 0);
     }
 
 
     private void getDataList() {
         int startIndex = mList == null || mList.size() <= 0 ? 0 : mList.size();
-        if (viewType == MeActActivity.REWARD_MYRELEASE){
-            manager.myReleaseActList(getActivity(), startIndex, COUNT_MAX, activityHandler, startIndex == 0 ? INIT_LIST : LOAD_DATA);
-        }else if (viewType == MeActActivity.REWARD_MYPARTAKE){
-           // manager.myPartakeActList(getActivity(), startIndex, COUNT_MAX, null,activityHandler, startIndex == 0 ? INIT_LIST : LOAD_DATA);
-        }
-
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == REQUSETCODE) {
-            mList.get(currentIndex).setIsJoin(InvActBean.STATUS_BY);
-            mAdapter.refresh(mList);
+        if (viewType == MeInfoActivity.REWARD_MYORIGINAL){
+            manager.queryMyOriginalInfos(getActivity(), startIndex, COUNT_MAX, activityHandler, startIndex == 0 ? INIT_LIST : LOAD_DATA);
+        }else if (viewType == MeInfoActivity.REWARD_MYPURCHASE){
+            manager.queryMyPurchaseInfos(getActivity(), startIndex, COUNT_MAX, activityHandler, startIndex == 0 ? INIT_LIST : LOAD_DATA);
         }
     }
 
     @Override
     public void scrollToTop() {
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == AbsDetailActivity.REQUSETCODE && null != data) {
+            InvInfoBean bean = (InvInfoBean) data.getSerializableExtra(KEY);
+            mList.set(currentItemIndex, bean);
+            mAdapter.refresh(mList);
+        }
+    }
+
 
 }

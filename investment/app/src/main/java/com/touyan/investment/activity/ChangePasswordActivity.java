@@ -5,7 +5,7 @@ import android.view.View.OnClickListener;
 import com.touyan.investment.AbsActivity;
 import com.touyan.investment.R;
 
-public class AboutInvActivity extends AbsActivity implements OnClickListener {
+public class ChangePasswordActivity extends AbsActivity implements OnClickListener {
     @Override
     public void EInit() {
         super.EInit();
@@ -14,13 +14,15 @@ public class AboutInvActivity extends AbsActivity implements OnClickListener {
 
     @Override
     public int getContentView() {
-        return R.layout.activity_aboutinv;
+        return R.layout.activity_changpassword;
     }
 
     @Override
     public void initActionBar() {
         setToolbarLeftStrID(R.string.back);
-        setToolbarIntermediateStrID(R.string.about_inv);
+        setToolbarIntermediateStrID(R.string.change_pw);
+        setToolbarRightVisbility(View.VISIBLE,View.VISIBLE);
+        setToolbarRightStrID(R.string.confirm);
     }
     @Override
     public void onClick(View v) {
