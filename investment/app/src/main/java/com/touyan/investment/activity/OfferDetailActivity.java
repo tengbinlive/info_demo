@@ -79,7 +79,6 @@ public class OfferDetailActivity extends AbsDetailActivity {
         if (resposne.isSuccess()) {
             InvReplysResult replysResult = (InvReplysResult) resposne.getData();
             if (what == INIT_LIST) {
-                currentPager = 0;
                 review_ly.removeAllViews();
             } else {
                 currentPager += COUNT_MAX;
@@ -138,6 +137,7 @@ public class OfferDetailActivity extends AbsDetailActivity {
         super.EInit();
         findView();
         initmScrollView();
+        currentPager = 0;
         getDataReplyList(INIT_LIST);
     }
 
@@ -145,6 +145,7 @@ public class OfferDetailActivity extends AbsDetailActivity {
         mScrollView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ScrollView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ScrollView> refreshView) {
+                currentPager = 0;
                 getDataReplyList(INIT_LIST);
             }
 

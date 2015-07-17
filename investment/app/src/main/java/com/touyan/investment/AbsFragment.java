@@ -14,6 +14,8 @@ public abstract class AbsFragment extends Fragment {
 
     protected final String TAG = AbsFragment.class.getSimpleName();
 
+    public static final int RECODE_RELEASE = 4;//发布资讯返回代码
+
     public final static String KEY = "KEY";
 
     public NiftyDialogBuilder dialogBuilder;

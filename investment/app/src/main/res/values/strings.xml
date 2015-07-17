@@ -60,6 +60,7 @@
     <string name="bottom_menu_reward">打赏</string>
     <string name="bottom_menu_sign">已报名</string>
     <string name="bottom_menu_unsign">我要报名</string>
+    <string name="bottom_menu_signdetail">报名详情</string>
     <string name="bottom_menu_reply">回答</string>
     <string name="info_reward_title">选择打赏金额</string>
     <string name="reward_purchase_money">购买金币</string>

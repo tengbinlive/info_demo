@@ -6,11 +6,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
+import com.core.util.CommonUtil;
 import com.core.util.DateUtil;
 import com.core.util.StringUtil;
 import com.joooonho.SelectableRoundedImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.touyan.investment.AbsDetailActivity;
+import com.touyan.investment.App;
 import com.touyan.investment.R;
 import com.touyan.investment.activity.InfoDetailActivity;
 import com.touyan.investment.activity.InfoRewardActivity;
@@ -168,9 +170,14 @@ public class InvInfoAdapter extends BaseAdapter implements View.OnClickListener 
     }
 
     private void toInfoReward(int position) {
+        InvInfoBean bean = list.get(position);
+        if (bean.getPubsid().equals(App.getInstance().getgUserInfo().getServno())) {
+            CommonUtil.showToast("无法对自己打赏");
+            return;
+        }
         this.fragment.currentItemIndex = position;
         Intent mIntent = new Intent(mContext, InfoRewardActivity.class);
-        mIntent.putExtra(InfoRewardActivity.KEY, list.get(position));
+        mIntent.putExtra(InfoRewardActivity.KEY, bean);
         fragment.startActivityForResult(mIntent, AbsDetailActivity.REQUSETCODE);
         mContext.overridePendingTransition(R.anim.push_translate_in_right, 0);
     }

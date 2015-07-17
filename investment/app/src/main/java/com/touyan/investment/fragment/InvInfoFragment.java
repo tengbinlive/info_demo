@@ -40,7 +40,7 @@ public class InvInfoFragment extends AbsFragment {
     private ListView mActualListView;
     private InvInfoAdapter mAdapter;
 
-    private ArrayList<InvInfoBean> mList;
+    private ArrayList<InvInfoBean> mList = new ArrayList<InvInfoBean>();
 
     public int currentItemIndex;
 
@@ -150,6 +150,15 @@ public class InvInfoFragment extends AbsFragment {
         if (resultCode == AbsDetailActivity.REQUSETCODE && null != data) {
             InvInfoBean bean = (InvInfoBean) data.getSerializableExtra(KEY);
             mList.set(currentItemIndex, bean);
+            mAdapter.refresh(mList);
+        }else if(resultCode == RECODE_RELEASE && null != data){
+            InvInfoBean bean = (InvInfoBean) data.getSerializableExtra(KEY);
+            int size = mList.size();
+            if(size<=0){
+                mList.add(bean);
+            }else{
+                mList.add(0,bean);
+            }
             mAdapter.refresh(mList);
         }
     }

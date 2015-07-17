@@ -151,7 +151,7 @@ public class InvRoadshowActivity extends AbsActivity {
 
     private void getDataList() {
         int startIndex = mList == null || mList.size() <= 0 ? 0 : mList.size();
-        manager.actList(this, startIndex, COUNT_MAX, activityHandler, startIndex == 0 ? INIT_LIST : LOAD_DATA);
+        manager.actList(this,InvActBean.TYPE_ROADSHOW, startIndex, COUNT_MAX, activityHandler, startIndex == 0 ? INIT_LIST : LOAD_DATA);
     }
 
     @Override

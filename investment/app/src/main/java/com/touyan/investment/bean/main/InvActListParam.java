@@ -8,9 +8,18 @@ import java.util.HashMap;
 
 public class InvActListParam extends OpenApiBaseRequest implements OpenApiRequestInterface {
 
+    private String actvtp;
     private int statno;
     private int pageno;
     private String servno;
+
+    public String getActvtp() {
+        return actvtp;
+    }
+
+    public void setActvtp(String actvtp) {
+        this.actvtp = actvtp;
+    }
 
     public String getServno() {
         return servno;
@@ -46,6 +55,7 @@ public class InvActListParam extends OpenApiBaseRequest implements OpenApiReques
 
     @Override
     public void fill2Map(HashMap<String, Object> param, boolean includeEmptyAttr) {
+        if (includeEmptyAttr || (!includeEmptyAttr && StringUtil.isNotBlank(actvtp))) param.put("actvtp", actvtp);
         if (includeEmptyAttr || (!includeEmptyAttr && StringUtil.isNotBlank(servno))) param.put("servno", servno);
         if (includeEmptyAttr || (!includeEmptyAttr && StringUtil.isNotBlank(statno))) param.put("statno", statno);
         if (includeEmptyAttr || (!includeEmptyAttr && StringUtil.isNotBlank(pageno))) param.put("pageno", pageno);
@@ -54,9 +64,10 @@ public class InvActListParam extends OpenApiBaseRequest implements OpenApiReques
     @Override
     public String toString() {
         return "InvActListParam{" +
-                "servno=" + servno +
-                "statno=" + statno +
+                "actvtp='" + actvtp + '\'' +
+                ", statno=" + statno +
                 ", pageno=" + pageno +
+                ", servno='" + servno + '\'' +
                 '}';
     }
 }

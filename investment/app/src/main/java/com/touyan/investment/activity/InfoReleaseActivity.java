@@ -1,5 +1,6 @@
 package com.touyan.investment.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -14,24 +15,56 @@ import android.view.View.OnClickListener;
 import android.widget.*;
 import com.core.CommonResponse;
 import com.core.util.CommonUtil;
+import com.core.util.DateUtil;
 import com.core.util.FileDataHelper;
 import com.core.util.StringUtil;
 import com.kyleduo.switchbutton.SwitchButton;
-import com.touyan.investment.AbsActivity;
-import com.touyan.investment.Constant;
-import com.touyan.investment.R;
+import com.qiniu.android.http.ResponseInfo;
+import com.qiniu.android.storage.UpCancellationSignal;
+import com.qiniu.android.storage.UpCompletionHandler;
+import com.qiniu.android.storage.UploadManager;
+import com.qiniu.android.storage.UploadOptions;
+import com.touyan.investment.*;
 import com.touyan.investment.adapter.InfoReleaseGridAdapter;
+import com.touyan.investment.bean.main.InvInfoBean;
+import com.touyan.investment.bean.main.InvInfoReleaseResult;
+import com.touyan.investment.bean.main.InvReleaseInfoParam;
+import com.touyan.investment.bean.qiniu.QiniuUploadBean;
+import com.touyan.investment.bean.qiniu.QiniuUploadResult;
+import com.touyan.investment.manager.InvestmentManager;
+import com.touyan.investment.manager.QiniuManager;
 import com.touyan.investment.mview.EditTextWithDelete;
 import com.touyan.investment.mview.MGridView;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Random;
 
 public class InfoReleaseActivity extends AbsActivity {
 
-    private static final int LOAD_DATA = 0x01;//加载数据处理
+    private InvestmentManager investmentManager = new InvestmentManager();
+
+    //七牛相关
+    private QiniuManager qiniuManager = new QiniuManager();//七牛业务
+
+    private ArrayList<QiniuUploadBean> uploadFile = new ArrayList<QiniuUploadBean>();//上传七牛数据
+
+    private QiniuUploadResult qiniuUploadResult;//七牛 token
+
+    private UploadManager uploadManager = new UploadManager();
+
+    private static final int LOAD_QINIU = 0x01;//七牛 token 处理
+
+    private int uploadQiniuIndex = 0;
+
+    private boolean isCancelled = false; //true 停止上传
+
+    /////////
+
+    private static final int LOAD_RELEASE_INFO = 0x02;//发布资讯
 
     private static final String STR_PATH = "path";
 
@@ -81,12 +114,19 @@ public class InfoReleaseActivity extends AbsActivity {
 
     private boolean isPublicInfo;
 
+    private String titleInfo;
+
+    private String contentInfo;
+
     private Handler activityHandler = new Handler() {
         public void handleMessage(Message msg) {
             int what = msg.what;
             switch (what) {
-                case LOAD_DATA:
-                    loadData((CommonResponse) msg.obj, what);
+                case LOAD_QINIU:
+                    loadQiniu((CommonResponse) msg.obj);
+                    break;
+                case LOAD_RELEASE_INFO:
+                    loadReleaseInfo((CommonResponse) msg.obj);
                     break;
                 default:
                     break;
@@ -94,10 +134,29 @@ public class InfoReleaseActivity extends AbsActivity {
         }
     };
 
-    private void loadData(CommonResponse resposne, int what) {
+    private void loadReleaseInfo(CommonResponse resposne) {
         dialogDismiss();
         if (resposne.isSuccess()) {
+            String path = FileDataHelper.getFilePath(Constant.Dir.IMAGE_TEMP);
+            FileDataHelper.deleteFiles(FileDataHelper.getFilePath(path));
+            InvInfoReleaseResult releaseResult = (InvInfoReleaseResult) resposne.getData();
+            InvInfoBean info = releaseResult.getInfo();
+            info.setUser(App.getInstance().getgUserInfo());
+            info.setUser(App.getInstance().getgUserInfo());
+            Intent intent = new Intent();
+            intent.putExtra(KEY, info);
+            setResult(AbsFragment.RECODE_RELEASE, intent);
+            CommonUtil.showToast("发布成功");
+            finish();
+        } else {
+            CommonUtil.showToast(resposne.getErrorTip());
+        }
+    }
 
+    private void loadQiniu(CommonResponse resposne) {
+        if (resposne.isSuccess()) {
+            qiniuUploadResult = (QiniuUploadResult) resposne.getData();
+            loadImageQiniu();
         } else {
             CommonUtil.showToast(resposne.getErrorTip());
         }
@@ -206,7 +265,7 @@ public class InfoReleaseActivity extends AbsActivity {
     private void imageStyle() {
         // 照片命名
         String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
-        String origFileName = "osc_" + timeStamp + ".png";
+        String origFileName = "osc_" + timeStamp + ".jpg";
         String path = FileDataHelper.getFilePath(Constant.Dir.IMAGE_TEMP);
         imageUri = Uri.fromFile(new File(path, origFileName));
     }
@@ -229,29 +288,42 @@ public class InfoReleaseActivity extends AbsActivity {
     }
 
     private void updateGridView() {
-        if (null == upLoadImages || upLoadImages.size() <= 0) {
+        int size = null == upLoadImages ? 0 : upLoadImages.size();
+        if (size <= 0) {
             gridView.setVisibility(View.GONE);
         } else {
             gridView.setVisibility(View.VISIBLE);
         }
+        image_title.setText("添加图片\n(" + size + "/9)");
     }
 
     private void releaseInfo() {
         if (isCheck()) {
-            dialogShow(R.string.reviewing);
+            dialogShow(R.string.reviewing, new DialogInterface.OnCancelListener() {
+                @Override
+                public void onCancel(DialogInterface dialogInterface) {
+                    isCancelled = true;
+                }
+            });
+            int imagePathSize = uploadFile.size();
+            if (imagePathSize > 0) {
+                getQiniuTokenOrRe();
+            } else {
+                uploadRelease();
+            }
         }
     }
 
     private boolean isCheck() {
-        String title = release_info_title.getText().toString();
-        if (StringUtil.isBlank(title)) {
+        titleInfo = release_info_title.getText().toString();
+        if (StringUtil.isBlank(titleInfo)) {
             release_info_title.requestFocus();
             CommonUtil.showToast("标题没有哦~");
             return false;
         }
 
-        String contents = release_info_value.getText().toString();
-        if (StringUtil.isBlank(contents)) {
+        contentInfo = release_info_value.getText().toString();
+        if (StringUtil.isBlank(contentInfo)) {
             release_info_value.requestFocus();
             CommonUtil.showToast("说点什么吧~");
             return false;
@@ -270,6 +342,9 @@ public class InfoReleaseActivity extends AbsActivity {
             if (data != null) {
                 final String path = data.getStringExtra(STR_PATH);
                 Bitmap bitmap = BitmapFactory.decodeFile(path);
+                QiniuUploadBean bean = new QiniuUploadBean();
+                bean.setPath(path);
+                uploadFile.add(bean);
                 upLoadImages.add(bitmap);
                 updateGridView();
                 mAdapter.refresh(upLoadImages);
@@ -313,5 +388,86 @@ public class InfoReleaseActivity extends AbsActivity {
         startActivityForResult(intent, FLAG_MODIFY_FINISH);
     }
 
+    /**
+     * 上传带图片的info
+     * 1. 获取七牛token
+     * 2. 使用token上传图片至七牛
+     * 3. 成功后上传资讯数据至业务服务器
+     */
+    private void getQiniuTokenOrRe() {
+        qiniuManager.qiniuUpload(this, activityHandler, LOAD_QINIU);
+    }
+
+    /**
+     * 上传带图片 至七牛
+     */
+    private void loadImageQiniu() {
+        uploadQiniuIndex = 0;
+        final int uploadNum = uploadFile.size();
+        for (final QiniuUploadBean bean : uploadFile) {
+            //没有上传成功过的文件 进行上传
+            if (!bean.isUpload()) {
+                String path = bean.getPath();
+                //生成图片上传名称
+                Date date = new Date();
+                SimpleDateFormat sdf = new SimpleDateFormat(DateUtil.YYYYMMDDHHMMSS);
+                Random random = new Random();
+                String num = "";
+                for (int i = 0; i < 4; i++) {
+                    num += random.nextInt(10);
+                }
+                String key = "info_" + App.getInstance().getgUserInfo().getServno() + "_" + sdf.format(date) + "_" + num + ".jpg";
+                bean.setName(key);
+                uploadManager.put(path, key, qiniuUploadResult.getUptoken(),
+                        new UpCompletionHandler() {
+                            @Override
+                            public void complete(String key, ResponseInfo info, JSONObject response) {
+                                if (info.isOK()) {
+                                    bean.setIsUpload(true);
+                                    if (uploadQiniuIndex == uploadNum && !isCancelled) {
+                                        uploadRelease();
+                                    }
+                                } else {
+                                    bean.setIsUpload(false);
+                                    dialogDismiss();
+                                    CommonUtil.showToast("发表失败啦~");
+                                }
+                            }
+                        }, new UploadOptions(null, null, false, null,//让 UpCancellationSignal#isCancelled() 方法返回 true ，以停止上传
+                                new UpCancellationSignal() {
+                                    public boolean isCancelled() {
+                                        return isCancelled;
+                                    }
+                                }));
+            }
+            uploadQiniuIndex++;
+        }
+    }
+
+    /**
+     * 上传无图片的info
+     */
+    private void uploadRelease() {
+        String feeStr = fee_et.getText().toString();
+        InvReleaseInfoParam param = new InvReleaseInfoParam();
+        param.setItitle(titleInfo);
+        param.setContnt(contentInfo);
+        if (StringUtil.isNotBlank(feeStr)) {
+            param.setCharge(Double.valueOf(feeStr));
+        }
+
+        //拼接上传图片名称
+        StringBuffer pictue = new StringBuffer();
+        for (final QiniuUploadBean bean : uploadFile) {
+            String imageName = bean.getName();
+            pictue.append(QiniuUploadBean.QINIU_URL).append(imageName).append(",");
+        }
+        if (StringUtil.isNotBlank(pictue.toString())) {
+            param.setPictue(pictue.toString());
+        }
+
+        param.setIspubl(isPublicInfo ? InvReleaseInfoParam.PUBLIC_YES : InvReleaseInfoParam.PUBLIC_NO);
+        investmentManager.releaseInfo(this, param, activityHandler, LOAD_RELEASE_INFO);
+    }
 
 }

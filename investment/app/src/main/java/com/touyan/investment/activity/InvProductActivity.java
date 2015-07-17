@@ -30,7 +30,6 @@ public class InvProductActivity extends AbsActivity {
 
     private static final int COUNT_MAX = 5;//加载数据最大值
 
-
     //列表
     private PullToRefreshListView mListView;
     private ListView mActualListView;
@@ -152,7 +151,7 @@ public class InvProductActivity extends AbsActivity {
 
     private void getDataList() {
         int startIndex = mList == null || mList.size() <= 0 ? 0 : mList.size();
-        manager.actList(this, startIndex, COUNT_MAX, activityHandler, startIndex == 0 ? INIT_LIST : LOAD_DATA);
+        manager.actList(this,InvActBean.TYPE_ACT,startIndex, COUNT_MAX, activityHandler, startIndex == 0 ? INIT_LIST : LOAD_DATA);
     }
 
     @Override

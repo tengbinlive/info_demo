@@ -20,6 +20,7 @@ import com.touyan.investment.AbsFragment;
 import com.touyan.investment.R;
 import com.touyan.investment.activity.OfferDetailActivity;
 import com.touyan.investment.adapter.InvOfferAdapter;
+import com.touyan.investment.bean.main.InvActBean;
 import com.touyan.investment.bean.main.InvOfferBean;
 import com.touyan.investment.bean.main.InvOfferListResult;
 import com.touyan.investment.manager.InvestmentManager;
@@ -42,7 +43,7 @@ public class InvOfferFragment extends AbsFragment {
     private ListView mActualListView;
     private InvOfferAdapter mAdapter;
 
-    private ArrayList<InvOfferBean> mList;
+    private ArrayList<InvOfferBean> mList = new ArrayList<InvOfferBean>();
 
     private boolean isInit = false;
 
@@ -173,6 +174,15 @@ public class InvOfferFragment extends AbsFragment {
         if (resultCode == AbsDetailActivity.REQUSETCODE &&null!=data) {
             InvOfferBean bean = (InvOfferBean) data.getSerializableExtra(KEY);
             mList.set(currentItemIndex, bean);
+            mAdapter.refresh(mList);
+        }else if(resultCode == RECODE_RELEASE && null != data){
+            InvOfferBean bean = (InvOfferBean) data.getSerializableExtra(KEY);
+            int size = mList.size();
+            if(size<=0){
+                mList.add(bean);
+            }else{
+                mList.add(0,bean);
+            }
             mAdapter.refresh(mList);
         }
     }

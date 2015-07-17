@@ -17,6 +17,7 @@ import com.joooonho.SelectableRoundedImageView;
 import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationAdapter;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.touyan.investment.AbsDetailActivity;
+import com.touyan.investment.App;
 import com.touyan.investment.R;
 import com.touyan.investment.adapter.SignGridAdapter;
 import com.touyan.investment.bean.main.*;
@@ -105,7 +106,6 @@ public class ActDetailActivity extends AbsDetailActivity {
         if (resposne.isSuccess()) {
             InvReplysResult replysResult = (InvReplysResult) resposne.getData();
             if (what == INIT_LIST) {
-                currentPager = 0;
                 review_ly.removeAllViews();
             } else {
                 currentPager += COUNT_MAX;
@@ -196,6 +196,7 @@ public class ActDetailActivity extends AbsDetailActivity {
         findView();
         initmScrollView();
         getDetail();
+        currentPager = 0;
         getDataReplyList(INIT_LIST);
         getJoinUser();
     }
@@ -204,6 +205,7 @@ public class ActDetailActivity extends AbsDetailActivity {
         mScrollView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ScrollView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ScrollView> refreshView) {
+                currentPager = 0;
                 getDataReplyList(INIT_LIST);
             }
 
@@ -288,15 +290,19 @@ public class ActDetailActivity extends AbsDetailActivity {
                     }
                     collectView = view;
                     getSign();
+                }else if (menu == BottomMenu.SIGN_DETAIL) {
+                    toSignDetail();
                 }
             }
         });
 
         String joinStatus = invActBean.getIsJoin();
-        if (InvActBean.STATUS_BY.equals(joinStatus) || InvActBean.STATUS_AUDIT.equals(joinStatus)) {
+        String pubsid = invActBean.getPubsid();
+        if (InvActBean.STATUS_BY.equals(joinStatus)&&!pubsid.equals(App.getInstance().getgUserInfo().getServno())) {
             isSign = true;
             setBackOrTag(3, true);
         }
+
     }
 
     private void initData() {
@@ -346,7 +352,11 @@ public class ActDetailActivity extends AbsDetailActivity {
         menus.add(BottomMenu.SHARE);
         menus.add(BottomMenu.REVIEW);
         menus.add(BottomMenu.COLLECT);
-        menus.add(BottomMenu.SIGN);
+        if (invActBean.getPubsid().equals(App.getInstance().getgUserInfo().getServno())) {
+            menus.add(BottomMenu.SIGN_DETAIL);
+        }else{
+            menus.add(BottomMenu.SIGN);
+        }
         return menus;
     }
 

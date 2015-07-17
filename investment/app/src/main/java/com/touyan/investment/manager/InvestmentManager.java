@@ -355,15 +355,17 @@ public class InvestmentManager {
      * 收藏
      *
      * @param context
+     * @param type           活动分类 “001” 产品 ，“002”路演
      * @param page_number    分页 当前页
      * @param page_size      数据个数
      * @param handler
      * @param handlerMsgCode
      */
-    public void actList(Context context, int page_number, int page_size, final Handler handler, final int handlerMsgCode) {
+    public void actList(Context context, String type, int page_number, int page_size, final Handler handler, final int handlerMsgCode) {
 
         InvActListParam param = new InvActListParam();
 
+        param.setActvtp(type);
         param.setStatno(page_number);
         param.setPageno(page_size);
         param.setServno(App.getInstance().getgUserInfo().getServno());
@@ -396,6 +398,69 @@ public class InvestmentManager {
         // 接口参数
         param.setMethod(OpenApiMethodEnum.QUERY_REWARDS);
         param.setParseTokenType(new TypeReference<InvOfferListResult>() {
+        });
+        // 请求对象
+        CommonRequest request = new CommonRequest(param, handler, handlerMsgCode);
+        // 开始执行加载
+        CommonDataLoader.getInstance(context).load(request);
+    }
+
+    /**
+     * 发布资讯
+     *
+     * @param context
+     * @param param          资讯数据
+     * @param handler
+     * @param handlerMsgCode
+     */
+    public void releaseInfo(Context context, InvReleaseInfoParam param, final Handler handler, final int handlerMsgCode) {
+
+        param.setPubsid(App.getInstance().getgUserInfo().getServno());
+        // 接口参数
+        param.setMethod(OpenApiMethodEnum.PUBLISH_INFO);
+        param.setParseTokenType(new TypeReference<InvInfoReleaseResult>() {
+        });
+        // 请求对象
+        CommonRequest request = new CommonRequest(param, handler, handlerMsgCode);
+        // 开始执行加载
+        CommonDataLoader.getInstance(context).load(request);
+    }
+
+    /**
+     * 发布活动
+     *
+     * @param context
+     * @param param          资讯数据
+     * @param handler
+     * @param handlerMsgCode
+     */
+    public void releaseAct(Context context, InvReleaseActParam param, final Handler handler, final int handlerMsgCode) {
+
+        param.setPubsid(App.getInstance().getgUserInfo().getServno());
+        // 接口参数
+        param.setMethod(OpenApiMethodEnum.PUBLISH_ACT);
+        param.setParseTokenType(new TypeReference<InvActDetailResult>() {
+        });
+        // 请求对象
+        CommonRequest request = new CommonRequest(param, handler, handlerMsgCode);
+        // 开始执行加载
+        CommonDataLoader.getInstance(context).load(request);
+    }
+
+    /**
+     * 发布悬赏
+     *
+     * @param context
+     * @param param          资讯数据
+     * @param handler
+     * @param handlerMsgCode
+     */
+    public void releaseReward(Context context, InvReleaseActParam param, final Handler handler, final int handlerMsgCode) {
+
+        param.setPubsid(App.getInstance().getgUserInfo().getServno());
+        // 接口参数
+        param.setMethod(OpenApiMethodEnum.PUBLISH_REWARD);
+        param.setParseTokenType(new TypeReference<InvInfoReleaseResult>() {
         });
         // 请求对象
         CommonRequest request = new CommonRequest(param, handler, handlerMsgCode);

@@ -10,6 +10,29 @@ package com.core.openapi;
  */
 public enum OpenApiMethodEnum {
 
+
+    /**
+     * 发布悬赏
+     */
+    PUBLISH_REWARD("/reward/publish.action", "openapi_json", OpenApi.URL_TYPE_DATA),
+
+
+    /**
+     * 发布活动
+     */
+    PUBLISH_ACT("/active/publish.action", "openapi_json", OpenApi.URL_TYPE_DATA),
+
+
+    /**
+     * 发布资讯
+     */
+    PUBLISH_INFO("/info/publish.action", "openapi_json", OpenApi.URL_TYPE_DATA),
+
+    /**
+     * 七牛上传token获取
+     */
+    QINIU_UPLOAD("/user/getUpToken.action", "openapi_json", OpenApi.URL_TYPE_DATA),
+
     /**
      * 广场活动列表
      */

@@ -2,6 +2,7 @@ package com.touyan.investment;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -419,6 +420,24 @@ public abstract class AbsActivity extends SwipeBackActivity implements EInitDate
                 .show();
 
     }
+
+    public void dialogShow(int title,DialogInterface.OnCancelListener listener) {
+        dialogDismiss();
+        LinearLayout convertView = (LinearLayout) mInflater.inflate(R.layout.loading_view, null);
+        TextView dialog_confirm_content = (TextView) convertView.findViewById(R.id.dialog_confirm_content);
+        dialog_confirm_content.setText(title);
+        dialogBuilder = NiftyDialogBuilder.getInstance(this);
+        if(null!=listener) {
+            dialogBuilder.setOnCancelListener(listener);
+        }
+        dialogBuilder.withDuration(700) // def
+                .isCancelableOnTouchOutside(false) // def | isCancelable(true)
+                .withEffect(Effectstype.Fadein) // def Effectstype.Slidetop
+                .setCustomView(convertView, this) // .setCustomView(View
+                .show();
+
+    }
+
 
     public void dialogDismiss() {
         if (null != dialogBuilder && dialogBuilder.isShowing()) {

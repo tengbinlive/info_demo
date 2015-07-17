@@ -133,7 +133,7 @@ public class AuthClipPictureActivity extends Activity implements OnTouchListener
             f.mkdirs();
         }
         String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
-        filename = mFilePath + "/" + timeStamp + "clip.png";
+        filename = mFilePath + "/" + timeStamp + "clip.jpg";
     }
 
     /**

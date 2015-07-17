@@ -27,6 +27,7 @@ import com.touyan.investment.activity.ActDetailActivity;
 import com.touyan.investment.adapter.InvActAdapter;
 import com.touyan.investment.bean.main.InvActBean;
 import com.touyan.investment.bean.main.InvActListResult;
+import com.touyan.investment.bean.main.InvInfoBean;
 import com.touyan.investment.manager.InvestmentManager;
 
 import java.util.ArrayList;
@@ -50,7 +51,7 @@ public class InvActFragment extends AbsFragment {
 
     private BGABanner mBanner;
 
-    private ArrayList<InvActBean> mList;
+    private ArrayList<InvActBean> mList = new ArrayList<InvActBean>();
 
     private boolean isInit = false;
 
@@ -214,7 +215,7 @@ public class InvActFragment extends AbsFragment {
 
     private void getDataList() {
         int startIndex = mList == null || mList.size() <= 0 ? 0 : mList.size();
-        manager.actList(getActivity(), startIndex, COUNT_MAX, activityHandler, startIndex == 0 ? INIT_LIST : LOAD_DATA);
+        manager.actList(getActivity(),null, startIndex, COUNT_MAX, activityHandler, startIndex == 0 ? INIT_LIST : LOAD_DATA);
     }
 
     @Override
@@ -222,6 +223,15 @@ public class InvActFragment extends AbsFragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == AbsDetailActivity.REQUSETCODE) {
             mList.get(currentIndex).setIsJoin(InvActBean.STATUS_BY);
+            mAdapter.refresh(mList);
+        }else if(resultCode == RECODE_RELEASE && null != data){
+            InvActBean bean = (InvActBean) data.getSerializableExtra(KEY);
+            int size = mList.size();
+            if(size<=0){
+                mList.add(bean);
+            }else{
+                mList.add(0,bean);
+            }
             mAdapter.refresh(mList);
         }
     }

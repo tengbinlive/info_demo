@@ -165,6 +165,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:gravity="center"
+                        android:inputType="number"
                         android:drawablePadding="@dimen/content_gap_small"
                         android:background="@null"
                         android:textCursorDrawable="@null"

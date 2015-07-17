@@ -183,25 +183,25 @@ public class InvestmentFragment extends AbsFragment {
 
     private void toOfferRelease() {
         Intent mIntent = new Intent(getActivity(), OfferReleaseActivity.class);
-        getActivity().startActivity(mIntent);
+        startActivityForResult(mIntent, InvInfoFragment.RECODE_RELEASE);
         getActivity().overridePendingTransition(R.anim.push_translate_in_top, 0);
     }
 
     private void toReleaseInfo() {
         Intent mIntent = new Intent(getActivity(), InfoReleaseActivity.class);
-        getActivity().startActivity(mIntent);
+        startActivityForResult(mIntent, InvInfoFragment.RECODE_RELEASE);
         getActivity().overridePendingTransition(R.anim.push_translate_in_top, 0);
     }
 
     private void toReleaseRoadshow() {
         Intent mIntent = new Intent(getActivity(), ActReleaseRoadshowActivity.class);
-        getActivity().startActivity(mIntent);
+        startActivityForResult(mIntent, InvInfoFragment.RECODE_RELEASE);
         getActivity().overridePendingTransition(R.anim.push_translate_in_top, 0);
     }
 
     private void toReleaseProduct() {
         Intent mIntent = new Intent(getActivity(), ActReleaseProductActivity.class);
-        getActivity().startActivity(mIntent);
+        startActivityForResult(mIntent, InvInfoFragment.RECODE_RELEASE);
         getActivity().overridePendingTransition(R.anim.push_translate_in_top, 0);
     }
 

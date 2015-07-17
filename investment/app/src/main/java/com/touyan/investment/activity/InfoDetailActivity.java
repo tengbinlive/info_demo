@@ -18,6 +18,7 @@ import com.handmark.pulltorefresh.PullToRefreshScrollView;
 import com.joooonho.SelectableRoundedImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.touyan.investment.AbsDetailActivity;
+import com.touyan.investment.App;
 import com.touyan.investment.R;
 import com.touyan.investment.bean.main.*;
 import com.touyan.investment.bean.user.UserInfo;
@@ -99,7 +100,6 @@ public class InfoDetailActivity extends AbsDetailActivity {
         if (resposne.isSuccess()) {
             InvReplysResult replysResult = (InvReplysResult) resposne.getData();
             if (what == INIT_LIST) {
-                currentPager = 0;
                 review_ly.removeAllViews();
             } else {
                 currentPager += COUNT_MAX;
@@ -177,6 +177,7 @@ public class InfoDetailActivity extends AbsDetailActivity {
         findView();
         initmScrollView();
         getDetail();
+        currentPager = 0;
         getDataReplyList(INIT_LIST);
     }
 
@@ -189,7 +190,7 @@ public class InfoDetailActivity extends AbsDetailActivity {
         reward_title = (TextView) findViewById(R.id.reward_title);
         review_title.setText("评论 " + infoDetailResult.getReplyCount());
         Double rewardsAmount = invInfoBean.getRewardsAmount();
-        if(rewardsAmount!=null) {
+        if (rewardsAmount != null) {
             reward_title.setText("已打赏" + rewardsAmount + "金币");
         }
         if (YesOrNoEnum.YES.equals(infoDetailResult.getIsBuy())) {
@@ -252,6 +253,7 @@ public class InfoDetailActivity extends AbsDetailActivity {
         mScrollView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ScrollView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ScrollView> refreshView) {
+
                 getDataReplyList(INIT_LIST);
             }
 
@@ -307,6 +309,10 @@ public class InfoDetailActivity extends AbsDetailActivity {
     }
 
     private void toInfoReward(InvInfoBean bean) {
+        if (bean.getPubsid().equals(App.getInstance().getgUserInfo().getServno())) {
+            CommonUtil.showToast("无法对自己打赏");
+            return;
+        }
         Intent mIntent = new Intent(this, InfoRewardActivity.class);
         mIntent.putExtra(KEY, bean);
         startActivityForResult(mIntent, REQUSETCODE_REWARD);
@@ -360,7 +366,7 @@ public class InfoDetailActivity extends AbsDetailActivity {
         if (resultCode == REQUSETCODE_REWARD && null != data) {
             invInfoBean = (InvInfoBean) data.getSerializableExtra(KEY);
             Double rewardsAmount = invInfoBean.getRewardsAmount();
-            if(rewardsAmount!=null) {
+            if (rewardsAmount != null) {
                 reward_title.setText("已打赏" + rewardsAmount + "金币");
             }
             Intent intent = new Intent();
@@ -374,7 +380,7 @@ public class InfoDetailActivity extends AbsDetailActivity {
                 } else {
                     review_ly.addView(getReView(replysBean), 0);
                 }
-                int replyNum = invInfoBean.getReplyNum()+1;
+                int replyNum = invInfoBean.getReplyNum() + 1;
                 invInfoBean.setReplyNum(replyNum);
                 review_title.setText("评论 " + replyNum);
                 Intent intent = new Intent();

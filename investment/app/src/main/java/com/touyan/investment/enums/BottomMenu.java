@@ -30,6 +30,8 @@ public enum BottomMenu {
     REWARD(R.string.bottom_menu_reward,R.string.bottom_menu_reward, R.drawable.reward_press, R.drawable.reward_normal, 0xfff12e40, 0xff808080),
     //报名
     SIGN(R.string.bottom_menu_unsign, R.string.bottom_menu_sign,R.drawable.sign_press, R.drawable.sign_normal, 0xfff12e40, 0xff808080),
+    //报名详情
+    SIGN_DETAIL(R.string.bottom_menu_signdetail, R.string.bottom_menu_signdetail,R.drawable.sign_press, R.drawable.sign_normal, 0xfff12e40, 0xff808080),
     //回答
     REPLY(R.string.bottom_menu_reply,R.string.bottom_menu_reply, R.drawable.reply_press, R.drawable.reply_normal, 0xfff12e40, 0xff808080),
 
