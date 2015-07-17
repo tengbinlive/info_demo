@@ -2,21 +2,23 @@ package com.touyan.investment.activity;
 
 
 import android.app.Activity;
-
 import android.content.Intent;
-
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.*;
-
+import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.view.View;
-import android.widget.*;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import com.core.CommonResponse;
 import com.core.util.CommonUtil;
-
+import com.core.util.FileDataHelper;
 import com.core.util.StringUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.touyan.investment.AbsActivity;
@@ -25,6 +27,7 @@ import com.touyan.investment.Constant;
 import com.touyan.investment.R;
 import com.touyan.investment.bean.user.ModifyUserInfoResult;
 import com.touyan.investment.bean.user.UserInfo;
+import com.touyan.investment.helper.Util;
 import com.touyan.investment.manager.UserManager;
 import com.touyan.investment.mview.BottomView;
 
@@ -39,7 +42,7 @@ public class ModifyUserInfoActivity extends AbsActivity implements View.OnClickL
 
 
     /* 头像名称 */
-    private Uri headImageUri = Uri.parse(Constant.Dir.HEAD_IMAGE_TEMP);//The Uri to store the big bitmap
+    private Uri headImageUri = Uri.parse(Constant.Dir.IMAGE_TEMP);//The Uri to store the big bitmap
 
     /* 请求码 */
     private final static int REQUESTCODE_USERTAG = 0;
@@ -215,7 +218,7 @@ public class ModifyUserInfoActivity extends AbsActivity implements View.OnClickL
                     startPhotoZoom(headImageUri);
                     break;
                 case CAMERA_REQUEST_CODE:
-                    if (hasSdcard()) {
+                    if (FileDataHelper.hasSdcard()) {
                         startPhotoZoom(headImageUri);
                     } else {
                         CommonUtil.showToast("未找到存储卡，无法存储照片！");
@@ -267,7 +270,7 @@ public class ModifyUserInfoActivity extends AbsActivity implements View.OnClickL
 
                     Intent intentFromCapture = new Intent(
                             MediaStore.ACTION_IMAGE_CAPTURE);
-                    if (hasSdcard()) {
+                    if (FileDataHelper.hasSdcard()) {
                         intentFromCapture.putExtra(
                                 MediaStore.EXTRA_OUTPUT,
                                 headImageUri);
@@ -334,20 +337,6 @@ public class ModifyUserInfoActivity extends AbsActivity implements View.OnClickL
             CommonUtil.showToast("头像读取失败");
         }
 
-    }
-
-    /**
-     * 检查是否存在SDCard
-     *
-     * @return
-     */
-    public static boolean hasSdcard() {
-        String state = Environment.getExternalStorageState();
-        if (state.equals(Environment.MEDIA_MOUNTED)) {
-            return true;
-        } else {
-            return false;
-        }
     }
 
 }

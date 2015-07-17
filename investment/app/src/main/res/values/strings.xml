@@ -103,9 +103,7 @@
     <string name="login_prompt">正在登陆</string>
 
 
-
-
-    <!--我设置的字符串-->
+    <!--我-设置 -->
 
     <string name="setting_str">设置</string>
     <string name="reset_password">修改密码</string>
@@ -162,7 +160,7 @@
 
     <string name="contents_not_empty">内容不能为空哦</string>
 
-    <string name="reviewing">稍等一会</string>
+    <string name="reviewing">稍等片刻</string>
 
     <string name="success">操作成功</string>
 

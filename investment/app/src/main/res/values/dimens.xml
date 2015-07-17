@@ -59,7 +59,7 @@
 
     <!--投研社-资讯-GridView item_width_height-->
     <dimen name="inv_info_grid_item">80dp</dimen>
-
+    <dimen name="inv_info_upload_grid_item">40dp</dimen>
 
     <dimen name="inv_act_banner">150dp</dimen>
 

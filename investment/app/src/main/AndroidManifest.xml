@@ -251,7 +251,8 @@
                 android:theme="@style/AppTheme">
         </activity>
 
-        <!---->
+
+        <!--我的关注-->
         <activity
                 android:name=".activity.InfoAttentionActivity"
                 android:theme="@style/AppTheme">
@@ -262,6 +263,25 @@
                 android:name=".activity.UserCollectActivity"
                 android:theme="@style/AppTheme">
         </activity>
+
+        <!--互动路演-->
+        <activity
+                android:name=".activity.InvRoadshowActivity"
+                android:theme="@style/AppTheme">
+        </activity>
+
+        <!--组合产品-->
+        <activity
+                android:name=".activity.InvProductActivity"
+                android:theme="@style/AppTheme">
+        </activity>
+
+        <!--图片裁剪-->
+        <activity android:name=".activity.AuthClipPictureActivity"
+                  android:theme="@style/AppThemeWTN">
+        </activity>
+
+
     </application>
 
 </manifest>

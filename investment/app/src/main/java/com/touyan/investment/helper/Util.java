@@ -2,6 +2,7 @@ package com.touyan.investment.helper;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.os.Environment;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
@@ -48,6 +49,10 @@ public class Util {
 		}
 	}
 
+	/**
+	 * 缩放动画
+	 * @param view
+	 */
 	public static void viewScaleAnimation(View view) {
 		PropertyValuesHolder pvhX = PropertyValuesHolder.ofFloat("scaleX", 1, 1.3f, 1);
 		PropertyValuesHolder pvhY = PropertyValuesHolder.ofFloat("scaleY", 1, 1.3f, 1);

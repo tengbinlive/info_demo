@@ -163,6 +163,18 @@ public class InvestmentFragment extends AbsFragment {
         }
     }
 
+    private void toProduct() {
+        Intent mIntent = new Intent(getActivity(), InvProductActivity.class);
+        getActivity().startActivity(mIntent);
+        getActivity().overridePendingTransition(R.anim.push_translate_in_right, 0);
+    }
+
+    private void toRoadshow() {
+        Intent mIntent = new Intent(getActivity(), InvRoadshowActivity.class);
+        getActivity().startActivity(mIntent);
+        getActivity().overridePendingTransition(R.anim.push_translate_in_right, 0);
+    }
+
     private void toInfoAttention() {
         Intent mIntent = new Intent(getActivity(), InfoAttentionActivity.class);
         getActivity().startActivity(mIntent);
@@ -212,14 +224,14 @@ public class InvestmentFragment extends AbsFragment {
                 @Override
                 public void onClick(View view) {
                     menuLeftPoupWindow.dismiss();
-                    toInfoAttention();
+                    toProduct();
                 }
             });
             roadshow_tv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     menuLeftPoupWindow.dismiss();
-                    toInfoAttention();
+                    toRoadshow();
                 }
             });
             menuLeftPoupWindow = new FilterView(getActivity(), conentView, R.style.AnimationPreviewLeft);

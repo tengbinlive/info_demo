@@ -37,21 +37,42 @@
                     android:textColorHint="@color/gray_hint"
                     android:hint="@string/release_hint_title"/>
 
+            <RelativeLayout android:layout_width="match_parent"
+                            android:layout_marginLeft="@dimen/content_gap"
+                            android:layout_marginRight="@dimen/content_gap"
+                            android:layout_marginBottom="@dimen/content_gap"
+                            android:background="@drawable/release_info_value_bg"
+                            android:layout_height="270dp">
+
                 <com.touyan.investment.mview.EditTextWithDelete
                         android:id="@+id/release_info_value"
-                        android:layout_marginLeft="@dimen/content_gap"
-                        android:layout_marginRight="@dimen/content_gap"
-                        android:layout_marginBottom="@dimen/content_gap"
                         android:layout_width="match_parent"
-                        android:layout_height="210dp"
+                        android:layout_above="@+id/gridview"
+                        android:layout_height="match_parent"
+                        android:background="@null"
                         android:gravity="left|top"
                         android:padding="@dimen/content_gap_small"
-                        android:background="@drawable/release_info_value_bg"
                         android:textCursorDrawable="@null"
                         android:textSize="@dimen/font_small"
                         android:textColor="@color/textcolor_222"
                         android:textColorHint="@color/gray_hint"
                         android:hint="@string/release_hint_value"/>
+
+                <com.touyan.investment.mview.MGridView
+                        android:id="@+id/gridview"
+                        android:layout_alignParentBottom="true"
+                        android:numColumns="5"
+                        android:visibility="gone"
+                        android:layout_margin="@dimen/content_gap_small"
+                        android:columnWidth="@dimen/inv_info_upload_grid_item"
+                        android:stretchMode="columnWidth"
+                        android:verticalSpacing="@dimen/content_gap_small"
+                        android:horizontalSpacing="@dimen/content_gap_small"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                </com.touyan.investment.mview.MGridView>
+
+            </RelativeLayout>
 
             <LinearLayout android:layout_width="match_parent"
                           android:orientation="horizontal"
@@ -61,18 +82,22 @@
                           android:layout_height="wrap_content">
 
                 <TextView android:layout_width="wrap_content"
+                          android:id="@+id/image_title"
                           android:text="@string/release_photo_count"
                           android:gravity="center"
                           android:textSize="@dimen/font_small"
                           android:layout_gravity="center_vertical"
                           android:textColor="@color/textcolor_444"
                           android:layout_height="wrap_content"/>
+
                 <ImageView android:layout_width="wrap_content"
+                           android:id="@+id/gallery_iv"
                            android:src="@drawable/release_image"
                            android:scaleType="centerInside"
                            android:layout_marginLeft="@dimen/content_gap"
                            android:layout_height="wrap_content"/>
                 <ImageView android:layout_width="wrap_content"
+                           android:id="@+id/camera_iv"
                            android:scaleType="centerInside"
                            android:src="@drawable/release_photo"
                            android:layout_marginLeft="@dimen/content_gap"
@@ -134,6 +159,7 @@
                           android:layout_height="wrap_content"/>
 
                 <EditText
+                        android:id="@+id/fee_et"
                         android:layout_toLeftOf="@+id/coin_tv"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
@@ -179,6 +205,7 @@
                           android:layout_height="wrap_content"/>
 
                 <com.kyleduo.switchbutton.SwitchButton
+                        android:id="@+id/public_sw_bt"
                         android:layout_gravity="right"
                         android:layout_centerVertical="true"
                         android:layout_alignParentRight="true"
