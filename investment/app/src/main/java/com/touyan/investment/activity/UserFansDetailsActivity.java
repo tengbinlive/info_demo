@@ -3,7 +3,6 @@ package com.touyan.investment.activity;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -13,14 +12,11 @@ import com.core.util.StringUtil;
 import com.joooonho.SelectableRoundedImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.touyan.investment.AbsActivity;
-import com.touyan.investment.App;
 import com.touyan.investment.R;
-import com.touyan.investment.adapter.UserFansGridViewAdapter;
 import com.touyan.investment.bean.user.OtherInfoResult;
-import com.touyan.investment.bean.user.QueryUserFansResult;
 import com.touyan.investment.bean.user.UserInfo;
 import com.touyan.investment.manager.UserManager;
-import com.touyan.investment.mview.GridViewWithHeaderAndFooter;
+
 
 /**
  * Created by Administrator on 2015/7/15.
