@@ -180,5 +180,6 @@
     <string name="me_attention">我的关注</string>
 
 
-
+    <string name="modify_complete">完成</string>
+    <string name="modify_delete">删除</string>
 </resources>

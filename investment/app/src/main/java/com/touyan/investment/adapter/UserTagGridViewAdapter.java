@@ -68,12 +68,12 @@ public class UserTagGridViewAdapter extends BaseAdapter implements View.OnClickL
             convertView = mInflater.inflate(R.layout.item_usertag_gridview, null);
             holder = new ViewHolder();
             holder.tag_bt = (Button) convertView.findViewById(R.id.tag_bt);
+            holder.tag_bt.setOnClickListener(this);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.tag_bt.setOnClickListener(this);
 
         if (selectItemList.contains(position)) {
             holder.tag_bt.setSelected(true);
@@ -102,7 +102,7 @@ public class UserTagGridViewAdapter extends BaseAdapter implements View.OnClickL
                 if (selectItemList.size() >= 3) {
                     selectItemList.remove(0);
                 }
-                selectItemList.add( position);
+                selectItemList.add(position);
                 view.setSelected(true);
                 notifyDataSetChanged();
             }

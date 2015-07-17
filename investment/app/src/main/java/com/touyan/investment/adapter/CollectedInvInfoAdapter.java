@@ -6,14 +6,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
+import android.widget.ImageButton;
+import android.widget.TextView;
+import com.core.util.CommonUtil;
 import com.core.util.DateUtil;
+import com.core.util.Log;
 import com.core.util.StringUtil;
 import com.joooonho.SelectableRoundedImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.rey.material.widget.CheckBox;
 import com.touyan.investment.AbsDetailActivity;
 import com.touyan.investment.R;
 import com.touyan.investment.activity.InfoDetailActivity;
 import com.touyan.investment.activity.InfoRewardActivity;
+import com.touyan.investment.activity.UserCollectActivity;
 import com.touyan.investment.bean.main.InvInfoBean;
 import com.touyan.investment.bean.user.UserInfo;
 import com.touyan.investment.fragment.CollectedInvInfoFragment;
@@ -25,7 +31,7 @@ import java.util.ArrayList;
 /**
  * Created by Administrator on 2015/7/17.
  */
-public class CollectedInvInfoAdapter extends BaseAdapter implements View.OnClickListener {
+public class CollectedInvInfoAdapter extends EditerAdapter implements View.OnClickListener {
 
     private LayoutInflater mInflater;
 
@@ -65,11 +71,13 @@ public class CollectedInvInfoAdapter extends BaseAdapter implements View.OnClick
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.item_inv_info, null);
             holder = new ViewHolder();
+            holder.checkBoxLayout = (RelativeLayout) convertView.findViewById(R.id.checkbox_layout);
+            initCheckBox(mContext, holder.checkBoxLayout);
             holder.info_ly = (LinearLayout) convertView.findViewById(R.id.info_ly);
             holder.share_ly = (LinearLayout) convertView.findViewById(R.id.share_ly);
             holder.review_ly = (LinearLayout) convertView.findViewById(R.id.review_ly);
@@ -107,6 +115,38 @@ public class CollectedInvInfoAdapter extends BaseAdapter implements View.OnClick
         } else {
             holder = (ViewHolder) convertView.getTag(R.id.item_holder);
         }
+
+
+        switch (getCurrentState()) {
+            case STATE_EDIT:
+                showCheckBox(holder.checkBoxLayout);
+                break;
+            case STATE_COMPLETE:
+                hideCheckBox(holder.checkBoxLayout);
+                break;
+            case STATE_REMOVE:
+                hideCheckBox(holder.checkBoxLayout);
+                break;
+        }
+
+        getCheckBox().setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (checkedItemList.contains(position)) {
+                    checkedItemList.remove(position);
+                } else {
+                    checkedItemList.add(position);
+                }
+                if (checkedItemList.size() <= 0) {
+                    ((UserCollectActivity) mContext).setToolbarRightStrID(R.string.modify_complete);
+                    ((UserCollectActivity) mContext).currentEditState = EditerAdapter.STATE_COMPLETE;
+                } else {
+                    ((UserCollectActivity) mContext).setToolbarRightStrID(R.string.modify_delete);
+                    ((UserCollectActivity) mContext).currentEditState = EditerAdapter.STATE_REMOVE;
+                }
+            }
+        });
+
         InvInfoBean infoBean = list.get(position);
         UserInfo userInfo = infoBean.getUser();
         ImageLoader.getInstance().displayImage(userInfo.getUphoto(), holder.head);
@@ -179,6 +219,7 @@ public class CollectedInvInfoAdapter extends BaseAdapter implements View.OnClick
     }
 
     class ViewHolder {
+        RelativeLayout checkBoxLayout;
         SelectableRoundedImageView head;
         MGridView gridview;
         TextView name;
@@ -229,4 +270,10 @@ public class CollectedInvInfoAdapter extends BaseAdapter implements View.OnClick
             }
         }
     }
+
+    public void updateEditState(int editState) {
+        this.setCurrentState(editState);
+        notifyDataSetChanged();
+    }
+
 }

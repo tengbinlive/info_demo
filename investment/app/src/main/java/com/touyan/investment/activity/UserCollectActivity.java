@@ -13,6 +13,7 @@ import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.touyan.investment.AbsActivity;
 import com.touyan.investment.AbsFragment;
 import com.touyan.investment.R;
+import com.touyan.investment.adapter.EditerAdapter;
 import com.touyan.investment.adapter.InvestmentPagerAdapter;
 import com.touyan.investment.fragment.*;
 
@@ -21,22 +22,26 @@ import java.util.ArrayList;
 /**
  * Created by Administrator on 2015/7/17.
  */
-public class UserCollectActivity extends AbsActivity {
+public class UserCollectActivity extends AbsActivity implements View.OnClickListener {
 
     private LayoutInflater mInflater;
 
     private SmartTabLayout viewPagerTab;
     private ViewPager viewPager;
     private InvestmentPagerAdapter adapter;
-
+    private ArrayList<AbsFragment> fragments;
     private final static int INVESTMENT_NEWS = 0;//资讯
     private final static int INVESTMENT_ACT = INVESTMENT_NEWS + 1;//活动
     private final static int INVESTMENT_OFFER = INVESTMENT_ACT + 1;//悬赏
 
     private int currentPager = INVESTMENT_NEWS;
 
+    public final static int EDIT_STATE_CHENGED = 100;
+
+    public int currentEditState = EditerAdapter.STATE_EDIT;
 
     @Override
+
     public void EInit() {
         super.EInit();
         setSwipeBackEnable(true);
@@ -55,6 +60,7 @@ public class UserCollectActivity extends AbsActivity {
         setToolbarLeftStrID(R.string.back);
         setToolbarIntermediateStrID(R.string.user_collect);
         setToolbarRightStrID(R.string.modify_userinfo_toolbar_title);
+        setToolbarRightOnClick(this);
         setToolbarRightVisbility(View.VISIBLE, View.VISIBLE);
     }
 
@@ -69,7 +75,7 @@ public class UserCollectActivity extends AbsActivity {
     }
 
     private void initViewPager(FragmentManager fm) {
-        ArrayList<AbsFragment> fragments = new ArrayList<AbsFragment>();
+        fragments = new ArrayList<AbsFragment>();
         fragments.add(new CollectedInvInfoFragment());
         fragments.add(new CollectedInvActFragment());
         fragments.add(new CollectedInvOfferFragment());
@@ -127,5 +133,29 @@ public class UserCollectActivity extends AbsActivity {
         title.setTypeface(Typeface.DEFAULT);
         title_es.setText(es_stringid);
         title_es.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view.getId() == R.id.toolbar_right_btn) {
+            switch (currentEditState) {
+                case EditerAdapter.STATE_REMOVE:
+                    currentEditState = EditerAdapter.STATE_EDIT;
+                    setToolbarRightStrID(R.string.modify_userinfo_toolbar_title);
+                    fragments.get(viewPager.getCurrentItem()).onActivityResult(EDIT_STATE_CHENGED, currentEditState, null);
+                    break;
+                case EditerAdapter.STATE_COMPLETE:
+                    currentEditState = EditerAdapter.STATE_EDIT;
+                    setToolbarRightStrID(R.string.modify_userinfo_toolbar_title);
+                    fragments.get(viewPager.getCurrentItem()).onActivityResult(EDIT_STATE_CHENGED, currentEditState, null);
+                    break;
+                case EditerAdapter.STATE_EDIT:
+                    currentEditState = EditerAdapter.STATE_COMPLETE;
+                    setToolbarRightStrID(R.string.modify_complete);
+                    fragments.get(viewPager.getCurrentItem()).onActivityResult(EDIT_STATE_CHENGED, currentEditState, null);
+                    break;
+            }
+
+        }
     }
 }

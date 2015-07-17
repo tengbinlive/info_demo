@@ -11,13 +11,16 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import com.core.CommonResponse;
 import com.core.util.CommonUtil;
+import com.core.util.Log;
 import com.handmark.pulltorefresh.PullToRefreshBase;
 import com.handmark.pulltorefresh.PullToRefreshListView;
 import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationAdapter;
 import com.touyan.investment.AbsDetailActivity;
 import com.touyan.investment.AbsFragment;
 import com.touyan.investment.R;
+import com.touyan.investment.activity.UserCollectActivity;
 import com.touyan.investment.adapter.CollectedInvInfoAdapter;
+import com.touyan.investment.adapter.EditerAdapter;
 import com.touyan.investment.bean.main.InvInfoBean;
 import com.touyan.investment.bean.main.InvInfoResult;
 import com.touyan.investment.manager.UserManager;
@@ -154,5 +157,25 @@ public class CollectedInvInfoFragment extends AbsFragment {
             mList.set(currentItemIndex, bean);
             mAdapter.refresh(mList);
         }
+
+        if (requestCode == UserCollectActivity.EDIT_STATE_CHENGED) {
+            switch (resultCode) {
+                case EditerAdapter.STATE_REMOVE:
+                    mAdapter.updateEditState(EditerAdapter.STATE_REMOVE);
+
+                    break;
+                case EditerAdapter.STATE_COMPLETE:
+                    mAdapter.updateEditState(EditerAdapter.STATE_COMPLETE);
+
+                    break;
+                case EditerAdapter.STATE_EDIT:
+                    mAdapter.updateEditState(EditerAdapter.STATE_EDIT);
+
+                    break;
+            }
+
+        }
     }
+
+
 }

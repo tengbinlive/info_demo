@@ -19,6 +19,7 @@ import com.touyan.investment.AbsDetailActivity;
 import com.touyan.investment.AbsFragment;
 import com.touyan.investment.R;
 import com.touyan.investment.activity.OfferDetailActivity;
+import com.touyan.investment.adapter.CollectedInvOfferAdapter;
 import com.touyan.investment.adapter.InvOfferAdapter;
 import com.touyan.investment.bean.main.InvOfferBean;
 import com.touyan.investment.bean.user.CollectedOfferResult;
@@ -43,7 +44,7 @@ public class CollectedInvOfferFragment extends AbsFragment {
     //列表
     private PullToRefreshListView mListView;
     private ListView mActualListView;
-    private InvOfferAdapter mAdapter;
+    private CollectedInvOfferAdapter mAdapter;
 
     private ArrayList<InvOfferBean> mList;
 
@@ -133,7 +134,7 @@ public class CollectedInvOfferFragment extends AbsFragment {
         // Need to use the Actual ListView when registering for Context Menu
         registerForContextMenu(mActualListView);
 
-        mAdapter = new InvOfferAdapter(getActivity(), mList);
+        mAdapter = new CollectedInvOfferAdapter(getActivity(), mList);
 
         SwingBottomInAnimationAdapter animationAdapter = new SwingBottomInAnimationAdapter(mAdapter);
 
