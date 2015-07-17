@@ -153,12 +153,13 @@
         </LinearLayout>
 
     </RelativeLayout>
+
     <RelativeLayout
             android:id="@+id/fragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/user_info"
-            android:background="@color/gray_layout">
+            android:background="@color/white">
 
     </RelativeLayout>
 </RelativeLayout>
