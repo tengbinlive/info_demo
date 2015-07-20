@@ -165,6 +165,11 @@ public enum OpenApiMethodEnum {
     QUERY_COLLECTED_REWARDS("/center/myStoreRewards.action", "openapi_json", OpenApi.URL_TYPE_DATA),
 
     /**
+     * 删除已收藏资讯列表
+     */
+    DELETE_COLLECTED_INFOS("/center/batchDelMsgs.action", "openapi_json", OpenApi.URL_TYPE_DATA),
+
+    /**
      * 登陆
      */
     LOAD_LOGIN("/user/login.action", "openapi_json", OpenApi.URL_TYPE_DATA);

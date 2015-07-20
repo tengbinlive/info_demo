@@ -1,5 +1,6 @@
 package com.touyan.investment.activity;
 
+import android.app.Fragment;
 import android.graphics.Typeface;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.PagerAdapter;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import com.core.util.CommonUtil;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.touyan.investment.AbsActivity;
 import com.touyan.investment.AbsFragment;
@@ -110,11 +112,13 @@ public class UserCollectActivity extends AbsActivity implements View.OnClickList
         viewPagerTab.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i1) {
-
+                changeEditState(EditerAdapter.STATE_EDIT);
+                fragments.get(i).onActivityResult(EDIT_STATE_CHENGED, EditerAdapter.STATE_COMPLETE, null);
             }
 
             @Override
             public void onPageSelected(int i) {
+
                 currentPager = i;
             }
 
@@ -138,24 +142,43 @@ public class UserCollectActivity extends AbsActivity implements View.OnClickList
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.toolbar_right_btn) {
+
             switch (currentEditState) {
                 case EditerAdapter.STATE_REMOVE:
-                    currentEditState = EditerAdapter.STATE_EDIT;
-                    setToolbarRightStrID(R.string.modify_userinfo_toolbar_title);
                     fragments.get(viewPager.getCurrentItem()).onActivityResult(EDIT_STATE_CHENGED, currentEditState, null);
+                    changeEditState(EditerAdapter.STATE_EDIT);
+
                     break;
                 case EditerAdapter.STATE_COMPLETE:
-                    currentEditState = EditerAdapter.STATE_EDIT;
-                    setToolbarRightStrID(R.string.modify_userinfo_toolbar_title);
                     fragments.get(viewPager.getCurrentItem()).onActivityResult(EDIT_STATE_CHENGED, currentEditState, null);
+                    changeEditState(EditerAdapter.STATE_EDIT);
+
                     break;
                 case EditerAdapter.STATE_EDIT:
-                    currentEditState = EditerAdapter.STATE_COMPLETE;
-                    setToolbarRightStrID(R.string.modify_complete);
                     fragments.get(viewPager.getCurrentItem()).onActivityResult(EDIT_STATE_CHENGED, currentEditState, null);
+                    changeEditState(EditerAdapter.STATE_COMPLETE);
+
                     break;
             }
 
+        }
+    }
+
+
+    public void changeEditState(int state) {
+        switch (state) {
+            case EditerAdapter.STATE_REMOVE:
+                currentEditState = EditerAdapter.STATE_REMOVE;
+                setToolbarRightStrID(R.string.modify_delete);
+                break;
+            case EditerAdapter.STATE_COMPLETE:
+                currentEditState = EditerAdapter.STATE_COMPLETE;
+                setToolbarRightStrID(R.string.modify_complete);
+                break;
+            case EditerAdapter.STATE_EDIT:
+                currentEditState = EditerAdapter.STATE_EDIT;
+                setToolbarRightStrID(R.string.modify_userinfo_toolbar_title);
+                break;
         }
     }
 }

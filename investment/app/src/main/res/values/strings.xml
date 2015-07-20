@@ -194,4 +194,7 @@
 
     <string name="modify_complete">完成</string>
     <string name="modify_delete">删除</string>
+
+    <string name="user_detail_fragment_title">个人发布</string>
+
 </resources>

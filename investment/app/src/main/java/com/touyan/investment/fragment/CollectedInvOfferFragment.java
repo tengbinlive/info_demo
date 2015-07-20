@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import com.core.CommonResponse;
+import com.core.openapi.OpenApiSimpleResult;
 import com.core.util.CommonUtil;
 import com.handmark.pulltorefresh.PullToRefreshBase;
 import com.handmark.pulltorefresh.PullToRefreshListView;
@@ -19,7 +20,9 @@ import com.touyan.investment.AbsDetailActivity;
 import com.touyan.investment.AbsFragment;
 import com.touyan.investment.R;
 import com.touyan.investment.activity.OfferDetailActivity;
+import com.touyan.investment.activity.UserCollectActivity;
 import com.touyan.investment.adapter.CollectedInvOfferAdapter;
+import com.touyan.investment.adapter.EditerAdapter;
 import com.touyan.investment.adapter.InvOfferAdapter;
 import com.touyan.investment.bean.main.InvOfferBean;
 import com.touyan.investment.bean.user.CollectedOfferResult;
@@ -36,6 +39,7 @@ public class CollectedInvOfferFragment extends AbsFragment {
 
     private static final int INIT_LIST = 0x01;//初始化数据处理
     private static final int LOAD_DATA = 0x02;//加载数据处理
+    private static final int DELETE_COMPLETE = 0X03;
 
     private static final int COUNT_MAX = 15;//加载数据最大值
 
@@ -47,6 +51,8 @@ public class CollectedInvOfferFragment extends AbsFragment {
     private CollectedInvOfferAdapter mAdapter;
 
     private ArrayList<InvOfferBean> mList;
+
+    private ArrayList<Integer> checkedItems;
 
     private boolean isInit = false;
 
@@ -60,11 +66,28 @@ public class CollectedInvOfferFragment extends AbsFragment {
                 case LOAD_DATA:
                     loadData((CommonResponse) msg.obj, what);
                     break;
+                case DELETE_COMPLETE:
+                    deleteComplete((CommonResponse) msg.obj);
+                    break;
                 default:
                     break;
             }
         }
     };
+
+    private void deleteComplete(CommonResponse resposne) {
+        if (resposne.isSuccess()) {
+            OpenApiSimpleResult result = (OpenApiSimpleResult) resposne.getData();
+            for (int i = 0; i < checkedItems.size(); i++) {
+                int item = checkedItems.get(i);
+                mList.remove(item);
+            }
+            mAdapter.refresh(mList);
+        } else {
+            CommonUtil.showToast(resposne.getErrorTip());
+        }
+
+    }
 
     private void loadData(CommonResponse resposne, int what) {
         dialogDismiss();
@@ -178,6 +201,22 @@ public class CollectedInvOfferFragment extends AbsFragment {
             InvOfferBean bean = (InvOfferBean) data.getSerializableExtra(KEY);
             mList.set(currentItemIndex, bean);
             mAdapter.refresh(mList);
+        }
+        if (requestCode == UserCollectActivity.EDIT_STATE_CHENGED) {
+            switch (resultCode) {
+                case EditerAdapter.STATE_REMOVE:
+                    mAdapter.updateEditState(EditerAdapter.STATE_EDIT);
+                    checkedItems = mAdapter.checkedItemList;
+                    manager.deleteCollectedInfos(getActivity(), mAdapter.getIdList(), activityHandler, DELETE_COMPLETE);
+                    break;
+                case EditerAdapter.STATE_COMPLETE:
+                    mAdapter.updateEditState(EditerAdapter.STATE_EDIT);
+                    break;
+                case EditerAdapter.STATE_EDIT:
+                    mAdapter.updateEditState(EditerAdapter.STATE_COMPLETE);
+                    break;
+            }
+
         }
     }
 }
