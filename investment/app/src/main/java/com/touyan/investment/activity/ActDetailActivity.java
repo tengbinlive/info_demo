@@ -267,7 +267,7 @@ public class ActDetailActivity extends AbsDetailActivity {
             public void onClick(View view, BottomMenu menu, boolean status) {
                 if (menu == BottomMenu.REWARD) {
                 } else if (menu == BottomMenu.SHARE) {
-                    selectPict(invActBean);
+                    selectShare(invActBean);
                 } else if (menu == BottomMenu.REVIEW) {
                     toReview(invActBean);
                 } else if (menu == BottomMenu.COLLECT) {
@@ -368,7 +368,7 @@ public class ActDetailActivity extends AbsDetailActivity {
         overridePendingTransition(R.anim.push_translate_in_right, 0);
     }
 
-    private void selectPict(InvActBean bean) {
+    private void selectShare(InvActBean bean) {
         if (mBottomView != null) {
             mBottomView.showBottomView(true);
             return;

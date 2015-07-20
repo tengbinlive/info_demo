@@ -8,12 +8,13 @@ import android.os.Handler;
 import android.os.Message;
 import android.widget.EditText;
 import com.core.util.StringUtil;
+import com.touyan.investment.activity.RegisterNextActivity;
 
 public class SMSContentObserver extends ContentObserver {
     private Context mContext;
     private Handler mHandler;
 
-    public SMSContentObserver(Context context, Handler handler, EditText smsInput) {
+    public SMSContentObserver(Context context, Handler handler) {
         super(handler);
         mContext = context;
         mHandler = handler;
@@ -34,16 +35,16 @@ public class SMSContentObserver extends ContentObserver {
 
     private void setSms(String smsBody) {
         if (StringUtil.isNotBlank(smsBody)) {
-//            int index = smsBody.indexOf("coolpark");
-//            if (index != -1) {
-//                index = smsBody.indexOf("验证码是：");
-//                int end = smsBody.indexOf("。");
-//                String securityCde = smsBody.substring(index + 1, end);
-//                Message message = new Message();
-//                message.what = LoginActivity.LOAD_AUTHCODE_FILL;
-//                message.obj = securityCde;
-//                mHandler.sendMessage(message);
-//            }
+            int index = smsBody.indexOf("投研社");
+            if (index != -1) {
+                index = smsBody.indexOf("您的验证码是");
+                int end = smsBody.indexOf("，");
+                String securityCde = smsBody.substring(index + 1, end);
+                Message message = new Message();
+                message.what = RegisterNextActivity.LOAD_AUTHCODE_FILL;
+                message.obj = securityCde;
+                mHandler.sendMessage(message);
+            }
         }
     }
 }

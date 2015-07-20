@@ -6,6 +6,7 @@ import com.alibaba.fastjson.TypeReference;
 import com.core.CommonDataLoader;
 import com.core.CommonRequest;
 import com.core.openapi.OpenApiMethodEnum;
+import com.core.openapi.OpenApiSimpleResult;
 import com.touyan.investment.App;
 import com.touyan.investment.bean.main.*;
 import com.touyan.investment.bean.user.*;
@@ -26,6 +27,29 @@ public class UserManager {
      */
     public static boolean isLogin() {
         return true;
+    }
+
+    /**
+     * 用户粉丝
+     *
+     * @param context        上下文
+     * @param uphoto         手机号(用户ID)
+     * @param handler        在Activity中处理返回结果的Handler
+     * @param handlerMsgCode 返回结果的Handler的Msg代码
+     */
+    public void uploadHead(Context context,String uphoto ,final Handler handler, final int handlerMsgCode) {
+        HeadUploadParam param = new HeadUploadParam();
+        param.setServno(App.getInstance().getgUserInfo().getServno());
+        param.setUphoto(uphoto);
+
+        // 接口参数
+        param.setMethod(OpenApiMethodEnum.UPLOAD_HEAD);
+        param.setParseTokenType(new TypeReference<OpenApiSimpleResult>() {
+        });
+        // 请求对象
+        CommonRequest request = new CommonRequest(param, handler, handlerMsgCode);
+        // 开始执行加载
+        CommonDataLoader.getInstance(context).load(request);
     }
 
     /**

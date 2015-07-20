@@ -191,7 +191,13 @@
 
     <string name="me_attention">我的关注</string>
 
-
     <string name="modify_complete">完成</string>
     <string name="modify_delete">删除</string>
+
+    <string name="agreement">删除</string>
+    <string name="select_role">请选择角色</string>
+    <string name="analyst">分析师</string>
+    <string name="investors">投资人</string>
+    <string name="expert">专家</string>
+    <string name="broker">经纪人</string>
 </resources>

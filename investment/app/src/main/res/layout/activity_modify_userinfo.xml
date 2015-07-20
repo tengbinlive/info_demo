@@ -34,14 +34,21 @@
                       android:gravity="center_vertical"
                       android:paddingLeft="@dimen/content_gap"/>
 
-            <ImageView
+            <com.joooonho.SelectableRoundedImageView
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/user_head"
+                    android:src="@drawable/default_head"
+                    android:layout_marginRight="@dimen/content_gap"
+                    android:layout_gravity="center_vertical"
+                    android:scaleType="centerCrop"
                     android:layout_width="@dimen/content_60dp"
                     android:layout_height="@dimen/content_60dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginRight="@dimen/content_gap"
-                    android:src="@drawable/default_head"
-                    android:scaleType="fitCenter"/>
+                    app:sriv_left_top_corner_radius="4dip"
+                    app:sriv_right_top_corner_radius="4dip"
+                    app:sriv_left_bottom_corner_radius="4dip"
+                    app:sriv_right_bottom_corner_radius="4dip"
+                    app:sriv_oval="false"/>
+
 
             <ImageView android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
@@ -99,7 +106,7 @@
                       android:gravity="center_vertical"
                       android:paddingLeft="@dimen/content_gap"
                       android:paddingRight="@dimen/content_gap"/>
-            <EditText
+            <TextView
                     android:id="@+id/user_occupation"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -107,7 +114,6 @@
                     android:background="@color/white"
                     android:layout_marginRight="@dimen/content_gap"
                     android:gravity="center_vertical|right"
-                    android:textCursorDrawable="@null"
                     android:textColor="@color/textcolor_444"
                     android:hint="@string/user_occupation"
                     android:textColorHint="@color/textcolor_888"

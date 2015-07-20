@@ -145,7 +145,7 @@ public class MyOriginalInvInfoAdapter extends BaseAdapter implements View.OnClic
         int position;
         if (id == R.id.share_ib || id == R.id.share_ly) {
             position = (Integer) view.getTag(R.id.item_position);
-            selectPict(position);
+            selectShare(position);
         } else if (id == R.id.review_ib || id == R.id.review_ly) {
             position = (Integer) view.getTag(R.id.item_position);
             toInfoDetail(-1, position);
@@ -194,7 +194,7 @@ public class MyOriginalInvInfoAdapter extends BaseAdapter implements View.OnClic
         ImageButton reward_ib;
     }
 
-    private void selectPict(int position) {
+    private void selectShare(int position) {
         if (mBottomView != null) {
             mBottomView.showBottomView(true);
             return;

@@ -353,7 +353,7 @@ public class CommonUtil {
 
 	private static void showToast(Context context, String msg, int time) {
 		Toast toast = Toast.makeText(context, msg, time);
-		toast.setGravity(Gravity.CENTER, 0, 0);
+//		toast.setGravity(Gravity.CENTER, 0, 0);
 		Log.e("BIN.TENG", "msg = "+msg);
 		toast.show();
 	}

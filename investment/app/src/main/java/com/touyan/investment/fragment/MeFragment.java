@@ -197,6 +197,18 @@ public class MeFragment extends AbsFragment implements View.OnClickListener {
                 startActivity(intent);
                 break;
             case R.id.user_authenticated_btn:
+                showConfirmDialog(getActivity(), "申请认证后，我们的工作人员将及时与您联系", "取消", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialogDismiss();
+                    }
+                }, "确定", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialogDismiss();
+
+                    }
+                });
                 break;
         }
     }

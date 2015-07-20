@@ -134,10 +134,6 @@ public class LoginActivity extends AbsActivity implements OnClickListener {
         }
     }
 
-    private void Share3Login() {
-
-    }
-
     /**
      * 登录检测
      *
