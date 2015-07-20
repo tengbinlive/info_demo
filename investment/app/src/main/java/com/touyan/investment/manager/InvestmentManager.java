@@ -512,7 +512,59 @@ public class InvestmentManager {
 
         // 接口参数
         param.setMethod(OpenApiMethodEnum.LOAD_MYPARTAKE_ACT);
-        param.setParseTokenType(new TypeReference<InvActListResult>() {
+        param.setParseTokenType(new TypeReference<MyPartakeActListResult>() {
+        });
+        // 请求对象
+        CommonRequest request = new CommonRequest(param, handler, handlerMsgCode);
+        // 开始执行加载
+        CommonDataLoader.getInstance(context).load(request);
+    }
+
+    /**
+     * 我发布的悬赏列表
+     *
+     * @param context
+     * @param page_number    分页 当前页
+     * @param page_size      数据个数
+     * @param handler
+     * @param handlerMsgCode
+     */
+    public void myReleaseOfferList(Context context, int page_number, int page_size, final Handler handler, final int handlerMsgCode) {
+
+        InvOfferListParam param = new InvOfferListParam();
+
+        param.setStartno(page_number);
+        param.setPageSize(page_size);
+        param.setUserid(App.getInstance().getgUserInfo().getServno());
+        // 接口参数
+        param.setMethod(OpenApiMethodEnum.LOAD_MYRELEASE_OFFER);
+        param.setParseTokenType(new TypeReference<InvOfferListResult>() {
+        });
+        // 请求对象
+        CommonRequest request = new CommonRequest(param, handler, handlerMsgCode);
+        // 开始执行加载
+        CommonDataLoader.getInstance(context).load(request);
+    }
+
+    /**
+     * 我参与的悬赏列表
+     *
+     * @param context
+     * @param page_number    分页 当前页
+     * @param page_size      数据个数
+     * @param handler
+     * @param handlerMsgCode
+     */
+    public void myPartakeOfferList(Context context, int page_number, int page_size, final Handler handler, final int handlerMsgCode) {
+
+        InvOfferListParam param = new InvOfferListParam();
+
+        param.setStartno(page_number);
+        param.setPageSize(page_size);
+        param.setUserid(App.getInstance().getgUserInfo().getServno());
+        // 接口参数
+        param.setMethod(OpenApiMethodEnum.LOAD_MYPARTAKE_OFFER);
+        param.setParseTokenType(new TypeReference<MyPartakeOfferListResult>() {
         });
         // 请求对象
         CommonRequest request = new CommonRequest(param, handler, handlerMsgCode);

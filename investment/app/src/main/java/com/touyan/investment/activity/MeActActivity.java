@@ -13,6 +13,7 @@ import com.touyan.investment.AbsFragment;
 import com.touyan.investment.R;
 import com.touyan.investment.adapter.InvestmentPagerAdapter;
 import com.touyan.investment.fragment.MeActivityFragment;
+import com.touyan.investment.fragment.MeActivityPartakeFragment;
 
 import java.util.ArrayList;
 
@@ -54,7 +55,7 @@ public class MeActActivity extends AbsActivity implements OnClickListener {
 
         ArrayList<AbsFragment> fragments = new ArrayList<AbsFragment>();
         fragments.add(MeActivityFragment.newsInstance(REWARD_MYRELEASE));
-        fragments.add(MeActivityFragment.newsInstance(REWARD_MYPARTAKE));
+        fragments.add(MeActivityPartakeFragment.newsInstance(REWARD_MYPARTAKE));
 
         adapter = new InvestmentPagerAdapter(getSupportFragmentManager(), fragments);
         viewPager = (ViewPager) findViewById(R.id.view_pager);
