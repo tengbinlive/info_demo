@@ -26,8 +26,8 @@ import android.os.Message;
 import android.os.SystemClock;
 import android.view.MotionEvent;
 import android.widget.Adapter;
-import android.widget.ListView;
 import android.widget.SectionIndexer;
+import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 public class IndexScroller {
 	
@@ -42,7 +42,7 @@ public class IndexScroller {
 	private int mListViewHeight;
 	private int mCurrentSection = -1;
 	private boolean mIsIndexing = false;
-	private ListView mListView = null;
+	private StickyListHeadersListView mListView = null;
 	private SectionIndexer mIndexer = null;
 	private String[] mSections = null;
 	private RectF mIndexbarRect;
@@ -52,7 +52,7 @@ public class IndexScroller {
 	private static final int STATE_SHOWN = 2;
 	private static final int STATE_HIDING = 3;
 	
-	public IndexScroller(Context context, ListView lv) {
+	public IndexScroller(Context context, StickyListHeadersListView lv) {
 		mDensity = context.getResources().getDisplayMetrics().density;
 		mScaledDensity = context.getResources().getDisplayMetrics().scaledDensity;
 		mListView = lv;
