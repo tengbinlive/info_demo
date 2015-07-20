@@ -299,7 +299,7 @@ public class InfoReleaseActivity extends AbsActivity {
 
     private void releaseInfo() {
         if (isCheck()) {
-            dialogShow(R.string.reviewing, new DialogInterface.OnCancelListener() {
+            dialogShow(R.string.carrying, new DialogInterface.OnCancelListener() {
                 @Override
                 public void onCancel(DialogInterface dialogInterface) {
                     isCancelled = true;

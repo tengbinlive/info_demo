@@ -54,6 +54,11 @@ public enum OpenApiMethodEnum {
     LOAD_STORE_MSG("/user/storeMsg.action", "openapi_json", OpenApi.URL_TYPE_DATA),
 
     /**
+     * 采纳
+     */
+    LOAD_ADOPTION("/user/storeMsg.action", "openapi_json", OpenApi.URL_TYPE_DATA),
+
+    /**
      * 购买资讯
      */
     LOAD_BUY_INFO("/info/buyInfo.action", "openapi_json", OpenApi.URL_TYPE_DATA),
@@ -143,23 +148,26 @@ public enum OpenApiMethodEnum {
      * 我参加的活动
      */
     LOAD_MYPARTAKE_ACT("/center/myJoinedActivity.action", "openapi_json", OpenApi.URL_TYPE_DATA),
-    /*
+
+    /**
      * 查询已收藏资讯列表
      */
     QUERY_COLLECTED_INFOS("/center/myStoreInfos.action", "openapi_json", OpenApi.URL_TYPE_DATA),
+
     /**
      * 查询已收藏活动列表
      */
     QUERY_COLLECTED_ACTS("/center/myStoreActivity.action", "openapi_json", OpenApi.URL_TYPE_DATA),
+
     /**
      * 查询已收藏悬赏
      */
     QUERY_COLLECTED_REWARDS("/center/myStoreRewards.action", "openapi_json", OpenApi.URL_TYPE_DATA),
+
     /**
      * 登陆
      */
     LOAD_LOGIN("/user/login.action", "openapi_json", OpenApi.URL_TYPE_DATA);
-
 
 
     private String code;

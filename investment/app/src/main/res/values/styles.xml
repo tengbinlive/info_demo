@@ -44,6 +44,7 @@
         <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
     </style>
 
+    <!--选择按钮-->
     <style name="SwitchButtonStyle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -63,11 +64,13 @@
 
     </style>
 
+    <!--actionbar 左边 menu 动画-->
     <style name="AnimationPreviewLeft">
         <item name="android:windowEnterAnimation">@anim/fade_in</item>
         <item name="android:windowExitAnimation">@anim/fade_out</item>
     </style>
 
+    <!--actionbar 右边 menu 动画-->
     <style name="AnimationPreviewRigth">
         <item name="android:windowEnterAnimation">@anim/fade_in_rigth</item>
         <item name="android:windowExitAnimation">@anim/fade_out_rigth</item>
@@ -78,6 +81,8 @@
         <item name="android:windowExitAnimation">@anim/share_change_out</item>
     </style>
 
+    <!--底部弹出框-->
+    <!--动画-->
     <style name="BottomViewTheme_Defalut">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowContentOverlay">@null</item>
@@ -93,9 +98,22 @@
         <item name="android:windowEnterAnimation">@anim/push_translate_in</item>
         <item name="android:windowExitAnimation">@anim/push_translate_out</item>
     </style>
+
     <!--红色复选框样式-->
     <style name="RedCheckBox">
         <item name="cbd_strokeColor">@color/red</item>
         <item name="cbd_tickColor">@color/white</item>
+    </style>
+
+    <!--城市选择-->
+    <style name="Item" parent="">
+        <item name="android:textColor">@color/white</item>
+
+    </style>
+    <style name="Item.Tumblr">
+        <item name="android:layout_width">@dimen/item_circle_size_tumblr</item>
+        <item name="android:layout_height">@dimen/item_circle_size_tumblr</item>
+        <item name="android:textSize">@dimen/font_medium</item>
+        <item name="android:textColor">@color/textcolor_222</item>
     </style>
 </resources>

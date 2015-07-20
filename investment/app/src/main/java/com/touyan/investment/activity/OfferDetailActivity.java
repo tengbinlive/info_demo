@@ -15,13 +15,12 @@ import com.handmark.pulltorefresh.PullToRefreshScrollView;
 import com.joooonho.SelectableRoundedImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.touyan.investment.AbsDetailActivity;
+import com.touyan.investment.App;
 import com.touyan.investment.R;
 import com.touyan.investment.bean.main.*;
 import com.touyan.investment.bean.user.UserInfo;
 import com.touyan.investment.enums.BottomMenu;
 import com.touyan.investment.enums.YesOrNoEnum;
-import com.touyan.investment.fragment.InvInfoFragment;
-import com.touyan.investment.fragment.InvOfferFragment;
 import com.touyan.investment.helper.Util;
 import com.touyan.investment.manager.InvestmentManager;
 import com.touyan.investment.mview.BottomView;
@@ -36,6 +35,8 @@ public class OfferDetailActivity extends AbsDetailActivity {
 
     private static final int LOAD_COLLECT = 0x03;//收藏
 
+    private static final int LOAD_ADOPTION = 0x04;//采纳
+
     private static final int COUNT_MAX = 8;//加载数据最大值
 
     private int currentPager = 0;
@@ -45,6 +46,8 @@ public class OfferDetailActivity extends AbsDetailActivity {
     private View collectView;
 
     private TextView review_num_tv;
+
+    private TextView adoptTv;
 
     private BottomView mBottomView;
 
@@ -68,6 +71,9 @@ public class OfferDetailActivity extends AbsDetailActivity {
                     break;
                 case LOAD_COLLECT:
                     loadDataCollect((CommonResponse) msg.obj);
+                    break;
+                case LOAD_ADOPTION:
+                    loadDataAdoption((CommonResponse) msg.obj);
                     break;
                 default:
                     break;
@@ -99,6 +105,16 @@ public class OfferDetailActivity extends AbsDetailActivity {
         }
     }
 
+    private void loadDataAdoption(CommonResponse resposne) {
+        dialogDismiss();
+        if (resposne.isSuccess()) {
+            adoptTv.setVisibility(View.VISIBLE);
+            adoptTv.setText("最佳");
+        } else {
+            CommonUtil.showToast(resposne.getErrorTip());
+        }
+    }
+
     private void loadDataCollect(CommonResponse resposne) {
         if (resposne.isSuccess()) {
             isStore = true;
@@ -112,7 +128,7 @@ public class OfferDetailActivity extends AbsDetailActivity {
         }
     }
 
-    private LinearLayout getReView(InvReplysBean replysBean) {
+    private LinearLayout getReView(final InvReplysBean replysBean) {
         LinearLayout custom_ly = (LinearLayout) mInflater.inflate(R.layout.item_inv_review, review_ly, false);
         UserInfo userInfo = replysBean.getUser();
         TextView name = (TextView) custom_ly.findViewById(R.id.name);
@@ -125,9 +141,23 @@ public class OfferDetailActivity extends AbsDetailActivity {
         date.setText(dateStr);
         value.setText(replysBean.getContnt());
         ImageLoader.getInstance().displayImage(userInfo.getUphoto(), head);
-        if(YesOrNoEnum.YES.getCode().equals(replysBean.getIadopt())){
+        if (invOfferBean.getAdoptcount() > 0) {
+            if (YesOrNoEnum.YES.getCode().equals(replysBean.getIadopt())) {
+                adoption_tv.setVisibility(View.VISIBLE);
+                adoption_tv.setText("最佳");
+            }
+        } else if (App.getInstance().getgUserInfo().getServno().equals(invOfferBean.getPubsid())){
             adoption_tv.setVisibility(View.VISIBLE);
+            adoption_tv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    adoptTv = (TextView) view;
+                    dialogShow(R.string.carrying);
+                    manager.loadAdoption(OfferDetailActivity.this, replysBean.getRpuser(), replysBean.getMesgid(), invOfferBean.getAmount(), replysBean.getRepyid(), activityHandler, LOAD_ADOPTION);
+                }
+            });
         }
+
         return custom_ly;
     }
 
@@ -171,9 +201,10 @@ public class OfferDetailActivity extends AbsDetailActivity {
     private void findView() {
         mScrollView = (PullToRefreshScrollView) findViewById(R.id.pull_scrollview);
         review_ly = (LinearLayout) findViewById(R.id.review_ly);
-        TextView review_num_tv = (TextView) findViewById(R.id.review_num_tv);
 
-        review_num_tv.setText("回答 "+invOfferBean.getReplyCount());
+        review_num_tv = (TextView) findViewById(R.id.review_num_tv);
+
+        review_num_tv.setText("回答 " + invOfferBean.getReplyCount());
 
         LinearLayout scrollview_ly = (LinearLayout) findViewById(R.id.scrollview_ly);
 
@@ -265,17 +296,17 @@ public class OfferDetailActivity extends AbsDetailActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == REQUSETCODE&&null!=data) {
+        if (resultCode == REQUSETCODE && null != data) {
             InvReplysBean replysBean = (InvReplysBean) data.getSerializableExtra(KEY);
-            if(null!=replysBean) {
-                if(currentPager<=0) {
+            if (null != replysBean) {
+                if (currentPager <= 0) {
                     review_ly.addView(getReView(replysBean));
-                }else{
-                    review_ly.addView(getReView(replysBean),0);
+                } else {
+                    review_ly.addView(getReView(replysBean), 0);
                 }
-                int replyNum = invOfferBean.getReplyCount()+1;
+                int replyNum = invOfferBean.getReplyCount() + 1;
                 invOfferBean.setReplyCount(replyNum);
-                review_num_tv.setText("回答 "+replyNum);
+                review_num_tv.setText("回答 " + replyNum);
                 Intent intent = new Intent();
                 intent.putExtra(KEY, invOfferBean);
                 setResult(REQUSETCODE, intent);

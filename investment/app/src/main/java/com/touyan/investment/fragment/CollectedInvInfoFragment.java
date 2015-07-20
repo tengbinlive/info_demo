@@ -162,15 +162,12 @@ public class CollectedInvInfoFragment extends AbsFragment {
             switch (resultCode) {
                 case EditerAdapter.STATE_REMOVE:
                     mAdapter.updateEditState(EditerAdapter.STATE_REMOVE);
-
                     break;
                 case EditerAdapter.STATE_COMPLETE:
                     mAdapter.updateEditState(EditerAdapter.STATE_COMPLETE);
-
                     break;
                 case EditerAdapter.STATE_EDIT:
                     mAdapter.updateEditState(EditerAdapter.STATE_EDIT);
-
                     break;
             }
 

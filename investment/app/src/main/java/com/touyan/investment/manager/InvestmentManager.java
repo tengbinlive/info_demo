@@ -249,6 +249,36 @@ public class InvestmentManager {
     }
 
     /**
+     * 采纳
+     *
+     * @param context
+     * @param mesgid         资讯/悬赏ID
+     * @param replyid         回复id
+     * @param rpuser         回复用户id
+     * @param price         悬赏金额
+     * @param handler
+     * @param handlerMsgCode
+     */
+    public void loadAdoption(Context context ,String rpuser, String mesgid, Double price, String replyid, final Handler handler, final int handlerMsgCode) {
+
+        InvAdoptionParam param = new InvAdoptionParam();
+
+        param.setReplyid(replyid);
+        param.setMesgid(mesgid);
+        param.setRpuser(rpuser);
+        param.setUserid(App.getInstance().getgUserInfo().getServno());
+        param.setPrice(price);
+        // 接口参数
+        param.setMethod(OpenApiMethodEnum.LOAD_ADOPTION);
+        param.setParseTokenType(new TypeReference<OpenApiSimpleResult>() {
+        });
+        // 请求对象
+        CommonRequest request = new CommonRequest(param, handler, handlerMsgCode);
+        // 开始执行加载
+        CommonDataLoader.getInstance(context).load(request);
+    }
+
+    /**
      * 购买
      *
      * @param context
@@ -565,12 +595,12 @@ public class InvestmentManager {
      * @param handler
      * @param handlerMsgCode
      */
-    public void releaseReward(Context context, InvReleaseActParam param, final Handler handler, final int handlerMsgCode) {
+    public void releaseReward(Context context, InvReleaseOfferParam param, final Handler handler, final int handlerMsgCode) {
 
         param.setPubsid(App.getInstance().getgUserInfo().getServno());
         // 接口参数
         param.setMethod(OpenApiMethodEnum.PUBLISH_REWARD);
-        param.setParseTokenType(new TypeReference<InvInfoReleaseResult>() {
+        param.setParseTokenType(new TypeReference<InvReleaseOfferResult>() {
         });
         // 请求对象
         CommonRequest request = new CommonRequest(param, handler, handlerMsgCode);

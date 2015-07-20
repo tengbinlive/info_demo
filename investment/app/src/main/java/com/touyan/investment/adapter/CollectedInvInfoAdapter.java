@@ -44,6 +44,7 @@ public class CollectedInvInfoAdapter extends EditerAdapter implements View.OnCli
     private BottomView mBottomView;
 
     public CollectedInvInfoAdapter(CollectedInvInfoFragment fragment, ArrayList<InvInfoBean> _list) {
+        super(fragment.getActivity());
         this.list = _list;
         this.fragment = fragment;
         mContext = this.fragment.getActivity();
@@ -71,13 +72,16 @@ public class CollectedInvInfoAdapter extends EditerAdapter implements View.OnCli
     }
 
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
+    public int getCheckBoxLayout() {
+        return R.id.checkbox_layout;
+    }
+
+    @Override
+    public View getChildView(final int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.item_inv_info, null);
             holder = new ViewHolder();
-            holder.checkBoxLayout = (RelativeLayout) convertView.findViewById(R.id.checkbox_layout);
-            initCheckBox(mContext, holder.checkBoxLayout);
             holder.info_ly = (LinearLayout) convertView.findViewById(R.id.info_ly);
             holder.share_ly = (LinearLayout) convertView.findViewById(R.id.share_ly);
             holder.review_ly = (LinearLayout) convertView.findViewById(R.id.review_ly);
@@ -115,37 +119,6 @@ public class CollectedInvInfoAdapter extends EditerAdapter implements View.OnCli
         } else {
             holder = (ViewHolder) convertView.getTag(R.id.item_holder);
         }
-
-
-        switch (getCurrentState()) {
-            case STATE_EDIT:
-                showCheckBox(holder.checkBoxLayout);
-                break;
-            case STATE_COMPLETE:
-                hideCheckBox(holder.checkBoxLayout);
-                break;
-            case STATE_REMOVE:
-                hideCheckBox(holder.checkBoxLayout);
-                break;
-        }
-
-        getCheckBox().setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (checkedItemList.contains(position)) {
-                    checkedItemList.remove(position);
-                } else {
-                    checkedItemList.add(position);
-                }
-                if (checkedItemList.size() <= 0) {
-                    ((UserCollectActivity) mContext).setToolbarRightStrID(R.string.modify_complete);
-                    ((UserCollectActivity) mContext).currentEditState = EditerAdapter.STATE_COMPLETE;
-                } else {
-                    ((UserCollectActivity) mContext).setToolbarRightStrID(R.string.modify_delete);
-                    ((UserCollectActivity) mContext).currentEditState = EditerAdapter.STATE_REMOVE;
-                }
-            }
-        });
 
         InvInfoBean infoBean = list.get(position);
         UserInfo userInfo = infoBean.getUser();
@@ -219,7 +192,6 @@ public class CollectedInvInfoAdapter extends EditerAdapter implements View.OnCli
     }
 
     class ViewHolder {
-        RelativeLayout checkBoxLayout;
         SelectableRoundedImageView head;
         MGridView gridview;
         TextView name;

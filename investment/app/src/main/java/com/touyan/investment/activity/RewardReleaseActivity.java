@@ -13,8 +13,6 @@ import com.touyan.investment.mview.EditTextWithDelete;
 
 public class RewardReleaseActivity extends AbsActivity implements OnClickListener {
 
-    private LinearLayout release_act_ly;
-
     @Override
     public void EInit() {
         super.EInit();
@@ -45,7 +43,6 @@ public class RewardReleaseActivity extends AbsActivity implements OnClickListene
     }
 
     private void findView() {
-        release_act_ly = (LinearLayout) findViewById(R.id.release_act_ly);
         SwitchButton sw_bt = (SwitchButton) findViewById(R.id.public_sw_bt);
         sw_bt.setChecked(true);
         sw_bt.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -57,13 +54,6 @@ public class RewardReleaseActivity extends AbsActivity implements OnClickListene
             }
         });
 
-        addReleaseInfo();
-    }
-
-    private void addReleaseInfo() {
-        EditTextWithDelete item_release_value = (EditTextWithDelete) mInflater.inflate(R.layout.item_release_value, release_act_ly, false);
-        item_release_value.setHint(R.string.act_release_product_value_hint);
-        release_act_ly.addView(item_release_value);
     }
 
 }

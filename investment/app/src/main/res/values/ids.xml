@@ -5,4 +5,7 @@
     <item type="id" name="button_value"/>
     <item type="id" name="item_position"/>
     <item type="id" name="item_holder"/>
+    <item type="id" name="item_checkbox"/>
+    <item type="id" name="checkbox_status"/>
+    <item type="id" name="arc_layout"/>
 </resources>
