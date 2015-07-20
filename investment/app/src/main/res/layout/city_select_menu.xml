@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.touyan.investment.mview.ClipRevealFrame
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/menu_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/theme"
+        android:visibility="invisible">
+
+    <com.ogaclejapan.arclayout.ArcLayout
+            android:id="@id/arc_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:arc_axisRadius="@dimen/layout_child_offset_tumblr"
+            app:arc_origin="center"
+            app:arc_radius="@dimen/layout_radius_tumblr">
+
+        <Button
+                style="@style/Item.Tumblr"
+                android:background="@drawable/tumblr_orange_oval"
+                android:text="深圳"
+                />
+        <Button
+                style="@style/Item.Tumblr"
+                android:background="@drawable/tumblr_blue_oval"
+                android:text="其他"
+                />
+        <Button
+                style="@style/Item.Tumblr"
+                android:background="@drawable/tumblr_blue_oval"
+                android:text=""
+                android:visibility="invisible"
+                />
+
+        <Button
+                style="@style/Item.Tumblr"
+                android:background="@drawable/tumblr_green_oval"
+                android:text="北京"
+                />
+
+        <Button
+                style="@style/Item.Tumblr"
+                android:background="@drawable/tumblr_red_oval"
+                android:text="广州"
+                />
+
+
+    </com.ogaclejapan.arclayout.ArcLayout>
+
+    <Button
+            android:id="@+id/center_item"
+            style="@style/Item.Tumblr"
+            android:layout_gravity="center"
+            android:background="@drawable/tumblr_white_oval"
+            android:text="上海"
+            />
+
+</com.touyan.investment.mview.ClipRevealFrame>
+

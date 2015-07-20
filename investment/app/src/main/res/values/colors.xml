@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <color name="mdtp_accent_color">#f12e40</color>
+    <color name="mdtp_accent_color_dark">#f12e40</color>
+
     <color name="red">#fd5252</color>
     <color name="fanred">#e46470</color>
 
@@ -44,5 +48,12 @@
 
     <color name="icon_enabled">#FFFFFFFF</color>
     <color name="icon_disabled">#FF63727B</color>
+
+    <!--城市选择-->
+    <color name="tumblr_orange">#F2992E</color>
+    <color name="tumblr_green">#56BC8A</color>
+    <color name="tumblr_white">#FFFFFF</color>
+    <color name="tumblr_blue">#4AA8D8</color>
+    <color name="tumblr_red">#D95E40</color>
 
 </resources>

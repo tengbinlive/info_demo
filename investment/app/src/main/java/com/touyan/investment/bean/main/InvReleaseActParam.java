@@ -16,7 +16,7 @@ public class InvReleaseActParam extends OpenApiBaseRequest implements OpenApiReq
     public final static String PUBLIC_YES = "0";
 
     private String actvtp;//类型
-    private String atitle;//资讯标题
+    private String atitle;//标题
     private String contnt;//内容
     private String startm;//开始时间
     private String endtim;//结束时间
@@ -186,8 +186,8 @@ public class InvReleaseActParam extends OpenApiBaseRequest implements OpenApiReq
         if (includeEmptyAttr || (!includeEmptyAttr && StringUtil.isNotBlank(contnt))) param.put("contnt", contnt);
         if (includeEmptyAttr || (!includeEmptyAttr && StringUtil.isNotBlank(startm))) param.put("startm", startm);
         if (includeEmptyAttr || (!includeEmptyAttr && StringUtil.isNotBlank(endtim))) param.put("endtim", endtim);
-        if (includeEmptyAttr || (!includeEmptyAttr && StringUtil.isNotBlank(byloct))) param.put("byloct", byloct);
-        if (includeEmptyAttr || (!includeEmptyAttr && StringUtil.isNotBlank(adress))) param.put("adress", adress);
+        if (includeEmptyAttr || (!includeEmptyAttr )) param.put("byloct", byloct);
+        if (includeEmptyAttr || (!includeEmptyAttr )) param.put("adress", adress);
         if (includeEmptyAttr || (!includeEmptyAttr && StringUtil.isNotBlank(pubsid))) param.put("pubsid", pubsid);
         if (includeEmptyAttr || (!includeEmptyAttr && charge>0)) param.put("charge", charge);
         if (includeEmptyAttr || (!includeEmptyAttr && pintno>0)) param.put("pintno", pintno);

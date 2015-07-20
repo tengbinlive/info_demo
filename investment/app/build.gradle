@@ -18,15 +18,15 @@ android {
 
     defaultConfig {
         applicationId "com.touyan.investment"
-        minSdkVersion 9
+        minSdkVersion 14
         targetSdkVersion 21
         versionCode 1
         versionName "1.0"
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_6
-        targetCompatibility JavaVersion.VERSION_1_6
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
     }
     buildTypes {
         release {
@@ -45,8 +45,10 @@ dependencies {
     compile 'com.github.rey5137:material:1.1.1'
     compile 'com.joooonho:selectableroundedimageview:1.0.1'
     compile 'se.emilsjolander:stickylistheaders:2.5.0'
+    compile 'com.wdullaer:materialdatetimepicker:1.4.1'
     compile project(':niftymodaldialog')
     compile project(':pulltorefresh')
     compile project(':smarttablayout')
     compile project(':bingoogolapple')
+    compile project(':arclayout')
 }

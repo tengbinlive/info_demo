@@ -71,5 +71,10 @@
     <dimen name="tip_offset_x">40dp</dimen>
     <dimen name="tip_offset_y">18dp</dimen>
 
+    <!--城市选择-->
+    <dimen name="item_circle_size_tumblr">50dp</dimen>
+    <dimen name="layout_child_offset_tumblr">100dp</dimen>
+    <dimen name="layout_radius_tumblr">135dp</dimen>
+
 
 </resources>

@@ -96,7 +96,7 @@ public class InvReviewActivity extends AbsActivity {
             CommonUtil.showToast(R.string.contents_not_empty);
             return;
         }
-        dialogShow(R.string.reviewing);
+        dialogShow(R.string.carrying);
         replysBean = new InvReplysBean();
         replysBean.setUser(App.getInstance().getgUserInfo());
         replysBean.setContnt(contnt);

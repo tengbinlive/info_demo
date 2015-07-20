@@ -1,8 +1,8 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
     <include android:id="@+id/toolbar"
              android:layout_height="wrap_content"
@@ -10,6 +10,7 @@
              layout="@layout/action_toolbar"/>
 
     <ScrollView
+            android:layout_below="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/white"
@@ -20,13 +21,78 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
+            <include layout="@layout/item_release_title"
+                     android:id="@+id/title_ly"/>
+
             <LinearLayout android:layout_width="match_parent"
-                          android:orientation="vertical"
-                          android:animateLayoutChanges="true"
-                          android:id="@+id/release_act_ly"
+                          android:orientation="horizontal"
+                          android:paddingTop="@dimen/content_gap"
+                          android:paddingRight="@dimen/content_gap"
+                          android:paddingLeft="@dimen/content_gap"
                           android:layout_height="wrap_content">
 
+                <TextView android:layout_width="wrap_content"
+                          android:text="@string/act_release_roadshow_date"
+                          android:id="@+id/date_title_tv"
+                          android:layout_centerVertical="true"
+                          android:textSize="@dimen/font_medium"
+                          android:textColor="@color/textcolor_444"
+                          android:layout_height="wrap_content"/>
+
+                <TextView
+                        android:id="@+id/date_value_tv"
+                        android:layout_toLeftOf="@+id/coin_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:gravity="center_vertical"
+                        android:drawablePadding="@dimen/content_gap_small"
+                        android:layout_marginRight="@dimen/content_gap_small"
+                        android:paddingLeft="@dimen/content_gap"
+                        android:paddingRight="@dimen/content_gap"
+                        android:drawableBottom="@drawable/act_line"
+                        android:textSize="@dimen/font_medium"
+                        android:textColor="@color/textcolor_222"
+                        android:textColorHint="@color/gray_hint"
+                        android:hint="@string/act_release_roadshow_date_hint"/>
             </LinearLayout>
+
+            <LinearLayout android:layout_width="match_parent"
+                          android:orientation="horizontal"
+                          android:paddingTop="@dimen/content_gap"
+                          android:paddingRight="@dimen/content_gap"
+                          android:paddingLeft="@dimen/content_gap"
+                          android:layout_height="wrap_content">
+
+                <TextView android:layout_width="wrap_content"
+                          android:text="@string/act_release_roadshow_city"
+                          android:id="@+id/city_title_tv"
+                          android:layout_centerVertical="true"
+                          android:textSize="@dimen/font_medium"
+                          android:textColor="@color/textcolor_444"
+                          android:layout_height="wrap_content"/>
+
+                <TextView
+                        android:id="@+id/city_value_tv"
+                        android:layout_toLeftOf="@+id/coin_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:gravity="center_vertical"
+                        android:drawablePadding="@dimen/content_gap_small"
+                        android:layout_marginRight="@dimen/content_gap_small"
+                        android:paddingLeft="@dimen/content_gap"
+                        android:paddingRight="@dimen/content_gap"
+                        android:drawableBottom="@drawable/act_line"
+                        android:textSize="@dimen/font_medium"
+                        android:textColor="@color/textcolor_222"
+                        android:textColorHint="@color/gray_hint"
+                        android:hint="@string/act_release_roadshow_city_hint"/>
+            </LinearLayout>
+
+            <include layout="@layout/item_release_value"
+                     android:id="@+id/value_ly"/>
+
 
             <View android:layout_width="match_parent"
                   android:background="@color/gray_layout"
@@ -82,6 +148,7 @@
                             android:layout_height="@dimen/inv_release_layout_height">
 
                 <EditText
+                        android:id="@+id/people_et"
                         android:layout_toLeftOf="@+id/people_tv"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
@@ -110,4 +177,11 @@
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>
-</LinearLayout>
+
+    <include
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/toolbar"
+            layout="@layout/city_select_menu"/>
+
+</RelativeLayout>

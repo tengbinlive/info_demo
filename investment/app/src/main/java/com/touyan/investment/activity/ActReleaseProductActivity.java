@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.core.CommonResponse;
 import com.core.util.CommonUtil;
+import com.core.util.DateUtil;
 import com.core.util.StringUtil;
 import com.kyleduo.switchbutton.SwitchButton;
 import com.touyan.investment.AbsActivity;
@@ -20,8 +21,15 @@ import com.touyan.investment.bean.main.InvActDetailResult;
 import com.touyan.investment.bean.main.InvReleaseActParam;
 import com.touyan.investment.manager.InvestmentManager;
 import com.touyan.investment.mview.EditTextWithDelete;
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
+import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
+import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
-public class ActReleaseProductActivity extends AbsActivity implements OnClickListener {
+import java.util.Calendar;
+import java.util.Date;
+
+public class ActReleaseProductActivity extends AbsActivity implements TimePickerDialog.OnTimeSetListener,
+        DatePickerDialog.OnDateSetListener {
 
     private InvestmentManager investmentManager = new InvestmentManager();
 
@@ -35,11 +43,7 @@ public class ActReleaseProductActivity extends AbsActivity implements OnClickLis
 
     private static final int LOAD_RELEASE = 0x01;//发布
 
-    private String titleStr;
-
-    private String dateStr;
-
-    private String contentStr;
+    private Calendar endDate;
 
     private Handler activityHandler = new Handler() {
         public void handleMessage(Message msg) {
@@ -94,17 +98,8 @@ public class ActReleaseProductActivity extends AbsActivity implements OnClickLis
         });
     }
 
-    @Override
-    public void onClick(View v) {
-
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
     private void findView() {
+        endDate = Calendar.getInstance();
         SwitchButton sw_bt = (SwitchButton) findViewById(R.id.public_sw_bt);
         sw_bt.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -123,6 +118,12 @@ public class ActReleaseProductActivity extends AbsActivity implements OnClickLis
 
         //时间
         date_value_tv = (TextView) findViewById(R.id.date_value_tv);
+        date_value_tv.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDateDialog();
+            }
+        });
 
         //详情
         value_ly = (EditTextWithDelete) findViewById(R.id.value_ly);
@@ -131,40 +132,90 @@ public class ActReleaseProductActivity extends AbsActivity implements OnClickLis
     }
 
     private void releaseInfo() {
-        titleStr = release_value_et.getText().toString();
+        String titleStr = release_value_et.getText().toString();
         if (StringUtil.isBlank(titleStr)) {
             release_value_et.requestFocus();
             CommonUtil.showToast("标题没有哦~");
             return;
         }
 
-//        dateStr = date_value_tv.getText().toString();
-//        if (StringUtil.isBlank(dateStr)) {
-//
-//            CommonUtil.showToast("选个时间吧~");
-//            return;
-//        }
+        String dateStr = date_value_tv.getText().toString();
+        if (StringUtil.isBlank(dateStr)) {
+            showDateDialog();
+            value_ly.requestFocus();
+            return;
+        }
 
-        contentStr = value_ly.getText().toString();
+        String contentStr = value_ly.getText().toString();
         if (StringUtil.isBlank(contentStr)) {
             value_ly.requestFocus();
             CommonUtil.showToast("说点什么吧~");
             return;
         }
-        dialogShow(R.string.reviewing);
+        dialogShow(R.string.carrying);
         InvReleaseActParam param = new InvReleaseActParam();
         param.setActvtp(InvReleaseActParam.TYPE_ACT);
         param.setIspubl(isPublic ? InvReleaseActParam.PUBLIC_YES : InvReleaseActParam.PUBLIC_NO);
-        param.setByloct("上海");
-        param.setAdress("上海");
-        param.setAdress("上海");
-        param.setStartm("2015-01-09 20:12:20");
-        param.setEndtim("2015-01-09 20:12:20");
+        param.setByloct("");
+        param.setAdress("");
+        Date curDate = new Date(System.currentTimeMillis());//获取当前时间
+        String startTimeStr = DateUtil.ConverToString(curDate, DateUtil.YYYY_MM_DD_HH_MM_SS);
+        String endTimeStr = DateUtil.ConverToString(endDate.getTime(), DateUtil.YYYY_MM_DD_HH_MM_SS);
+        param.setStartm(startTimeStr);
+        param.setEndtim(endTimeStr);
         param.setContnt(contentStr);
         param.setAtitle(titleStr);
         investmentManager.releaseAct(this, param, activityHandler, LOAD_RELEASE);
 
     }
 
+    private void showDateDialog() {
+        Calendar now = Calendar.getInstance();
+        Date time = now.getTime();
+        long currentTime = time.getTime();
+        time.setTime(currentTime + 24 * 60 * 60);
+        DatePickerDialog dpd = DatePickerDialog.newInstance(
+                ActReleaseProductActivity.this,
+                now.get(Calendar.YEAR),
+                now.get(Calendar.MONTH),
+                now.get(Calendar.DAY_OF_MONTH)
+        );
+        now.setTime(time);
+        dpd.setMinDate(now);
+        dpd.show(getFragmentManager(), "Datepickerdialog");
+
+    }
+
+    /**
+     * 时间选择
+     */
+    private void showTimeDialog() {
+        Calendar now = Calendar.getInstance();
+        TimePickerDialog tpd = TimePickerDialog.newInstance(
+                ActReleaseProductActivity.this,
+                now.get(Calendar.HOUR_OF_DAY),
+                now.get(Calendar.MINUTE),
+                true
+        );
+        tpd.show(getFragmentManager(), "Timepickerdialog");
+    }
+
+    @Override
+    public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
+//        String hourString = hourOfDay < 10 ? "0"+hourOfDay : ""+hourOfDay;
+//        String minuteString = minute < 10 ? "0"+minute : ""+minute;
+//        String time = "You picked the following time: "+hourString+"h"+minuteString;
+        endDate.set(Calendar.HOUR_OF_DAY, hourOfDay);
+        endDate.set(Calendar.MINUTE, minute);
+        String dateStr = DateUtil.ConverToString(endDate.getTime(), DateUtil.YYYY_MM_DD_HH_MM_SS);
+        date_value_tv.setText(dateStr);
+    }
+
+    @Override
+    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+//        String date = "You picked the following date: "+dayOfMonth+"/"+monthOfYear + "/"+year;
+        endDate.set(year, monthOfYear, dayOfMonth);
+        showTimeDialog();
+    }
 
 }
