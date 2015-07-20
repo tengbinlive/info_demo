@@ -1,5 +1,6 @@
 package com.touyan.investment.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,15 +19,16 @@ import java.util.ArrayList;
 /**
  * Created by Administrator on 2015/7/17.
  */
-public class CollectedInvOfferAdapter extends BaseAdapter {
+public class CollectedInvOfferAdapter extends EditerAdapter {
     private LayoutInflater mInflater;
 
     private ArrayList<InvOfferBean> list;
 
-    private Context mContext;
+    private Activity mContext;
 
 
-    public CollectedInvOfferAdapter(Context context, ArrayList<InvOfferBean> _list) {
+    public CollectedInvOfferAdapter(Activity context, ArrayList<InvOfferBean> _list) {
+        super(context);
         this.list = _list;
         mContext = context;
         mInflater = LayoutInflater.from(mContext);
@@ -53,7 +55,12 @@ public class CollectedInvOfferAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public int getCheckBoxLayout() {
+        return R.id.checkbox_layout;
+    }
+
+    @Override
+    public View getChildView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.item_inv_offer, null);
@@ -100,5 +107,14 @@ public class CollectedInvOfferAdapter extends BaseAdapter {
         TextView status;
         TextView reward_money;
         TextView review_people_num;
+    }
+
+    @Override
+    public ArrayList<String> getIdList() {
+        ArrayList<String> idList = new ArrayList<String>();
+        for (int i = 0; i < checkedItemList.size(); i++) {
+            idList.add(this.list.get(checkedItemList.get(i)).getRewdid());
+        }
+        return idList;
     }
 }

@@ -1,5 +1,6 @@
 package com.touyan.investment.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
 import com.rey.material.widget.CheckBox;
 import com.touyan.investment.R;
+import com.touyan.investment.activity.UserCollectActivity;
 
 import java.util.ArrayList;
 
@@ -22,7 +24,7 @@ public abstract class EditerAdapter extends BaseAdapter {
 
     private RelativeLayout.LayoutParams layoutParams;
     public ArrayList<Integer> checkedItemList;
-    private Context mContext;
+    private Activity mContext;
     private OnCheckBoexListener checkBoexListener;
     private CheckBox mCheckBoex;
 
@@ -34,7 +36,7 @@ public abstract class EditerAdapter extends BaseAdapter {
         this.mCheckBoex = checkBoex;
     }
 
-    public EditerAdapter(Context context) {
+    public EditerAdapter(Activity context) {
         mContext = context;
         checkedItemList = new ArrayList<Integer>();
         layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -60,9 +62,12 @@ public abstract class EditerAdapter extends BaseAdapter {
 
     public abstract int getCheckBoxLayout();
 
+    public abstract ArrayList<String> getIdList();
+
     @Override
     public View getView(int i, View convertView, ViewGroup viewGroup) {
         ViewHolder holder;
+
         if (convertView == null) {
             convertView = getChildView(i, convertView, viewGroup);
             ViewGroup checkBoxLayout = (RelativeLayout) convertView.findViewById(getCheckBoxLayout());
@@ -80,6 +85,18 @@ public abstract class EditerAdapter extends BaseAdapter {
                     } else {
                         checkedItemList.remove(index);
                     }
+                    if (getCurrentState() != EditerAdapter.STATE_EDIT) {
+                        if (checkedItemList.size() > 0) {
+                            setCurrentState(EditerAdapter.STATE_REMOVE);
+                            ((UserCollectActivity) mContext).changeEditState(EditerAdapter.STATE_REMOVE);
+                            notifyDataSetChanged();
+                        } else {
+                            setCurrentState(EditerAdapter.STATE_COMPLETE);
+                            ((UserCollectActivity) mContext).changeEditState(EditerAdapter.STATE_COMPLETE);
+                            notifyDataSetChanged();
+                        }
+                    }
+
                     if (null != checkBoexListener) {
                         checkBoexListener.OnCheckBoexListener(compoundButton, index);
                     }
@@ -87,8 +104,10 @@ public abstract class EditerAdapter extends BaseAdapter {
             });
             convertView.setTag(R.id.item_checkbox, holder);
         } else {
+            convertView = getChildView(i, convertView, viewGroup);
             holder = (ViewHolder) convertView.getTag(R.id.item_checkbox);
         }
+
         holder.checkBox.setTag(R.id.checkbox_status, i);
         if (checkedItemList.contains(i)) {
             holder.checkBox.setChecked(true);
@@ -101,11 +120,11 @@ public abstract class EditerAdapter extends BaseAdapter {
                 holder.checkBox.setVisibility(View.GONE);
                 break;
             case STATE_COMPLETE:
+                checkedItemList = new ArrayList<Integer>();
                 holder.checkBox.setVisibility(View.VISIBLE);
                 break;
             case STATE_REMOVE:
-                checkedItemList = new ArrayList<Integer>();
-                holder.checkBox.setVisibility(View.GONE);
+                holder.checkBox.setVisibility(View.VISIBLE);
                 break;
         }
         return convertView;
@@ -126,6 +145,11 @@ public abstract class EditerAdapter extends BaseAdapter {
 
     private void addCheckBox(ViewGroup layout) {
         layout.addView(initCheckBox());
+    }
+
+    public void updateEditState(int editState) {
+        this.setCurrentState(editState);
+        notifyDataSetChanged();
     }
 
     class ViewHolder {

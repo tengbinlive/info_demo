@@ -1,5 +1,6 @@
 package com.touyan.investment.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
@@ -21,7 +22,7 @@ import java.util.ArrayList;
 /**
  * Created by Administrator on 2015/7/17.
  */
-public class CollectedInvActAdapter extends BaseAdapter {
+public class CollectedInvActAdapter extends EditerAdapter {
     private static final int LOAD_SIGN = 0x01;//报名
 
     private InvestmentManager manager = new InvestmentManager();
@@ -30,7 +31,7 @@ public class CollectedInvActAdapter extends BaseAdapter {
 
     private ArrayList<InvActBean> list;
 
-    private Context mContext;
+    private Activity mContext;
 
     private int currentIndex;
 
@@ -56,7 +57,8 @@ public class CollectedInvActAdapter extends BaseAdapter {
         }
     }
 
-    public CollectedInvActAdapter(Context context, ArrayList<InvActBean> _list) {
+    public CollectedInvActAdapter(Activity context, ArrayList<InvActBean> _list) {
+        super(context);
         this.list = _list;
         mContext = context;
         mInflater = LayoutInflater.from(mContext);
@@ -83,7 +85,12 @@ public class CollectedInvActAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public int getCheckBoxLayout() {
+        return R.id.checkbox_layout;
+    }
+
+    @Override
+    public View getChildView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.item_inv_act, null);
@@ -103,6 +110,17 @@ public class CollectedInvActAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
+        switch (getCurrentState()) {
+            case STATE_EDIT:
+                holder.sign_tv.setVisibility(View.VISIBLE);
+                break;
+            case STATE_COMPLETE:
+                holder.sign_tv.setVisibility(View.INVISIBLE);
+                break;
+            case STATE_REMOVE:
+                holder.sign_tv.setVisibility(View.INVISIBLE);
+                break;
+        }
         InvActBean bean = list.get(position);
 
         setSignStatus(holder.sign_tv, bean.getIsJoin());
@@ -160,5 +178,14 @@ public class CollectedInvActAdapter extends BaseAdapter {
         ImageView head;
         TextView contents_tv;
         TextView sign_tv;
+    }
+
+    @Override
+    public ArrayList<String> getIdList() {
+        ArrayList<String> idList = new ArrayList<String>();
+        for (int i = 0; i < checkedItemList.size(); i++) {
+            idList.add(this.list.get(checkedItemList.get(i)).getActvid());
+        }
+        return idList;
     }
 }

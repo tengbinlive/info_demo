@@ -6,11 +6,13 @@
               android:orientation="vertical"
               android:background="@color/white">
 
-    <RelativeLayout android:layout_width="match_parent"
-                    android:paddingRight="@dimen/content_gap"
-                    android:paddingLeft="@dimen/content_gap"
-                    android:layout_marginTop="@dimen/content_gap"
-                    android:layout_height="wrap_content">
+    <RelativeLayout
+            android:id="@+id/checkbox_layout"
+            android:layout_width="match_parent"
+            android:paddingRight="@dimen/content_gap"
+            android:paddingLeft="@dimen/content_gap"
+            android:layout_marginTop="@dimen/content_gap"
+            android:layout_height="wrap_content">
 
         <com.joooonho.SelectableRoundedImageView
                 xmlns:app="http://schemas.android.com/apk/res-auto"

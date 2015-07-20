@@ -2,7 +2,11 @@ package com.touyan.investment.activity;
 
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -11,11 +15,22 @@ import com.core.util.CommonUtil;
 import com.core.util.StringUtil;
 import com.joooonho.SelectableRoundedImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.touyan.investment.AbsActivity;
+import com.touyan.investment.AbsFragment;
 import com.touyan.investment.R;
+import com.touyan.investment.adapter.EditerAdapter;
+import com.touyan.investment.adapter.InvestmentPagerAdapter;
 import com.touyan.investment.bean.user.OtherInfoResult;
 import com.touyan.investment.bean.user.UserInfo;
+import com.touyan.investment.fragment.CollectedInvActFragment;
+import com.touyan.investment.fragment.CollectedInvInfoFragment;
+import com.touyan.investment.fragment.CollectedInvOfferFragment;
 import com.touyan.investment.manager.UserManager;
+import com.touyan.investment.mview.FilterView;
+import com.touyan.investment.mview.NoScrollViewPager;
+
+import java.util.ArrayList;
 
 
 /**
@@ -36,6 +51,21 @@ public class UserFansDetailsActivity extends AbsActivity {
     private LinearLayout userTagLayout;              //用户标签列表
 
 
+    private TextView fragmentTitle;
+    private NoScrollViewPager viewPager;
+
+    private InvestmentPagerAdapter adapter;
+    private ArrayList<AbsFragment> fragments;
+    private final static int INVESTMENT_NEWS = 0;//资讯
+    private final static int INVESTMENT_ACT = INVESTMENT_NEWS + 1;//活动
+    private final static int INVESTMENT_OFFER = INVESTMENT_ACT + 1;//悬赏
+
+    private int currentPager = INVESTMENT_NEWS;
+
+    private FilterView menuRightPoupWindow;
+    private int gapRigth;
+
+
     private Handler activityHandler = new Handler() {
         public void handleMessage(Message msg) {
             dialogDismiss();
@@ -54,6 +84,7 @@ public class UserFansDetailsActivity extends AbsActivity {
         super.EInit();
         setSwipeBackEnable(true);
         findView();
+        initViewPager(getSupportFragmentManager());
         queryOtherInfo();
     }
 
@@ -83,6 +114,27 @@ public class UserFansDetailsActivity extends AbsActivity {
         userTagLayout = (LinearLayout) findViewById(R.id.user_tag_list);
         userFollowText = (TextView) findViewById(R.id.user_follow_num);
         userFansText = (TextView) findViewById(R.id.user_fans_num);
+        viewPager = (NoScrollViewPager) findViewById(R.id.view_pager);
+        fragmentTitle = (TextView) findViewById(R.id.fragment_title_text);
+
+        fragmentTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showMenuRigth();
+            }
+        });
+    }
+
+    private void initViewPager(FragmentManager fm) {
+        fragments = new ArrayList<AbsFragment>();
+        fragments.add(new CollectedInvInfoFragment());
+        fragments.add(new CollectedInvActFragment());
+        fragments.add(new CollectedInvOfferFragment());
+
+        adapter = new InvestmentPagerAdapter(fm, fragments);
+
+        viewPager.setAdapter(adapter);
+
     }
 
     private void loadOtherData(CommonResponse resposne) {
@@ -161,11 +213,61 @@ public class UserFansDetailsActivity extends AbsActivity {
     }
 
     private void queryOtherInfo() {
-
         UserManager userManager = new UserManager();
         userManager.queryOtherInfo(this, getIntent().getStringExtra("otherid"), "" + getIntent().getStringExtra("userid"), activityHandler, OTHER_DATA);
         dialogShow(R.string.data_downloading);
     }
 
+    private void showMenuRigth() {
+        if (menuRightPoupWindow == null) {
+            gapRigth = (int) getResources().getDimension(R.dimen.content_10dp);
+            RelativeLayout conentView = (RelativeLayout) mInflater.inflate(R.layout.dialog_userfans_detail, null);
+            TextView info = (TextView) conentView.findViewById(R.id.info);
+            TextView act = (TextView) conentView.findViewById(R.id.act);
+            TextView offer = (TextView) conentView.findViewById(R.id.offer);
 
+            info.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    menuRightPoupWindow.dismiss();
+                    setCurrentViewPager(INVESTMENT_NEWS);
+                }
+            });
+            act.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    menuRightPoupWindow.dismiss();
+                    setCurrentViewPager(INVESTMENT_ACT);
+
+                }
+            });
+            offer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    menuRightPoupWindow.dismiss();
+                    setCurrentViewPager(INVESTMENT_OFFER);
+
+                }
+            });
+            menuRightPoupWindow = new FilterView(this, conentView, R.style.AnimationPreviewRigth);
+        }
+        menuRightPoupWindow.showPopupWindow(fragmentTitle, 0, -gapRigth);
+    }
+
+    public void setCurrentViewPager(int currentPager) {
+        this.currentPager = currentPager;
+        switch (currentPager) {
+            case INVESTMENT_NEWS:
+                fragmentTitle.setText("资讯");
+                break;
+            case INVESTMENT_ACT:
+                fragmentTitle.setText("活动");
+                break;
+            case INVESTMENT_OFFER:
+                fragmentTitle.setText("悬赏");
+                break;
+
+        }
+        viewPager.setCurrentItem(currentPager);
+    }
 }
