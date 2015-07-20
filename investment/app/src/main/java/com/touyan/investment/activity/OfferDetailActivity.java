@@ -212,7 +212,7 @@ public class OfferDetailActivity extends AbsDetailActivity {
             @Override
             public void onClick(View view, BottomMenu menu, boolean status) {
                 if (menu == BottomMenu.SHARE) {
-                    selectPict(invOfferBean);
+                    selectShare(invOfferBean);
                 } else if (menu == BottomMenu.REPLY) {
                     toReview(invOfferBean);
                 } else if (menu == BottomMenu.COLLECT) {
@@ -250,7 +250,7 @@ public class OfferDetailActivity extends AbsDetailActivity {
         overridePendingTransition(R.anim.push_translate_in_right, 0);
     }
 
-    private void selectPict(InvOfferBean bean) {
+    private void selectShare(InvOfferBean bean) {
         if (mBottomView != null) {
             mBottomView.showBottomView(true);
             return;

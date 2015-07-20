@@ -1,217 +1,160 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/register_white"
+              android:orientation="vertical">
+
+    <include android:id="@+id/toolbar"
+             android:layout_height="wrap_content"
+             android:layout_width="match_parent"
+             layout="@layout/action_toolbar"/>
+
+    <ScrollView
+            android:layout_width="match_parent"
+            android:scrollbars="none"
+            android:layout_height="match_parent">
+        <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/register_white"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
-        <include android:id="@+id/toolbar"
-                 android:layout_height="wrap_content"
-                 android:layout_width="match_parent"
-                 layout="@layout/action_toolbar"/>
-        <ScrollView
-                android:layout_below="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                >
-                <RelativeLayout
-                        android:layout_width="match_parent"
+
+            <LinearLayout
+                    android:id="@+id/phone_tip_ll"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingRight="@dimen/content_right_margin"
+                    android:paddingLeft="@dimen/content_left_margin"
+                    >
+
+                <TextView
+                        android:id="@+id/tip_tv"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:text="验证码已发送至"
+                        android:textSize="@dimen/font_small"
+                        android:textColor="@color/textcolor_444"
+                        />
+                <TextView
+                        android:id="@+id/phone_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:textSize="@dimen/font_small"
+                        android:textColor="@color/textcolor_444"
+                        />
+            </LinearLayout>
 
-                        <LinearLayout
-                                android:id="@+id/phone_tip_ll"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="25dp"
-                                android:orientation="horizontal"
-                                android:gravity="center_vertical"
-                                android:paddingRight="@dimen/content_right_margin"
-                                android:paddingLeft="@dimen/content_left_margin"
+            <RelativeLayout
+                    android:id="@+id/phone_rl"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:layout_height="50dp"
+                    android:orientation="horizontal"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:paddingRight="@dimen/content_left_margin"
+                    >
 
-                                >
+                <com.touyan.investment.mview.EditTextWithDelete
+                        android:id="@+id/register_et"
+                        android:padding="@dimen/content_right_margin"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="请输入收到的验证码"
+                        android:inputType="phone"
+                        android:textSize="@dimen/font_small"
+                        android:background="@null"
+                        android:textCursorDrawable="@null"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/gray_hint"
+                        android:layout_toLeftOf="@+id/sendcode_btn"
+                        />
+                <Button
+                        android:id="@+id/sendcode_btn"
+                        android:layout_width="110dp"
+                        android:layout_height="30dp"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true"
+                        android:text="@string/login_verification_title"
+                        android:textSize="@dimen/font_small"
+                        android:textColor="@color/white"
+                        android:background="@drawable/reg_sendcod_bg"/>
 
-                                <TextView
-                                        android:id="@+id/tip_tv"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="验证码已发送至"
-                                        android:textColor="@color/textcolor_444"
-                                        />
-                                <TextView
-                                        android:id="@+id/phone_tv"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:layout_marginLeft="10dp"
-                                        android:textSize="@dimen/font_medium"
-                                        />
-                        </LinearLayout>
+            </RelativeLayout>
 
-                        <RelativeLayout
-                                android:id="@+id/phone_rl"
-                                android:layout_width="match_parent"
-                                android:layout_marginTop="10dp"
-                                android:layout_height="50dp"
-                                android:layout_below="@+id/phone_tip_ll"
-                                android:orientation="horizontal"
-                                android:background="@color/white"
-                                android:gravity="center_vertical"
-                                android:paddingRight="@dimen/content_right_margin"
-                                android:paddingLeft="@dimen/content_left_margin"
+            <com.touyan.investment.mview.EditTextWithDelete
+                    android:padding="@dimen/content_right_margin"
+                    android:layout_marginTop="@dimen/content_10dp"
+                    android:textCursorDrawable="@null"
+                    android:id="@+id/password_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:hint="设置密码"
+                    android:password="true"
+                    android:textSize="@dimen/font_small"
+                    android:background="@color/white"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/gray_hint"
+                    />
 
-                                >
+            <com.touyan.investment.mview.EditTextWithDelete
+                    android:layout_marginTop="@dimen/content_10dp"
+                    android:padding="@dimen/content_right_margin"
+                    android:background="@color/white"
+                    android:id="@+id/invitecode_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:hint="输入邀请码"
+                    android:inputType="number"
+                    android:textSize="@dimen/font_small"
+                    android:textCursorDrawable="@null"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/gray_hint"
+                    />
 
-                                <com.touyan.investment.mview.EditTextWithDelete
-                                        android:id="@+id/register_et"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:hint="请输入收到的验证码"
-                                        android:inputType="phone"
-                                        android:textSize="@dimen/font_medium"
-                                        android:background="@null"
-                                        android:textCursorDrawable="@null"
-                                        android:textColor="@color/black"
-                                        android:textColorHint="@color/gray_hint"
-                                        android:layout_toLeftOf="@+id/sendcode_btn"
-                                        />
-                                <Button
-                                        android:id="@+id/sendcode_btn"
-                                        android:layout_width="110dp"
-                                        android:layout_height="30dp"
-                                        android:layout_centerVertical="true"
-                                        android:layout_alignParentRight="true"
-                                        android:text="获取验证码"
-                                        android:textSize="@dimen/font_btn"
-                                        android:textColor="@color/white"
-                                        android:background="@drawable/reg_sendcod_bg"/>
+            <com.touyan.investment.mview.EditTextWithDelete
+                    android:id="@+id/name_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:hint="输入姓名"
+                    android:textSize="@dimen/font_small"
+                    android:textCursorDrawable="@null"
+                    android:layout_marginTop="@dimen/content_10dp"
+                    android:padding="@dimen/content_right_margin"
+                    android:background="@color/white"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/gray_hint"
+                    />
 
-                        </RelativeLayout>
-                        <LinearLayout
-                                android:id="@+id/password_ll"
-                                android:layout_width="match_parent"
-                                android:layout_marginTop="10dp"
-                                android:layout_height="50dp"
-                                android:layout_below="@+id/phone_rl"
-                                android:orientation="horizontal"
-                                android:background="@color/white"
-                                android:gravity="center_vertical"
-                                android:paddingRight="@dimen/content_right_margin"
-                                android:paddingLeft="@dimen/content_left_margin"
+            <TextView
+                    android:id="@+id/role_et"
+                    android:layout_marginTop="@dimen/content_10dp"
+                    android:padding="@dimen/content_right_margin"
+                    android:background="@color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:hint="选择角色"
+                    android:textSize="@dimen/font_small"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/gray_hint"
+                    />
 
-                                >
+            <Button
+                    android:id="@+id/register_btn"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="25dp"
+                    android:layout_below="@+id/role_ll"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="@dimen/content_left_margin"
+                    android:layout_marginRight="@dimen/content_right_margin"
+                    android:text="立即注册"
+                    android:textSize="@dimen/font_btn"
+                    android:textColor="@color/white"
+                    android:background="@drawable/login_btn"/>
 
-                                <com.touyan.investment.mview.EditTextWithDelete
-                                        android:id="@+id/password_et"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:hint="设置密码"
-                                        android:password="true"
-                                        android:textSize="@dimen/font_medium"
-                                        android:background="@null"
-                                        android:textColor="@color/black"
-                                        android:textColorHint="@color/gray_hint"
-                                        />
-
-                        </LinearLayout>
-
-
-                        <LinearLayout
-                                android:id="@+id/invite_ll"
-                                android:layout_width="match_parent"
-                                android:layout_marginTop="10dp"
-                                android:layout_height="50dp"
-                                android:layout_below="@+id/password_ll"
-                                android:orientation="horizontal"
-                                android:background="@color/white"
-                                android:gravity="center_vertical"
-                                android:paddingRight="@dimen/content_right_margin"
-                                android:paddingLeft="@dimen/content_left_margin"
-
-                                >
-
-                                <com.touyan.investment.mview.EditTextWithDelete
-                                        android:id="@+id/invitecode_et"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:hint="输入邀请码"
-                                        android:textSize="@dimen/font_medium"
-                                        android:background="@null"
-                                        android:textCursorDrawable="@null"
-                                        android:textColor="@color/black"
-                                        android:textColorHint="@color/gray_hint"
-                                        />
-
-                        </LinearLayout>
-
-
-                        <LinearLayout
-                                android:id="@+id/name_ll"
-                                android:layout_width="match_parent"
-                                android:layout_marginTop="10dp"
-                                android:layout_height="50dp"
-                                android:layout_below="@+id/invite_ll"
-                                android:orientation="horizontal"
-                                android:background="@color/white"
-                                android:gravity="center_vertical"
-                                android:paddingRight="@dimen/content_right_margin"
-                                android:paddingLeft="@dimen/content_left_margin"
-
-                                >
-
-                                <com.touyan.investment.mview.EditTextWithDelete
-                                        android:id="@+id/name_et"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:hint="输入姓名"
-                                        android:textSize="@dimen/font_medium"
-                                        android:textCursorDrawable="@null"
-                                        android:background="@null"
-                                        android:textColor="@color/black"
-                                        android:textColorHint="@color/gray_hint"
-                                        />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                                android:id="@+id/role_ll"
-                                android:layout_width="match_parent"
-                                android:layout_marginTop="10dp"
-                                android:layout_height="50dp"
-                                android:layout_below="@+id/name_ll"
-                                android:orientation="horizontal"
-                                android:background="@color/white"
-                                android:gravity="center_vertical"
-                                android:paddingRight="@dimen/content_right_margin"
-                                android:paddingLeft="@dimen/content_left_margin"
-
-                                >
-
-                                <com.touyan.investment.mview.EditTextWithDelete
-                                        android:id="@+id/role_et"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:hint="选择角色"
-                                        android:textSize="@dimen/font_medium"
-                                        android:background="@null"
-                                        android:textCursorDrawable="@null"
-                                        android:textColor="@color/black"
-                                        android:textColorHint="@color/gray_hint"
-                                        />
-
-                        </LinearLayout>
-
-
-                        <Button
-                                android:id="@+id/register_btn"
-                                android:layout_width="match_parent"
-                                android:layout_marginTop="25dp"
-                                android:layout_below="@+id/role_ll"
-                                android:layout_height="40dp"
-                                android:layout_marginLeft="@dimen/content_left_margin"
-                                android:layout_marginRight="@dimen/content_right_margin"
-                                android:text="立即注册"
-                                android:textSize="@dimen/font_btn"
-                                android:textColor="@color/white"
-                                android:background="@drawable/login_btn"/>
-
-                </RelativeLayout>
-        </ScrollView>
-</RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

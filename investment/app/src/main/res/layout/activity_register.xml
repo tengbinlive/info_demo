@@ -7,46 +7,45 @@
              android:layout_height="wrap_content"
              android:layout_width="match_parent"
              layout="@layout/action_toolbar"/>
+
     <LinearLayout
             android:id="@+id/phone_ll"
             android:layout_width="match_parent"
             android:layout_marginTop="40dp"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/toolbar"
             android:orientation="horizontal"
             android:background="@color/white"
             android:gravity="center_vertical"
-            android:paddingRight="@dimen/content_right_margin"
-            android:paddingLeft="@dimen/content_left_margin"
-
             >
 
         <ImageView
                 android:id="@+id/phone_iv"
+                android:paddingLeft="@dimen/content_left_margin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:src="@drawable/register_phone_icon"/>
+
         <com.touyan.investment.mview.EditTextWithDelete
                 android:id="@+id/register_et"
+                android:padding="@dimen/content_gap"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="16dp"
+                android:layout_height="50dp"
                 android:hint="请输入您的手机号"
                 android:inputType="phone"
-                android:textSize="@dimen/font_medium"
+                android:textSize="@dimen/font_small"
                 android:background="@null"
                 android:textCursorDrawable="@null"
                 android:textColor="@color/black"
                 android:textColorHint="@color/gray_hint"
                 />
 
-
     </LinearLayout>
-
 
     <TextView
             android:id="@+id/tip1"
+            android:textSize="@dimen/font_small"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/phone_ll"
@@ -68,19 +67,6 @@
             android:textSize="@dimen/font_btn"
             android:textColor="@color/white"
             android:background="@drawable/login_btn"/>
-<!--
-    <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="80dp"
-            android:text="我同意《投研社服务协议》"
-            android:textColor="@color/textcolor_444"
-            android:button="@drawable/checkbox_button"
-            android:paddingLeft="10dp"
-            />-->
-
 
     <com.rey.material.widget.CheckBox
             xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -94,9 +80,9 @@
             android:padding="@dimen/content_gap_small"
             android:text="我同意《投研社服务协议》"
             android:textColor="@color/textcolor_444"
-            android:textSize="@dimen/font_medium"
+            android:textSize="@dimen/font_small"
             android:checked="false"
-            app:cbd_strokeColor="#454545"
+            app:cbd_strokeColor="@color/theme"
             app:cbd_tickColor="@color/white"
             android:gravity="center_vertical"/>
 

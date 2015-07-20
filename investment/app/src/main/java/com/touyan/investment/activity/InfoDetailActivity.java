@@ -231,7 +231,7 @@ public class InfoDetailActivity extends AbsDetailActivity {
                 if (menu == BottomMenu.REWARD) {
                     toInfoReward(invInfoBean);
                 } else if (menu == BottomMenu.SHARE) {
-                    selectPict(invInfoBean);
+                    selectShare(invInfoBean);
                 } else if (menu == BottomMenu.REVIEW) {
                     toReview(invInfoBean);
                 } else if (menu == BottomMenu.COLLECT) {
@@ -327,7 +327,7 @@ public class InfoDetailActivity extends AbsDetailActivity {
         overridePendingTransition(R.anim.push_translate_in_right, 0);
     }
 
-    private void selectPict(InvInfoBean invInfoBean) {
+    private void selectShare(InvInfoBean invInfoBean) {
         if (mBottomView != null) {
             mBottomView.showBottomView(true);
             return;

@@ -7,9 +7,7 @@ import com.core.CommonDataLoader;
 import com.core.CommonRequest;
 import com.core.openapi.OpenApiMethodEnum;
 import com.core.openapi.OpenApiSimpleResult;
-import com.touyan.investment.bean.login.LoginAuthCodeParam;
-import com.touyan.investment.bean.login.LoginParam;
-import com.touyan.investment.bean.login.LoginResult;
+import com.touyan.investment.bean.login.*;
 
 /**
  * 用户中心业务类.
@@ -28,12 +26,59 @@ public class LoginManager {
      * @param handler        在Activity中处理返回结果的Handler
      * @param handlerMsgCode 返回结果的Handler的Msg代码
      */
-    public void LoginAuthCode(Context context, String phone, final Handler handler, final int handlerMsgCode) {
+    public void authCode(Context context, String phone, final Handler handler, final int handlerMsgCode) {
 
-        LoginAuthCodeParam param = new LoginAuthCodeParam();
-        param.setPhone_no(phone);
+        AuthCodeParam param = new AuthCodeParam();
+        param.setServno(phone);
+        param.setTemplateID("12847");
         // 接口参数
         param.setMethod(OpenApiMethodEnum.LOAD_GET_CODE);
+        param.setParseTokenType(new TypeReference<OpenApiSimpleResult>() {
+        });
+        // 请求对象
+        CommonRequest request = new CommonRequest(param, handler, handlerMsgCode);
+        // 开始执行加载
+        CommonDataLoader.getInstance(context).load(request);
+    }
+
+    /**
+     * 密码重置
+     *
+     * @param context        上下文
+     * @param servno         手机号(用户ID)
+     * @param aucode         验证码
+     * @param passwd         密码
+     * @param handler        在Activity中处理返回结果的Handler
+     * @param handlerMsgCode 返回结果的Handler的Msg代码
+     */
+    public void resetPassword(Context context, String servno, String aucode, String passwd, final Handler handler, final int handlerMsgCode) {
+
+        ResetPasswordParam param = new ResetPasswordParam();
+        param.setServno(servno);
+        param.setAucode(aucode);
+        param.setPasswd(passwd);
+        // 接口参数
+        param.setMethod(OpenApiMethodEnum.RESET_PASSWD);
+        param.setParseTokenType(new TypeReference<OpenApiSimpleResult>() {
+        });
+        // 请求对象
+        CommonRequest request = new CommonRequest(param, handler, handlerMsgCode);
+        // 开始执行加载
+        CommonDataLoader.getInstance(context).load(request);
+    }
+
+    /**
+     * 用户注册
+     *
+     * @param context        上下文
+     * @param param          注册数据
+     * @param handler        在Activity中处理返回结果的Handler
+     * @param handlerMsgCode 返回结果的Handler的Msg代码
+     */
+    public void register(Context context, RegistParam param, final Handler handler, final int handlerMsgCode) {
+
+        // 接口参数
+        param.setMethod(OpenApiMethodEnum.LOAD_REGIST);
         param.setParseTokenType(new TypeReference<OpenApiSimpleResult>() {
         });
         // 请求对象

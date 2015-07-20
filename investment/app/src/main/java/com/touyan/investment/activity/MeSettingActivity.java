@@ -40,7 +40,7 @@ public class MeSettingActivity extends AbsActivity implements OnClickListener {
             selectPict();
         }
         else if(v.getId() == R.id.password_rl){
-            Intent intent = new Intent(context, ChangePasswordActivity.class);
+            Intent intent = new Intent(context, ResetPasswordActivity.class);
             startActivity(intent);
         }
         else if(v.getId() == R.id.about_rl){

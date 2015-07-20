@@ -8,18 +8,14 @@ import android.view.ViewGroup;
 import android.widget.*;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import com.core.util.CommonUtil;
 import com.core.util.DateUtil;
-import com.core.util.Log;
 import com.core.util.StringUtil;
 import com.joooonho.SelectableRoundedImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.rey.material.widget.CheckBox;
 import com.touyan.investment.AbsDetailActivity;
 import com.touyan.investment.R;
 import com.touyan.investment.activity.InfoDetailActivity;
 import com.touyan.investment.activity.InfoRewardActivity;
-import com.touyan.investment.activity.UserCollectActivity;
 import com.touyan.investment.bean.main.InvInfoBean;
 import com.touyan.investment.bean.user.UserInfo;
 import com.touyan.investment.fragment.CollectedInvInfoFragment;
@@ -177,7 +173,7 @@ public class CollectedInvInfoAdapter extends EditerAdapter implements View.OnCli
         int position;
         if (id == R.id.share_ib || id == R.id.share_ly) {
             position = (Integer) view.getTag(R.id.item_position);
-            selectPict(position);
+            selectShare(position);
         } else if (id == R.id.review_ib || id == R.id.review_ly) {
             position = (Integer) view.getTag(R.id.item_position);
             toInfoDetail(-1, position);
@@ -226,7 +222,7 @@ public class CollectedInvInfoAdapter extends EditerAdapter implements View.OnCli
         ImageButton reward_ib;
     }
 
-    private void selectPict(int position) {
+    private void selectShare(int position) {
         if (mBottomView != null) {
             mBottomView.showBottomView(true);
             return;

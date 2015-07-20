@@ -46,7 +46,17 @@ public enum OpenApiMethodEnum {
     /**
      * 获取验证码
      */
-    LOAD_GET_CODE("index.php/get_cod", "openapi_json", OpenApi.URL_TYPE_DATA),
+    LOAD_GET_CODE("/user/getAuthCode.action", "openapi_json", OpenApi.URL_TYPE_DATA),
+
+    /**
+     * 用户注册
+     */
+    LOAD_REGIST("/user/regist.action", "openapi_json", OpenApi.URL_TYPE_DATA),
+
+    /**
+     * 重置密码
+     */
+    RESET_PASSWD("/user/resetPasswd.action", "openapi_json", OpenApi.URL_TYPE_DATA),
 
     /**
      * 收藏
@@ -122,6 +132,12 @@ public enum OpenApiMethodEnum {
      * 查询粉丝
      */
     QUERY_USERFANS("/subscribe/querySubMyscribers.action", "openapi_json", OpenApi.URL_TYPE_DATA),
+
+    /**
+     * 上传头像
+     */
+    UPLOAD_HEAD("/user/updateAvatar.action", "openapi_json", OpenApi.URL_TYPE_DATA),
+
     /**
      * 查询他人信息
      */
