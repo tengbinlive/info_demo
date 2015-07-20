@@ -41,6 +41,8 @@
     <!--注册界面背景 也是全局背景-->
     <color name="register_white">#F2F2F2</color>
 
+    <color name="dialog_text_blue">#ff6c87ff</color>
+
     <color name="textcolor_222">#222</color>
     <color name="textcolor_444">#444</color>
     <color name="textcolor_666">#666</color>

@@ -11,6 +11,9 @@ import com.touyan.investment.App;
 import com.touyan.investment.bean.main.*;
 import com.touyan.investment.bean.user.AccountParam;
 import com.touyan.investment.bean.user.AccountResult;
+import com.touyan.investment.bean.user.DeleteCollectedInfoParam;
+
+import java.util.ArrayList;
 
 /**
  * 投研社业务类.
@@ -436,6 +439,29 @@ public class InvestmentManager {
         CommonDataLoader.getInstance(context).load(request);
     }
 
+    /**
+     * 删除原创资讯列表
+     *
+     * @param context
+     * @param ids
+     * @param handler
+     * @param handlerMsgCode
+     */
+    public void deleteMyOriginalInfos(Context context, ArrayList<String> ids, final Handler handler, final int handlerMsgCode) {
+
+        DeleteCollectedInfoParam param = new DeleteCollectedInfoParam();
+        param.setIds(ids);
+
+        // 接口参数
+        param.setMethod(OpenApiMethodEnum.DELETE_ORIGINAL_INFOS);
+        param.setParseTokenType(new TypeReference<OpenApiSimpleResult>() {
+        });
+
+        // 请求对象
+        CommonRequest request = new CommonRequest(param, handler, handlerMsgCode);
+        // 开始执行加载
+        CommonDataLoader.getInstance(context).load(request);
+    }
 
 
     /**

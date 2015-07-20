@@ -128,6 +128,10 @@ public enum OpenApiMethodEnum {
     QUERY_OTHERINFO("/center/getOtherInfo.action", "openapi_json", OpenApi.URL_TYPE_DATA),
 
     /**
+     * 删除原创资讯
+     */
+    DELETE_ORIGINAL_INFOS("/center/batchDelInfos.action", "openapi_json", OpenApi.URL_TYPE_DATA),
+    /**
      * 原创资讯
      */
     LOAD_ORIGINAL_INFO("/info/queryInfos.action", "openapi_json", OpenApi.URL_TYPE_DATA),

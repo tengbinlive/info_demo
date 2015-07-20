@@ -85,17 +85,6 @@ public abstract class EditerAdapter extends BaseAdapter {
                     } else {
                         checkedItemList.remove(index);
                     }
-                    if (getCurrentState() != EditerAdapter.STATE_EDIT) {
-                        if (checkedItemList.size() > 0) {
-                            setCurrentState(EditerAdapter.STATE_REMOVE);
-                            ((UserCollectActivity) mContext).changeEditState(EditerAdapter.STATE_REMOVE);
-                            notifyDataSetChanged();
-                        } else {
-                            setCurrentState(EditerAdapter.STATE_COMPLETE);
-                            ((UserCollectActivity) mContext).changeEditState(EditerAdapter.STATE_COMPLETE);
-                            notifyDataSetChanged();
-                        }
-                    }
 
                     if (null != checkBoexListener) {
                         checkBoexListener.OnCheckBoexListener(compoundButton, index);

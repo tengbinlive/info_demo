@@ -49,6 +49,22 @@ public class CollectedInvInfoAdapter extends EditerAdapter implements View.OnCli
         this.fragment = fragment;
         mContext = this.fragment.getActivity();
         mInflater = LayoutInflater.from(mContext);
+        setCheckBoexListener(new OnCheckBoexListener() {
+            @Override
+            public void OnCheckBoexListener(View view, int index) {
+                if (getCurrentState() != EditerAdapter.STATE_EDIT) {
+                    if (checkedItemList.size() > 0) {
+                        setCurrentState(EditerAdapter.STATE_REMOVE);
+                        ((UserCollectActivity) mContext).changeEditState(EditerAdapter.STATE_REMOVE);
+                        notifyDataSetChanged();
+                    } else {
+                        setCurrentState(EditerAdapter.STATE_COMPLETE);
+                        ((UserCollectActivity) mContext).changeEditState(EditerAdapter.STATE_COMPLETE);
+                        notifyDataSetChanged();
+                    }
+                }
+            }
+        });
     }
 
     @Override

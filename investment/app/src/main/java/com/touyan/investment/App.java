@@ -271,6 +271,7 @@ public class App extends Application {
         activities.remove(activity);
     }
 
+
     //finish
     public void exit() {
         for (int i = activities.size(); i > 0; i--) {

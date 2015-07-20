@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import com.core.CommonResponse;
+import com.core.openapi.OpenApiSimpleResult;
 import com.core.util.CommonUtil;
 import com.handmark.pulltorefresh.PullToRefreshBase;
 import com.handmark.pulltorefresh.PullToRefreshListView;
@@ -18,6 +19,8 @@ import com.touyan.investment.AbsDetailActivity;
 import com.touyan.investment.AbsFragment;
 import com.touyan.investment.R;
 import com.touyan.investment.activity.MeInfoActivity;
+import com.touyan.investment.activity.UserCollectActivity;
+import com.touyan.investment.adapter.EditerAdapter;
 import com.touyan.investment.adapter.MyOriginalInvInfoAdapter;
 import com.touyan.investment.bean.main.InvInfoBean;
 import com.touyan.investment.bean.main.InvInfoResult;
@@ -31,7 +34,7 @@ public class MeInfoFragment extends AbsFragment {
 
     private static final int INIT_LIST = 0x01;//初始化数据处理
     private static final int LOAD_DATA = 0x02;//加载数据处理
-
+    private static final int DELETE_COMPLETE = 0X03;
     private static final int COUNT_MAX = 5;//加载数据最大值
 
     private LayoutInflater mInflater;
@@ -43,9 +46,9 @@ public class MeInfoFragment extends AbsFragment {
 
     private ArrayList<InvInfoBean> mList;
     public int currentItemIndex;
-
-
     private int viewType;//根据这个类型去判断调用那个接口。
+
+    private ArrayList<Integer> checkedItems;
     public static MeInfoFragment newsInstance( int viewType)
     {
         MeInfoFragment meInfoFragment = new MeInfoFragment();
@@ -62,6 +65,9 @@ public class MeInfoFragment extends AbsFragment {
                 case INIT_LIST:
                 case LOAD_DATA:
                     loadData((CommonResponse) msg.obj, what);
+                    break;
+                case DELETE_COMPLETE:
+                    deleteComplete((CommonResponse) msg.obj);
                     break;
                 default:
                     break;
@@ -87,7 +93,20 @@ public class MeInfoFragment extends AbsFragment {
         }
         mListView.onRefreshComplete();
     }
+    private void deleteComplete(CommonResponse resposne) {
+        if (resposne.isSuccess()) {
+            OpenApiSimpleResult result = (OpenApiSimpleResult) resposne.getData();
 
+            for (int i = 0; i < checkedItems.size(); i++) {
+                int item = checkedItems.get(i);
+                mList.remove(item);
+            }
+            mAdapter.refresh(mList);
+        } else {
+            CommonUtil.showToast(resposne.getErrorTip());
+        }
+
+    }
     @Override
     public boolean onBackPressed() {
         return false;
@@ -169,7 +188,22 @@ public class MeInfoFragment extends AbsFragment {
             mList.set(currentItemIndex, bean);
             mAdapter.refresh(mList);
         }
+
+        if (requestCode == MeInfoActivity.EDIT_STATE_CHENGED) {
+            switch (resultCode) {
+                case EditerAdapter.STATE_REMOVE:
+                    mAdapter.updateEditState(EditerAdapter.STATE_EDIT);
+                    checkedItems = mAdapter.checkedItemList;
+                    manager.deleteMyOriginalInfos(getActivity(), mAdapter.getIdList(), activityHandler, DELETE_COMPLETE);
+                    break;
+                case EditerAdapter.STATE_COMPLETE:
+                    mAdapter.updateEditState(EditerAdapter.STATE_EDIT);
+                    break;
+                case EditerAdapter.STATE_EDIT:
+                    mAdapter.updateEditState(EditerAdapter.STATE_COMPLETE);
+                    break;
+            }
+        }
+
     }
-
-
 }

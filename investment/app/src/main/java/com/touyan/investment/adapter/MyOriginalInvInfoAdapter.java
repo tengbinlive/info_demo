@@ -14,6 +14,8 @@ import com.touyan.investment.AbsDetailActivity;
 import com.touyan.investment.R;
 import com.touyan.investment.activity.InfoDetailActivity;
 import com.touyan.investment.activity.InfoRewardActivity;
+import com.touyan.investment.activity.MeInfoActivity;
+import com.touyan.investment.activity.UserCollectActivity;
 import com.touyan.investment.bean.main.InvInfoBean;
 import com.touyan.investment.bean.user.UserInfo;
 import com.touyan.investment.fragment.MeInfoFragment;
@@ -22,7 +24,7 @@ import com.touyan.investment.mview.MGridView;
 
 import java.util.ArrayList;
 
-public class MyOriginalInvInfoAdapter extends BaseAdapter implements View.OnClickListener {
+public class MyOriginalInvInfoAdapter extends EditerAdapter implements View.OnClickListener {
 
     private LayoutInflater mInflater;
 
@@ -35,10 +37,27 @@ public class MyOriginalInvInfoAdapter extends BaseAdapter implements View.OnClic
     private BottomView mBottomView;
 
     public MyOriginalInvInfoAdapter(MeInfoFragment fragment, ArrayList<InvInfoBean> _list) {
+        super(fragment.getActivity());
         this.list = _list;
         this.fragment = fragment;
         mContext = this.fragment.getActivity();
         mInflater = LayoutInflater.from(mContext);
+        setCheckBoexListener(new OnCheckBoexListener() {
+            @Override
+            public void OnCheckBoexListener(View view, int index) {
+                if (getCurrentState() != EditerAdapter.STATE_EDIT) {
+                    if (checkedItemList.size() > 0) {
+                        setCurrentState(EditerAdapter.STATE_REMOVE);
+                        ((MeInfoActivity) mContext).changeEditState(EditerAdapter.STATE_REMOVE);
+                        notifyDataSetChanged();
+                    } else {
+                        setCurrentState(EditerAdapter.STATE_COMPLETE);
+                        ((MeInfoActivity) mContext).changeEditState(EditerAdapter.STATE_COMPLETE);
+                        notifyDataSetChanged();
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -62,7 +81,7 @@ public class MyOriginalInvInfoAdapter extends BaseAdapter implements View.OnClic
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getChildView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.item_inv_info, null);
@@ -138,6 +157,25 @@ public class MyOriginalInvInfoAdapter extends BaseAdapter implements View.OnClic
         holder.reward_ly.setTag(R.id.item_position,position);
         return convertView;
     }
+
+    @Override
+    public int getCheckBoxLayout() {
+        return R.id.checkbox_layout;
+    }
+
+    @Override
+    public ArrayList<String> getIdList() {
+        ArrayList<String> idList = new ArrayList<String>();
+        for (int i = 0; i < checkedItemList.size(); i++) {
+            idList.add(this.list.get(checkedItemList.get(i)).getInfoid());
+        }
+        return idList;
+    }
+
+//    @Override
+//    public View getView(int position, View convertView, ViewGroup parent) {
+//      return null;
+//    }
 
     @Override
     public void onClick(View view) {

@@ -97,11 +97,6 @@ public class LoginActivity extends AbsActivity implements OnClickListener {
         }
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
     private void findView() {
         Button login_btn = (Button) findViewById(R.id.login_btn);
         phone_et = (EditTextWithDelete) findViewById(R.id.phone_et);
@@ -166,6 +161,13 @@ public class LoginActivity extends AbsActivity implements OnClickListener {
     private void toMainActivity() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent home = new Intent(Intent.ACTION_MAIN);
+        home.addCategory(Intent.CATEGORY_HOME);
+        startActivity(home);
     }
 
 }
