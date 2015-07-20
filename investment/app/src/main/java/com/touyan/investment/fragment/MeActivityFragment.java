@@ -25,6 +25,7 @@ import com.touyan.investment.adapter.InvActAdapter;
 import com.touyan.investment.bean.main.InvActBean;
 import com.touyan.investment.bean.main.InvActListResult;
 import com.touyan.investment.bean.main.MyActListResult;
+import com.touyan.investment.bean.main.MyPartakeActListResult;
 import com.touyan.investment.manager.InvestmentManager;
 
 import java.util.ArrayList;
@@ -73,7 +74,7 @@ public class MeActivityFragment extends AbsFragment {
             switch (what) {
                 case INIT_LIST:
                 case LOAD_DATA:
-                    loadData((CommonResponse) msg.obj, what);
+                        loadData((CommonResponse) msg.obj, what);
                     break;
                 default:
                     break;
@@ -181,12 +182,7 @@ public class MeActivityFragment extends AbsFragment {
 
     private void getDataList() {
         int startIndex = mList == null || mList.size() <= 0 ? 0 : mList.size();
-        manager.actList(getActivity(),null ,startIndex, COUNT_MAX, activityHandler, startIndex == 0 ? INIT_LIST : LOAD_DATA);
-        if (viewType == MeActActivity.REWARD_MYRELEASE){
-            manager.myReleaseActList(getActivity(), startIndex, COUNT_MAX, activityHandler, startIndex == 0 ? INIT_LIST : LOAD_DATA);
-        }else if (viewType == MeActActivity.REWARD_MYPARTAKE){
-           // manager.myPartakeActList(getActivity(), startIndex, COUNT_MAX, null,activityHandler, startIndex == 0 ? INIT_LIST : LOAD_DATA);
-        }
+        manager.myReleaseActList(getActivity(), startIndex, COUNT_MAX, activityHandler, startIndex == 0 ? INIT_LIST : LOAD_DATA);
     }
 
     @Override

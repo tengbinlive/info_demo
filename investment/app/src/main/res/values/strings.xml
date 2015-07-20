@@ -200,4 +200,6 @@
     <string name="investors">投资人</string>
     <string name="expert">专家</string>
     <string name="broker">经纪人</string>
+    <string name="user_detail_fragment_title">个人发布</string>
+
 </resources>

@@ -171,6 +171,7 @@ public class MeFragment extends AbsFragment implements View.OnClickListener {
                 toActivityForResult(MeFragment.this.getActivity(), ModifyUserInfoActivity.class, REQUESTCODE_MODIFYUSERINFO);
                 break;
             case R.id.user_follow:
+                toActivity(MeFragment.this.getActivity(), UserFollowActivity.class);
                 break;
             case R.id.user_fans:
                 toActivity(MeFragment.this.getActivity(), UserFansActivity.class);
@@ -179,6 +180,7 @@ public class MeFragment extends AbsFragment implements View.OnClickListener {
                 toActivity(MeFragment.this.getActivity(), UserCollectActivity.class);
                 break;
             case R.id.user_wallet:
+                toActivity(MeFragment.this.getActivity(), UserWalletActivity.class);
                 break;
             case R.id.user_information:
                 intent = new Intent(getActivity(), MeInfoActivity.class);

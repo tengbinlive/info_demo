@@ -234,6 +234,12 @@
                 android:theme="@style/AppTheme">
         </activity>
 
+        <!--活动详情-->
+        <activity
+                android:name=".activity.ActMyPartakeDetailActivity"
+                android:theme="@style/AppTheme">
+        </activity>
+
         <!--我的资讯-->
         <activity
                 android:name=".activity.MeInfoActivity"
@@ -244,7 +250,11 @@
                 android:name=".activity.UserFansActivity"
                 android:theme="@style/AppTheme">
         </activity>
-
+        <!--我的钱包-->
+        <activity
+                android:name=".activity.UserWalletActivity"
+                android:theme="@style/AppTheme">
+        </activity>
         <!--粉丝详情-->
         <activity
                 android:name=".activity.UserFansDetailsActivity"
@@ -261,6 +271,11 @@
         <!--用户收藏-->
         <activity
                 android:name=".activity.UserCollectActivity"
+                android:theme="@style/AppTheme">
+        </activity>
+        <!--用户关注-->
+        <activity
+                android:name=".activity.UserFollowActivity"
                 android:theme="@style/AppTheme">
         </activity>
 

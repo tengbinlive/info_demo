@@ -166,6 +166,16 @@ public enum OpenApiMethodEnum {
     LOAD_MYPARTAKE_ACT("/center/myJoinedActivity.action", "openapi_json", OpenApi.URL_TYPE_DATA),
 
     /**
+     * 我发布的悬赏
+     */
+    LOAD_MYRELEASE_OFFER("/reward/queryRewards.action", "openapi_json", OpenApi.URL_TYPE_DATA),
+
+    /**
+     * 我参与的悬赏
+     */
+    LOAD_MYPARTAKE_OFFER("/center/myJoinedRewards.action", "openapi_json", OpenApi.URL_TYPE_DATA),
+
+    /**
      * 查询已收藏资讯列表
      */
     QUERY_COLLECTED_INFOS("/center/myStoreInfos.action", "openapi_json", OpenApi.URL_TYPE_DATA),
@@ -179,6 +189,11 @@ public enum OpenApiMethodEnum {
      * 查询已收藏悬赏
      */
     QUERY_COLLECTED_REWARDS("/center/myStoreRewards.action", "openapi_json", OpenApi.URL_TYPE_DATA),
+
+    /**
+     * 删除已收藏资讯列表
+     */
+    DELETE_COLLECTED_INFOS("/center/batchDelMsgs.action", "openapi_json", OpenApi.URL_TYPE_DATA),
 
     /**
      * 登陆

@@ -1,6 +1,5 @@
 package com.touyan.investment.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
@@ -12,26 +11,26 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.core.CommonResponse;
 import com.core.util.CommonUtil;
+import com.touyan.investment.App;
 import com.touyan.investment.R;
 import com.touyan.investment.bean.main.InvActBean;
+import com.touyan.investment.bean.main.MyPartakeInvActBean;
 import com.touyan.investment.helper.Util;
 import com.touyan.investment.manager.InvestmentManager;
 
 import java.util.ArrayList;
 
-/**
- * Created by Administrator on 2015/7/17.
- */
-public class CollectedInvActAdapter extends EditerAdapter {
+public class MyPartakeInvActAdapter extends BaseAdapter {
+
     private static final int LOAD_SIGN = 0x01;//报名
 
     private InvestmentManager manager = new InvestmentManager();
 
     private LayoutInflater mInflater;
 
-    private ArrayList<InvActBean> list;
+    private ArrayList<MyPartakeInvActBean> list;
 
-    private Activity mContext;
+    private Context mContext;
 
     private int currentIndex;
 
@@ -50,15 +49,14 @@ public class CollectedInvActAdapter extends EditerAdapter {
 
     private void loadDataSign(CommonResponse resposne) {
         if (resposne.isSuccess()) {
-            list.get(currentIndex).setIsJoin(InvActBean.STATUS_BY);
+            list.get(currentIndex).getActivity().setIsJoin(MyPartakeInvActBean.STATUS_BY);
             notifyDataSetChanged();
         } else {
             CommonUtil.showToast(resposne.getErrorTip());
         }
     }
 
-    public CollectedInvActAdapter(Activity context, ArrayList<InvActBean> _list) {
-        super(context);
+    public MyPartakeInvActAdapter(Context context, ArrayList<MyPartakeInvActBean> _list) {
         this.list = _list;
         mContext = context;
         mInflater = LayoutInflater.from(mContext);
@@ -79,18 +77,13 @@ public class CollectedInvActAdapter extends EditerAdapter {
         return 0;
     }
 
-    public void refresh(ArrayList<InvActBean> _list) {
+    public void refresh(ArrayList<MyPartakeInvActBean> _list) {
         list = _list;
         notifyDataSetChanged();
     }
 
     @Override
-    public int getCheckBoxLayout() {
-        return R.id.checkbox_layout;
-    }
-
-    @Override
-    public View getChildView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.item_inv_act, null);
@@ -110,51 +103,45 @@ public class CollectedInvActAdapter extends EditerAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        switch (getCurrentState()) {
-            case STATE_EDIT:
-                holder.sign_tv.setVisibility(View.VISIBLE);
-                break;
-            case STATE_COMPLETE:
-                holder.sign_tv.setVisibility(View.INVISIBLE);
-                break;
-            case STATE_REMOVE:
-                holder.sign_tv.setVisibility(View.INVISIBLE);
-                break;
+        MyPartakeInvActBean bean = list.get(position);
+
+        if(bean.getActivity().getPubsid().equals(App.getInstance().getgUserInfo().getServno())) {
+            holder.sign_tv.setVisibility(View.GONE);
+            setSignStatus(holder.sign_tv, bean.getActivity().getIsJoin());
+        }else{
+            holder.sign_tv.setVisibility(View.VISIBLE);
+            setSignStatus(holder.sign_tv, bean.getActivity().getIsJoin());
         }
-        InvActBean bean = list.get(position);
 
-        setSignStatus(holder.sign_tv, bean.getIsJoin());
-
-        String type = bean.getActvtp();
+        String type = bean.getActivity().getActvtp();
 
         setImageIcon(holder.head, type);
 
         holder.sign_tv.setTag(position);
 
-        setContent(holder.contents_tv, type, bean.getByloct() + " " + bean.getAtitle());
+        setContent(holder.contents_tv, type, bean.getActivity().getByloct() , bean.getActivity().getAtitle());
 
         return convertView;
     }
 
     private void setSignStatus(TextView view, String status) {
-        if (InvActBean.STATUS_AUDIT.equals(status)) {
-            view.setText(R.string.audit);
-            Util.setTextViewDrawaleAnchor(mContext, view, R.drawable.act_unsign, Util.TOP);
-        } else if (InvActBean.STATUS_NOT_PARTICIPATE.equals(status)) {
+        if (InvActBean.STATUS_NOT_PARTICIPATE.equals(status)||InvActBean.STATUS_NO_BY.equals(status)) {
             view.setText(R.string.not_participate);
             Util.setTextViewDrawaleAnchor(mContext, view, R.drawable.act_unsign, Util.TOP);
-        } else if (InvActBean.STATUS_NO_BY.equals(status)) {
-            view.setText(R.string.no_by);
-            Util.setTextViewDrawaleAnchor(mContext, view, R.drawable.act_unsign, Util.TOP);
-        } else if (InvActBean.STATUS_BY.equals(status)) {
+        } else {
             Util.setTextViewDrawaleAnchor(mContext, view, R.drawable.act_sign, Util.TOP);
             view.setText(R.string.by);
         }
     }
 
     private void getSign(int index) {
-        InvActBean bean = list.get(index);
-        manager.actSign(mContext, bean.getActvid(), "" + bean.getCharge(), activityHandler, LOAD_SIGN);
+        MyPartakeInvActBean bean = list.get(index);
+        String status = bean.getActivity().getIsJoin();
+        if(InvActBean.STATUS_AUDIT.equals(status)){
+            CommonUtil.showToast(R.string.by);
+            return;
+        }
+        manager.actSign(mContext, bean.getActvid(), "" + bean.getActivity().getCharge(), activityHandler, LOAD_SIGN);
     }
 
     private void setImageIcon(ImageView head, String type) {
@@ -165,11 +152,12 @@ public class CollectedInvActAdapter extends EditerAdapter {
         }
     }
 
-    private void setContent(TextView view, String type, String content) {
-        view.setText(content);
+    private void setContent(TextView view, String type, String loact,String content) {
         if (InvActBean.TYPE_ROADSHOW.equals(type)) {
+            view.setText(loact+ " " +content);
             Util.setTextViewDrawaleAnchor(mContext, view, R.drawable.act_location, Util.LEFT);
         } else {
+            view.setText(content);
             Util.setTextViewDrawaleAnchor(mContext, view, 0, 0);
         }
     }
@@ -180,12 +168,4 @@ public class CollectedInvActAdapter extends EditerAdapter {
         TextView sign_tv;
     }
 
-    @Override
-    public ArrayList<String> getIdList() {
-        ArrayList<String> idList = new ArrayList<String>();
-        for (int i = 0; i < checkedItemList.size(); i++) {
-            idList.add(this.list.get(checkedItemList.get(i)).getActvid());
-        }
-        return idList;
-    }
 }

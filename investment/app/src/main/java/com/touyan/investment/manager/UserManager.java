@@ -11,6 +11,8 @@ import com.touyan.investment.App;
 import com.touyan.investment.bean.main.*;
 import com.touyan.investment.bean.user.*;
 
+import java.util.ArrayList;
+
 /**
  * 用户中心业务类.
  *
@@ -213,6 +215,31 @@ public class UserManager {
         // 接口参数
         param.setMethod(OpenApiMethodEnum.QUERY_COLLECTED_REWARDS);
         param.setParseTokenType(new TypeReference<CollectedOfferResult>() {
+        });
+
+        // 请求对象
+        CommonRequest request = new CommonRequest(param, handler, handlerMsgCode);
+        // 开始执行加载
+        CommonDataLoader.getInstance(context).load(request);
+    }
+
+    /**
+     * 获取用户收藏悬赏列表
+     *
+     * @param context
+     * @param ids
+     * @param handler
+     * @param handlerMsgCode
+     */
+    public void deleteCollectedInfos(Context context, ArrayList<String> ids, final Handler handler, final int handlerMsgCode) {
+
+        DeleteCollectedInfoParam param = new DeleteCollectedInfoParam();
+        param.setIds(ids);
+
+
+        // 接口参数
+        param.setMethod(OpenApiMethodEnum.DELETE_COLLECTED_INFOS);
+        param.setParseTokenType(new TypeReference<OpenApiSimpleResult>() {
         });
 
         // 请求对象

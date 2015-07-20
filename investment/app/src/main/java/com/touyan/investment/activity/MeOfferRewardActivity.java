@@ -20,8 +20,8 @@ public class MeOfferRewardActivity extends AbsActivity implements OnClickListene
 
     private ViewPager viewPager;
     private InvestmentPagerAdapter adapter;
-    private final static int REWARD_MYRELEASE = 0;//我发布的
-    private final static int REWARD_MYPARTAKE = REWARD_MYRELEASE + 1;//我参与的
+    public final static int REWARD_MYRELEASE = 0;//我发布的
+    public final static int REWARD_MYPARTAKE = REWARD_MYRELEASE + 1;//我参与的
 
     private int currentPager = REWARD_MYRELEASE;
     @Override
@@ -53,8 +53,8 @@ public class MeOfferRewardActivity extends AbsActivity implements OnClickListene
     private void findView() {
 
         ArrayList<AbsFragment> fragments = new ArrayList<AbsFragment>();
-        fragments.add(new MeOfferRewFragment());
-        fragments.add(new MeOfferRewFragment());
+        fragments.add(new MeOfferRewFragment().newsInstance(REWARD_MYRELEASE));
+        fragments.add(new MeOfferRewFragment().newsInstance(REWARD_MYPARTAKE));
 
         adapter = new InvestmentPagerAdapter(getSupportFragmentManager(), fragments);
         viewPager = (ViewPager) findViewById(R.id.view_pager);

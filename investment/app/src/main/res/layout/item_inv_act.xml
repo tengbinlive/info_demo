@@ -1,54 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:orientation="vertical"
-              android:background="@color/white">
+<RelativeLayout android:id="@+id/checkbox_layout"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/white">
 
-    <LinearLayout android:layout_width="match_parent"
-                  android:weightSum="6"
-                  android:gravity="center_vertical"
-                  android:orientation="horizontal"
-                  android:padding="@dimen/content_gap"
-                  android:layout_height="wrap_content">
+        <LinearLayout android:layout_width="match_parent"
+                      android:weightSum="6"
+                      android:gravity="center_vertical"
+                      android:orientation="horizontal"
+                      android:padding="@dimen/content_gap"
+                      android:layout_height="wrap_content">
 
-        <ImageView android:layout_width="0dp"
-                   android:layout_weight="1"
-                   android:id="@+id/head"
-                   android:scaleType="centerInside"
-                   android:src="@drawable/act_roadshow"
-                   android:layout_height="wrap_content"/>
+            <ImageView android:layout_width="0dp"
+                       android:layout_weight="1"
+                       android:id="@+id/head"
+                       android:scaleType="centerInside"
+                       android:src="@drawable/act_roadshow"
+                       android:layout_height="wrap_content"/>
 
-        <TextView android:layout_width="0dp"
-                  android:layout_weight="4"
-                  android:id="@+id/contents_tv"
-                  android:gravity="center_vertical"
-                  android:drawableLeft="@drawable/act_location"
-                  android:drawablePadding="@dimen/content_gap_small"
-                  android:text="国信通信"
-                  android:layout_marginLeft="@dimen/content_gap"
-                  android:layout_marginRight="@dimen/content_gap"
-                  android:textColor="@color/textcolor_222"
-                  android:textSize="@dimen/font_small"
-                  android:maxLines="2"
-                  android:ellipsize="end"
-                  android:layout_height="wrap_content"/>
+            <TextView android:layout_width="0dp"
+                      android:layout_weight="4"
+                      android:id="@+id/contents_tv"
+                      android:gravity="center_vertical"
+                      android:drawableLeft="@drawable/act_location"
+                      android:drawablePadding="@dimen/content_gap_small"
+                      android:text="国信通信"
+                      android:layout_marginLeft="@dimen/content_gap"
+                      android:layout_marginRight="@dimen/content_gap"
+                      android:textColor="@color/textcolor_222"
+                      android:textSize="@dimen/font_small"
+                      android:maxLines="2"
+                      android:ellipsize="end"
+                      android:layout_height="wrap_content"/>
 
-        <TextView android:id="@+id/sign_tv"
-                  android:layout_width="0dp"
-                  android:layout_weight="1"
-                  android:drawableTop="@drawable/act_unsign"
-                  android:gravity="center"
-                  android:drawablePadding="@dimen/content_gap_small"
-                  android:text="我要报名"
-                  android:textSize="@dimen/font_least"
-                  android:textColor="@color/textcolor_222"
-                  android:layout_height="wrap_content"/>
+            <TextView android:id="@+id/sign_tv"
+                      android:layout_width="0dp"
+                      android:layout_weight="1"
+                      android:drawableTop="@drawable/act_unsign"
+                      android:gravity="center"
+                      android:drawablePadding="@dimen/content_gap_small"
+                      android:text="我要报名"
+                      android:textSize="@dimen/font_least"
+                      android:textColor="@color/textcolor_222"
+                      android:layout_height="wrap_content"/>
 
 
+        </LinearLayout>
+
+        <View android:layout_width="match_parent"
+              android:background="@drawable/act_line"
+              android:layout_height="@dimen/content_1px"/>
     </LinearLayout>
-
-    <View android:layout_width="match_parent"
-          android:background="@drawable/act_line"
-          android:layout_height="@dimen/content_1px"/>
-</LinearLayout>
+</RelativeLayout>

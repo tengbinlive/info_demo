@@ -153,13 +153,36 @@
         </LinearLayout>
 
     </RelativeLayout>
-
     <RelativeLayout
-            android:id="@+id/fragment"
+            android:id="@+id/fragment_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/user_info"
+            android:background="@color/gray_tab_layout">
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:textSize="@dimen/font_small"
+                  android:textColor="@color/textcolor_666"
+                  android:text="@string/user_detail_fragment_title"
+                  android:padding="@dimen/content_10dp"/>
+        <TextView
+                android:id="@+id/fragment_title_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/font_small"
+                android:textColor="@color/theme"
+                android:layout_alignParentRight="true"
+                android:text="@string/investment_info"
+                android:drawableRight="@drawable/arrow_red_bottom"
+                android:drawablePadding="5dp"
+                android:padding="@dimen/content_10dp"/>
+    </RelativeLayout>
+
+    <com.touyan.investment.mview.NoScrollViewPager
+            android:id="@+id/view_pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/user_info"
-            android:background="@color/white">
+            android:layout_below="@id/fragment_title"
+            android:background="@color/white"/>
 
-    </RelativeLayout>
 </RelativeLayout>

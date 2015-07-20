@@ -123,7 +123,7 @@
             <LinearLayout android:id="@+id/user_tag_list"
                           android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
-                          android:layout_marginBottom="@dimen/content_10dp"
+                          android:paddingBottom="@dimen/content_10dp"
                           android:animateLayoutChanges="true"
                           android:layout_centerHorizontal="true"
                           android:layout_below="@id/user_more"
@@ -141,7 +141,7 @@
                 android:background="@color/gray_layout"
                 android:layout_below="@id/user_info">
             <TextView android:layout_width="match_parent"
-                      android:layout_height="@dimen/content_1dp"
+                      android:layout_height="@dimen/content_1px"
                       android:background="@drawable/user_horizontal_divider"/>
             <LinearLayout android:layout_width="match_parent"
                           android:layout_height="70dp"
@@ -160,7 +160,7 @@
                         android:paddingTop="@dimen/content_10dp"
                         android:textColor="@color/gray_font"/>
 
-                <TextView android:layout_width="@dimen/content_1dp"
+                <TextView android:layout_width="@dimen/content_1px"
                           android:layout_height="match_parent"
                           android:background="@drawable/user_vertical_divider"/>
 
@@ -176,7 +176,7 @@
                         android:gravity="center_horizontal"
                         android:textColor="@color/gray_font"/>
 
-                <TextView android:layout_width="@dimen/content_1dp"
+                <TextView android:layout_width="@dimen/content_1px"
                           android:layout_height="match_parent"
                           android:background="@drawable/user_vertical_divider"/>
 
@@ -192,7 +192,7 @@
                         android:gravity="center_horizontal"
                         android:textColor="@color/gray_font"/>
 
-                <TextView android:layout_width="@dimen/content_1dp"
+                <TextView android:layout_width="@dimen/content_1px"
                           android:layout_height="match_parent"
                           android:background="@drawable/user_vertical_divider"/>
 
@@ -208,17 +208,17 @@
                         android:gravity="center_horizontal"
                         android:textColor="@color/gray_font"/>
 
-                <TextView android:layout_width="@dimen/content_1dp"
+                <TextView android:layout_width="@dimen/content_1px"
                           android:layout_height="match_parent"
                           android:background="@drawable/user_vertical_divider"/>
             </LinearLayout>
 
             <TextView android:layout_width="match_parent"
-                      android:layout_height="@dimen/content_1dp"
+                      android:layout_height="@dimen/content_1px"
                       android:background="@drawable/user_horizontal_divider"/>
 
             <TextView android:layout_width="match_parent"
-                      android:layout_height="@dimen/content_1dp"
+                      android:layout_height="@dimen/content_1px"
                       android:background="@drawable/user_horizontal_divider"
                       android:layout_marginTop="@dimen/content_10dp"/>
             <LinearLayout
@@ -242,7 +242,7 @@
             </LinearLayout>
 
             <TextView android:layout_width="match_parent"
-                      android:layout_height="@dimen/content_1dp"
+                      android:layout_height="@dimen/content_1px"
                       android:background="@drawable/user_horizontal_divider"/>
 
             <LinearLayout
@@ -266,7 +266,7 @@
             </LinearLayout>
 
             <TextView android:layout_width="match_parent"
-                      android:layout_height="@dimen/content_1dp"
+                      android:layout_height="@dimen/content_1px"
                       android:background="@drawable/user_horizontal_divider"/>
 
             <LinearLayout
@@ -290,11 +290,11 @@
             </LinearLayout>
 
             <TextView android:layout_width="match_parent"
-                      android:layout_height="@dimen/content_1dp"
+                      android:layout_height="@dimen/content_1px"
                       android:background="@drawable/user_horizontal_divider"/>
 
             <TextView android:layout_width="match_parent"
-                      android:layout_height="@dimen/content_1dp"
+                      android:layout_height="@dimen/content_1px"
                       android:background="@drawable/user_horizontal_divider"
                       android:layout_marginTop="@dimen/content_10dp"/>
 
@@ -319,7 +319,7 @@
             </LinearLayout>
 
             <TextView android:layout_width="match_parent"
-                      android:layout_height="@dimen/content_1dp"
+                      android:layout_height="@dimen/content_1px"
                       android:background="@drawable/user_horizontal_divider"/>
 
             <Button

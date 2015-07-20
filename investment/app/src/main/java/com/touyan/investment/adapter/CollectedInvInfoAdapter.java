@@ -239,9 +239,15 @@ public class CollectedInvInfoAdapter extends EditerAdapter implements View.OnCli
         }
     }
 
-    public void updateEditState(int editState) {
-        this.setCurrentState(editState);
-        notifyDataSetChanged();
+
+
+    @Override
+    public ArrayList<String> getIdList() {
+        ArrayList<String> idList = new ArrayList<String>();
+        for (int i = 0; i < checkedItemList.size(); i++) {
+            idList.add(this.list.get(checkedItemList.get(i)).getInfoid());
+        }
+        return idList;
     }
 
 }

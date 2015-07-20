@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/gray_layout">
+
+    <include android:id="@+id/toolbar"
+             android:layout_height="wrap_content"
+             android:layout_width="match_parent"
+             layout="@layout/action_toolbar"/>
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/toolbar"
+            android:background="@color/white"
+            android:orientation="vertical">
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="可用金币"
+                  android:textColor="@color/textcolor_444"
+                  android:layout_marginTop="40dp"
+                  android:layout_gravity="center"
+                  android:textSize="@dimen/font_medium"/>
+        <TextView
+                android:id="@+id/uavail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1042"
+                android:textColor="@color/red"
+                android:layout_marginTop="20dp"
+                android:textStyle="bold"
+                android:layout_gravity="center"
+                android:textSize="40sp"/>
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="币"
+                  android:textColor="@color/textcolor_444"
+                  android:layout_marginTop="20dp"
+                  android:layout_marginBottom="40dp"
+                  android:layout_gravity="center"
+                  android:textSize="@dimen/font_medium"/>
+        <TextView android:layout_width="match_parent"
+                  android:layout_height="@dimen/content_1px"
+                  android:background="@drawable/user_horizontal_divider"
+                  android:layout_marginRight="@dimen/content_gap_big"
+                  android:layout_marginLeft="@dimen/content_gap_big"/>
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:orientation="horizontal">
+            <LinearLayout android:layout_width="0dp"
+                          android:layout_height="match_parent"
+                          android:layout_weight="1"
+                          android:paddingTop="@dimen/content_gap"
+                          android:paddingBottom="@dimen/content_gap"
+                          android:orientation="vertical">
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:text="消耗"
+                          android:drawablePadding="5dp"
+                          android:drawableLeft="@drawable/user_wallet_consume_ic"
+                          android:gravity="center"
+                          android:textColor="@color/textcolor_666"
+                          android:layout_gravity="center"
+                          android:textSize="@dimen/font_medium"/>
+                <TextView
+                        android:id="@+id/losted"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="100币"
+                        android:gravity="center"
+                        android:layout_marginTop="@dimen/content_10dp"
+                        android:textColor="@color/textcolor_666"
+                        android:layout_gravity="center"
+                        android:textSize="@dimen/font_medium"/>
+            </LinearLayout>
+
+            <LinearLayout android:layout_width="0dp"
+                          android:layout_height="match_parent"
+                          android:layout_weight="1"
+                          android:paddingTop="@dimen/content_gap"
+                          android:paddingBottom="@dimen/content_gap"
+                          android:orientation="vertical">
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:text="冻结"
+                          android:drawablePadding="5dp"
+                          android:drawableLeft="@drawable/user_wallet_freeze_ic"
+                          android:gravity="center"
+                          android:textColor="@color/textcolor_666"
+                          android:layout_gravity="center"
+                          android:textSize="@dimen/font_medium"/>
+                <TextView
+                        android:id="@+id/frozen"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="100币"
+                        android:gravity="center"
+                        android:layout_marginTop="@dimen/content_10dp"
+                        android:textColor="#41abe8"
+                        android:layout_gravity="center"
+                        android:textSize="@dimen/font_medium"/>
+            </LinearLayout>
+            <LinearLayout android:layout_width="0dp"
+                          android:layout_height="match_parent"
+                          android:layout_weight="1"
+                          android:paddingTop="@dimen/content_gap"
+                          android:paddingBottom="@dimen/content_gap"
+                          android:orientation="vertical">
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:text="收益"
+                          android:drawablePadding="5dp"
+                          android:drawableLeft="@drawable/user_wallet_profit_ic"
+                          android:gravity="center"
+                          android:textColor="@color/textcolor_666"
+                          android:layout_gravity="center"
+                          android:textSize="@dimen/font_medium"/>
+                <TextView
+                        android:id="@+id/income"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="100币"
+                        android:gravity="center"
+                        android:layout_marginTop="@dimen/content_10dp"
+                        android:textColor="@color/red"
+                        android:layout_gravity="center"
+                        android:textSize="@dimen/font_medium"/>
+            </LinearLayout>
+
+        </LinearLayout>
+        <TextView android:layout_width="match_parent"
+                  android:layout_height="@dimen/content_1px"
+                  android:background="@drawable/user_horizontal_divider"
+                />
+    </LinearLayout>
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="50dp"
+                  android:orientation="horizontal"
+                  android:layout_alignParentBottom="true">
+        <View android:layout_width="0dp"
+              android:layout_height="match_parent"
+              android:layout_weight="1"
+              android:background="@drawable/user_wallet_transfer_btn"/>
+        <View android:layout_width="@dimen/content_1px"
+              android:layout_height="match_parent"
+              android:background="@drawable/user_vertical_divider"/>
+        <View android:layout_width="0dp"
+              android:layout_height="match_parent"
+              android:layout_weight="1"
+              android:background="@drawable/user_wallet_recharge_btn"/>
+    </LinearLayout>
+</RelativeLayout>
