@@ -18,10 +18,13 @@ import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationA
 import com.touyan.investment.AbsDetailActivity;
 import com.touyan.investment.AbsFragment;
 import com.touyan.investment.R;
+import com.touyan.investment.activity.MeInfoActivity;
+import com.touyan.investment.activity.MeOfferRewardActivity;
 import com.touyan.investment.activity.OfferDetailActivity;
 import com.touyan.investment.adapter.InvOfferAdapter;
 import com.touyan.investment.bean.main.InvOfferBean;
 import com.touyan.investment.bean.main.InvOfferListResult;
+import com.touyan.investment.bean.main.MyPartakeOfferListResult;
 import com.touyan.investment.manager.InvestmentManager;
 
 import java.util.ArrayList;
@@ -48,13 +51,28 @@ public class MeOfferRewFragment extends AbsFragment {
 
     private int currentItemIndex;
 
+    private int viewType;//根据这个类型去判断调用那个接口。
+    public static MeOfferRewFragment newsInstance( int viewType)
+    {
+        MeOfferRewFragment meInfoFragment = new MeOfferRewFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt( "viewType", viewType );
+        meInfoFragment.setArguments( bundle );
+        return meInfoFragment;
+    }
+
     private Handler activityHandler = new Handler() {
         public void handleMessage(Message msg) {
             int what = msg.what;
             switch (what) {
                 case INIT_LIST:
                 case LOAD_DATA:
-                    loadData((CommonResponse) msg.obj, what);
+                    if (viewType == MeOfferRewardActivity.REWARD_MYRELEASE){
+                        loadData1((CommonResponse) msg.obj, what);
+                    }else if (viewType == MeOfferRewardActivity.REWARD_MYPARTAKE){
+                        loadData2((CommonResponse) msg.obj, what);
+                    }
+
                     break;
                 default:
                     break;
@@ -62,7 +80,7 @@ public class MeOfferRewFragment extends AbsFragment {
         }
     };
 
-    private void loadData(CommonResponse resposne, int what) {
+    private void loadData1(CommonResponse resposne, int what) {
         dialogDismiss();
         if (resposne.isSuccess()) {
             if (what == INIT_LIST) {
@@ -86,6 +104,30 @@ public class MeOfferRewFragment extends AbsFragment {
         mListView.onRefreshComplete();
     }
 
+
+    private void loadData2(CommonResponse resposne, int what) {
+        dialogDismiss();
+        if (resposne.isSuccess()) {
+            if (what == INIT_LIST) {
+                MyPartakeOfferListResult result = (MyPartakeOfferListResult) resposne.getData();
+                mList = result.getRetRewards();
+            } else {
+                if (mList == null) {
+                    mList = new ArrayList<InvOfferBean>();
+                }
+                mList.addAll(((MyPartakeOfferListResult) resposne.getData()).getRetRewards());
+            }
+            mAdapter.refresh(mList);
+        } else {
+            //避免第一次应用启动时 创建fragment加载数据多次提示
+            if (isInit) {
+                CommonUtil.showToast(resposne.getErrorTip());
+            } else {
+                isInit = true;
+            }
+        }
+        mListView.onRefreshComplete();
+    }
     @Override
     public boolean onBackPressed() {
         return false;
@@ -94,6 +136,7 @@ public class MeOfferRewFragment extends AbsFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         this.mInflater = getActivity().getLayoutInflater();
+        viewType = getArguments().getInt( "viewType" );
         return mInflater.inflate(R.layout.fragment_investment_offer, container, false);
     }
 
@@ -160,7 +203,11 @@ public class MeOfferRewFragment extends AbsFragment {
 
     private void getDataList() {
         int startIndex = mList == null || mList.size() <= 0 ? 0 : mList.size();
-        manager.offerList(getActivity(), startIndex, COUNT_MAX, activityHandler, startIndex == 0 ? INIT_LIST : LOAD_DATA);
+        if (viewType == MeOfferRewardActivity.REWARD_MYRELEASE){
+            manager.myReleaseOfferList(getActivity(), startIndex, COUNT_MAX, activityHandler, startIndex == 0 ? INIT_LIST : LOAD_DATA);
+        }else if (viewType == MeOfferRewardActivity.REWARD_MYPARTAKE){
+            manager.myPartakeOfferList(getActivity(), startIndex, COUNT_MAX, activityHandler, startIndex == 0 ? INIT_LIST : LOAD_DATA);
+        }
     }
 
     @Override

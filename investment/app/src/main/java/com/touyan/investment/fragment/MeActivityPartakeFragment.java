@@ -4,10 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -20,18 +18,19 @@ import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationA
 import com.touyan.investment.AbsFragment;
 import com.touyan.investment.R;
 import com.touyan.investment.activity.ActDetailActivity;
+import com.touyan.investment.activity.ActMyPartakeDetailActivity;
 import com.touyan.investment.activity.MeActActivity;
 import com.touyan.investment.adapter.InvActAdapter;
+import com.touyan.investment.adapter.MyPartakeInvActAdapter;
 import com.touyan.investment.bean.main.InvActBean;
-import com.touyan.investment.bean.main.InvActListResult;
 import com.touyan.investment.bean.main.MyActListResult;
 import com.touyan.investment.bean.main.MyPartakeActListResult;
+import com.touyan.investment.bean.main.MyPartakeInvActBean;
 import com.touyan.investment.manager.InvestmentManager;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class MeActivityFragment extends AbsFragment {
+public class MeActivityPartakeFragment extends AbsFragment {
 
     private InvestmentManager manager = new InvestmentManager();
 
@@ -47,11 +46,11 @@ public class MeActivityFragment extends AbsFragment {
     //列表
     private PullToRefreshListView mListView;
     private ListView mActualListView;
-    private InvActAdapter mAdapter;
+    private MyPartakeInvActAdapter mAdapter;
 
     //private BGABanner mBanner;
 
-    private ArrayList<InvActBean> mList;
+    private ArrayList<MyPartakeInvActBean> mList;
 
     private boolean isInit = false;
 
@@ -59,9 +58,9 @@ public class MeActivityFragment extends AbsFragment {
 
     private int viewType;//根据这个类型去判断调用那个接口。
 
-    public static MeActivityFragment newsInstance( int viewType)
+    public static MeActivityPartakeFragment newsInstance( int viewType)
     {
-        MeActivityFragment meActivityFragment = new MeActivityFragment();
+        MeActivityPartakeFragment meActivityFragment = new MeActivityPartakeFragment();
         Bundle bundle = new Bundle();
         bundle.putInt( "viewType", viewType );
         meActivityFragment.setArguments( bundle );
@@ -86,13 +85,13 @@ public class MeActivityFragment extends AbsFragment {
         dialogDismiss();
         if (resposne.isSuccess()) {
             if (what == INIT_LIST) {
-                MyActListResult result  = (MyActListResult) resposne.getData();
-                mList = result.getActivitys();
+                MyPartakeActListResult result  = (MyPartakeActListResult) resposne.getData();
+                mList = result.getRetActivitys();
             } else {
                 if (mList == null) {
-                    mList = new ArrayList<InvActBean>();
+                    mList = new ArrayList<MyPartakeInvActBean>();
                 }
-                mList.addAll(((MyActListResult) resposne.getData()).getActivitys());
+                mList.addAll(((MyPartakeActListResult) resposne.getData()).getRetActivitys());
             }
             mAdapter.refresh(mList);
         } else {
@@ -105,7 +104,6 @@ public class MeActivityFragment extends AbsFragment {
         }
         mListView.onRefreshComplete();
     }
-
     @Override
     public boolean onBackPressed() {
         return false;
@@ -152,7 +150,7 @@ public class MeActivityFragment extends AbsFragment {
         // Need to use the Actual ListView when registering for Context Menu
         registerForContextMenu(mActualListView);
 
-        mAdapter = new InvActAdapter(getActivity(), mList);
+        mAdapter = new MyPartakeInvActAdapter(getActivity(), mList);
 
         SwingBottomInAnimationAdapter animationAdapter = new SwingBottomInAnimationAdapter(mAdapter);
 
@@ -172,8 +170,8 @@ public class MeActivityFragment extends AbsFragment {
         mActualListView.setEmptyView(ll_listEmpty);
     }
 
-    private void toActDetail(InvActBean bean) {
-        Intent mIntent = new Intent(getActivity(), ActDetailActivity.class);
+    private void toActDetail(MyPartakeInvActBean bean) {
+        Intent mIntent = new Intent(getActivity(), ActMyPartakeDetailActivity.class);
         mIntent.putExtra(ActDetailActivity.KEY_DETAIL,bean);
              startActivityForResult(mIntent, REQUSETCODE);
         getActivity().overridePendingTransition(R.anim.push_translate_in_right, 0);
@@ -182,14 +180,14 @@ public class MeActivityFragment extends AbsFragment {
 
     private void getDataList() {
         int startIndex = mList == null || mList.size() <= 0 ? 0 : mList.size();
-        manager.myReleaseActList(getActivity(), startIndex, COUNT_MAX, activityHandler, startIndex == 0 ? INIT_LIST : LOAD_DATA);
+        manager.myPartakeActList(getActivity(), startIndex, COUNT_MAX, null,activityHandler, startIndex == 0 ? INIT_LIST : LOAD_DATA);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == REQUSETCODE) {
-            mList.get(currentIndex).setIsJoin(InvActBean.STATUS_BY);
+            mList.get(currentIndex).getActivity().setIsJoin(MyPartakeInvActBean.STATUS_BY);
             mAdapter.refresh(mList);
         }
     }

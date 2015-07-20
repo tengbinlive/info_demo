@@ -240,6 +240,12 @@
                 android:theme="@style/AppTheme">
         </activity>
 
+        <!--活动详情-->
+        <activity
+                android:name=".activity.ActMyPartakeDetailActivity"
+                android:theme="@style/AppTheme">
+        </activity>
+
         <!--我的资讯-->
         <activity
                 android:name=".activity.MeInfoActivity"
