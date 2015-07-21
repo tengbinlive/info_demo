@@ -72,7 +72,7 @@ public class UserFollowActivity extends AbsActivity {
     @Override
     public void initActionBar() {
         setToolbarLeftStrID(R.string.back);
-        setToolbarIntermediate("关注");
+        setToolbarIntermediateStrID(R.string.user_follow);
         setToolbarRightVisbility(View.INVISIBLE, View.INVISIBLE);
     }
 
