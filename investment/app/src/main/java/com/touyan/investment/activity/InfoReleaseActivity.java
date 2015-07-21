@@ -60,6 +60,8 @@ public class InfoReleaseActivity extends AbsActivity {
 
     private int uploadQiniuIndex = 0;
 
+    private boolean isUpload = false;
+
     private boolean isCancelled = false; //true 停止上传
 
     /////////
@@ -403,6 +405,7 @@ public class InfoReleaseActivity extends AbsActivity {
      */
     private void loadImageQiniu() {
         uploadQiniuIndex = 0;
+        isUpload = false;
         final int uploadNum = uploadFile.size();
         for (final QiniuUploadBean bean : uploadFile) {
             //没有上传成功过的文件 进行上传
@@ -424,7 +427,8 @@ public class InfoReleaseActivity extends AbsActivity {
                             public void complete(String key, ResponseInfo info, JSONObject response) {
                                 if (info.isOK()) {
                                     bean.setIsUpload(true);
-                                    if (uploadQiniuIndex == uploadNum && !isCancelled) {
+                                    if (!isUpload&&uploadQiniuIndex == uploadNum && !isCancelled) {
+                                        isUpload = true;
                                         uploadRelease();
                                     }
                                 } else {

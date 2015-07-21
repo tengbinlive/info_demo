@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:gravity="center"
+        android:layout_height="wrap_content">
+
+    <EditText
+            android:textCursorDrawable="@null"
+            android:id="@+id/search_et"
+            android:padding="@dimen/content_gap_small"
+            android:layout_width="match_parent"
+            android:layout_centerInParent="true"
+            android:layout_height="wrap_content"
+            android:hint="搜索"
+            android:imeOptions="actionSearch"
+            android:textSize="@dimen/font_small"
+            android:background="@drawable/search_bg"
+            android:textColor="@color/black"
+            android:textColorHint="@color/gray_hint"/>
+
+        <ImageView android:layout_width="wrap_content"
+                   android:paddingRight="@dimen/content_gap"
+                   android:paddingLeft="@dimen/content_gap"
+                   android:layout_alignTop="@+id/search_et"
+                   android:layout_alignRight="@+id/search_et"
+                   android:layout_alignBottom="@+id/search_et"
+                   android:src="@drawable/search"
+                   android:layout_centerVertical="true"
+                   android:scaleType="centerInside"
+                   android:layout_height="wrap_content"/>
+
+</RelativeLayout>
