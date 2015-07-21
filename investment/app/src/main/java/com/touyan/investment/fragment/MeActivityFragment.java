@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import com.core.CommonResponse;
+import com.core.openapi.OpenApiSimpleResult;
 import com.core.util.CommonUtil;
 import com.handmark.pulltorefresh.PullToRefreshBase;
 import com.handmark.pulltorefresh.PullToRefreshListView;
@@ -21,7 +22,9 @@ import com.touyan.investment.AbsFragment;
 import com.touyan.investment.R;
 import com.touyan.investment.activity.ActDetailActivity;
 import com.touyan.investment.activity.MeActActivity;
-import com.touyan.investment.adapter.InvActAdapter;
+import com.touyan.investment.activity.MeInfoActivity;
+import com.touyan.investment.adapter.EditerAdapter;
+import com.touyan.investment.adapter.MyRaleaseActAdapter;
 import com.touyan.investment.bean.main.InvActBean;
 import com.touyan.investment.bean.main.InvActListResult;
 import com.touyan.investment.bean.main.MyActListResult;
@@ -39,7 +42,7 @@ public class MeActivityFragment extends AbsFragment {
 
     private static final int INIT_LIST = 0x01;//初始化数据处理
     private static final int LOAD_DATA = 0x02;//加载数据处理
-
+    private static final int DELETE_COMPLETE = 0X03;
     private static final int COUNT_MAX = 15;//加载数据最大值
 
     private LayoutInflater mInflater;
@@ -47,7 +50,7 @@ public class MeActivityFragment extends AbsFragment {
     //列表
     private PullToRefreshListView mListView;
     private ListView mActualListView;
-    private InvActAdapter mAdapter;
+    private MyRaleaseActAdapter mAdapter;
 
     //private BGABanner mBanner;
 
@@ -58,6 +61,7 @@ public class MeActivityFragment extends AbsFragment {
     private int currentIndex;
 
     private int viewType;//根据这个类型去判断调用那个接口。
+    private ArrayList<Integer> checkedItems;
 
     public static MeActivityFragment newsInstance( int viewType)
     {
@@ -75,6 +79,9 @@ public class MeActivityFragment extends AbsFragment {
                 case INIT_LIST:
                 case LOAD_DATA:
                         loadData((CommonResponse) msg.obj, what);
+                    break;
+                case DELETE_COMPLETE:
+                    deleteComplete((CommonResponse) msg.obj);
                     break;
                 default:
                     break;
@@ -105,7 +112,20 @@ public class MeActivityFragment extends AbsFragment {
         }
         mListView.onRefreshComplete();
     }
+    private void deleteComplete(CommonResponse resposne) {
+        if (resposne.isSuccess()) {
+            OpenApiSimpleResult result = (OpenApiSimpleResult) resposne.getData();
 
+            for (int i = 0; i < checkedItems.size(); i++) {
+                int item = checkedItems.get(i);
+                mList.remove(item);
+            }
+            mAdapter.refresh(mList);
+        } else {
+            CommonUtil.showToast(resposne.getErrorTip());
+        }
+
+    }
     @Override
     public boolean onBackPressed() {
         return false;
@@ -152,7 +172,7 @@ public class MeActivityFragment extends AbsFragment {
         // Need to use the Actual ListView when registering for Context Menu
         registerForContextMenu(mActualListView);
 
-        mAdapter = new InvActAdapter(getActivity(), mList);
+        mAdapter = new MyRaleaseActAdapter(getActivity(), mList);
 
         SwingBottomInAnimationAdapter animationAdapter = new SwingBottomInAnimationAdapter(mAdapter);
 
@@ -191,6 +211,26 @@ public class MeActivityFragment extends AbsFragment {
         if (resultCode == REQUSETCODE) {
             mList.get(currentIndex).setIsJoin(InvActBean.STATUS_BY);
             mAdapter.refresh(mList);
+        }
+
+        if (requestCode == MeActActivity.EDIT_STATE_CHENGED) {
+            switch (resultCode) {
+                case EditerAdapter.STATE_REMOVE:
+                    mAdapter.updateEditState(EditerAdapter.STATE_EDIT);
+                    checkedItems = mAdapter.checkedItemList;
+//                    if (viewType == MeActActivity.REWARD_MYORIGINAL){
+//                        manager.deleteMyOriginalInfos(getActivity(), mAdapter.getIdList(), activityHandler, DELETE_COMPLETE);
+//                    }else if (viewType == MeInfoActivity.REWARD_MYPURCHASE){
+//                        manager.deleteMyPurchaseInfos(getActivity(), mAdapter.getIdList(), activityHandler, DELETE_COMPLETE);
+//                    }
+                    break;
+                case EditerAdapter.STATE_COMPLETE:
+                    mAdapter.updateEditState(EditerAdapter.STATE_EDIT);
+                    break;
+                case EditerAdapter.STATE_EDIT:
+                    mAdapter.updateEditState(EditerAdapter.STATE_COMPLETE);
+                    break;
+            }
         }
     }
 

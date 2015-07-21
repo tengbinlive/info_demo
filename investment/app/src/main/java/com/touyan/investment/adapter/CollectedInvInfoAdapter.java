@@ -16,6 +16,7 @@ import com.touyan.investment.AbsDetailActivity;
 import com.touyan.investment.R;
 import com.touyan.investment.activity.InfoDetailActivity;
 import com.touyan.investment.activity.InfoRewardActivity;
+import com.touyan.investment.activity.UserCollectActivity;
 import com.touyan.investment.bean.main.InvInfoBean;
 import com.touyan.investment.bean.user.UserInfo;
 import com.touyan.investment.fragment.CollectedInvInfoFragment;

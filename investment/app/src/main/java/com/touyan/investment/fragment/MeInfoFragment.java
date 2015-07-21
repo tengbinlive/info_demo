@@ -194,7 +194,11 @@ public class MeInfoFragment extends AbsFragment {
                 case EditerAdapter.STATE_REMOVE:
                     mAdapter.updateEditState(EditerAdapter.STATE_EDIT);
                     checkedItems = mAdapter.checkedItemList;
-                    manager.deleteMyOriginalInfos(getActivity(), mAdapter.getIdList(), activityHandler, DELETE_COMPLETE);
+                    if (viewType == MeInfoActivity.REWARD_MYORIGINAL){
+                        manager.deleteMyOriginalInfos(getActivity(), mAdapter.getIdList(), activityHandler, DELETE_COMPLETE);
+                    }else if (viewType == MeInfoActivity.REWARD_MYPURCHASE){
+                        manager.deleteMyPurchaseInfos(getActivity(), mAdapter.getIdList(), activityHandler, DELETE_COMPLETE);
+                    }
                     break;
                 case EditerAdapter.STATE_COMPLETE:
                     mAdapter.updateEditState(EditerAdapter.STATE_EDIT);
