@@ -42,8 +42,9 @@ public class UserCollectActivity extends AbsActivity implements View.OnClickList
 
     public int currentEditState = EditerAdapter.STATE_EDIT;
 
-    @Override
+    private int lastPager = INVESTMENT_NEWS;
 
+    @Override
     public void EInit() {
         super.EInit();
         setSwipeBackEnable(true);
@@ -112,14 +113,15 @@ public class UserCollectActivity extends AbsActivity implements View.OnClickList
         viewPagerTab.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i1) {
-                //changeEditState(EditerAdapter.STATE_EDIT);
-               // fragments.get(i).onActivityResult(EDIT_STATE_CHENGED, EditerAdapter.STATE_COMPLETE, null);
+                lastPager = i;
+
             }
 
             @Override
             public void onPageSelected(int i) {
-
                 currentPager = i;
+//                changeEditState(EditerAdapter.STATE_EDIT);
+//                fragments.get(lastPager).onActivityResult(EDIT_STATE_CHENGED, EditerAdapter.STATE_COMPLETE, null);
             }
 
             @Override

@@ -178,10 +178,48 @@
                 android:padding="@dimen/content_10dp"/>
     </RelativeLayout>
 
+    <LinearLayout
+            android:id="@+id/bottom"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal"
+            android:background="@color/gray_tab_layout">
+        <RelativeLayout android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="match_parent"
+                      android:layout_centerInParent="true"
+                      android:gravity="center"
+                      android:textSize="@dimen/font_btn"
+                      android:text="好友"
+                      android:textColor="@color/red"
+                      android:drawableLeft="@drawable/user_follow_btn"
+                      android:drawablePadding="5dp"/>
+        </RelativeLayout>
+        <RelativeLayout
+                android:id="@+id/follow_btn"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="match_parent"
+                      android:layout_centerInParent="true"
+                      android:gravity="center"
+                      android:text="关注"
+                      android:textSize="@dimen/font_btn"
+                      android:textColor="@color/red"
+                      android:drawableLeft="@drawable/user_follow_btn"
+                      android:drawablePadding="5dp"/>
+        </RelativeLayout>
+    </LinearLayout>
+
     <com.touyan.investment.mview.NoScrollViewPager
             android:id="@+id/view_pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_above="@id/bottom"
             android:layout_below="@id/fragment_title"
             android:background="@color/white"/>
 

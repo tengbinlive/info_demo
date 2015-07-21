@@ -1,5 +1,6 @@
 package com.touyan.investment.activity;
 
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
@@ -11,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.core.CommonResponse;
+import com.core.openapi.OpenApiSimpleResult;
 import com.core.util.CommonUtil;
 import com.core.util.StringUtil;
 import com.joooonho.SelectableRoundedImageView;
@@ -37,8 +39,9 @@ import java.util.ArrayList;
  * Created by Administrator on 2015/7/15.
  */
 public class UserFansDetailsActivity extends AbsActivity {
-
+    private UserManager userManager = new UserManager();
     private static final int OTHER_DATA = 0;
+    private static final int FOLLOW_OTHER = 1;
 
     private SelectableRoundedImageView userHeadImage;//用户头像
     private TextView userNameText;                   //用户姓名
@@ -49,7 +52,7 @@ public class UserFansDetailsActivity extends AbsActivity {
     private TextView userFansText;                   //用户粉丝数量
     private TextView userAuthenticationText;         //用户是否认证标签
     private LinearLayout userTagLayout;              //用户标签列表
-
+    private RelativeLayout followBtn;
 
     private TextView fragmentTitle;
     private NoScrollViewPager viewPager;
@@ -72,6 +75,9 @@ public class UserFansDetailsActivity extends AbsActivity {
             switch (msg.what) {
                 case OTHER_DATA:
                     loadOtherData((CommonResponse) msg.obj);
+                    break;
+                case FOLLOW_OTHER:
+                    followOtherData((CommonResponse) msg.obj);
                     break;
                 default:
                     break;
@@ -118,6 +124,9 @@ public class UserFansDetailsActivity extends AbsActivity {
                 showMenuRigth();
             }
         });
+
+        followBtn = (RelativeLayout) findViewById(R.id.follow_btn);
+
     }
 
     private void initViewPager(FragmentManager fm) {
@@ -136,37 +145,54 @@ public class UserFansDetailsActivity extends AbsActivity {
         dialogDismiss();
         if (resposne.isSuccess()) {
             OtherInfoResult result = (OtherInfoResult) resposne.getData();
-            initUserInfo(result.getInfo(), result.getMysubnum(), result.getSubmynum());
+            initUserInfo(result, result.getMysubnum(), result.getSubmynum());
         } else {
             CommonUtil.showToast(resposne.getErrorTip());
         }
     }
 
-    private void initUserInfo(UserInfo userInfo, int followNum, int fansNum) {
+    private void followOtherData(CommonResponse resposne) {
+        dialogDismiss();
+        if (resposne.isSuccess()) {
+            OpenApiSimpleResult result = (OpenApiSimpleResult) resposne.getData();
 
-        if (userInfo == null) {
+            followBtn.setClickable(false);
+            ((TextView) followBtn.getChildAt(0)).setText("已关注");
+            ((TextView) followBtn.getChildAt(0)).setTextColor(getResources().getColor(R.color.textcolor_666));
+            Drawable ic = getResources().getDrawable(R.drawable.user_followed_btn);
+            ic.setBounds(0, 0, ic.getMinimumWidth(), ic.getMinimumHeight());
+            ((TextView) followBtn.getChildAt(0)).setCompoundDrawables(ic, null, null, null);
+
+        } else {
+            CommonUtil.showToast(resposne.getErrorTip());
+        }
+    }
+
+    private void initUserInfo(OtherInfoResult result, int followNum, int fansNum) {
+
+        if (result.getInfo() == null) {
             return;
         }
-        ImageLoader.getInstance().displayImage(userInfo.getUphoto(), userHeadImage);
+        ImageLoader.getInstance().displayImage(result.getInfo().getUphoto(), userHeadImage);
 
         userFollowText.setText(getResources().getString(R.string.user_follow) + " " + followNum);
 
         userFansText.setText(getResources().getString(R.string.user_fans) + " " + fansNum);
 
-        if (StringUtil.isNotBlank(userInfo.getUalias())) {
-            userNameText.setText(userInfo.getUalias());
+        if (StringUtil.isNotBlank(result.getInfo().getUalias())) {
+            userNameText.setText(result.getInfo().getUalias());
         }
-        if (StringUtil.isNotBlank(userInfo.getCompny())) {
-            userCompanyText.setText(userInfo.getCompny());
+        if (StringUtil.isNotBlank(result.getInfo().getCompny())) {
+            userCompanyText.setText(result.getInfo().getCompny());
         }
-        if (StringUtil.isNotBlank(userInfo.getLocatn())) {
-            userCityText.setText(userInfo.getLocatn());
+        if (StringUtil.isNotBlank(result.getInfo().getLocatn())) {
+            userCityText.setText(result.getInfo().getLocatn());
         }
-        if (StringUtil.isNotBlank(userInfo.getPostin())) {
-            userOccupationText.setText(userInfo.getPostin());
+        if (StringUtil.isNotBlank(result.getInfo().getPostin())) {
+            userOccupationText.setText(result.getInfo().getPostin());
         }
-        if (StringUtil.isNotBlank(userInfo.getUisvip())) {
-            if (userInfo.getUisvip().equals(UserInfo.ISVIP_CODE)) {
+        if (StringUtil.isNotBlank(result.getInfo().getUisvip())) {
+            if (result.getInfo().getUisvip().equals(UserInfo.ISVIP_CODE)) {
                 userAuthenticationText.setBackgroundResource(R.drawable.user_unauthenticated);
                 userAuthenticationText.setTextColor(getResources().getColor(R.color.white));
                 userAuthenticationText.setText(R.string.user_unauthenticated);
@@ -176,7 +202,7 @@ public class UserFansDetailsActivity extends AbsActivity {
                 userAuthenticationText.setText(R.string.user_authenticated);
             }
         }
-        String[] tags = getUserTags(userInfo.getTags());
+        String[] tags = getUserTags(result.getInfo().getTags());
         if (tags != null) {
             if (tags.length > 0) {
                 initUserTag(tags);
@@ -186,6 +212,34 @@ public class UserFansDetailsActivity extends AbsActivity {
             }
         } else {
             userTagLayout.setVisibility(View.GONE);
+        }
+        if (StringUtil.isNotBlank(result.getIsorder())) {
+            if (result.getIsorder() == 0) {
+
+                followBtn.setClickable(true);
+                ((TextView) followBtn.getChildAt(0)).setText("关注");
+                ((TextView) followBtn.getChildAt(0)).setTextColor(getResources().getColor(R.color.red));
+                Drawable ic = getResources().getDrawable(R.drawable.user_follow_btn);
+                ic.setBounds(0, 0, ic.getMinimumWidth(), ic.getMinimumHeight());
+                ((TextView) followBtn.getChildAt(0)).setCompoundDrawables(ic, null, null, null);
+                followBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        userManager.followOtherInfo(UserFansDetailsActivity.this, getIntent().getStringExtra("otherid"), "" + getIntent().getStringExtra("userid"), activityHandler, FOLLOW_OTHER);
+                        dialogShow(R.string.data_downloading);
+                    }
+                });
+
+            } else if (result.getIsorder() == 1) {
+
+                followBtn.setClickable(false);
+                ((TextView) followBtn.getChildAt(0)).setText("已关注");
+                ((TextView) followBtn.getChildAt(0)).setTextColor(getResources().getColor(R.color.textcolor_666));
+                Drawable ic = getResources().getDrawable(R.drawable.user_followed_btn);
+                ic.setBounds(0, 0, ic.getMinimumWidth(), ic.getMinimumHeight());
+                ((TextView) followBtn.getChildAt(0)).setCompoundDrawables(ic, null, null, null);
+
+            }
         }
     }
 
@@ -208,7 +262,7 @@ public class UserFansDetailsActivity extends AbsActivity {
     }
 
     private void queryOtherInfo() {
-        UserManager userManager = new UserManager();
+
         userManager.queryOtherInfo(this, getIntent().getStringExtra("otherid"), "" + getIntent().getStringExtra("userid"), activityHandler, OTHER_DATA);
         dialogShow(R.string.data_downloading);
     }

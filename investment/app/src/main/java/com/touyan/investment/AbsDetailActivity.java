@@ -1,10 +1,15 @@
 package com.touyan.investment;
 
+
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -12,7 +17,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import com.touyan.investment.bean.main.InvInfoBean;
+import com.core.util.CommonUtil;
+import com.touyan.investment.activity.ShowWebImageActivity;
+import com.touyan.investment.activity.UserFollowActivity;
 import com.touyan.investment.enums.BottomMenu;
 
 import java.util.ArrayList;
@@ -24,7 +31,7 @@ public abstract class AbsDetailActivity extends AbsActivity {
 
     public final static String KEY_DETAIL = "KEY_DETAIL"; // 详情
 
-    public static final int REQUSETCODE = 2;//评论 recode
+    public static final int REQUSETCODE = 1;//评论 recode
 
     private ArrayList<BottomMenu> menEnums;
 
@@ -163,7 +170,7 @@ public abstract class AbsDetailActivity extends AbsActivity {
         }
     }
 
-    public ViewGroup getViewGroup(int index){
+    public ViewGroup getViewGroup(int index) {
         return menLayouts.get(index);
     }
 
@@ -193,8 +200,8 @@ public abstract class AbsDetailActivity extends AbsActivity {
         }
     }
 
-    public void setBackOrTag(int index,boolean isSelect) {
-        LinearLayout menu  = menLayouts.get(index);
+    public void setBackOrTag(int index, boolean isSelect) {
+        LinearLayout menu = menLayouts.get(index);
         setSelectedBackground(menu, isSelect);
         menu.setTag(R.id.main_tab_select, isSelect);
     }
@@ -270,6 +277,8 @@ public abstract class AbsDetailActivity extends AbsActivity {
             }
 
             mWebView.setWebViewClient(new WebViewClient() {
+
+
                 @Override
                 public void onPageFinished(WebView view, String url) {
                     if (!view.getSettings().getLoadsImagesAutomatically()) {
@@ -281,11 +290,91 @@ public abstract class AbsDetailActivity extends AbsActivity {
             webview_ly.addView(mWebView);
 
         }
+
         if (null != mSavedInstanceState) {
             mWebView.restoreState(mSavedInstanceState);
         } else {
             mWebView.loadUrl(url);
         }
+        // 添加js交互接口类，并起别名 imagelistner
 
+        mWebView.addJavascriptInterface(new JavascriptInterface(this), "imagelistner");
+        mWebView.setWebViewClient(new MyWebViewClient());
     }
+
+    // 注入js函数监听
+    private void addImageClickListner() {
+        // 这段js函数的功能就是，遍历所有的img几点，并添加onclick函数，在还是执行的时候调用本地接口传递url过去
+        mWebView.loadUrl("javascript:(function(){" +
+                "var objs = document.getElementsByTagName(\"img\"); " +
+                "var imgPathItems = [];" +
+                "for(var i=0;i<objs.length;i++)" +
+                "{" +
+                "var imgPath=objs[i].src;" +
+                "imgPathItems.push(imgPath);" +
+                "}" +
+                "for(var i=0;i<objs.length;i++)  " +
+                "{"
+                + "    objs[i].onclick=function()  " +
+                "    {  "
+                + "        window.imagelistner.openImage(imgPathItems,i);  " +
+                "    }  " +
+                "}" +
+                "})()");
+    }
+
+    // js通信接口
+    public class JavascriptInterface {
+
+        private Context context;
+
+        public JavascriptInterface(Context context) {
+            this.context = context;
+        }
+
+        @android.webkit.JavascriptInterface
+        public void openImage(String[] img, int position) {
+
+            Intent intent = new Intent();
+            intent.putExtra("image", img);
+            intent.putExtra("position", position);
+            intent.setClass(context, ShowWebImageActivity.class);
+            context.startActivity(intent);
+        }
+    }
+
+    // 监听
+    private class MyWebViewClient extends WebViewClient {
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+
+            return super.shouldOverrideUrlLoading(view, url);
+        }
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+
+            view.getSettings().setJavaScriptEnabled(true);
+
+            super.onPageFinished(view, url);
+            // html加载完成之后，添加监听图片的点击js函数
+            addImageClickListner();
+
+        }
+
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            view.getSettings().setJavaScriptEnabled(true);
+
+            super.onPageStarted(view, url, favicon);
+        }
+
+        @Override
+        public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+
+            super.onReceivedError(view, errorCode, description, failingUrl);
+
+        }
+    }
+
 }

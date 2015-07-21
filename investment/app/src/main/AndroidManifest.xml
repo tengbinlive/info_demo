@@ -296,7 +296,10 @@
                   android:theme="@style/AppThemeWTN">
         </activity>
 
-
+        <!--网络图片-->
+        <activity android:name=".activity.ShowWebImageActivity"
+                  android:theme="@style/AppThemeWTN">
+        </activity>
     </application>
 
 </manifest>

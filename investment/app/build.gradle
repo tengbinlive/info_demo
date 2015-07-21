@@ -52,4 +52,6 @@ dependencies {
     compile project(':bingoogolapple')
     compile project(':arclayout')
     compile project(':swipeLayout')
+    compile project(':touchgallery')
+
 }

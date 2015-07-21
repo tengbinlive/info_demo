@@ -44,9 +44,9 @@ public abstract class EditerAdapter extends BaseAdapter {
         layoutParams.addRule(RelativeLayout.CENTER_VERTICAL);
     }
 
-    public static final int STATE_EDIT = 0;
-    public static final int STATE_REMOVE = 1;
-    public static final int STATE_COMPLETE = 2;
+    public static final int STATE_EDIT = 21;
+    public static final int STATE_REMOVE = 22;
+    public static final int STATE_COMPLETE = 23;
 
     private int currentState = STATE_EDIT;
 
@@ -138,7 +138,7 @@ public abstract class EditerAdapter extends BaseAdapter {
 
     public void updateEditState(int editState) {
         this.setCurrentState(editState);
-            notifyDataSetChanged();
+        notifyDataSetChanged();
     }
 
     class ViewHolder {
