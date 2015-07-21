@@ -80,6 +80,11 @@ public class FriendListHeadersAdapter extends BaseAdapter implements StickyListH
         return 0;
     }
 
+    public void refresh(ArrayList<Subscriber> _list) {
+        list = _list;
+        notifyDataSetChanged();
+    }
+
     @Override
     public View getView(int i, View convertView, ViewGroup viewGroup) {
         ViewHolder holder;
