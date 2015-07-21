@@ -36,8 +36,8 @@ public class IndexScroller {
 	private float mPreviewPadding;
 	private float mDensity;
 	private float mScaledDensity;
-	private float mAlphaRate;
-	private int mState = STATE_HIDDEN;
+	private float mAlphaRate = 1;
+	private int mState = STATE_SHOWN;
 	private int mListViewWidth;
 	private int mListViewHeight;
 	private int mCurrentSection = -1;
@@ -76,29 +76,29 @@ public class IndexScroller {
 		
 		if (mSections != null && mSections.length > 0) {
 			// Preview is shown when mCurrentSection is set
-			if (mCurrentSection >= 0) {
-				Paint previewPaint = new Paint();
-				previewPaint.setColor(Color.BLACK);
-				previewPaint.setAlpha(96);
-				previewPaint.setAntiAlias(true);
-				previewPaint.setShadowLayer(3, 0, 0, Color.argb(64, 0, 0, 0));
-				
-				Paint previewTextPaint = new Paint();
-				previewTextPaint.setColor(Color.WHITE);
-				previewTextPaint.setAntiAlias(true);
-				previewTextPaint.setTextSize(50 * mScaledDensity);
-				
-				float previewTextWidth = previewTextPaint.measureText(mSections[mCurrentSection]);
-				float previewSize = 2 * mPreviewPadding + previewTextPaint.descent() - previewTextPaint.ascent();
-				RectF previewRect = new RectF((mListViewWidth - previewSize) / 2
-						, (mListViewHeight - previewSize) / 2
-						, (mListViewWidth - previewSize) / 2 + previewSize
-						, (mListViewHeight - previewSize) / 2 + previewSize);
-				
-				canvas.drawRoundRect(previewRect, 5 * mDensity, 5 * mDensity, previewPaint);
-				canvas.drawText(mSections[mCurrentSection], previewRect.left + (previewSize - previewTextWidth) / 2 - 1
-						, previewRect.top + mPreviewPadding - previewTextPaint.ascent() + 1, previewTextPaint);
-			}
+//			if (mCurrentSection >= 0) {
+//				Paint previewPaint = new Paint();
+//				previewPaint.setColor(Color.BLACK);
+//				previewPaint.setAlpha(96);
+//				previewPaint.setAntiAlias(true);
+//				previewPaint.setShadowLayer(3, 0, 0, Color.argb(64, 0, 0, 0));
+//
+//				Paint previewTextPaint = new Paint();
+//				previewTextPaint.setColor(Color.WHITE);
+//				previewTextPaint.setAntiAlias(true);
+//				previewTextPaint.setTextSize(50 * mScaledDensity);
+//
+//				float previewTextWidth = previewTextPaint.measureText(mSections[mCurrentSection]);
+//				float previewSize = 2 * mPreviewPadding + previewTextPaint.descent() - previewTextPaint.ascent();
+//				RectF previewRect = new RectF((mListViewWidth - previewSize) / 2
+//						, (mListViewHeight - previewSize) / 2
+//						, (mListViewWidth - previewSize) / 2 + previewSize
+//						, (mListViewHeight - previewSize) / 2 + previewSize);
+//
+//				canvas.drawRoundRect(previewRect, 5 * mDensity, 5 * mDensity, previewPaint);
+//				canvas.drawText(mSections[mCurrentSection], previewRect.left + (previewSize - previewTextWidth) / 2 - 1
+//						, previewRect.top + mPreviewPadding - previewTextPaint.ascent() + 1, previewTextPaint);
+//			}
 			
 			Paint indexPaint = new Paint();
 			indexPaint.setColor(Color.WHITE);
@@ -120,8 +120,9 @@ public class IndexScroller {
 		switch (ev.getAction()) {
 		case MotionEvent.ACTION_DOWN:
 			// If down event occurs inside index bar region, start indexing
-			if (mState != STATE_HIDDEN && contains(ev.getX(), ev.getY())) {
-				setState(STATE_SHOWN);
+//			if (mState != STATE_HIDDEN && contains(ev.getX(), ev.getY())) {
+			if (contains(ev.getX(), ev.getY())) {
+//				setState(STATE_SHOWN);
 				
 				// It demonstrates that the motion event started from index bar
 				mIsIndexing = true;
@@ -143,12 +144,13 @@ public class IndexScroller {
 			}
 			break;
 		case MotionEvent.ACTION_UP:
+		case MotionEvent.ACTION_CANCEL:
 			if (mIsIndexing) {
 				mIsIndexing = false;
 				mCurrentSection = -1;
 			}
-			if (mState == STATE_SHOWN)
-				setState(STATE_HIDING);
+//			if (mState == STATE_SHOWN)
+//				setState(STATE_HIDING);
 			break;
 		}
 		return false;

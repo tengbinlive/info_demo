@@ -134,6 +134,11 @@ public enum OpenApiMethodEnum {
     QUERY_USERFANS("/subscribe/querySubMyscribers.action", "openapi_json", OpenApi.URL_TYPE_DATA),
 
     /**
+     * 我的关注
+     */
+    QUERY_FOLLOW("/subscribe/queryMySubscribers.action", "openapi_json", OpenApi.URL_TYPE_DATA),
+
+    /**
      * 上传头像
      */
     UPLOAD_HEAD("/user/updateAvatar.action", "openapi_json", OpenApi.URL_TYPE_DATA),
@@ -158,7 +163,10 @@ public enum OpenApiMethodEnum {
      */
     LOAD_PURCHASE_INFO("/center/myBuyInfos.action", "openapi_json", OpenApi.URL_TYPE_DATA),
 
-
+    /**
+     * 删除原创资讯
+     */
+    DELETE_PURCHASE_INFOS("/center/batchDelBuyInfos.action", "openapi_json", OpenApi.URL_TYPE_DATA),
     /**
      * 我发布的活动
      */

@@ -32,7 +32,7 @@ public class UserManager {
     }
 
     /**
-     * 用户粉丝
+     * 上传头像
      *
      * @param context        上下文
      * @param uphoto         手机号(用户ID)
@@ -113,6 +113,28 @@ public class UserManager {
 
         // 接口参数
         param.setMethod(OpenApiMethodEnum.QUERY_USERFANS);
+        param.setParseTokenType(new TypeReference<QueryUserFansResult>() {
+        });
+        // 请求对象
+        CommonRequest request = new CommonRequest(param, handler, handlerMsgCode);
+        // 开始执行加载
+        CommonDataLoader.getInstance(context).load(request);
+    }
+
+    /**
+     * 我的关注
+     *
+     * @param context        上下文
+     * @param userId         用户ID
+     * @param handler        在Activity中处理返回结果的Handler
+     * @param handlerMsgCode 返回结果的Handler的Msg代码
+     */
+    public void queryUserFollow(Context context, String userId, final Handler handler, final int handlerMsgCode) {
+        QueryUserFansParam param = new QueryUserFansParam();
+        param.setUserid(userId);
+
+        // 接口参数
+        param.setMethod(OpenApiMethodEnum.QUERY_FOLLOW);
         param.setParseTokenType(new TypeReference<QueryUserFansResult>() {
         });
         // 请求对象

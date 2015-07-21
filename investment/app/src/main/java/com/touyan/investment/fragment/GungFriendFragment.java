@@ -107,7 +107,7 @@ public class GungFriendFragment extends AbsFragment {
 
         testData();
 
-        FriendListHeadersAdapter mAdapter = new FriendListHeadersAdapter(getActivity(), mList);
+        FriendListHeadersAdapter mAdapter = new FriendListHeadersAdapter(getActivity(), null);
 
         SwingBottomInAnimationAdapter animationAdapter = new SwingBottomInAnimationAdapter(mAdapter);
 

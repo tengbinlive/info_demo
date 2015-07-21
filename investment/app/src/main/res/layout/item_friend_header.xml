@@ -13,7 +13,7 @@
             android:paddingLeft="@dimen/content_gap"
             android:id="@+id/text"
             android:layout_centerVertical="true"
-            android:textSize="@dimen/font_medium"
+            android:textSize="@dimen/font_small"
             android:textColor="@color/textcolor_888"
             android:layout_height="wrap_content">
     </TextView>
