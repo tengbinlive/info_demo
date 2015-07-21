@@ -463,7 +463,6 @@ public class InvestmentManager {
         CommonDataLoader.getInstance(context).load(request);
     }
 
-
     /**
      * 获取 原创资讯 列表数据
      *
@@ -490,7 +489,29 @@ public class InvestmentManager {
         CommonDataLoader.getInstance(context).load(request);
     }
 
+    /**
+     * 删除购买资讯列表
+     *
+     * @param context
+     * @param ids
+     * @param handler
+     * @param handlerMsgCode
+     */
+    public void deleteMyPurchaseInfos(Context context, ArrayList<String> ids, final Handler handler, final int handlerMsgCode) {
 
+        DeleteCollectedInfoParam param = new DeleteCollectedInfoParam();
+        param.setIds(ids);
+
+        // 接口参数
+        param.setMethod(OpenApiMethodEnum.DELETE_PURCHASE_INFOS);
+        param.setParseTokenType(new TypeReference<OpenApiSimpleResult>() {
+        });
+
+        // 请求对象
+        CommonRequest request = new CommonRequest(param, handler, handlerMsgCode);
+        // 开始执行加载
+        CommonDataLoader.getInstance(context).load(request);
+    }
     /**
      * 我发布的活动
      *

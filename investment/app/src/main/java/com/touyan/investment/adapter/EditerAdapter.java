@@ -138,7 +138,7 @@ public abstract class EditerAdapter extends BaseAdapter {
 
     public void updateEditState(int editState) {
         this.setCurrentState(editState);
-        notifyDataSetChanged();
+            notifyDataSetChanged();
     }
 
     class ViewHolder {

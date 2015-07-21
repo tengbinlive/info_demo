@@ -163,7 +163,10 @@ public enum OpenApiMethodEnum {
      */
     LOAD_PURCHASE_INFO("/center/myBuyInfos.action", "openapi_json", OpenApi.URL_TYPE_DATA),
 
-
+    /**
+     * 删除原创资讯
+     */
+    DELETE_PURCHASE_INFOS("/center/batchDelBuyInfos.action", "openapi_json", OpenApi.URL_TYPE_DATA),
     /**
      * 我发布的活动
      */

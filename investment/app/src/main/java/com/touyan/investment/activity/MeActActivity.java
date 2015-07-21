@@ -11,6 +11,7 @@ import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.touyan.investment.AbsActivity;
 import com.touyan.investment.AbsFragment;
 import com.touyan.investment.R;
+import com.touyan.investment.adapter.EditerAdapter;
 import com.touyan.investment.adapter.InvestmentPagerAdapter;
 import com.touyan.investment.fragment.MeActivityFragment;
 import com.touyan.investment.fragment.MeActivityPartakeFragment;
@@ -21,10 +22,13 @@ public class MeActActivity extends AbsActivity implements OnClickListener {
 
     private ViewPager viewPager;
     private InvestmentPagerAdapter adapter;
+    private ArrayList<AbsFragment> fragments;
     public final static int REWARD_MYRELEASE = 0;//我发布的
     public final static int REWARD_MYPARTAKE = REWARD_MYRELEASE + 1;//我参与的
 
     private int currentPager = REWARD_MYRELEASE;
+    public final static int EDIT_STATE_CHENGED = 100;
+    public int currentEditState = EditerAdapter.STATE_EDIT;
     @Override
     public void EInit() {
         super.EInit();
@@ -42,10 +46,30 @@ public class MeActActivity extends AbsActivity implements OnClickListener {
         setToolbarIntermediateStrID(R.string.me_activity);
         setToolbarRightVisbility(View.VISIBLE,View.VISIBLE);
         setToolbarRightStrID(R.string.me_offer_reward_edit);
+        setToolbarRightOnClick(this);
     }
     @Override
-    public void onClick(View v) {
+    public void onClick(View view) {
+        if (view.getId() == R.id.toolbar_right_btn) {
 
+            switch (currentEditState) {
+                case EditerAdapter.STATE_REMOVE:
+                    fragments.get(viewPager.getCurrentItem()).onActivityResult(EDIT_STATE_CHENGED, currentEditState, null);
+                    changeEditState(EditerAdapter.STATE_EDIT);
+
+                    break;
+                case EditerAdapter.STATE_COMPLETE:
+                    fragments.get(viewPager.getCurrentItem()).onActivityResult(EDIT_STATE_CHENGED, currentEditState, null);
+                    changeEditState(EditerAdapter.STATE_EDIT);
+
+                    break;
+                case EditerAdapter.STATE_EDIT:
+                    fragments.get(viewPager.getCurrentItem()).onActivityResult(EDIT_STATE_CHENGED, currentEditState, null);
+                    changeEditState(EditerAdapter.STATE_COMPLETE);
+                    break;
+            }
+
+        }
     }
     @Override
     public void onResume() {
@@ -53,7 +77,7 @@ public class MeActActivity extends AbsActivity implements OnClickListener {
     }
     private void findView() {
 
-        ArrayList<AbsFragment> fragments = new ArrayList<AbsFragment>();
+        fragments = new ArrayList<AbsFragment>();
         fragments.add(MeActivityFragment.newsInstance(REWARD_MYRELEASE));
         fragments.add(MeActivityPartakeFragment.newsInstance(REWARD_MYPARTAKE));
 
@@ -81,11 +105,43 @@ public class MeActActivity extends AbsActivity implements OnClickListener {
         });
 
         viewPagerTab.setViewPager(viewPager);
+        viewPagerTab.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+//               changeEditState(EditerAdapter.STATE_EDIT);
+//               fragments.get(i).onActivityResult(EDIT_STATE_CHENGED, EditerAdapter.STATE_COMPLETE, null);
+            }
 
+            @Override
+            public void onPageSelected(int i) {
+
+                currentPager = i;
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+        });
     }
     private void setIconInfo(ViewGroup custom_ly, int stringid) {
         TextView title = (TextView) custom_ly.findViewById(R.id.title);
         title.setText(stringid);
     }
-
+    public void changeEditState(int state) {
+        switch (state) {
+            case EditerAdapter.STATE_REMOVE:
+                currentEditState = EditerAdapter.STATE_REMOVE;
+                setToolbarRightStrID(R.string.modify_delete);
+                break;
+            case EditerAdapter.STATE_COMPLETE:
+                currentEditState = EditerAdapter.STATE_COMPLETE;
+                setToolbarRightStrID(R.string.modify_complete);
+                break;
+            case EditerAdapter.STATE_EDIT:
+                currentEditState = EditerAdapter.STATE_EDIT;
+                setToolbarRightStrID(R.string.modify_userinfo_toolbar_title);
+                break;
+        }
+    }
 }
