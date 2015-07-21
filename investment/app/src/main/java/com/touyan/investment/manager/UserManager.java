@@ -39,7 +39,7 @@ public class UserManager {
      * @param handler        在Activity中处理返回结果的Handler
      * @param handlerMsgCode 返回结果的Handler的Msg代码
      */
-    public void uploadHead(Context context,String uphoto ,final Handler handler, final int handlerMsgCode) {
+    public void uploadHead(Context context, String uphoto, final Handler handler, final int handlerMsgCode) {
         HeadUploadParam param = new HeadUploadParam();
         param.setServno(App.getInstance().getgUserInfo().getServno());
         param.setUphoto(uphoto);
@@ -270,5 +270,27 @@ public class UserManager {
         CommonDataLoader.getInstance(context).load(request);
     }
 
+    /**
+     * 关注他人
+     *
+     * @param context        上下文
+     * @param otherId        他人用户ID
+     * @param userId         用户ID
+     * @param handler        在Activity中处理返回结果的Handler
+     * @param handlerMsgCode 返回结果的Handler的Msg代码
+     */
+    public void followOtherInfo(Context context, String otherId, String userId, final Handler handler, final int handlerMsgCode) {
+        FollowOtherParam param = new FollowOtherParam();
+        param.setScrino(otherId);
+        param.setUserid(userId);
 
+        // 接口参数
+        param.setMethod(OpenApiMethodEnum.FOLLOW_OTHERINFO);
+        param.setParseTokenType(new TypeReference<OpenApiSimpleResult>() {
+        });
+        // 请求对象
+        CommonRequest request = new CommonRequest(param, handler, handlerMsgCode);
+        // 开始执行加载
+        CommonDataLoader.getInstance(context).load(request);
+    }
 }
