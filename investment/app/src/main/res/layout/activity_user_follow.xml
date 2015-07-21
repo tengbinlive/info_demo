@@ -2,7 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                >
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:background="@color/gray_layout">
 
     <include android:id="@+id/toolbar"
              android:layout_height="wrap_content"
@@ -14,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:dividerHeight="0dp"
-            android:layout_below="@id/toolbar"
+            android:layout_below="@+id/search_layout"
             android:cacheColorHint="@color/transparent"
             android:divider="@null"
             android:fadingEdge="none"
@@ -23,8 +25,16 @@
             android:headerDividersEnabled="false"
             android:scrollbars="vertical"
             android:smoothScrollbar="true"
-            android:background="@color/gray_layout"
             />
 
     <include layout="@layout/list_empty"/>
+
+    <include
+            android:layout_margin="@dimen/content_gap_small"
+            android:id="@+id/search_layout"
+            android:layout_below="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/search"/>
+
 </RelativeLayout>
