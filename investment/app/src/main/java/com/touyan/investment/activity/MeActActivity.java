@@ -108,8 +108,8 @@ public class MeActActivity extends AbsActivity implements OnClickListener {
         viewPagerTab.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i1) {
-//               changeEditState(EditerAdapter.STATE_EDIT);
-//               fragments.get(i).onActivityResult(EDIT_STATE_CHENGED, EditerAdapter.STATE_COMPLETE, null);
+               changeEditState(EditerAdapter.STATE_EDIT);
+               fragments.get(i).onActivityResult(EDIT_STATE_CHENGED, EditerAdapter.STATE_COMPLETE, null);
             }
 
             @Override

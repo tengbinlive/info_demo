@@ -149,22 +149,21 @@ public enum OpenApiMethodEnum {
     QUERY_OTHERINFO("/center/getOtherInfo.action", "openapi_json", OpenApi.URL_TYPE_DATA),
 
     /**
-     * 删除原创资讯
-     */
-    DELETE_ORIGINAL_INFOS("/center/batchDelInfos.action", "openapi_json", OpenApi.URL_TYPE_DATA),
-    /**
      * 原创资讯
      */
     LOAD_ORIGINAL_INFO("/info/queryInfos.action", "openapi_json", OpenApi.URL_TYPE_DATA),
 
-
+    /**
+     * 删除原创资讯
+     */
+    DELETE_ORIGINAL_INFOS("/center/batchDelInfos.action", "openapi_json", OpenApi.URL_TYPE_DATA),
     /**
      * 购买资讯
      */
     LOAD_PURCHASE_INFO("/center/myBuyInfos.action", "openapi_json", OpenApi.URL_TYPE_DATA),
 
     /**
-     * 删除原创资讯
+     * 删除购买资讯
      */
     DELETE_PURCHASE_INFOS("/center/batchDelBuyInfos.action", "openapi_json", OpenApi.URL_TYPE_DATA),
     /**
@@ -173,9 +172,19 @@ public enum OpenApiMethodEnum {
     LOAD_MYRELEASE_ACT("/center/myActivity.action", "openapi_json", OpenApi.URL_TYPE_DATA),
 
     /**
+     * 删除我发布的活动
+     */
+    DELETE_MYRELEASE_ACT("/center/batchDelActivitys.action", "openapi_json", OpenApi.URL_TYPE_DATA),
+
+    /**
      * 我参加的活动
      */
     LOAD_MYPARTAKE_ACT("/center/myJoinedActivity.action", "openapi_json", OpenApi.URL_TYPE_DATA),
+
+    /**
+     * 删除我发布的活动
+     */
+    DELETE_MYPARTAKE_ACT("/center/batchDelJoinedAcitvitys.action", "openapi_json", OpenApi.URL_TYPE_DATA),
 
     /**
      * 我发布的悬赏
@@ -183,9 +192,19 @@ public enum OpenApiMethodEnum {
     LOAD_MYRELEASE_OFFER("/reward/queryRewards.action", "openapi_json", OpenApi.URL_TYPE_DATA),
 
     /**
+     * 删除我发布的悬赏
+     */
+    DELETE_MYRELEASE_OFFER("/center/batchDelRewards.action", "openapi_json", OpenApi.URL_TYPE_DATA),
+
+    /**
      * 我参与的悬赏
      */
     LOAD_MYPARTAKE_OFFER("/center/myJoinedRewards.action", "openapi_json", OpenApi.URL_TYPE_DATA),
+
+    /**
+     * 删除我参与的悬赏
+     */
+    DELETE_MYPARTAKE_OFFER("/center/batchDelJoinedRewards.action", "openapi_json", OpenApi.URL_TYPE_DATA),
 
     /**
      * 查询已收藏资讯列表

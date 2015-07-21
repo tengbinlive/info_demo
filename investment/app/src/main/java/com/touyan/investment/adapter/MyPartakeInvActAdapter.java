@@ -1,5 +1,6 @@
 package com.touyan.investment.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
@@ -13,6 +14,7 @@ import com.core.CommonResponse;
 import com.core.util.CommonUtil;
 import com.touyan.investment.App;
 import com.touyan.investment.R;
+import com.touyan.investment.activity.MeActActivity;
 import com.touyan.investment.bean.main.InvActBean;
 import com.touyan.investment.bean.main.MyPartakeInvActBean;
 import com.touyan.investment.helper.Util;
@@ -20,7 +22,7 @@ import com.touyan.investment.manager.InvestmentManager;
 
 import java.util.ArrayList;
 
-public class MyPartakeInvActAdapter extends BaseAdapter {
+public class MyPartakeInvActAdapter extends EditerAdapter {
 
     private static final int LOAD_SIGN = 0x01;//报名
 
@@ -57,9 +59,27 @@ public class MyPartakeInvActAdapter extends BaseAdapter {
     }
 
     public MyPartakeInvActAdapter(Context context, ArrayList<MyPartakeInvActBean> _list) {
+
+        super((Activity)context);
         this.list = _list;
         mContext = context;
         mInflater = LayoutInflater.from(mContext);
+        setCheckBoexListener(new OnCheckBoexListener() {
+            @Override
+            public void OnCheckBoexListener(View view, int index) {
+                if (getCurrentState() != EditerAdapter.STATE_EDIT) {
+                    if (checkedItemList.size() > 0) {
+                        setCurrentState(EditerAdapter.STATE_REMOVE);
+                        ((MeActActivity) mContext).changeEditState(EditerAdapter.STATE_REMOVE);
+                        notifyDataSetChanged();
+                    } else {
+                        setCurrentState(EditerAdapter.STATE_COMPLETE);
+                        ((MeActActivity) mContext).changeEditState(EditerAdapter.STATE_COMPLETE);
+                        notifyDataSetChanged();
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -83,7 +103,7 @@ public class MyPartakeInvActAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getChildView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.item_inv_act, null);
@@ -123,6 +143,25 @@ public class MyPartakeInvActAdapter extends BaseAdapter {
 
         return convertView;
     }
+
+    @Override
+    public int getCheckBoxLayout() {
+        return R.id.checkbox_layout;
+    }
+
+    @Override
+    public ArrayList<String> getIdList() {
+        ArrayList<String> idList = new ArrayList<String>();
+        for (int i = 0; i < checkedItemList.size(); i++) {
+            idList.add(this.list.get(checkedItemList.get(i)).getActvid());
+        }
+        return idList;
+    }
+
+//    @Override
+//    public View getView(int position, View convertView, ViewGroup parent) {
+//
+//    }
 
     private void setSignStatus(TextView view, String status) {
         if (InvActBean.STATUS_NOT_PARTICIPATE.equals(status)||InvActBean.STATUS_NO_BY.equals(status)) {

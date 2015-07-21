@@ -538,6 +538,30 @@ public class InvestmentManager {
         CommonDataLoader.getInstance(context).load(request);
     }
 
+    /**
+     * 删除我发布的活动
+     *
+     * @param context
+     * @param ids
+     * @param handler
+     * @param handlerMsgCode
+     */
+    public void deletemyReleaseAct(Context context, ArrayList<String> ids, final Handler handler, final int handlerMsgCode) {
+
+        DeleteCollectedInfoParam param = new DeleteCollectedInfoParam();
+        param.setIds(ids);
+
+        // 接口参数
+        param.setMethod(OpenApiMethodEnum.DELETE_MYRELEASE_ACT);
+        param.setParseTokenType(new TypeReference<OpenApiSimpleResult>() {
+        });
+
+        // 请求对象
+        CommonRequest request = new CommonRequest(param, handler, handlerMsgCode);
+        // 开始执行加载
+        CommonDataLoader.getInstance(context).load(request);
+    }
+
 
     /**
      * 我参与的活动
@@ -568,6 +592,31 @@ public class InvestmentManager {
     }
 
     /**
+     * 删除我参与的活动
+     *
+     * @param context
+     * @param ids
+     * @param handler
+     * @param handlerMsgCode
+     */
+    public void deletemyPartakeAct(Context context, ArrayList<String> ids, final Handler handler, final int handlerMsgCode) {
+
+        DeleteCollectedInfoParam param = new DeleteCollectedInfoParam();
+        param.setIds(ids);
+
+        // 接口参数
+        param.setMethod(OpenApiMethodEnum.DELETE_MYPARTAKE_ACT);
+        param.setParseTokenType(new TypeReference<OpenApiSimpleResult>() {
+        });
+
+        // 请求对象
+        CommonRequest request = new CommonRequest(param, handler, handlerMsgCode);
+        // 开始执行加载
+        CommonDataLoader.getInstance(context).load(request);
+    }
+
+
+    /**
      * 我发布的悬赏列表
      *
      * @param context
@@ -587,6 +636,30 @@ public class InvestmentManager {
         param.setMethod(OpenApiMethodEnum.LOAD_MYRELEASE_OFFER);
         param.setParseTokenType(new TypeReference<InvOfferListResult>() {
         });
+        // 请求对象
+        CommonRequest request = new CommonRequest(param, handler, handlerMsgCode);
+        // 开始执行加载
+        CommonDataLoader.getInstance(context).load(request);
+    }
+
+    /**
+     * 删除我发布的悬赏
+     *
+     * @param context
+     * @param ids
+     * @param handler
+     * @param handlerMsgCode
+     */
+    public void deletemyReleaseOffer(Context context, ArrayList<String> ids, final Handler handler, final int handlerMsgCode) {
+
+        DeleteCollectedInfoParam param = new DeleteCollectedInfoParam();
+        param.setIds(ids);
+
+        // 接口参数
+        param.setMethod(OpenApiMethodEnum.DELETE_MYRELEASE_OFFER);
+        param.setParseTokenType(new TypeReference<OpenApiSimpleResult>() {
+        });
+
         // 请求对象
         CommonRequest request = new CommonRequest(param, handler, handlerMsgCode);
         // 开始执行加载
@@ -618,6 +691,31 @@ public class InvestmentManager {
         // 开始执行加载
         CommonDataLoader.getInstance(context).load(request);
     }
+
+    /**
+     * 删除我参与的悬赏
+     *
+     * @param context
+     * @param ids
+     * @param handler
+     * @param handlerMsgCode
+     */
+    public void deletemyPartakeOffer(Context context, ArrayList<String> ids, final Handler handler, final int handlerMsgCode) {
+
+        DeleteCollectedInfoParam param = new DeleteCollectedInfoParam();
+        param.setIds(ids);
+
+        // 接口参数
+        param.setMethod(OpenApiMethodEnum.DELETE_MYPARTAKE_OFFER);
+        param.setParseTokenType(new TypeReference<OpenApiSimpleResult>() {
+        });
+
+        // 请求对象
+        CommonRequest request = new CommonRequest(param, handler, handlerMsgCode);
+        // 开始执行加载
+        CommonDataLoader.getInstance(context).load(request);
+    }
+
     /**
      * 悬赏列表
      *

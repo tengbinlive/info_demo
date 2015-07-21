@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import com.core.CommonResponse;
+import com.core.openapi.OpenApiSimpleResult;
 import com.core.util.CommonUtil;
 import com.handmark.pulltorefresh.PullToRefreshBase;
 import com.handmark.pulltorefresh.PullToRefreshListView;
@@ -18,10 +19,10 @@ import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationA
 import com.touyan.investment.AbsDetailActivity;
 import com.touyan.investment.AbsFragment;
 import com.touyan.investment.R;
-import com.touyan.investment.activity.MeInfoActivity;
 import com.touyan.investment.activity.MeOfferRewardActivity;
 import com.touyan.investment.activity.OfferDetailActivity;
-import com.touyan.investment.adapter.InvOfferAdapter;
+import com.touyan.investment.adapter.EditerAdapter;
+import com.touyan.investment.adapter.MyOfferAdapter;
 import com.touyan.investment.bean.main.InvOfferBean;
 import com.touyan.investment.bean.main.InvOfferListResult;
 import com.touyan.investment.bean.main.MyPartakeOfferListResult;
@@ -35,15 +36,15 @@ public class MeOfferRewFragment extends AbsFragment {
 
     private static final int INIT_LIST = 0x01;//初始化数据处理
     private static final int LOAD_DATA = 0x02;//加载数据处理
-
+    private static final int DELETE_COMPLETE = 0X03;
     private static final int COUNT_MAX = 15;//加载数据最大值
 
     private LayoutInflater mInflater;
-
+    private ArrayList<Integer> checkedItems;
     //列表
     private PullToRefreshListView mListView;
     private ListView mActualListView;
-    private InvOfferAdapter mAdapter;
+    private MyOfferAdapter mAdapter;
 
     private ArrayList<InvOfferBean> mList;
 
@@ -73,6 +74,9 @@ public class MeOfferRewFragment extends AbsFragment {
                         loadData2((CommonResponse) msg.obj, what);
                     }
 
+                    break;
+                case DELETE_COMPLETE:
+                    deleteComplete((CommonResponse) msg.obj);
                     break;
                 default:
                     break;
@@ -128,6 +132,21 @@ public class MeOfferRewFragment extends AbsFragment {
         }
         mListView.onRefreshComplete();
     }
+
+    private void deleteComplete(CommonResponse resposne) {
+        if (resposne.isSuccess()) {
+            OpenApiSimpleResult result = (OpenApiSimpleResult) resposne.getData();
+
+            for (int i = 0; i < checkedItems.size(); i++) {
+                int item = checkedItems.get(i);
+                mList.remove(item);
+            }
+            mAdapter.refresh(mList);
+        } else {
+            CommonUtil.showToast(resposne.getErrorTip());
+        }
+
+    }
     @Override
     public boolean onBackPressed() {
         return false;
@@ -173,7 +192,7 @@ public class MeOfferRewFragment extends AbsFragment {
         // Need to use the Actual ListView when registering for Context Menu
         registerForContextMenu(mActualListView);
 
-        mAdapter = new InvOfferAdapter(getActivity(), mList);
+        mAdapter = new MyOfferAdapter(getActivity(), mList);
 
         SwingBottomInAnimationAdapter animationAdapter = new SwingBottomInAnimationAdapter(mAdapter);
 
@@ -221,6 +240,27 @@ public class MeOfferRewFragment extends AbsFragment {
             InvOfferBean bean = (InvOfferBean) data.getSerializableExtra(KEY);
             mList.set(currentItemIndex, bean);
             mAdapter.refresh(mList);
+        }
+
+        if (requestCode == MeOfferRewardActivity.EDIT_STATE_CHENGED) {
+            switch (resultCode) {
+                case EditerAdapter.STATE_REMOVE:
+                    mAdapter.updateEditState(EditerAdapter.STATE_EDIT);
+                    checkedItems = mAdapter.checkedItemList;
+                    if (viewType == MeOfferRewardActivity.REWARD_MYRELEASE) {
+                        manager.deletemyReleaseOffer(getActivity(), mAdapter.getIdList(), activityHandler, DELETE_COMPLETE);
+                    }
+                    else if (viewType == MeOfferRewardActivity.REWARD_MYPARTAKE){
+                        manager.deletemyPartakeOffer(getActivity(), mAdapter.getIdList(), activityHandler, DELETE_COMPLETE);
+                    }
+                    break;
+                case EditerAdapter.STATE_COMPLETE:
+                    mAdapter.updateEditState(EditerAdapter.STATE_EDIT);
+                    break;
+                case EditerAdapter.STATE_EDIT:
+                    mAdapter.updateEditState(EditerAdapter.STATE_COMPLETE);
+                    break;
+            }
         }
     }
 
