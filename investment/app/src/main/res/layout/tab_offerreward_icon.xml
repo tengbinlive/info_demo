@@ -9,9 +9,8 @@
               android:layout_width="wrap_content"
               android:textSize="@dimen/font_medium"
               android:text="我发布的"
-              android:textStyle="bold"
               android:layout_gravity="center"
-              android:textColor="@color/fanred"
+              android:textColor="@color/red"
               android:layout_height="wrap_content"/>
 
 </LinearLayout>

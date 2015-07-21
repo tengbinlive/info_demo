@@ -52,15 +52,15 @@ public class MeOfferRewFragment extends AbsFragment {
 
     private int currentItemIndex;
 
-    private int viewType;//根据这个类型去判断调用那个接口。
-    public static MeOfferRewFragment newsInstance( int viewType)
-    {
-        MeOfferRewFragment meInfoFragment = new MeOfferRewFragment();
-        Bundle bundle = new Bundle();
-        bundle.putInt( "viewType", viewType );
-        meInfoFragment.setArguments( bundle );
-        return meInfoFragment;
-    }
+//    private int viewType;//根据这个类型去判断调用那个接口。
+//    public static MeOfferRewFragment newsInstance( int viewType)
+//    {
+//        MeOfferRewFragment meInfoFragment = new MeOfferRewFragment();
+//        Bundle bundle = new Bundle();
+//        bundle.putInt( "viewType", viewType );
+//        meInfoFragment.setArguments( bundle );
+//        return meInfoFragment;
+//    }
 
     private Handler activityHandler = new Handler() {
         public void handleMessage(Message msg) {
@@ -68,11 +68,11 @@ public class MeOfferRewFragment extends AbsFragment {
             switch (what) {
                 case INIT_LIST:
                 case LOAD_DATA:
-                    if (viewType == MeOfferRewardActivity.REWARD_MYRELEASE){
+//                    if (viewType == MeOfferRewardActivity.REWARD_MYRELEASE){
                         loadData1((CommonResponse) msg.obj, what);
-                    }else if (viewType == MeOfferRewardActivity.REWARD_MYPARTAKE){
-                        loadData2((CommonResponse) msg.obj, what);
-                    }
+//                    }else if (viewType == MeOfferRewardActivity.REWARD_MYPARTAKE){
+//                        loadData2((CommonResponse) msg.obj, what);
+//                    }
 
                     break;
                 case DELETE_COMPLETE:
@@ -155,7 +155,7 @@ public class MeOfferRewFragment extends AbsFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         this.mInflater = getActivity().getLayoutInflater();
-        viewType = getArguments().getInt( "viewType" );
+        //viewType = getArguments().getInt( "viewType" );
         return mInflater.inflate(R.layout.fragment_investment_offer, container, false);
     }
 
@@ -222,11 +222,11 @@ public class MeOfferRewFragment extends AbsFragment {
 
     private void getDataList() {
         int startIndex = mList == null || mList.size() <= 0 ? 0 : mList.size();
-        if (viewType == MeOfferRewardActivity.REWARD_MYRELEASE){
+//        if (viewType == MeOfferRewardActivity.REWARD_MYRELEASE){
             manager.myReleaseOfferList(getActivity(), startIndex, COUNT_MAX, activityHandler, startIndex == 0 ? INIT_LIST : LOAD_DATA);
-        }else if (viewType == MeOfferRewardActivity.REWARD_MYPARTAKE){
-            manager.myPartakeOfferList(getActivity(), startIndex, COUNT_MAX, activityHandler, startIndex == 0 ? INIT_LIST : LOAD_DATA);
-        }
+//        }else if (viewType == MeOfferRewardActivity.REWARD_MYPARTAKE){
+//            manager.myPartakeOfferList(getActivity(), startIndex, COUNT_MAX, activityHandler, startIndex == 0 ? INIT_LIST : LOAD_DATA);
+//        }
     }
 
     @Override
@@ -240,6 +240,15 @@ public class MeOfferRewFragment extends AbsFragment {
             InvOfferBean bean = (InvOfferBean) data.getSerializableExtra(KEY);
             mList.set(currentItemIndex, bean);
             mAdapter.refresh(mList);
+        }else if(resultCode == RECODE_RELEASE && null != data){
+            InvOfferBean bean = (InvOfferBean) data.getSerializableExtra(KEY);
+            int size = mList.size();
+            if(size<=0){
+                mList.add(bean);
+            }else{
+                mList.add(0,bean);
+            }
+            mAdapter.refresh(mList);
         }
 
         if (requestCode == MeOfferRewardActivity.EDIT_STATE_CHENGED) {
@@ -247,12 +256,12 @@ public class MeOfferRewFragment extends AbsFragment {
                 case EditerAdapter.STATE_REMOVE:
                     mAdapter.updateEditState(EditerAdapter.STATE_EDIT);
                     checkedItems = mAdapter.checkedItemList;
-                    if (viewType == MeOfferRewardActivity.REWARD_MYRELEASE) {
+//                    if (viewType == MeOfferRewardActivity.REWARD_MYRELEASE) {
                         manager.deletemyReleaseOffer(getActivity(), mAdapter.getIdList(), activityHandler, DELETE_COMPLETE);
-                    }
-                    else if (viewType == MeOfferRewardActivity.REWARD_MYPARTAKE){
-                        manager.deletemyPartakeOffer(getActivity(), mAdapter.getIdList(), activityHandler, DELETE_COMPLETE);
-                    }
+//                    }
+//                    else if (viewType == MeOfferRewardActivity.REWARD_MYPARTAKE){
+//                        manager.deletemyPartakeOffer(getActivity(), mAdapter.getIdList(), activityHandler, DELETE_COMPLETE);
+//                    }
                     break;
                 case EditerAdapter.STATE_COMPLETE:
                     mAdapter.updateEditState(EditerAdapter.STATE_EDIT);

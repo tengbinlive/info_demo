@@ -78,9 +78,10 @@ public class MeOfferRewardActivity extends AbsActivity implements OnClickListene
     private void findView() {
 
         fragments = new ArrayList<AbsFragment>();
-        fragments.add(new MeOfferRewFragment().newsInstance(REWARD_MYRELEASE));
-        fragments.add(new MeOfferRewPartakeFragment().newsInstance(REWARD_MYPARTAKE));
-
+//        fragments.add(new MeOfferRewFragment().newsInstance(REWARD_MYRELEASE));
+//        fragments.add(new MeOfferRewPartakeFragment().newsInstance(REWARD_MYPARTAKE));
+        fragments.add(new MeOfferRewFragment());
+        fragments.add(new MeOfferRewPartakeFragment());
         adapter = new InvestmentPagerAdapter(getSupportFragmentManager(), fragments);
         viewPager = (ViewPager) findViewById(R.id.view_pager);
 

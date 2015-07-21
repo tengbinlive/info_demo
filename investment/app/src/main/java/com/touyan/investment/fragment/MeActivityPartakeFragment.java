@@ -16,6 +16,7 @@ import com.core.util.CommonUtil;
 import com.handmark.pulltorefresh.PullToRefreshBase;
 import com.handmark.pulltorefresh.PullToRefreshListView;
 import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationAdapter;
+import com.touyan.investment.AbsDetailActivity;
 import com.touyan.investment.AbsFragment;
 import com.touyan.investment.R;
 import com.touyan.investment.activity.ActDetailActivity;
@@ -36,7 +37,7 @@ public class MeActivityPartakeFragment extends AbsFragment {
 
     private InvestmentManager manager = new InvestmentManager();
 
-    public final  static int REQUSETCODE = 1;
+   // public final  static int REQUSETCODE = 1;
 
     private static final int INIT_LIST = 0x01;//初始化数据处理
     private static final int LOAD_DATA = 0x02;//加载数据处理
@@ -193,7 +194,7 @@ public class MeActivityPartakeFragment extends AbsFragment {
     private void toActDetail(MyPartakeInvActBean bean) {
         Intent mIntent = new Intent(getActivity(), ActMyPartakeDetailActivity.class);
         mIntent.putExtra(ActDetailActivity.KEY_DETAIL,bean);
-             startActivityForResult(mIntent, REQUSETCODE);
+             startActivityForResult(mIntent, AbsDetailActivity.REQUSETCODE);
         getActivity().overridePendingTransition(R.anim.push_translate_in_right, 0);
     }
 
@@ -206,10 +207,20 @@ public class MeActivityPartakeFragment extends AbsFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == REQUSETCODE) {
+        if (resultCode == AbsDetailActivity.REQUSETCODE) {
             mList.get(currentIndex).getActivity().setIsJoin(MyPartakeInvActBean.STATUS_BY);
             mAdapter.refresh(mList);
+        }else if(resultCode == RECODE_RELEASE && null != data){
+            MyPartakeInvActBean bean = (MyPartakeInvActBean) data.getSerializableExtra(KEY);
+            int size = mList.size();
+            if(size<=0){
+                mList.add(bean);
+            }else{
+                mList.add(0,bean);
+            }
+            mAdapter.refresh(mList);
         }
+
         if (requestCode == MeActActivity.EDIT_STATE_CHENGED) {
             switch (resultCode) {
                 case EditerAdapter.STATE_REMOVE:
