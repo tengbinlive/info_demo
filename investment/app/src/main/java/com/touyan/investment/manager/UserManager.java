@@ -144,6 +144,29 @@ public class UserManager {
     }
 
     /**
+     * 我的关注
+     *
+     * @param context        上下文
+     * @param scrino         被关注人id
+     * @param handler        在Activity中处理返回结果的Handler
+     * @param handlerMsgCode 返回结果的Handler的Msg代码
+     */
+    public void cancelUserFollow(Context context, String scrino, final Handler handler, final int handlerMsgCode) {
+        CancelFollowParam param = new CancelFollowParam();
+        param.setServno(App.getInstance().getgUserInfo().getServno());
+        param.setScrino(scrino);
+
+        // 接口参数
+        param.setMethod(OpenApiMethodEnum.CANCEL_FOLLOW);
+        param.setParseTokenType(new TypeReference<OpenApiSimpleResult>() {
+        });
+        // 请求对象
+        CommonRequest request = new CommonRequest(param, handler, handlerMsgCode);
+        // 开始执行加载
+        CommonDataLoader.getInstance(context).load(request);
+    }
+
+    /**
      * 他人详情
      *
      * @param context        上下文

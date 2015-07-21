@@ -139,6 +139,11 @@ public enum OpenApiMethodEnum {
     QUERY_FOLLOW("/subscribe/queryMySubscribers.action", "openapi_json", OpenApi.URL_TYPE_DATA),
 
     /**
+     * 取消关注
+     */
+    CANCEL_FOLLOW("/subscribe/canel.action", "openapi_json", OpenApi.URL_TYPE_DATA),
+
+    /**
      * 上传头像
      */
     UPLOAD_HEAD("/user/updateAvatar.action", "openapi_json", OpenApi.URL_TYPE_DATA),
