@@ -7,6 +7,7 @@ import android.widget.BaseAdapter;
 
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.joooonho.SelectableRoundedImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.touyan.investment.R;
 
@@ -60,7 +61,7 @@ public class UserFansGridViewAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.item_userfans_gridview, null);
             holder = new ViewHolder();
-            holder.userHead = (ImageView) convertView.findViewById(R.id.user_head);
+            holder.userHead = (SelectableRoundedImageView) convertView.findViewById(R.id.user_head);
             holder.userName = (TextView) convertView.findViewById(R.id.user_name);
             convertView.setTag(holder);
         } else {
@@ -72,9 +73,8 @@ public class UserFansGridViewAdapter extends BaseAdapter {
         return convertView;
     }
 
-
     class ViewHolder {
-        ImageView userHead;
+        SelectableRoundedImageView userHead;
         TextView userName;
     }
 }

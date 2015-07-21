@@ -72,8 +72,6 @@ public class CollectedInvInfoFragment extends AbsFragment {
 
     private void deleteComplete(CommonResponse resposne) {
         if (resposne.isSuccess()) {
-            OpenApiSimpleResult result = (OpenApiSimpleResult) resposne.getData();
-
             for (int i = 0; i < checkedItems.size(); i++) {
                 int item = checkedItems.get(i);
                 mList.remove(item);

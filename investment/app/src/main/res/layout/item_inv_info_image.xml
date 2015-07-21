@@ -3,11 +3,18 @@
                 android:layout_width="match_parent"
                 android:gravity="center"
                 android:layout_height="match_parent">
-    <ImageView
+
+    <com.joooonho.SelectableRoundedImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/imageview"
-            android:layout_width="@dimen/inv_info_grid_item"
-            android:scaleType="centerCrop"
             android:src="@drawable/default_image"
-            android:layout_height="@dimen/inv_info_grid_item">
-    </ImageView>
+            android:scaleType="centerCrop"
+            android:layout_width="@dimen/inv_info_grid_item"
+            android:layout_height="@dimen/inv_info_grid_item"
+            app:sriv_left_top_corner_radius="4dip"
+            app:sriv_right_top_corner_radius="4dip"
+            app:sriv_left_bottom_corner_radius="4dip"
+            app:sriv_right_bottom_corner_radius="4dip"
+            app:sriv_oval="false"/>
+
 </RelativeLayout>

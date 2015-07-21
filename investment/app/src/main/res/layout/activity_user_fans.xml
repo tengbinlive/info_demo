@@ -8,10 +8,11 @@
              android:layout_height="wrap_content"
              android:layout_width="match_parent"
              layout="@layout/action_toolbar"/>
+
     <com.touyan.investment.mview.GridViewWithHeaderAndFooter
             android:id="@+id/usertag_gridview"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:numColumns="3"
             android:columnWidth="100dp"
             android:layout_below="@id/toolbar"

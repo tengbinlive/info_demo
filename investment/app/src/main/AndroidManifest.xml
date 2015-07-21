@@ -293,12 +293,12 @@
 
         <!--图片裁剪-->
         <activity android:name=".activity.AuthClipPictureActivity"
-                  android:theme="@style/AppThemeWTN">
+                  android:theme="@style/AppTheme">
         </activity>
 
         <!--网络图片-->
         <activity android:name=".activity.ShowWebImageActivity"
-                  android:theme="@style/AppThemeWTN">
+                  android:theme="@style/AppTheme">
         </activity>
     </application>
 

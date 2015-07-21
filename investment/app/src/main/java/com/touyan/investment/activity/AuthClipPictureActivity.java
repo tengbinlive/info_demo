@@ -3,7 +3,6 @@ package com.touyan.investment.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.*;
-import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
@@ -16,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import com.core.util.FileDataHelper;
+import com.touyan.investment.AbsActivity;
 import com.touyan.investment.Constant;
 import com.touyan.investment.R;
 import com.touyan.investment.mview.ClipView;
@@ -34,7 +34,7 @@ import java.util.Date;
  * @author Administrator
  * @date 2015-1-12
  */
-public class AuthClipPictureActivity extends Activity implements OnTouchListener,
+public class AuthClipPictureActivity extends AbsActivity implements OnTouchListener,
         OnClickListener {
     private ImageView srcPic;
     /**
@@ -97,11 +97,8 @@ public class AuthClipPictureActivity extends Activity implements OnTouchListener
     public static String mFilePath = FileDataHelper.getFilePath(Constant.Dir.IMAGE_TEMP);
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.clip_image);
-        // byte[] bis = getIntent().getByteArrayExtra("bitmap");
-        // bitmap = BitmapFactory.decodeByteArray(bis, 0, bis.length);
+    public void EInit() {
+        super.EInit();
         getWindowWH();
         mPath = getIntent().getStringExtra("path");
         bitmap = createBitmap(mPath, screenWidth, screenHeight);
@@ -134,6 +131,11 @@ public class AuthClipPictureActivity extends Activity implements OnTouchListener
         }
         String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
         filename = mFilePath + "/" + timeStamp + "clip.jpg";
+    }
+
+    @Override
+    public int getContentView() {
+        return R.layout.clip_image;
     }
 
     /**

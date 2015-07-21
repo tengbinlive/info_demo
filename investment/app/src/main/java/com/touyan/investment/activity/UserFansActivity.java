@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import com.core.CommonResponse;
 import com.core.util.CommonUtil;
+import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationAdapter;
 import com.touyan.investment.AbsActivity;
 import com.touyan.investment.App;
 import com.touyan.investment.R;
@@ -52,7 +53,12 @@ public class UserFansActivity extends AbsActivity implements AdapterView.OnItemC
             QueryUserFansResult result = (QueryUserFansResult) resposne.getData();
             subscribers = result.getSubscribers();
             adapter = new UserFansGridViewAdapter(this, subscribers);
-            gridView.setAdapter(adapter);
+
+            SwingBottomInAnimationAdapter animationAdapter = new SwingBottomInAnimationAdapter(adapter);
+
+            animationAdapter.setAbsListView(gridView);
+
+            gridView.setAdapter(animationAdapter);
         } else {
             CommonUtil.showToast(resposne.getErrorTip());
         }

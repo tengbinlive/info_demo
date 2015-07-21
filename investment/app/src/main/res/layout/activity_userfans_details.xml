@@ -8,15 +8,20 @@
              android:layout_height="wrap_content"
              android:layout_width="match_parent"
              layout="@layout/action_toolbar"/>
+
     <RelativeLayout
             android:id="@+id/user_info"
+            android:paddingTop="@dimen/statusBar_height"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/transparent">
+
         <com.joooonho.SelectableRoundedImageView
                 android:id="@+id/user_head"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:layout_width="75dp" android:layout_height="75dp"
+                android:layout_marginTop="26dp"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
                 android:layout_centerHorizontal="true"
                 android:scaleType="fitCenter"
                 android:src="@drawable/default_head"
@@ -26,7 +31,6 @@
                 app:sriv_left_bottom_corner_radius="360dp"
                 app:sriv_right_bottom_corner_radius="360dp"
                 app:sriv_border_width="3dp"
-                android:layout_marginTop="@dimen/content_10dp"
                 android:layout_marginBottom="@dimen/content_10dp"
                 app:sriv_border_color="#aa882831"
                 />
@@ -34,6 +38,7 @@
         <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/content_10dp"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="@dimen/content_gap"
                 android:orientation="horizontal"
@@ -181,10 +186,11 @@
     <LinearLayout
             android:id="@+id/bottom"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             android:layout_alignParentBottom="true"
             android:orientation="horizontal"
             android:background="@color/gray_tab_layout">
+
         <RelativeLayout android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1">

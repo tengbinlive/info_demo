@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import com.joooonho.SelectableRoundedImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.touyan.investment.App;
 import com.touyan.investment.R;
@@ -47,7 +48,7 @@ public class InfoGridAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.item_inv_info_image, null);
             holder = new ViewHolder();
-            holder.imageview = (ImageView) convertView.findViewById(R.id.imageview);
+            holder.imageview = (SelectableRoundedImageView) convertView.findViewById(R.id.imageview);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -57,7 +58,7 @@ public class InfoGridAdapter extends BaseAdapter {
     }
 
     class ViewHolder {
-        ImageView imageview;
+        SelectableRoundedImageView imageview;
     }
 
 }
