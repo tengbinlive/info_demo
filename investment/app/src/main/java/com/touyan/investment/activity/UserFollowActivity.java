@@ -1,48 +1,46 @@
 package com.touyan.investment.activity;
 
-import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
-import android.widget.TextView;
 import com.core.CommonResponse;
+import com.core.util.CommonUtil;
 import com.nhaarman.listviewanimations.appearance.StickyListHeadersAdapterDecorator;
 import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationAdapter;
 import com.nhaarman.listviewanimations.util.StickyListHeadersListViewWrapper;
 import com.touyan.investment.AbsActivity;
+import com.touyan.investment.App;
 import com.touyan.investment.R;
 import com.touyan.investment.adapter.FriendListHeadersAdapter;
-import com.touyan.investment.manager.InvestmentManager;
+import com.touyan.investment.bean.user.QueryUserFansResult;
+import com.touyan.investment.bean.user.Subscriber;
+import com.touyan.investment.helper.HanziComp;
+import com.touyan.investment.manager.UserManager;
 import com.touyan.investment.mview.IndexableListView;
-import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * Created by Administrator on 2015/7/20.
  */
 public class UserFollowActivity extends AbsActivity {
+
     private static final int INIT_LIST = 0x01;//初始化数据处理
-    private static final int LOAD_DATA = 0x02;//加载数据处理
 
-    private static final int COUNT_MAX = 15;//加载数据最大值
-
-    private InvestmentManager manager = new InvestmentManager();
+    private Comparator cmp = new HanziComp();
 
     private IndexableListView listView;
 
-
-    private FriendListHeadersAdapter mAdapter;
-
-    private ArrayList<String> mList;
+    private ArrayList<Subscriber> subscribers;
 
     private Handler activityHandler = new Handler() {
         public void handleMessage(Message msg) {
             int what = msg.what;
             switch (what) {
                 case INIT_LIST:
-                case LOAD_DATA:
-                    loadData((CommonResponse) msg.obj, what);
+                    loadData((CommonResponse) msg.obj);
                     break;
                 default:
                     break;
@@ -50,16 +48,29 @@ public class UserFollowActivity extends AbsActivity {
         }
     };
 
-    private void loadData(CommonResponse resposne, int what) {
+    private void loadData(CommonResponse resposne) {
         dialogDismiss();
-        initListView();
-
+        if (resposne.isSuccess()) {
+            QueryUserFansResult result = (QueryUserFansResult) resposne.getData();
+            subscribers = result.getSubscribers();
+            hanziSequence();
+        } else {
+            CommonUtil.showToast(resposne.getErrorTip());
+        }
     }
+
+    private void hanziSequence() {
+        if (subscribers == null) {
+            return;
+        }
+        Collections.sort(subscribers, cmp);
+        initListView();
+    }
+
 
     @Override
     public void EInit() {
         super.EInit();
-        setSwipeBackEnable(true);
         findView();
         init();
     }
@@ -84,27 +95,19 @@ public class UserFollowActivity extends AbsActivity {
     private void findView() {
         listView = (IndexableListView) findViewById(R.id.listview);
         listView.setFastScrollEnabled(true);
+        View ll_listEmpty = findViewById(R.id.ll_listEmpty);
+        listView.setEmptyView(ll_listEmpty);
     }
 
     // 初始化资源
     private void init() {
-
-        View ll_listEmpty = findViewById(R.id.ll_listEmpty);
-        listView.setEmptyView(ll_listEmpty);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-            listView.setFitsSystemWindows(true);
-        }
-
         dialogShow();
         getDataList();
     }
 
     private void initListView() {
 
-        testData();
-
-        FriendListHeadersAdapter mAdapter = new FriendListHeadersAdapter(this, mList);
+        FriendListHeadersAdapter mAdapter = new FriendListHeadersAdapter(this, subscribers);
 
         SwingBottomInAnimationAdapter animationAdapter = new SwingBottomInAnimationAdapter(mAdapter);
 
@@ -120,30 +123,9 @@ public class UserFollowActivity extends AbsActivity {
         listView.setAdapter(stickyListHeadersAdapterDecorator);
     }
 
-
     private void getDataList() {
-        int startIndex = mList == null || mList.size() <= 0 ? 1 : mList.size();
-        manager.LoginAct(this, "", "" + COUNT_MAX, activityHandler, startIndex == 1 ? INIT_LIST : LOAD_DATA);
+        UserManager manager = new UserManager();
+        manager.queryUserFollow(this, App.getInstance().getgUserInfo().getServno(), activityHandler, INIT_LIST);
     }
 
-    private void testData() {
-        if (mList == null) {
-            mList = new ArrayList<String>();
-        }
-        mList.add("A");
-        mList.add("B");
-        mList.add("C");
-        mList.add("D");
-        mList.add("E");
-        mList.add("A");
-        mList.add("B");
-        mList.add("C");
-        mList.add("D");
-        mList.add("E");
-        mList.add("A");
-        mList.add("B");
-        mList.add("C");
-        mList.add("D");
-        mList.add("E");
-    }
 }

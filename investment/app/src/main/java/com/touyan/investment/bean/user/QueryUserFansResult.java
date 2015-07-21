@@ -2,6 +2,7 @@ package com.touyan.investment.bean.user;
 
 import com.core.openapi.OpenApiSimpleResult;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
@@ -9,20 +10,20 @@ import java.util.Arrays;
  */
 public class QueryUserFansResult extends OpenApiSimpleResult {
 
-    private Subscriber[] subscribers;
+    private ArrayList<Subscriber> subscribers;
 
-    public Subscriber[] getSubscribers() {
+    public ArrayList<Subscriber> getSubscribers() {
         return subscribers;
     }
 
-    public void setSubscribers(Subscriber[] subscribers) {
+    public void setSubscribers(ArrayList<Subscriber> subscribers) {
         this.subscribers = subscribers;
     }
 
     @Override
     public String toString() {
         return "QueryUserFansResult{" +
-                "subscribers=" + Arrays.toString(subscribers) +
+                "subscribers=" + subscribers +
                 '}';
     }
 }

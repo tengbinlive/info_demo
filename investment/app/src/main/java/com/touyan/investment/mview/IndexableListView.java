@@ -30,7 +30,6 @@ public class IndexableListView extends StickyListHeadersListView {
 
     private boolean mIsFastScrollEnabled = false;
     private IndexScroller mScroller = null;
-    private GestureDetector mGestureDetector = null;
 
     public IndexableListView(Context context) {
         super(context);
@@ -55,17 +54,12 @@ public class IndexableListView extends StickyListHeadersListView {
         if (mIsFastScrollEnabled) {
             if (mScroller == null)
                 mScroller = new IndexScroller(getContext(), this);
-        } else {
-            if (mScroller != null) {
-                mScroller.hide();
-                mScroller = null;
-            }
         }
     }
 
     @Override
-    public void draw(Canvas canvas) {
-        super.draw(canvas);
+    protected void dispatchDraw(Canvas canvas) {
+        super.dispatchDraw(canvas);
 
         // Overlay index bar
         if (mScroller != null)
@@ -78,22 +72,6 @@ public class IndexableListView extends StickyListHeadersListView {
         if (mScroller != null && mScroller.onTouchEvent(ev))
             return true;
 
-        if (mGestureDetector == null) {
-            mGestureDetector = new GestureDetector(getContext(), new GestureDetector.SimpleOnGestureListener() {
-
-                @Override
-                public boolean onFling(MotionEvent e1, MotionEvent e2,
-                                       float velocityX, float velocityY) {
-                    // If fling happens, index bar shows
-                    if (mScroller != null)
-                        mScroller.show();
-                    return super.onFling(e1, e2, velocityX, velocityY);
-                }
-
-            });
-        }
-        mGestureDetector.onTouchEvent(ev);
-
         return super.onTouchEvent(ev);
     }
 
@@ -101,8 +79,8 @@ public class IndexableListView extends StickyListHeadersListView {
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         if (mScroller.contains(ev.getX(), ev.getY()))
             return true;
-
         return super.onInterceptTouchEvent(ev);
+
     }
 
     @Override

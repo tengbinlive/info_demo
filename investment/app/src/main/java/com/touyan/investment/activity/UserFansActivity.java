@@ -18,6 +18,8 @@ import com.touyan.investment.bean.user.UserInfo;
 import com.touyan.investment.manager.UserManager;
 import com.touyan.investment.mview.GridViewWithHeaderAndFooter;
 
+import java.util.ArrayList;
+
 /**
  * Created by Administrator on 2015/7/15.
  */
@@ -29,7 +31,7 @@ public class UserFansActivity extends AbsActivity implements AdapterView.OnItemC
 
     private UserFansGridViewAdapter adapter;
 
-    private Subscriber[] subscribers;
+    private ArrayList<Subscriber> subscribers;
 
     private Handler activityHandler = new Handler() {
         public void handleMessage(Message msg) {
@@ -96,8 +98,8 @@ public class UserFansActivity extends AbsActivity implements AdapterView.OnItemC
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
         Intent intent = new Intent(UserFansActivity.this, UserFansDetailsActivity.class);
-        intent.putExtra("userid", subscribers[position].getScrino());
-        intent.putExtra("otherid", subscribers[position].getServno());
+        intent.putExtra("userid", subscribers.get(position).getScrino());
+        intent.putExtra("otherid", subscribers.get(position).getServno());
         startActivity(intent);
         UserFansActivity.this.overridePendingTransition(R.anim.push_translate_in_right, 0);
     }

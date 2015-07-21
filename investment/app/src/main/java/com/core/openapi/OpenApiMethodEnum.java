@@ -134,6 +134,11 @@ public enum OpenApiMethodEnum {
     QUERY_USERFANS("/subscribe/querySubMyscribers.action", "openapi_json", OpenApi.URL_TYPE_DATA),
 
     /**
+     * 我的关注
+     */
+    QUERY_FOLLOW("/subscribe/queryMySubscribers.action", "openapi_json", OpenApi.URL_TYPE_DATA),
+
+    /**
      * 上传头像
      */
     UPLOAD_HEAD("/user/updateAvatar.action", "openapi_json", OpenApi.URL_TYPE_DATA),
