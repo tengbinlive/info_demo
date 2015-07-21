@@ -99,11 +99,6 @@ public class UserFansDetailsActivity extends AbsActivity {
         setToolbarRightVisbility(View.INVISIBLE, View.INVISIBLE);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
     private void findView() {
         userHeadImage = (SelectableRoundedImageView) findViewById(R.id.user_head);
         userNameText = (TextView) findViewById(R.id.user_name);

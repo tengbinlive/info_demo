@@ -1,5 +1,8 @@
 package com.touyan.investment.bean.user;
 
+import com.core.util.StringUtil;
+import com.touyan.investment.helper.PinYinUtil;
+
 import java.io.Serializable;
 
 /**
@@ -11,6 +14,17 @@ public class Subscriber implements Serializable {
     private String scrino;
     private String servno;
     private UserInfo user;
+    private String nameSort;
+
+    //特殊处理
+    public String getNameSort() {
+        if(null==nameSort){
+            String key = PinYinUtil.getFirstSpell(user.getUalias());
+            key = key.replaceAll(" ", "");
+            nameSort = String.valueOf(key.charAt(0));
+        }
+        return nameSort;
+    }
 
     public String getIsorder() {
         return isorder;

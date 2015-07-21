@@ -13,6 +13,8 @@ import com.touyan.investment.R;
 import com.touyan.investment.activity.UserFansActivity;
 import com.touyan.investment.bean.user.Subscriber;
 
+import java.util.ArrayList;
+
 
 /**
  * Created by Administrator on 2015/7/15.
@@ -20,12 +22,12 @@ import com.touyan.investment.bean.user.Subscriber;
 public class UserFansGridViewAdapter extends BaseAdapter {
     private LayoutInflater mInflater;
 
-    private Subscriber[] list;
+    private ArrayList<Subscriber> list;
 
     private UserFansActivity mContext;
 
 
-    public UserFansGridViewAdapter(UserFansActivity context, Subscriber[] _list) {
+    public UserFansGridViewAdapter(UserFansActivity context, ArrayList<Subscriber> _list) {
         this.list = _list;
         mContext = context;
         mInflater = LayoutInflater.from(mContext);
@@ -34,12 +36,12 @@ public class UserFansGridViewAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return null == list ? 0 : list.length;
+        return null == list ? 0 : list.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return list[position];
+        return list.get(position);
     }
 
     @Override
@@ -47,7 +49,7 @@ public class UserFansGridViewAdapter extends BaseAdapter {
         return 0;
     }
 
-    public void refresh(Subscriber[] _list) {
+    public void refresh(ArrayList<Subscriber> _list) {
         list = _list;
         notifyDataSetChanged();
     }
@@ -65,8 +67,8 @@ public class UserFansGridViewAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.userName.setText(list[position].getUser().getUalias());
-        ImageLoader.getInstance().displayImage(list[position].getUser().getUphoto(), holder.userHead);
+        holder.userName.setText(list.get(position).getUser().getUalias());
+        ImageLoader.getInstance().displayImage(list.get(position).getUser().getUphoto(), holder.userHead);
         return convertView;
     }
 

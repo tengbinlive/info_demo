@@ -2,12 +2,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/gray_layout">
+                >
 
     <include android:id="@+id/toolbar"
              android:layout_height="wrap_content"
              android:layout_width="match_parent"
              layout="@layout/action_toolbar"/>
+
     <com.touyan.investment.mview.IndexableListView
             android:id="@+id/listview"
             android:layout_width="match_parent"
@@ -22,6 +23,7 @@
             android:headerDividersEnabled="false"
             android:scrollbars="vertical"
             android:smoothScrollbar="true"
+            android:background="@color/gray_layout"
             />
 
     <include layout="@layout/list_empty"/>
