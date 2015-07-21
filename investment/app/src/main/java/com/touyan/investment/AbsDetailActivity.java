@@ -31,7 +31,7 @@ public abstract class AbsDetailActivity extends AbsActivity {
 
     public final static String KEY_DETAIL = "KEY_DETAIL"; // 详情
 
-    public static final int REQUSETCODE = 99;//评论 recode
+    public static final int REQUSETCODE = 1;//评论 recode
 
     private ArrayList<BottomMenu> menEnums;
 
