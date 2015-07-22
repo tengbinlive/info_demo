@@ -1,6 +1,8 @@
 package com.touyan.investment.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
@@ -8,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import cn.sharesdk.framework.Platform;
 import com.core.CommonResponse;
 import com.core.util.CommonUtil;
 import com.core.util.DateUtil;
@@ -25,6 +28,7 @@ import com.touyan.investment.bean.main.*;
 import com.touyan.investment.bean.user.UserInfo;
 import com.touyan.investment.enums.BottomMenu;
 import com.touyan.investment.enums.YesOrNoEnum;
+import com.touyan.investment.helper.ShareUtil;
 import com.touyan.investment.helper.Util;
 import com.touyan.investment.manager.InvestmentManager;
 import com.touyan.investment.mview.BottomView;
@@ -111,7 +115,7 @@ public class ActDetailActivity extends AbsDetailActivity {
         if (resposne.isSuccess()) {
             InvReplysResult replysResult = (InvReplysResult) resposne.getData();
             ArrayList<InvReplysBean> beans = replysResult.getReplys();
-            int size = beans==null?0:beans.size();
+            int size = beans == null ? 0 : beans.size();
             if (what == INIT_LIST) {
                 review_ly.removeAllViews();
             }
@@ -228,7 +232,7 @@ public class ActDetailActivity extends AbsDetailActivity {
     }
 
     private void getDataReplyList(int what) {
-        if(what==INIT_LIST){
+        if (what == INIT_LIST) {
             currentPager = 0;
         }
         manager.queryReplys(this, invActBean.getActvid(), currentPager, COUNT_MAX, activityHandler, what);
@@ -261,6 +265,19 @@ public class ActDetailActivity extends AbsDetailActivity {
         setToolbarIntermediateStrID(R.string.act_detail);
         setToolbarRightVisbility(View.VISIBLE, View.VISIBLE);
         setToolbarRight(R.drawable.detail_share);
+        setToolbarRightOnClick(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                shareMenu();
+            }
+        });
+    }
+
+    private void shareMenu() {
+        int iconid = InvActBean.TYPE_ROADSHOW.equals(invActBean.getActvtp()) ? R.drawable.act_roadshow : R.drawable.act_product;
+        Bitmap icon = BitmapFactory.decodeResource(ActDetailActivity.this.getResources(), iconid);
+        Platform.ShareParams params = ShareUtil.getParams(invActBean.getAtitle(), invActBean.getContnt(), invActBean.getH5url(), icon);
+        ShareUtil.showShareView(ActDetailActivity.this, params);
     }
 
     private void findView() {
@@ -273,7 +290,7 @@ public class ActDetailActivity extends AbsDetailActivity {
         scrollview_ly = (LinearLayout) findViewById(R.id.scrollview_ly);
 
         String h5url = invActBean.getH5url();
-        if(StringUtil.isNotBlank(h5url)) {
+        if (StringUtil.isNotBlank(h5url)) {
             initWebView(h5url);
             scrollview_ly.addView(webview_ly, 0);
         }
@@ -281,8 +298,7 @@ public class ActDetailActivity extends AbsDetailActivity {
         setOnMenuButtonClick(new OnMenuButtonClick() {
             @Override
             public void onClick(View view, BottomMenu menu, boolean status) {
-                if (menu == BottomMenu.REWARD) {
-                } else if (menu == BottomMenu.SHARE) {
+                if (menu == BottomMenu.SHARE) {
                     selectShare(invActBean);
                 } else if (menu == BottomMenu.REVIEW) {
                     toReview(invActBean);
@@ -306,7 +322,7 @@ public class ActDetailActivity extends AbsDetailActivity {
                     }
                     collectView = view;
                     getSign();
-                }else if (menu == BottomMenu.SIGN_DETAIL) {
+                } else if (menu == BottomMenu.SIGN_DETAIL) {
                     toSignDetail();
                 }
             }
@@ -314,7 +330,7 @@ public class ActDetailActivity extends AbsDetailActivity {
 
         String joinStatus = invActBean.getIsJoin();
         String pubsid = invActBean.getPubsid();
-        if (InvActBean.STATUS_BY.equals(joinStatus)&&!pubsid.equals(App.getInstance().getgUserInfo().getServno())) {
+        if (InvActBean.STATUS_BY.equals(joinStatus) && !pubsid.equals(App.getInstance().getgUserInfo().getServno())) {
             isSign = true;
             setBackOrTag(3, true);
         }
@@ -324,7 +340,7 @@ public class ActDetailActivity extends AbsDetailActivity {
     private void initData() {
         InvActBean bean = invActDetailResult.getDetail();
         String h5url = bean.getH5url();
-        if(null==webview_ly) {
+        if (null == webview_ly) {
             initWebView(h5url);
             scrollview_ly.addView(webview_ly, 0);
         }
@@ -364,12 +380,12 @@ public class ActDetailActivity extends AbsDetailActivity {
     }
 
     private void toSignDetail() {
-        if(null==joinUsers||joinUsers.size()<=0){
+        if (null == joinUsers || joinUsers.size() <= 0) {
             CommonUtil.showToast("暂无详情");
             return;
         }
         Intent mIntent = new Intent(this, SignDetailActivity.class);
-        mIntent.putExtra(KEY,joinUsers);
+        mIntent.putExtra(KEY, joinUsers);
         startActivity(mIntent);
         overridePendingTransition(R.anim.push_translate_in_right, 0);
     }
@@ -382,7 +398,7 @@ public class ActDetailActivity extends AbsDetailActivity {
         menus.add(BottomMenu.COLLECT);
         if (invActBean.getPubsid().equals(App.getInstance().getgUserInfo().getServno())) {
             menus.add(BottomMenu.SIGN_DETAIL);
-        }else{
+        } else {
             menus.add(BottomMenu.SIGN);
         }
         return menus;

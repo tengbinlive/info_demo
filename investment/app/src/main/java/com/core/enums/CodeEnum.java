@@ -29,7 +29,7 @@ public enum CodeEnum {
 	/** 数据转换错误 */
 	DATA_PARSE_ERROR("9103", "数据转换错误"),
 	/** 网络连接超时 */
-	CONNECT_UNAVAILABLE("9104", "网络不可用"),
+	CONNECT_UNAVAILABLE("9104", "服务器繁忙"),
 	/** 网络连接超时 */
 	CONNECT_TIMEOUT("9105", "网络连接超时"),
 	/** 无法连接网络 */
@@ -41,7 +41,7 @@ public enum CodeEnum {
 	/** 未知错误 */
 	UNKNOWN("9998", "未知错误"),
 	/** 自定义异常(描述一般为Exception的getLocalizedMessage()) */
-	EXCEPTION("9999", ""),
+	EXCEPTION("9999", "未知错误"),
 	/** 成功 */
 	SUCCESS("0", "成功");
 

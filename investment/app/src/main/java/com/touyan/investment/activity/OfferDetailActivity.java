@@ -1,12 +1,15 @@
 package com.touyan.investment.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import cn.sharesdk.framework.Platform;
 import com.core.CommonResponse;
 import com.core.util.CommonUtil;
 import com.core.util.DateUtil;
@@ -21,6 +24,7 @@ import com.touyan.investment.bean.main.*;
 import com.touyan.investment.bean.user.UserInfo;
 import com.touyan.investment.enums.BottomMenu;
 import com.touyan.investment.enums.YesOrNoEnum;
+import com.touyan.investment.helper.ShareUtil;
 import com.touyan.investment.helper.Util;
 import com.touyan.investment.manager.InvestmentManager;
 import com.touyan.investment.mview.BottomView;
@@ -207,6 +211,18 @@ public class OfferDetailActivity extends AbsDetailActivity {
         setToolbarIntermediateStrID(R.string.offer_detail);
         setToolbarRightVisbility(View.VISIBLE, View.VISIBLE);
         setToolbarRight(R.drawable.detail_share);
+        setToolbarRightOnClick(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                shareMenu();
+            }
+        });
+    }
+
+    private void shareMenu(){
+        Bitmap icon = BitmapFactory.decodeResource(OfferDetailActivity.this.getResources(), R.drawable.reward);
+        Platform.ShareParams params= ShareUtil.getParams(invOfferBean.getRtitle(), invOfferBean.getContnt(), invOfferBean.getH5url(), icon);
+        ShareUtil.showShareView(OfferDetailActivity.this, params);
     }
 
     private void findView() {
