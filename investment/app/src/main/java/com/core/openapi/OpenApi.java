@@ -14,8 +14,8 @@ public class OpenApi {
 	public final static String URL_TYPE_DATA = "URL_TYPE_DATA";
 
 	/** 调试环境OpenAPI地址 */
+//	private static final String DEBUG_API_PATH = "http://120.26.68.22:8080/investors";
 	private static final String DEBUG_API_PATH = "http://120.26.68.22:8080/investors";
-//	private static final String DEBUG_API_PATH = "http://192.168.10.4:8080/investors";
 
 	/** 正式环境OpenAPI地址 */
 	private static final String PROD_API_PATH = "http://120.26.68.22:8080/investors";

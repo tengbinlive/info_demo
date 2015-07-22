@@ -525,7 +525,7 @@ public class InvestmentManager {
 
         MyActivityParam param = new MyActivityParam();
 
-        param.setPubsid(App.getInstance().getgUserInfo().getServno());
+        param.setUserid(App.getInstance().getgUserInfo().getServno());
         param.setStartno(page_number);
         param.setPageSize(page_size);
         // 接口参数
@@ -631,7 +631,7 @@ public class InvestmentManager {
 
         param.setStartno(page_number);
         param.setPageSize(page_size);
-        param.setUserid(App.getInstance().getgUserInfo().getServno());
+        param.setPubsid(App.getInstance().getgUserInfo().getServno());
         // 接口参数
         param.setMethod(OpenApiMethodEnum.LOAD_MYRELEASE_OFFER);
         param.setParseTokenType(new TypeReference<InvOfferListResult>() {
