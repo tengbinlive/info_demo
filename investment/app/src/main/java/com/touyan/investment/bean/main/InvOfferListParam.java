@@ -11,6 +11,15 @@ public class InvOfferListParam extends OpenApiBaseRequest implements OpenApiRequ
     private int startno;
     private int pageSize;
     private String userid;
+    private String pubsid;
+
+    public String getPubsid() {
+        return pubsid;
+    }
+
+    public void setPubsid(String pubsid) {
+        this.pubsid = pubsid;
+    }
 
     public int getStartno() {
         return startno;
@@ -40,7 +49,6 @@ public class InvOfferListParam extends OpenApiBaseRequest implements OpenApiRequ
     public boolean validate() {
         if (StringUtil.isBlank(this.startno)) return false;
         if (StringUtil.isBlank(this.pageSize)) return false;
-        if (StringUtil.isBlank(this.userid)) return false;
         return true;
     }
 
@@ -49,6 +57,7 @@ public class InvOfferListParam extends OpenApiBaseRequest implements OpenApiRequ
         if (includeEmptyAttr || (!includeEmptyAttr && StringUtil.isNotBlank(startno))) param.put("startno", startno);
         if (includeEmptyAttr || (!includeEmptyAttr && StringUtil.isNotBlank(pageSize))) param.put("pageSize", pageSize);
         if (includeEmptyAttr || (!includeEmptyAttr && StringUtil.isNotBlank(userid))) param.put("userid", userid);
+        if (includeEmptyAttr || (!includeEmptyAttr && StringUtil.isNotBlank(pubsid))) param.put("pubsid", pubsid);
     }
 
     @Override
@@ -57,6 +66,7 @@ public class InvOfferListParam extends OpenApiBaseRequest implements OpenApiRequ
                 "startno=" + startno +
                 ", pageSize=" + pageSize +
                 ", userid='" + userid + '\'' +
+                ", pubsid='" + pubsid + '\'' +
                 '}';
     }
 }
