@@ -6,6 +6,8 @@ import com.touyan.investment.AbsActivity;
 import com.touyan.investment.R;
 
 public class AboutInvActivity extends AbsActivity implements OnClickListener {
+
+
     @Override
     public void EInit() {
         super.EInit();

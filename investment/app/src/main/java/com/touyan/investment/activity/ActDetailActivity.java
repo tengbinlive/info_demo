@@ -60,6 +60,8 @@ public class ActDetailActivity extends AbsDetailActivity {
 
     private LinearLayout review_ly;
 
+    private LinearLayout scrollview_ly;
+
     private InvActBean invActBean;
 
     private InvActDetailResult invActDetailResult;
@@ -268,14 +270,13 @@ public class ActDetailActivity extends AbsDetailActivity {
         mScrollView = (PullToRefreshScrollView) findViewById(R.id.pull_scrollview);
         review_ly = (LinearLayout) findViewById(R.id.review_ly);
 
-        LinearLayout scrollview_ly = (LinearLayout) findViewById(R.id.scrollview_ly);
+        scrollview_ly = (LinearLayout) findViewById(R.id.scrollview_ly);
 
         String h5url = invActBean.getH5url();
         if(StringUtil.isNotBlank(h5url)) {
             initWebView(h5url);
+            scrollview_ly.addView(webview_ly, 0);
         }
-
-        scrollview_ly.addView(webview_ly, 0);
 
         setOnMenuButtonClick(new OnMenuButtonClick() {
             @Override
@@ -322,9 +323,10 @@ public class ActDetailActivity extends AbsDetailActivity {
 
     private void initData() {
         InvActBean bean = invActDetailResult.getDetail();
-        String h5url = invActBean.getH5url();
-        if(StringUtil.isBlank(h5url)) {
-            initWebView(bean.getH5url());
+        String h5url = bean.getH5url();
+        if(null==webview_ly) {
+            initWebView(h5url);
+            scrollview_ly.addView(webview_ly, 0);
         }
         int replyNum = bean.getReplyCount();
         if (YesOrNoEnum.YES.getCode().equals(bean.getIsStore())) {

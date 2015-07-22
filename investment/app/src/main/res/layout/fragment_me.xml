@@ -324,11 +324,12 @@
                       android:layout_height="@dimen/content_1px"
                       android:background="@drawable/user_horizontal_divider"/>
 
-            <Button
+            <TextView
                     android:id="@+id/user_authenticated_btn"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:layout_marginTop="@dimen/content_10dp"
+                    android:gravity="center"
                     android:background="@drawable/user_authenticated_btn_bg"
                     android:layout_marginLeft="@dimen/content_left_margin"
                     android:layout_marginRight="@dimen/content_right_margin"
