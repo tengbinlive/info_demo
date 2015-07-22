@@ -15,6 +15,8 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import com.core.util.StringUtil;
 import com.gitonway.lee.niftymodaldialogeffects.Effectstype;
 import com.gitonway.lee.niftymodaldialogeffects.NiftyDialogBuilder;
@@ -75,6 +77,7 @@ public abstract class AbsActivity extends SwipeBackActivity implements EInitDate
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         App.getInstance().addActivity(this);
+        ButterKnife.bind(this);
         int colos = getIntent().getIntExtra(STATUSBAR_COLOS, 0);
         setStatusBar(colos);
         mInflater = LayoutInflater.from(this);
@@ -86,6 +89,8 @@ public abstract class AbsActivity extends SwipeBackActivity implements EInitDate
         }
         EInit();
     }
+
+
 
     /**
      * 设置statusbar全透明

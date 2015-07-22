@@ -23,7 +23,9 @@ android {
         versionCode 1
         versionName "1.0"
     }
-
+    lintOptions {
+        disable 'InvalidPackage'
+    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7
         targetCompatibility JavaVersion.VERSION_1_7
@@ -33,6 +35,9 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+    packagingOptions {
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
     }
 }
 
@@ -46,6 +51,7 @@ dependencies {
     compile 'com.joooonho:selectableroundedimageview:1.0.1'
     compile 'se.emilsjolander:stickylistheaders:2.5.0'
     compile 'com.wdullaer:materialdatetimepicker:1.4.1'
+    compile 'com.jakewharton:butterknife:7.0.1'
     compile project(':niftymodaldialog')
     compile project(':pulltorefresh')
     compile project(':smarttablayout')

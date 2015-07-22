@@ -102,6 +102,9 @@ public class ActDetailActivity extends AbsDetailActivity {
         }
     };
 
+
+
+
     private void loadData(CommonResponse resposne, int what) {
         if (resposne.isSuccess()) {
             InvReplysResult replysResult = (InvReplysResult) resposne.getData();
@@ -191,6 +194,7 @@ public class ActDetailActivity extends AbsDetailActivity {
 
     @Override
     public void EInit() {
+
         invActBean = (InvActBean) getIntent().getSerializableExtra(KEY_DETAIL);
         super.EInit();
         findView();
