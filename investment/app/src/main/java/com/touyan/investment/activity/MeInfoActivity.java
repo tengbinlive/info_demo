@@ -33,7 +33,6 @@ public class MeInfoActivity extends AbsActivity implements OnClickListener {
         findView();
     }
 
-
     @Override
     public int getContentView() {
         return R.layout.activity_meofferreward;
@@ -111,7 +110,6 @@ public class MeInfoActivity extends AbsActivity implements OnClickListener {
             @Override
             public void onPageScrolled(int i, float v, int i1) {
 
-              
                 if (!isReset) {
                     isReset = true;
                     changeEditState(EditerAdapter.STATE_EDIT);
