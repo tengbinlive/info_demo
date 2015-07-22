@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
+import cn.sharesdk.framework.ShareSDK;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.core.CrashHandler;
@@ -23,6 +24,8 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.tencent.mm.sdk.openapi.IWXAPI;
+import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.touyan.investment.bean.user.UserInfo;
 import com.touyan.investment.helper.SharedPreferencesHelper;
 
@@ -57,6 +60,8 @@ public class App extends Application {
     private static DaoSession daoSession;
 
     private BroadcastReceiver connectionReceiver;
+
+    private static IWXAPI wxApi;
 
     /**
      * 获得本类的一个实例
@@ -118,6 +123,18 @@ public class App extends Application {
         return daoSession;
     }
 
+    /**
+     * 获得微信API对象.
+     *
+     * @return 微信API对象
+     */
+    public static IWXAPI getWXApi() {
+        if (wxApi == null) {
+            wxApi = WXAPIFactory.createWXAPI(App.getInstance(), null);
+            wxApi.registerApp(Constant.WeiXin.APP_ID);
+        }
+        return wxApi;
+    }
 
     //---------以下变量存储在APP(内存)中----------//
 
@@ -236,6 +253,9 @@ public class App extends Application {
             // 系统配置业务.
             ConfigManager.init(this);
 
+            //初始分享
+            ShareSDK.initSDK(this);
+
             initUniversalImageLoader();
 
         }
@@ -331,6 +351,7 @@ public class App extends Application {
     @Override
     public void onTerminate() {
         unConnectionReceiver();
+        ShareSDK.stopSDK();
         super.onTerminate();
     }
 }

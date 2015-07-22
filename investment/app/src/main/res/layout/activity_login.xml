@@ -139,62 +139,73 @@
             android:textSize="@dimen/font_medium"
             android:textColor="@color/textcolor_444"/>
 
-    <LinearLayout
-            android:id="@+id/divider4"
-            android:layout_below="@+id/recover_tv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:orientation="horizontal"
-            android:paddingRight="@dimen/content_right_margin"
-            android:paddingLeft="@dimen/content_left_margin"
-            android:gravity="center_vertical">
+    <!--<LinearLayout-->
+            <!--android:id="@+id/divider4"-->
+            <!--android:layout_below="@+id/recover_tv"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="50dp"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:paddingRight="@dimen/content_right_margin"-->
+            <!--android:paddingLeft="@dimen/content_left_margin"-->
+            <!--android:gravity="center_vertical">-->
 
-        <View
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_weight="1"
-                android:background="@drawable/login_deep_divide"
-                />
+        <!--<View-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="1dp"-->
+                <!--android:layout_weight="1"-->
+                <!--android:background="@drawable/login_deep_divide"-->
+                <!--/>-->
+        <!--<TextView-->
+                <!--android:id="@+id/third_tv"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginLeft="10dp"-->
+                <!--android:layout_marginRight="10dp"-->
+                <!--android:text="第三方登录"-->
+                <!--android:gravity="center"-->
+                <!--android:textSize="@dimen/font_medium"-->
+                <!--android:textColor="@color/textcolor_222"/>-->
+
+        <!--<View-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="1dp"-->
+                <!--android:layout_weight="1"-->
+                <!--android:background="@drawable/login_deep_divide"-->
+                <!--/>-->
+
+    <!--</LinearLayout>-->
+    <!--<LinearLayout-->
+
+            <!--android:layout_below="@+id/divider4"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:layout_marginTop="30dp"-->
+            <!--android:gravity="center">-->
+        <!--<ImageView-->
+                <!--android:id="@+id/qq_iv"-->
+                <!--android:layout_width="55dp"-->
+                <!--android:layout_height="55dp"-->
+                <!--android:layout_below="@+id/third_tv"-->
+                <!--android:src="@drawable/login_qq"/>-->
+        <!--<ImageView-->
+                <!--android:id="@+id/weibo_iv"-->
+                <!--android:layout_width="55dp"-->
+                <!--android:layout_height="55dp"-->
+                <!--android:layout_marginLeft="70dp"-->
+                <!--android:layout_below="@+id/third_tv"-->
+                <!--android:src="@drawable/login_weibo"/>-->
+    <!--</LinearLayout>-->
+
         <TextView
-                android:id="@+id/third_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:text="第三方登录"
-                android:gravity="center"
-                android:textSize="@dimen/font_medium"
-                android:textColor="@color/textcolor_222"/>
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="@dimen/content_gap"
+                android:textSize="@dimen/font_small"
+                android:text="@string/about_company"
+                android:textColor="@color/gray_hint"/>
 
-        <View
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_weight="1"
-                android:background="@drawable/login_deep_divide"
-                />
-
-    </LinearLayout>
-    <LinearLayout
-
-            android:layout_below="@+id/divider4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="30dp"
-            android:gravity="center">
-        <ImageView
-                android:id="@+id/qq_iv"
-                android:layout_width="55dp"
-                android:layout_height="55dp"
-                android:layout_below="@+id/third_tv"
-                android:src="@drawable/login_qq"/>
-        <ImageView
-                android:id="@+id/weibo_iv"
-                android:layout_width="55dp"
-                android:layout_height="55dp"
-                android:layout_marginLeft="70dp"
-                android:layout_below="@+id/third_tv"
-                android:src="@drawable/login_weibo"/>
-    </LinearLayout>
 </RelativeLayout>

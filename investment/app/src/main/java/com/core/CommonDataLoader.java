@@ -118,7 +118,6 @@ public class CommonDataLoader {
 			} else if (cb != null) {
 				callback(cb, new CommonResponse(CodeEnum.CONNECT_UNAVAILABLE));
 			} else {
-
 				CommonUtil.showToast( "糟糕，网络不可用");
 			}
 		} else if (!request.isValid()) {

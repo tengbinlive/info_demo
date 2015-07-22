@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:padding="@dimen/content_10dp"
+              android:orientation="vertical">
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:orientation="horizontal"
+                  android:background="@drawable/bg_rounded_white"
+                  android:layout_height="wrap_content">
+
+        <ImageView android:layout_weight="1"
+                   android:layout_width="0dp"
+                   android:id="@+id/share_weixin_friend"
+                   android:padding="@dimen/content_gap"
+                   android:src="@drawable/weixin_friend_share"
+                   android:layout_height="wrap_content"/>
+
+        <ImageView android:layout_width="0dp"
+                   android:layout_weight="1"
+                   android:id="@+id/share_weixin"
+                   android:padding="@dimen/content_gap"
+                   android:src="@drawable/weixin_share"
+                   android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+    <TextView
+            android:layout_marginTop="@dimen/content_10dp"
+            android:id="@+id/bottom_tv_cancel"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/bottom_bt_height"
+            android:gravity="center"
+            android:text="取消"
+            android:textColor="@color/textcolor_222"
+            android:background="@drawable/bg_rounded_white"
+            android:textSize="@dimen/font_medium"/>
+
+</LinearLayout>
