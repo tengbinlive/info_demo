@@ -1,6 +1,7 @@
 package com.touyan.investment.adapter;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
@@ -16,7 +17,9 @@ import com.core.util.StringMatcher;
 import com.daimajia.swipe.adapters.BaseSwipeAdapter;
 import com.joooonho.SelectableRoundedImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.touyan.investment.App;
 import com.touyan.investment.R;
+import com.touyan.investment.activity.UserFansDetailsActivity;
 import com.touyan.investment.bean.user.Subscriber;
 import com.touyan.investment.bean.user.UserInfo;
 import com.touyan.investment.manager.UserManager;
@@ -36,7 +39,7 @@ public class FriendListHeadersAdapter extends BaseSwipeAdapter implements Sticky
 
     private ArrayList<Subscriber> list;
 
-    private Context mContext;
+    private Activity mContext;
 
     private int keyIndex;
 
@@ -91,7 +94,7 @@ public class FriendListHeadersAdapter extends BaseSwipeAdapter implements Sticky
         }
     }
 
-    public FriendListHeadersAdapter(Context context, ArrayList<Subscriber> _list) {
+    public FriendListHeadersAdapter(Activity context, ArrayList<Subscriber> _list) {
         this.list = _list;
         mContext = context;
         mInflater = LayoutInflater.from(mContext);
@@ -109,6 +112,13 @@ public class FriendListHeadersAdapter extends BaseSwipeAdapter implements Sticky
         ViewHolder holder = new ViewHolder();
         holder.name = (TextView) convertView.findViewById(R.id.name);
         holder.head = (SelectableRoundedImageView) convertView.findViewById(R.id.head);
+        holder.head.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int position = (Integer)view.getTag();
+                UserFansDetailsActivity.toOthersDetail(mContext, App.getInstance().getgUserInfo().getServno(), list.get(position).getServno());
+            }
+        });
         holder.deleteLayout = (RelativeLayout) convertView.findViewById(R.id.delete_layout);
         holder.deleteLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,6 +140,7 @@ public class FriendListHeadersAdapter extends BaseSwipeAdapter implements Sticky
         holder.deleteLayout.setTag(position);
         UserInfo userInfo = subscriber.getUser();
         holder.name.setText(userInfo.getUalias());
+        holder.head.setTag(position);
         ImageLoader.getInstance().displayImage(userInfo.getUphoto(), holder.head);
     }
 

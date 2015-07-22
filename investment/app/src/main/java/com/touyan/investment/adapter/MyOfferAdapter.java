@@ -1,18 +1,17 @@
 package com.touyan.investment.adapter;
 
 import android.app.Activity;
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 import com.core.util.DateUtil;
 import com.joooonho.SelectableRoundedImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.touyan.investment.App;
 import com.touyan.investment.R;
-import com.touyan.investment.activity.MeActActivity;
 import com.touyan.investment.activity.MeOfferRewardActivity;
+import com.touyan.investment.activity.UserFansDetailsActivity;
 import com.touyan.investment.bean.main.InvOfferBean;
 import com.touyan.investment.bean.user.UserInfo;
 
@@ -24,11 +23,11 @@ public class MyOfferAdapter extends EditerAdapter {
 
     private ArrayList<InvOfferBean> list;
 
-    private Context mContext;
+    private Activity mContext;
 
 
-    public MyOfferAdapter(Context context, ArrayList<InvOfferBean> _list) {
-        super((Activity)context);
+    public MyOfferAdapter(Activity context, ArrayList<InvOfferBean> _list) {
+        super(context);
         this.list = _list;
         mContext = context;
         mInflater = LayoutInflater.from(mContext);
@@ -83,6 +82,14 @@ public class MyOfferAdapter extends EditerAdapter {
             holder.status = (TextView) convertView.findViewById(R.id.status);
             holder.reward_money = (TextView) convertView.findViewById(R.id.reward_money);
             holder.review_people_num = (TextView) convertView.findViewById(R.id.review_people_num);
+            holder.head.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = (Integer) view.getTag();
+                    InvOfferBean bean = list.get(position);
+                    UserFansDetailsActivity.toOthersDetail(mContext, App.getInstance().getgUserInfo().getServno(), bean.getPubsid());
+                }
+            });
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -90,13 +97,14 @@ public class MyOfferAdapter extends EditerAdapter {
 
         InvOfferBean bean = list.get(position);
         UserInfo userInfo = bean.getUser();
+        holder.head.setTag(position);
         ImageLoader.getInstance().displayImage(userInfo.getUphoto(), holder.head);
         holder.name.setText(userInfo.getUalias() + " 问：");
         holder.contents.setText(bean.getContnt());
         String dateStr = DateUtil.ConverToString(bean.getPubstm(), DateUtil.YYYY_MM_DD_HH_MM_SS);
         holder.date.setText(dateStr);
-        Double amount  = bean.getAmount();
-        if(amount!=null) {
+        Double amount = bean.getAmount();
+        if (amount != null) {
             holder.reward_money.setText("￥ " + bean.getAmount() + " 金币");
         }
         holder.review_people_num.setText(bean.getReplyCount() + "个人回答");

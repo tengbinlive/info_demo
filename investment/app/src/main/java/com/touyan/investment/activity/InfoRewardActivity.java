@@ -13,6 +13,7 @@ import com.joooonho.SelectableRoundedImageView;
 import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationAdapter;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.touyan.investment.AbsActivity;
+import com.touyan.investment.App;
 import com.touyan.investment.R;
 import com.touyan.investment.adapter.MoneyAdapter;
 import com.touyan.investment.bean.main.InvInfoBean;
@@ -152,6 +153,12 @@ public class InfoRewardActivity extends AbsActivity {
         name.setText(userInfo.getUalias());
         title.setText(invInfoBean.getItitle());
         ImageLoader.getInstance().displayImage(userInfo.getUphoto(), head);
+        head.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                UserFansDetailsActivity.toOthersDetail(InfoRewardActivity.this, App.getInstance().getgUserInfo().getServno(), invInfoBean.getPubsid());
+            }
+        });
 
         reward_bt.setOnClickListener(new View.OnClickListener() {
             @Override

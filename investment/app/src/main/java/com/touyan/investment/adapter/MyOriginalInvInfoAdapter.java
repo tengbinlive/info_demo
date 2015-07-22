@@ -14,10 +14,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.touyan.investment.AbsDetailActivity;
 import com.touyan.investment.App;
 import com.touyan.investment.R;
-import com.touyan.investment.activity.InfoDetailActivity;
-import com.touyan.investment.activity.InfoRewardActivity;
-import com.touyan.investment.activity.MeInfoActivity;
-import com.touyan.investment.activity.UserCollectActivity;
+import com.touyan.investment.activity.*;
 import com.touyan.investment.bean.main.InvInfoBean;
 import com.touyan.investment.bean.user.UserInfo;
 import com.touyan.investment.fragment.MeInfoFragment;
@@ -112,6 +109,15 @@ public class MyOriginalInvInfoAdapter extends EditerAdapter implements View.OnCl
                     toInfoDetail(-1, position);
                 }
             });
+
+            holder.head.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = (Integer) view.getTag(R.id.item_position);
+                    InvInfoBean bean = list.get(position);
+                    UserFansDetailsActivity.toOthersDetail(mContext, App.getInstance().getgUserInfo().getServno(), bean.getPubsid());
+                }
+            });
             holder.share_ib.setOnClickListener(this);
             holder.review_ib.setOnClickListener(this);
             holder.reward_ib.setOnClickListener(this);
@@ -149,6 +155,7 @@ public class MyOriginalInvInfoAdapter extends EditerAdapter implements View.OnCl
             ((InfoGridAdapter) (holder.gridview.getAdapter())).refresh(photos);
         }
 
+        holder.head.setTag(R.id.item_position,position);
         holder.info_ly.setTag(R.id.item_position,position);
         holder.gridview.setTag(R.id.item_position,position);
         holder.review_ly.setTag(R.id.item_position,position);
@@ -173,11 +180,6 @@ public class MyOriginalInvInfoAdapter extends EditerAdapter implements View.OnCl
         }
         return idList;
     }
-
-//    @Override
-//    public View getView(int position, View convertView, ViewGroup parent) {
-//      return null;
-//    }
 
     @Override
     public void onClick(View view) {

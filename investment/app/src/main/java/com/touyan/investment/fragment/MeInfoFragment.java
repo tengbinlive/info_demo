@@ -30,6 +30,8 @@ import java.util.ArrayList;
 
 public class MeInfoFragment extends AbsFragment {
 
+    public final static int REWARD_MYORIGINAL = 0;//原创资讯original
+    public final static int REWARD_MYPURCHASE = REWARD_MYORIGINAL + 1;//purchase
     private InvestmentManager manager = new InvestmentManager();
 
     private static final int INIT_LIST = 0x01;//初始化数据处理
@@ -169,9 +171,9 @@ public class MeInfoFragment extends AbsFragment {
 
     private void getDataList() {
         int startIndex = mList == null || mList.size() <= 0 ? 0 : mList.size();
-        if (viewType == MeInfoActivity.REWARD_MYORIGINAL){
+        if (viewType == REWARD_MYORIGINAL){
             manager.queryMyOriginalInfos(getActivity(), startIndex, COUNT_MAX, activityHandler, startIndex == 0 ? INIT_LIST : LOAD_DATA);
-        }else if (viewType == MeInfoActivity.REWARD_MYPURCHASE){
+        }else if (viewType == REWARD_MYPURCHASE){
             manager.queryMyPurchaseInfos(getActivity(), startIndex, COUNT_MAX, activityHandler, startIndex == 0 ? INIT_LIST : LOAD_DATA);
         }
     }
@@ -194,9 +196,9 @@ public class MeInfoFragment extends AbsFragment {
                 case EditerAdapter.STATE_REMOVE:
                     mAdapter.updateEditState(EditerAdapter.STATE_EDIT);
                     checkedItems = mAdapter.checkedItemList;
-                    if (viewType == MeInfoActivity.REWARD_MYORIGINAL){
+                    if (viewType == REWARD_MYORIGINAL){
                         manager.deleteMyOriginalInfos(getActivity(), mAdapter.getIdList(), activityHandler, DELETE_COMPLETE);
-                    }else if (viewType == MeInfoActivity.REWARD_MYPURCHASE){
+                    }else if (viewType == REWARD_MYPURCHASE){
                         manager.deleteMyPurchaseInfos(getActivity(), mAdapter.getIdList(), activityHandler, DELETE_COMPLETE);
                     }
                     break;

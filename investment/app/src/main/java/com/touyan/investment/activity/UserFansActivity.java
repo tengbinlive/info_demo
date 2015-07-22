@@ -103,10 +103,6 @@ public class UserFansActivity extends AbsActivity implements AdapterView.OnItemC
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-        Intent intent = new Intent(UserFansActivity.this, UserFansDetailsActivity.class);
-        intent.putExtra("userid", subscribers.get(position).getScrino());
-        intent.putExtra("otherid", subscribers.get(position).getServno());
-        startActivity(intent);
-        UserFansActivity.this.overridePendingTransition(R.anim.push_translate_in_right, 0);
+        UserFansDetailsActivity.toOthersDetail(UserFansActivity.this,subscribers.get(position).getScrino(),subscribers.get(position).getServno());
     }
 }

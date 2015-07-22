@@ -16,6 +16,7 @@ import com.touyan.investment.App;
 import com.touyan.investment.R;
 import com.touyan.investment.activity.InfoDetailActivity;
 import com.touyan.investment.activity.InfoRewardActivity;
+import com.touyan.investment.activity.UserFansDetailsActivity;
 import com.touyan.investment.bean.main.InvInfoBean;
 import com.touyan.investment.bean.user.UserInfo;
 import com.touyan.investment.fragment.InvInfoFragment;
@@ -93,6 +94,16 @@ public class InvInfoAdapter extends BaseAdapter implements View.OnClickListener 
                     toInfoDetail(-1, position);
                 }
             });
+
+            holder.head.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = (Integer) view.getTag(R.id.item_position);
+                    InvInfoBean bean = list.get(position);
+                    UserFansDetailsActivity.toOthersDetail( mContext , App.getInstance().getgUserInfo().getServno(), bean.getPubsid());
+                }
+            });
+
             holder.share_ib.setOnClickListener(this);
             holder.review_ib.setOnClickListener(this);
             holder.reward_ib.setOnClickListener(this);
@@ -108,6 +119,7 @@ public class InvInfoAdapter extends BaseAdapter implements View.OnClickListener 
         }
         InvInfoBean infoBean = list.get(position);
         UserInfo userInfo = infoBean.getUser();
+        holder.head.setTag(R.id.item_position,position);
         ImageLoader.getInstance().displayImage(userInfo.getUphoto(), holder.head);
         holder.name.setText(userInfo.getUalias());
         String dateStr = DateUtil.ConverToString(infoBean.getPubstm(), DateUtil.YYYY_MM_DD_HH_MM_SS);
