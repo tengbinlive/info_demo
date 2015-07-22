@@ -15,6 +15,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import butterknife.ButterKnife;
 import com.core.util.StringUtil;
 import com.gitonway.lee.niftymodaldialogeffects.Effectstype;
 import com.gitonway.lee.niftymodaldialogeffects.NiftyDialogBuilder;
@@ -86,6 +87,7 @@ public abstract class AbsActivity extends SwipeBackActivity implements EInitDate
         if (null != viewTitleBar) {
             initActionBar();
         }
+        ButterKnife.bind(this);
         EInit();
     }
 

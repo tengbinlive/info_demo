@@ -9,6 +9,7 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 import com.core.enums.CodeEnum;
 import com.core.util.CommonUtil;
+import com.squareup.okhttp.OkHttpClient;
 import com.touyan.investment.App;
 
 /**
@@ -56,7 +57,7 @@ public class CommonDataLoader {
 	 * @param context App的上下文
 	 */
 	private CommonDataLoader(Context context) {
-		mRequestQueue = Volley.newRequestQueue(context);
+		mRequestQueue = Volley.newRequestQueue(context,new OkHttpStack(new OkHttpClient()));
 		mImageLoader = new ImageLoader(mRequestQueue, new BitmapCache());
 	}
 
