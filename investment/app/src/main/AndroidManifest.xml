@@ -91,7 +91,7 @@
         <activity
                 android:name=".activity.GuideActivity"
                 android:launchMode="singleTop"
-                android:theme="@style/AppTheme">
+                android:theme="@style/AppThemeWTN">
         </activity>
 
         <!--登录-->
@@ -138,7 +138,6 @@
         <!--资讯详情-->
         <activity
                 android:name=".activity.InfoDetailActivity"
-                android:process="packagename.web"
                 android:theme="@style/AppTheme">
         </activity>
 
@@ -169,14 +168,12 @@
         <!--活动详情-->
         <activity
                 android:name=".activity.ActDetailActivity"
-                android:process="packagename.web"
                 android:theme="@style/AppTheme">
         </activity>
 
         <!--悬赏详情-->
         <activity
                 android:name=".activity.OfferDetailActivity"
-                android:process="packagename.web"
                 android:theme="@style/AppTheme">
         </activity>
 
@@ -318,7 +315,7 @@
 
         <!-- 微信分享回调 -->
         <activity
-                android:name="com.coolplace.app.wxapi.WXEntryActivity"
+                android:name=".wxapi.WXEntryActivity"
                 android:theme="@android:style/Theme.Translucent.NoTitleBar"
                 android:configChanges="keyboardHidden|orientation|screenSize"
                 android:exported="true"

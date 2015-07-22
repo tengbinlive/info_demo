@@ -221,8 +221,8 @@ public class OfferDetailActivity extends AbsDetailActivity {
 
     private void shareMenu(){
         Bitmap icon = BitmapFactory.decodeResource(OfferDetailActivity.this.getResources(), R.drawable.reward);
-        Platform.ShareParams params= ShareUtil.getParams(invOfferBean.getRtitle(), invOfferBean.getContnt(), invOfferBean.getH5url(), icon);
-        ShareUtil.showShareView(OfferDetailActivity.this, params);
+        Platform.ShareParams params= ShareUtil.getInstance().getParams(invOfferBean.getRtitle(), invOfferBean.getContnt(), invOfferBean.getH5url(), icon);
+        ShareUtil.getInstance().showShareView(OfferDetailActivity.this, params);
     }
 
     private void findView() {

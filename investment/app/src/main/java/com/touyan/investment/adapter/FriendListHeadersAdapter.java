@@ -116,7 +116,7 @@ public class FriendListHeadersAdapter extends BaseSwipeAdapter implements Sticky
             @Override
             public void onClick(View view) {
                 int position = (Integer)view.getTag();
-                UserFansDetailsActivity.toOthersDetail(mContext, App.getInstance().getgUserInfo().getServno(), list.get(position).getServno());
+                UserFansDetailsActivity.toOthersDetail(mContext, App.getInstance().getgUserInfo().getServno(), list.get(position).getUser().getServno());
             }
         });
         holder.deleteLayout = (RelativeLayout) convertView.findViewById(R.id.delete_layout);

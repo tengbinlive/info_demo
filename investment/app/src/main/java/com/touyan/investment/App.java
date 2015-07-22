@@ -253,9 +253,6 @@ public class App extends Application {
             // 系统配置业务.
             ConfigManager.init(this);
 
-            //初始分享
-            ShareSDK.initSDK(this);
-
             initUniversalImageLoader();
 
         }
