@@ -6,6 +6,7 @@ import com.touyan.investment.R;
 import ru.truba.touchgallery.GalleryWidget.GalleryViewPager;
 import ru.truba.touchgallery.GalleryWidget.UrlPagerAdapter;
 
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
