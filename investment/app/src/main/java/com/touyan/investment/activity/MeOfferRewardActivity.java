@@ -26,7 +26,6 @@ public class MeOfferRewardActivity extends AbsActivity implements OnClickListene
     public final static int REWARD_MYRELEASE = 0;//我发布的
     public final static int REWARD_MYPARTAKE = REWARD_MYRELEASE + 1;//我参与的
 
-    private int currentPager = REWARD_MYRELEASE;
     public final static int EDIT_STATE_CHENGED = 100;
     public int currentEditState = EditerAdapter.STATE_EDIT;
     @Override
@@ -109,14 +108,16 @@ public class MeOfferRewardActivity extends AbsActivity implements OnClickListene
         viewPagerTab.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i1) {
-                changeEditState(EditerAdapter.STATE_EDIT);
-                fragments.get(i).onActivityResult(EDIT_STATE_CHENGED, EditerAdapter.STATE_COMPLETE, null);
+                if(!isReset) {
+                    isReset = true;
+                    changeEditState(EditerAdapter.STATE_EDIT);
+                    fragments.get(i).onActivityResult(EDIT_STATE_CHENGED, EditerAdapter.STATE_COMPLETE, null);
+                }
             }
 
             @Override
             public void onPageSelected(int i) {
-
-                currentPager = i;
+                isReset = false;
             }
 
             @Override

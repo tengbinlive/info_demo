@@ -52,16 +52,6 @@ public class MeOfferRewFragment extends AbsFragment {
 
     private int currentItemIndex;
 
-//    private int viewType;//根据这个类型去判断调用那个接口。
-//    public static MeOfferRewFragment newsInstance( int viewType)
-//    {
-//        MeOfferRewFragment meInfoFragment = new MeOfferRewFragment();
-//        Bundle bundle = new Bundle();
-//        bundle.putInt( "viewType", viewType );
-//        meInfoFragment.setArguments( bundle );
-//        return meInfoFragment;
-//    }
-
     private Handler activityHandler = new Handler() {
         public void handleMessage(Message msg) {
             int what = msg.what;

@@ -36,13 +36,9 @@ public class UserCollectActivity extends AbsActivity implements View.OnClickList
     private final static int INVESTMENT_ACT = INVESTMENT_NEWS + 1;//活动
     private final static int INVESTMENT_OFFER = INVESTMENT_ACT + 1;//悬赏
 
-    private int currentPager = INVESTMENT_NEWS;
-
     public final static int EDIT_STATE_CHENGED = 100;
 
     public int currentEditState = EditerAdapter.STATE_EDIT;
-
-    private int lastPager = INVESTMENT_NEWS;
 
     @Override
     public void EInit() {
@@ -113,15 +109,16 @@ public class UserCollectActivity extends AbsActivity implements View.OnClickList
         viewPagerTab.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i1) {
-                lastPager = i;
-
+                if(!isReset) {
+                    isReset = true;
+                    changeEditState(EditerAdapter.STATE_EDIT);
+                    fragments.get(i).onActivityResult(EDIT_STATE_CHENGED, EditerAdapter.STATE_COMPLETE, null);
+                }
             }
 
             @Override
             public void onPageSelected(int i) {
-                currentPager = i;
-//                changeEditState(EditerAdapter.STATE_EDIT);
-//                fragments.get(lastPager).onActivityResult(EDIT_STATE_CHENGED, EditerAdapter.STATE_COMPLETE, null);
+                isReset = false;
             }
 
             @Override

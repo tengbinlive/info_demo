@@ -6,6 +6,7 @@ import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationA
 import com.touyan.investment.AbsActivity;
 import com.touyan.investment.R;
 import com.touyan.investment.adapter.InvActSignAdapter;
+import com.touyan.investment.bean.main.InvActJoinUsersBean;
 
 import java.util.ArrayList;
 
@@ -14,11 +15,12 @@ public class SignDetailActivity extends AbsActivity {
     //列表
     private ListView mList;
     private InvActSignAdapter mAdapter;
-
+    private ArrayList<InvActJoinUsersBean> joinUsers;
     private ArrayList<String> arrayList;
 
     @Override
     public void EInit() {
+        joinUsers = (ArrayList<InvActJoinUsersBean>) getIntent().getSerializableExtra(KEY);
         super.EInit();
         findView();
         testData();
@@ -45,7 +47,7 @@ public class SignDetailActivity extends AbsActivity {
 
     private void initListView() {
 
-        mAdapter = new InvActSignAdapter(this, arrayList);
+        mAdapter = new InvActSignAdapter(this, joinUsers);
 
         SwingBottomInAnimationAdapter animationAdapter = new SwingBottomInAnimationAdapter(mAdapter);
 

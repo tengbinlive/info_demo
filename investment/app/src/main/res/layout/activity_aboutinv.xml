@@ -1,135 +1,118 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/register_white"
                 android:orientation="vertical">
-        <include android:id="@+id/toolbar"
-                 android:layout_height="wrap_content"
-                 android:layout_width="match_parent"
-                 layout="@layout/action_toolbar"/>
+    <include android:id="@+id/toolbar"
+             android:layout_height="wrap_content"
+             android:layout_width="match_parent"
+             layout="@layout/action_toolbar"/>
 
+    <ImageView
+            android:id="@+id/ic_launcher_iv"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_below="@+id/toolbar"
+            android:layout_marginTop="60dp"
+            android:src="@drawable/ic_launcher"
+            android:layout_centerHorizontal="true"/>
 
+    <TextView
+            android:id="@+id/version_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ic_launcher_iv"
+            android:layout_marginTop="@dimen/view_vertical_margin"
+            android:textColor="@color/fanred"
+            android:textSize="@dimen/font_small"
+            android:layout_centerHorizontal="true"
+            android:text="@string/about_version"
+            />
 
-
-        <ImageView
-                android:id="@+id/ic_launcher_iv"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_below="@+id/toolbar"
-                android:layout_marginTop="60dp"
-                android:src="@drawable/ic_launcher"
-                android:layout_centerHorizontal="true"/>
+    <RelativeLayout
+            android:id="@+id/check_update_rl"
+            android:layout_width="match_parent"
+            android:layout_marginTop="40dp"
+            android:layout_height="50dp"
+            android:layout_below="@+id/version_tv"
+            android:background="@color/white"
+            android:paddingLeft="@dimen/content_gap_big"
+            android:paddingRight="@dimen/content_gap_big">
 
         <TextView
-                android:id="@+id/version_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/ic_launcher_iv"
-                android:layout_marginTop="@dimen/view_vertical_margin"
-                android:textStyle="bold"
-                android:textColor="@color/fanred"
-                android:textSize="@dimen/font_medium"
-                android:layout_centerHorizontal="true"
-                android:text="@string/about_version"
-                />
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/msg_iv"
+                android:layout_marginLeft="@dimen/view_padding"
+                android:textSize="@dimen/font_small"
+                android:text="@string/about_check_update"
+                android:textColor="@color/textcolor_444"/>
 
-        <RelativeLayout
-                android:id="@+id/check_update_rl"
-                android:layout_width="match_parent"
-                android:layout_marginTop="40dp"
-                android:layout_height="50dp"
-                android:layout_below="@+id/version_tv"
-                android:background="@color/white"
-                android:paddingLeft="@dimen/content_gap_big"
-                android:paddingRight="@dimen/content_gap_big"
-                >
-
-
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_toRightOf="@+id/msg_iv"
-                        android:layout_marginLeft="@dimen/view_padding"
-                        android:textSize="@dimen/font_small"
-                        android:text="@string/about_check_update"
-                        android:textColor="@color/textcolor_444"
-                        />
-
-                <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_alignParentRight="true"
-                        android:src="@drawable/right_goto"
-
-                        />
-
-        </RelativeLayout>
-
-        <View
-                android:id="@+id/line"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_below="@+id/check_update_rl"
-                android:background="@drawable/act_line"
-                />
-
-        <RelativeLayout
-                android:id="@+id/goscore_rl"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_below="@+id/line"
-                android:background="@color/white"
-                android:paddingLeft="@dimen/content_gap_big"
-                android:paddingRight="@dimen/content_gap_big"
-                >
-
-
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_toRightOf="@+id/msg_iv"
-                        android:layout_marginLeft="@dimen/view_padding"
-                        android:textSize="@dimen/font_small"
-                        android:text="@string/about_goscore"
-                        android:textColor="@color/textcolor_444"
-                        />
-
-                <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_alignParentRight="true"
-                        android:src="@drawable/right_goto"
-                        />
-        </RelativeLayout>
-
-
-        <LinearLayout
-                android:layout_width="match_parent"
+        <ImageView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="30dp"
-                android:gravity="center"
-                android:orientation="vertical">
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="@dimen/font_medium"
-                        android:text="@string/about_email"
-                        android:textColor="@color/fanred"
-                        />
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/view_vertical_margin"
-                        android:textSize="@dimen/font_medium"
-                        android:text="@string/about_company"
-                        android:textColor="@color/gray_hint"
-                        />
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/right_goto"/>
 
-        </LinearLayout>
+    </RelativeLayout>
+
+    <View
+            android:id="@+id/line"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/content_1px"
+            android:layout_below="@+id/check_update_rl"
+            android:background="@drawable/act_line"/>
+
+    <RelativeLayout
+            android:id="@+id/goscore_rl"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/line"
+            android:background="@color/white"
+            android:paddingLeft="@dimen/content_gap_big"
+            android:paddingRight="@dimen/content_gap_big">
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/msg_iv"
+                android:layout_marginLeft="@dimen/view_padding"
+                android:textSize="@dimen/font_small"
+                android:text="@string/about_goscore"
+                android:textColor="@color/textcolor_444"/>
+
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/right_goto"/>
+    </RelativeLayout>
+
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="30dp"
+            android:gravity="center"
+            android:orientation="vertical">
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/font_small"
+                android:text="@string/about_email"
+                android:textColor="@color/fanred"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/view_vertical_margin"
+                android:textSize="@dimen/font_small"
+                android:text="@string/about_company"
+                android:textColor="@color/gray_hint"/>
+
+    </LinearLayout>
 </RelativeLayout>

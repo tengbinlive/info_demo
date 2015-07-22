@@ -8,10 +8,19 @@ import java.util.HashMap;
 
 public class MyActivityParam extends OpenApiBaseRequest implements OpenApiRequestInterface {
 
+    private String pubsid;
     private String userid;
     private String ckstau;
     private int startno;
     private int pageSize;
+
+    public String getPubsid() {
+        return pubsid;
+    }
+
+    public void setPubsid(String pubsid) {
+        this.pubsid = pubsid;
+    }
 
     public String getUserid() {
         return userid;
@@ -47,7 +56,6 @@ public class MyActivityParam extends OpenApiBaseRequest implements OpenApiReques
 
     @Override
     public boolean validate() {
-        if (StringUtil.isBlank(this.userid)) return false;
         if (StringUtil.isBlank(this.startno)) return false;
         if (StringUtil.isBlank(this.pageSize)) return false;
         return true;
@@ -57,6 +65,7 @@ public class MyActivityParam extends OpenApiBaseRequest implements OpenApiReques
     public void fill2Map(HashMap<String, Object> param, boolean includeEmptyAttr) {
         if (includeEmptyAttr || (!includeEmptyAttr && StringUtil.isNotBlank(userid))) param.put("userid", userid);
         if (includeEmptyAttr || (!includeEmptyAttr && StringUtil.isNotBlank(startno))) param.put("startno", startno);
+        if (includeEmptyAttr || (!includeEmptyAttr && StringUtil.isNotBlank(pubsid))) param.put("pubsid", pubsid);
         if (includeEmptyAttr || (!includeEmptyAttr && StringUtil.isNotBlank(pageSize))) param.put("pageSize", pageSize);
         if (includeEmptyAttr || (!includeEmptyAttr && StringUtil.isNotBlank(ckstau))) param.put("ckstau", ckstau);
     }
@@ -64,7 +73,8 @@ public class MyActivityParam extends OpenApiBaseRequest implements OpenApiReques
     @Override
     public String toString() {
         return "MyActivityParam{" +
-                "userid='" + userid + '\'' +
+                "pubsid='" + pubsid + '\'' +
+                ", userid='" + userid + '\'' +
                 ", ckstau='" + ckstau + '\'' +
                 ", startno=" + startno +
                 ", pageSize=" + pageSize +

@@ -15,14 +15,14 @@ public class ShowWebImageActivity extends AbsActivity {
 
     private String[] imagePaths = null;
     private GalleryViewPager viewpager = null;
-    private int position = 0;
+    private String currentImage;
 
 
     @Override
     public void EInit() {
         super.EInit();
         imagePaths = getIntent().getStringArrayExtra("image");
-        position = getIntent().getIntExtra("position", 0);
+        currentImage = getIntent().getStringExtra("currentImage");
         viewpager = (GalleryViewPager) findViewById(R.id.gallery_viewpager);
         List<String> items = new ArrayList<String>();
         Collections.addAll(items, imagePaths);
@@ -31,7 +31,7 @@ public class ShowWebImageActivity extends AbsActivity {
         viewpager.setOffscreenPageLimit(3);
 
         viewpager.setAdapter(pagerAdapter);
-        viewpager.setCurrentItem(position);
+        viewpager.setCurrentItem(items.indexOf(currentImage));
     }
 
     @Override

@@ -317,7 +317,7 @@ public abstract class AbsDetailActivity extends AbsActivity {
                 "{"
                 + "    objs[i].onclick=function()  " +
                 "    {  "
-                + "        window.imagelistner.openImage(imgPathItems,i);  " +
+                + "        window.imagelistner.openImage(imgPathItems,this.src);  " +
                 "    }  " +
                 "}" +
                 "})()");
@@ -333,11 +333,11 @@ public abstract class AbsDetailActivity extends AbsActivity {
         }
 
         @android.webkit.JavascriptInterface
-        public void openImage(String[] img, int position) {
+        public void openImage(String[] img, String currentImage) {
 
             Intent intent = new Intent();
             intent.putExtra("image", img);
-            intent.putExtra("position", position);
+            intent.putExtra("currentImage", currentImage);
             intent.setClass(context, ShowWebImageActivity.class);
             context.startActivity(intent);
         }

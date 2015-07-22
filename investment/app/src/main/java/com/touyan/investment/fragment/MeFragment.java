@@ -42,7 +42,7 @@ public class MeFragment extends AbsFragment implements View.OnClickListener {
     private LinearLayout userActivityBtn;            //用户活动按钮
     private LinearLayout userRewardBtn;              //用户悬赏按钮
     private LinearLayout userSettingBtn;             //用户设置按钮
-    private Button userAuthenticationBtn;            //用户认证按钮
+    private TextView userAuthenticationBtn;            //用户认证按钮
 
     @Override
     public boolean onBackPressed() {
@@ -79,7 +79,7 @@ public class MeFragment extends AbsFragment implements View.OnClickListener {
         userActivityBtn = (LinearLayout) view.findViewById(R.id.user_activity);
         userRewardBtn = (LinearLayout) view.findViewById(R.id.user_reward);
         userSettingBtn = (LinearLayout) view.findViewById(R.id.user_setting);
-        userAuthenticationBtn = (Button) view.findViewById(R.id.user_authenticated_btn);
+        userAuthenticationBtn = (TextView) view.findViewById(R.id.user_authenticated_btn);
         initUserInfo();
         initBtnListener();
 

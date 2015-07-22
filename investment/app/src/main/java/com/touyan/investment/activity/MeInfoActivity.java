@@ -21,10 +21,7 @@ public class MeInfoActivity extends AbsActivity implements OnClickListener {
 
     private ViewPager viewPager;
     private InvestmentPagerAdapter adapter;
-    public final static int REWARD_MYORIGINAL = 0;//原创资讯original
-    public final static int REWARD_MYPURCHASE = REWARD_MYORIGINAL + 1;//purchase
     private ArrayList<AbsFragment> fragments;
-    private int currentPager = REWARD_MYORIGINAL;
 
     public final static int EDIT_STATE_CHENGED = 100;
     public int currentEditState = EditerAdapter.STATE_EDIT;
@@ -83,8 +80,8 @@ public class MeInfoActivity extends AbsActivity implements OnClickListener {
     private void findView() {
 
         fragments = new ArrayList<AbsFragment>();
-        fragments.add(MeInfoFragment.newsInstance(REWARD_MYORIGINAL));
-        fragments.add(MeInfoFragment.newsInstance(REWARD_MYPURCHASE));
+        fragments.add(MeInfoFragment.newsInstance(MeInfoFragment.REWARD_MYORIGINAL));
+        fragments.add(MeInfoFragment.newsInstance(MeInfoFragment.REWARD_MYPURCHASE));
 
         adapter = new InvestmentPagerAdapter(getSupportFragmentManager(), fragments);
         viewPager = (ViewPager) findViewById(R.id.view_pager);
@@ -96,10 +93,10 @@ public class MeInfoActivity extends AbsActivity implements OnClickListener {
             public View createTabView(ViewGroup container, int position, PagerAdapter adapter) {
                 LinearLayout custom_ly = (LinearLayout) mInflater.inflate(R.layout.tab_offerreward_icon, container, false);
                 switch (position) {
-                    case REWARD_MYORIGINAL:
+                    case MeInfoFragment.REWARD_MYORIGINAL:
                         setIconInfo(custom_ly, R.string.me_original_info);
                         break;
-                    case REWARD_MYPURCHASE:
+                    case MeInfoFragment.REWARD_MYPURCHASE:
                         setIconInfo(custom_ly, R.string.me_purchase_info);
                         break;
                     default:
@@ -113,14 +110,19 @@ public class MeInfoActivity extends AbsActivity implements OnClickListener {
         viewPagerTab.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i1) {
-                changeEditState(EditerAdapter.STATE_EDIT);
-                fragments.get(i).onActivityResult(EDIT_STATE_CHENGED, EditerAdapter.STATE_COMPLETE, null);
+
+              
+                if (!isReset) {
+                    isReset = true;
+                    changeEditState(EditerAdapter.STATE_EDIT);
+                    fragments.get(i).onActivityResult(EDIT_STATE_CHENGED, EditerAdapter.STATE_COMPLETE, null);
+                }
+
             }
 
             @Override
             public void onPageSelected(int i) {
-
-                currentPager = i;
+                isReset = false;
             }
 
             @Override

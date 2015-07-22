@@ -525,7 +525,7 @@ public class InvestmentManager {
 
         MyActivityParam param = new MyActivityParam();
 
-        param.setUserid(App.getInstance().getgUserInfo().getServno());
+        param.setPubsid(App.getInstance().getgUserInfo().getServno());
         param.setStartno(page_number);
         param.setPageSize(page_size);
         // 接口参数

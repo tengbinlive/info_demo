@@ -15,7 +15,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import butterknife.Bind;
+
 import butterknife.ButterKnife;
 import com.core.util.StringUtil;
 import com.gitonway.lee.niftymodaldialogeffects.Effectstype;
@@ -27,6 +27,8 @@ import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 public abstract class AbsActivity extends SwipeBackActivity implements EInitDate {
 
     public final static String KEY = "KEY";
+
+    public boolean isReset = false;
 
     public final static int TOP = 0;
     public final static int BOTTOM = TOP + 1;
@@ -87,9 +89,9 @@ public abstract class AbsActivity extends SwipeBackActivity implements EInitDate
         if (null != viewTitleBar) {
             initActionBar();
         }
+        ButterKnife.bind(this);
         EInit();
     }
-
 
 
     /**
@@ -426,13 +428,13 @@ public abstract class AbsActivity extends SwipeBackActivity implements EInitDate
 
     }
 
-    public void dialogShow(int title,DialogInterface.OnCancelListener listener) {
+    public void dialogShow(int title, DialogInterface.OnCancelListener listener) {
         dialogDismiss();
         LinearLayout convertView = (LinearLayout) mInflater.inflate(R.layout.loading_view, null);
         TextView dialog_confirm_content = (TextView) convertView.findViewById(R.id.dialog_confirm_content);
         dialog_confirm_content.setText(title);
         dialogBuilder = NiftyDialogBuilder.getInstance(this);
-        if(null!=listener) {
+        if (null != listener) {
             dialogBuilder.setOnCancelListener(listener);
         }
         dialogBuilder.withDuration(700) // def

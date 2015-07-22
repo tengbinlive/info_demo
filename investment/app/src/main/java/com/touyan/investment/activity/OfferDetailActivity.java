@@ -84,12 +84,13 @@ public class OfferDetailActivity extends AbsDetailActivity {
     private void loadData(CommonResponse resposne, int what) {
         if (resposne.isSuccess()) {
             InvReplysResult replysResult = (InvReplysResult) resposne.getData();
+            ArrayList<InvReplysBean> beans = replysResult.getReplys();
+            int size = beans==null?0:beans.size();
             if (what == INIT_LIST) {
                 review_ly.removeAllViews();
-            } else {
-                currentPager += COUNT_MAX;
             }
-            addReplyLayout(replysResult.getReplys());
+            currentPager += size;
+            addReplyLayout(beans);
         } else {
             CommonUtil.showToast(resposne.getErrorTip());
         }
@@ -118,7 +119,7 @@ public class OfferDetailActivity extends AbsDetailActivity {
     private void loadDataCollect(CommonResponse resposne) {
         if (resposne.isSuccess()) {
             isStore = true;
-            setBackOrTag(2, true);
+            setBackOrTag(1, true);
             View view = collectView.findViewById(R.id.menu_icon);
             if (view != null) {
                 Util.viewScaleAnimation(view);
@@ -146,17 +147,28 @@ public class OfferDetailActivity extends AbsDetailActivity {
                 adoption_tv.setVisibility(View.VISIBLE);
                 adoption_tv.setText("最佳");
             }
-        } else if (App.getInstance().getgUserInfo().getServno().equals(invOfferBean.getPubsid())){
+        } else if (App.getInstance().getgUserInfo().getServno().equals(invOfferBean.getPubsid())) {
             adoption_tv.setVisibility(View.VISIBLE);
             adoption_tv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    if (replysBean.getRpuser().equals(App.getInstance().getgUserInfo().getServno())) {
+                        CommonUtil.showToast("不能采纳自己哦");
+                        return;
+                    }
                     adoptTv = (TextView) view;
                     dialogShow(R.string.carrying);
                     manager.loadAdoption(OfferDetailActivity.this, replysBean.getRpuser(), replysBean.getMesgid(), invOfferBean.getAmount(), replysBean.getRepyid(), activityHandler, LOAD_ADOPTION);
                 }
             });
         }
+
+        head.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                UserFansDetailsActivity.toOthersDetail(OfferDetailActivity.this, App.getInstance().getgUserInfo().getServno(), replysBean.getUser().getServno());
+            }
+        });
 
         return custom_ly;
     }
@@ -167,7 +179,6 @@ public class OfferDetailActivity extends AbsDetailActivity {
         super.EInit();
         findView();
         initmScrollView();
-        currentPager = 0;
         getDataReplyList(INIT_LIST);
     }
 
@@ -230,11 +241,13 @@ public class OfferDetailActivity extends AbsDetailActivity {
         });
 
         initWebView(invOfferBean.getH5url());
-
         scrollview_ly.addView(webview_ly, 0);
     }
 
     private void getDataReplyList(int what) {
+        if(what==INIT_LIST){
+            currentPager = 0;
+        }
         manager.queryReplys(this, invOfferBean.getRewdid(), currentPager, COUNT_MAX, activityHandler, what);
     }
 

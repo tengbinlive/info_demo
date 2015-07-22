@@ -1,13 +1,12 @@
 package com.touyan.investment.activity;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -17,17 +16,13 @@ import com.core.util.CommonUtil;
 import com.core.util.StringUtil;
 import com.joooonho.SelectableRoundedImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.touyan.investment.AbsActivity;
 import com.touyan.investment.AbsFragment;
 import com.touyan.investment.R;
-import com.touyan.investment.adapter.EditerAdapter;
 import com.touyan.investment.adapter.InvestmentPagerAdapter;
 import com.touyan.investment.bean.user.OtherInfoResult;
 import com.touyan.investment.bean.user.UserInfo;
-import com.touyan.investment.fragment.CollectedInvActFragment;
-import com.touyan.investment.fragment.CollectedInvInfoFragment;
-import com.touyan.investment.fragment.CollectedInvOfferFragment;
+import com.touyan.investment.fragment.*;
 import com.touyan.investment.manager.UserManager;
 import com.touyan.investment.mview.FilterView;
 import com.touyan.investment.mview.NoScrollViewPager;
@@ -131,9 +126,9 @@ public class UserFansDetailsActivity extends AbsActivity {
 
     private void initViewPager(FragmentManager fm) {
         fragments = new ArrayList<AbsFragment>();
-        fragments.add(new CollectedInvInfoFragment());
-        fragments.add(new CollectedInvActFragment());
-        fragments.add(new CollectedInvOfferFragment());
+        fragments.add(MeInfoFragment.newsInstance(MeInfoFragment.REWARD_MYORIGINAL));
+        fragments.add(MeActivityFragment.newsInstance(MeActivityFragment.REWARD_MYRELEASE));
+        fragments.add(new MeOfferRewFragment());
 
         adapter = new InvestmentPagerAdapter(fm, fragments);
 
@@ -154,8 +149,6 @@ public class UserFansDetailsActivity extends AbsActivity {
     private void followOtherData(CommonResponse resposne) {
         dialogDismiss();
         if (resposne.isSuccess()) {
-            OpenApiSimpleResult result = (OpenApiSimpleResult) resposne.getData();
-
             followBtn.setClickable(false);
             ((TextView) followBtn.getChildAt(0)).setText("已关注");
             ((TextView) followBtn.getChildAt(0)).setTextColor(getResources().getColor(R.color.textcolor_666));
@@ -225,7 +218,13 @@ public class UserFansDetailsActivity extends AbsActivity {
                 followBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        userManager.followOtherInfo(UserFansDetailsActivity.this, getIntent().getStringExtra("otherid"), "" + getIntent().getStringExtra("userid"), activityHandler, FOLLOW_OTHER);
+                        String userid = getIntent().getStringExtra("userid");
+                        String otherid = getIntent().getStringExtra("otherid");
+                        if(userid.equals(otherid)){
+                            CommonUtil.showToast("不能关注自己");
+                            return;
+                        }
+                        userManager.followOtherInfo(UserFansDetailsActivity.this, otherid, userid, activityHandler, FOLLOW_OTHER);
                         dialogShow(R.string.data_downloading);
                     }
                 });
@@ -262,7 +261,6 @@ public class UserFansDetailsActivity extends AbsActivity {
     }
 
     private void queryOtherInfo() {
-
         userManager.queryOtherInfo(this, getIntent().getStringExtra("otherid"), "" + getIntent().getStringExtra("userid"), activityHandler, OTHER_DATA);
         dialogShow(R.string.data_downloading);
     }
@@ -318,5 +316,13 @@ public class UserFansDetailsActivity extends AbsActivity {
 
         }
         viewPager.setCurrentItem(currentPager);
+    }
+
+    public static void toOthersDetail(Activity formAct, String userid, String otherid) {
+        Intent intent = new Intent(formAct, UserFansDetailsActivity.class);
+        intent.putExtra("userid", userid);
+        intent.putExtra("otherid", otherid);
+        formAct.startActivity(intent);
+        formAct.overridePendingTransition(R.anim.push_translate_in_right, 0);
     }
 }

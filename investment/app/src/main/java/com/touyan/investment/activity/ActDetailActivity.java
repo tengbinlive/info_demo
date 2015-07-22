@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.core.CommonResponse;
 import com.core.util.CommonUtil;
 import com.core.util.DateUtil;
+import com.core.util.StringUtil;
 import com.handmark.pulltorefresh.PullToRefreshBase;
 import com.handmark.pulltorefresh.PullToRefreshScrollView;
 import com.joooonho.SelectableRoundedImageView;
@@ -55,7 +56,11 @@ public class ActDetailActivity extends AbsDetailActivity {
 
     private InvestmentManager manager = new InvestmentManager();
 
+    private ArrayList<InvActJoinUsersBean> joinUsers;
+
     private LinearLayout review_ly;
+
+    private LinearLayout scrollview_ly;
 
     private InvActBean invActBean;
 
@@ -108,12 +113,13 @@ public class ActDetailActivity extends AbsDetailActivity {
     private void loadData(CommonResponse resposne, int what) {
         if (resposne.isSuccess()) {
             InvReplysResult replysResult = (InvReplysResult) resposne.getData();
+            ArrayList<InvReplysBean> beans = replysResult.getReplys();
+            int size = beans==null?0:beans.size();
             if (what == INIT_LIST) {
                 review_ly.removeAllViews();
-            } else {
-                currentPager += COUNT_MAX;
             }
-            addReplyLayout(replysResult.getReplys());
+            currentPager += size;
+            addReplyLayout(beans);
         } else {
             CommonUtil.showToast(resposne.getErrorTip());
         }
@@ -177,7 +183,7 @@ public class ActDetailActivity extends AbsDetailActivity {
         }
     }
 
-    private LinearLayout getReView(InvReplysBean replysBean) {
+    private LinearLayout getReView(final InvReplysBean replysBean) {
         LinearLayout custom_ly = (LinearLayout) mInflater.inflate(R.layout.item_inv_review, review_ly, false);
         UserInfo userInfo = replysBean.getUser();
         TextView name = (TextView) custom_ly.findViewById(R.id.name);
@@ -189,6 +195,12 @@ public class ActDetailActivity extends AbsDetailActivity {
         date.setText(dateStr);
         value.setText(replysBean.getContnt());
         ImageLoader.getInstance().displayImage(userInfo.getUphoto(), head);
+        head.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                UserFansDetailsActivity.toOthersDetail(ActDetailActivity.this, App.getInstance().getgUserInfo().getServno(), replysBean.getUser().getServno());
+            }
+        });
         return custom_ly;
     }
 
@@ -200,7 +212,6 @@ public class ActDetailActivity extends AbsDetailActivity {
         findView();
         initmScrollView();
         getDetail();
-        currentPager = 0;
         getDataReplyList(INIT_LIST);
         getJoinUser();
     }
@@ -221,6 +232,9 @@ public class ActDetailActivity extends AbsDetailActivity {
     }
 
     private void getDataReplyList(int what) {
+        if(what==INIT_LIST){
+            currentPager = 0;
+        }
         manager.queryReplys(this, invActBean.getActvid(), currentPager, COUNT_MAX, activityHandler, what);
     }
 
@@ -260,11 +274,13 @@ public class ActDetailActivity extends AbsDetailActivity {
         mScrollView = (PullToRefreshScrollView) findViewById(R.id.pull_scrollview);
         review_ly = (LinearLayout) findViewById(R.id.review_ly);
 
-        LinearLayout scrollview_ly = (LinearLayout) findViewById(R.id.scrollview_ly);
+        scrollview_ly = (LinearLayout) findViewById(R.id.scrollview_ly);
 
-        initWebView(invActBean.getH5url());
-
-        scrollview_ly.addView(webview_ly, 0);
+        String h5url = invActBean.getH5url();
+        if(StringUtil.isNotBlank(h5url)) {
+            initWebView(h5url);
+            scrollview_ly.addView(webview_ly, 0);
+        }
 
         setOnMenuButtonClick(new OnMenuButtonClick() {
             @Override
@@ -311,6 +327,11 @@ public class ActDetailActivity extends AbsDetailActivity {
 
     private void initData() {
         InvActBean bean = invActDetailResult.getDetail();
+        String h5url = bean.getH5url();
+        if(null==webview_ly) {
+            initWebView(h5url);
+            scrollview_ly.addView(webview_ly, 0);
+        }
         int replyNum = bean.getReplyCount();
         if (YesOrNoEnum.YES.getCode().equals(bean.getIsStore())) {
             isStore = true;
@@ -319,11 +340,13 @@ public class ActDetailActivity extends AbsDetailActivity {
         review_num_tv.setText("评论 " + replyNum);
     }
 
-    private void initGridView(ArrayList<InvActJoinUsersBean> joinUsers) {
+    private void initGridView(ArrayList<InvActJoinUsersBean> _joinUsers) {
 
-        if (joinUsers == null || joinUsers.size() <= 0) {
+        if (_joinUsers == null || _joinUsers.size() <= 0) {
             return;
         }
+
+        joinUsers = _joinUsers;
 
         mGridView.setVisibility(View.VISIBLE);
 
@@ -345,7 +368,12 @@ public class ActDetailActivity extends AbsDetailActivity {
     }
 
     private void toSignDetail() {
+        if(null==joinUsers||joinUsers.size()<=0){
+            CommonUtil.showToast("暂无详情");
+            return;
+        }
         Intent mIntent = new Intent(this, SignDetailActivity.class);
+        mIntent.putExtra(KEY,joinUsers);
         startActivity(mIntent);
         overridePendingTransition(R.anim.push_translate_in_right, 0);
     }

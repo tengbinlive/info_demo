@@ -36,6 +36,9 @@ import java.util.List;
 
 public class MeActivityFragment extends AbsFragment {
 
+    public final static int REWARD_MYRELEASE = 0;//我发布的
+    public final static int REWARD_MYPARTAKE = REWARD_MYRELEASE + 1;//我参与的
+
     private InvestmentManager manager = new InvestmentManager();
 
    // public final  static int REQUSETCODE = 1;

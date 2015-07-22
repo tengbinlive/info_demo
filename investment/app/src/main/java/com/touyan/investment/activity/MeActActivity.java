@@ -23,10 +23,7 @@ public class MeActActivity extends AbsActivity implements OnClickListener {
     private ViewPager viewPager;
     private InvestmentPagerAdapter adapter;
     private ArrayList<AbsFragment> fragments;
-    public final static int REWARD_MYRELEASE = 0;//我发布的
-    public final static int REWARD_MYPARTAKE = REWARD_MYRELEASE + 1;//我参与的
 
-    private int currentPager = REWARD_MYRELEASE;
     public final static int EDIT_STATE_CHENGED = 100;
     public int currentEditState = EditerAdapter.STATE_EDIT;
     @Override
@@ -78,8 +75,8 @@ public class MeActActivity extends AbsActivity implements OnClickListener {
     private void findView() {
 
         fragments = new ArrayList<AbsFragment>();
-        fragments.add(MeActivityFragment.newsInstance(REWARD_MYRELEASE));
-        fragments.add(MeActivityPartakeFragment.newsInstance(REWARD_MYPARTAKE));
+        fragments.add(MeActivityFragment.newsInstance(MeActivityFragment.REWARD_MYRELEASE));
+        fragments.add(MeActivityPartakeFragment.newsInstance(MeActivityFragment.REWARD_MYPARTAKE));
 
         adapter = new InvestmentPagerAdapter(getSupportFragmentManager(), fragments);
         viewPager = (ViewPager) findViewById(R.id.view_pager);
@@ -91,10 +88,10 @@ public class MeActActivity extends AbsActivity implements OnClickListener {
             public View createTabView(ViewGroup container, int position, PagerAdapter adapter) {
                 LinearLayout custom_ly = (LinearLayout) mInflater.inflate(R.layout.tab_offerreward_icon, container, false);
                 switch (position) {
-                    case REWARD_MYRELEASE:
+                    case MeActivityFragment.REWARD_MYRELEASE:
                         setIconInfo(custom_ly, R.string.me_myrelease);
                         break;
-                    case REWARD_MYPARTAKE:
+                    case MeActivityFragment.REWARD_MYPARTAKE:
                         setIconInfo(custom_ly, R.string.me_mypartake);
                         break;
                     default:
@@ -108,14 +105,16 @@ public class MeActActivity extends AbsActivity implements OnClickListener {
         viewPagerTab.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i1) {
-               changeEditState(EditerAdapter.STATE_EDIT);
-               fragments.get(i).onActivityResult(EDIT_STATE_CHENGED, EditerAdapter.STATE_COMPLETE, null);
+                if(!isReset) {
+                    isReset = true;
+                    changeEditState(EditerAdapter.STATE_EDIT);
+                    fragments.get(i).onActivityResult(EDIT_STATE_CHENGED, EditerAdapter.STATE_COMPLETE, null);
+                }
             }
 
             @Override
             public void onPageSelected(int i) {
-
-                currentPager = i;
+                isReset = false;
             }
 
             @Override

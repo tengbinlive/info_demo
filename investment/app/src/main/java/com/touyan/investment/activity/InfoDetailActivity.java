@@ -99,12 +99,13 @@ public class InfoDetailActivity extends AbsDetailActivity {
     private void loadData(CommonResponse resposne, int what) {
         if (resposne.isSuccess()) {
             InvReplysResult replysResult = (InvReplysResult) resposne.getData();
+            ArrayList<InvReplysBean> beans = replysResult.getReplys();
+            int size = beans==null?0:beans.size();
             if (what == INIT_LIST) {
                 review_ly.removeAllViews();
-            } else {
-                currentPager += COUNT_MAX;
             }
-            addReplyLayout(replysResult.getReplys());
+            currentPager += size;
+            addReplyLayout(beans);
         } else {
             CommonUtil.showToast(resposne.getErrorTip());
         }
@@ -155,7 +156,7 @@ public class InfoDetailActivity extends AbsDetailActivity {
         }
     }
 
-    private LinearLayout getReView(InvReplysBean replysBean) {
+    private LinearLayout getReView(final InvReplysBean replysBean) {
         LinearLayout custom_ly = (LinearLayout) mInflater.inflate(R.layout.item_inv_review, review_ly, false);
         UserInfo userInfo = replysBean.getUser();
         TextView name = (TextView) custom_ly.findViewById(R.id.name);
@@ -167,6 +168,12 @@ public class InfoDetailActivity extends AbsDetailActivity {
         date.setText(dateStr);
         value.setText(replysBean.getContnt());
         ImageLoader.getInstance().displayImage(userInfo.getUphoto(), head);
+        head.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                UserFansDetailsActivity.toOthersDetail(InfoDetailActivity.this, App.getInstance().getgUserInfo().getServno(), replysBean.getUser().getServno());
+            }
+        });
         return custom_ly;
     }
 
@@ -177,7 +184,6 @@ public class InfoDetailActivity extends AbsDetailActivity {
         findView();
         initmScrollView();
         getDetail();
-        currentPager = 0;
         getDataReplyList(INIT_LIST);
     }
 
@@ -253,7 +259,6 @@ public class InfoDetailActivity extends AbsDetailActivity {
         mScrollView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ScrollView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ScrollView> refreshView) {
-
                 getDataReplyList(INIT_LIST);
             }
 
@@ -265,6 +270,9 @@ public class InfoDetailActivity extends AbsDetailActivity {
     }
 
     private void getDataReplyList(int what) {
+        if(what==INIT_LIST){
+            currentPager = 0;
+        }
         manager.queryReplys(this, invInfoBean.getInfoid(), currentPager, COUNT_MAX, activityHandler, what);
     }
 
