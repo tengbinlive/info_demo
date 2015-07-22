@@ -15,6 +15,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import butterknife.ButterKnife;
 import com.core.util.StringUtil;
 import com.gitonway.lee.niftymodaldialogeffects.Effectstype;
@@ -78,6 +79,7 @@ public abstract class AbsActivity extends SwipeBackActivity implements EInitDate
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         App.getInstance().addActivity(this);
+        ButterKnife.bind(this);
         int colos = getIntent().getIntExtra(STATUSBAR_COLOS, 0);
         setStatusBar(colos);
         mInflater = LayoutInflater.from(this);
@@ -90,6 +92,7 @@ public abstract class AbsActivity extends SwipeBackActivity implements EInitDate
         ButterKnife.bind(this);
         EInit();
     }
+
 
     /**
      * 设置statusbar全透明
@@ -425,13 +428,13 @@ public abstract class AbsActivity extends SwipeBackActivity implements EInitDate
 
     }
 
-    public void dialogShow(int title,DialogInterface.OnCancelListener listener) {
+    public void dialogShow(int title, DialogInterface.OnCancelListener listener) {
         dialogDismiss();
         LinearLayout convertView = (LinearLayout) mInflater.inflate(R.layout.loading_view, null);
         TextView dialog_confirm_content = (TextView) convertView.findViewById(R.id.dialog_confirm_content);
         dialog_confirm_content.setText(title);
         dialogBuilder = NiftyDialogBuilder.getInstance(this);
-        if(null!=listener) {
+        if (null != listener) {
             dialogBuilder.setOnCancelListener(listener);
         }
         dialogBuilder.withDuration(700) // def

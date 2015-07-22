@@ -26,6 +26,7 @@ public class MeInfoActivity extends AbsActivity implements OnClickListener {
     public final static int EDIT_STATE_CHENGED = 100;
     public int currentEditState = EditerAdapter.STATE_EDIT;
 
+
     @Override
     public void EInit() {
         super.EInit();
@@ -41,10 +42,11 @@ public class MeInfoActivity extends AbsActivity implements OnClickListener {
     public void initActionBar() {
         setToolbarLeftStrID(R.string.back);
         setToolbarIntermediateStrID(R.string.me_info);
-        setToolbarRightVisbility(View.VISIBLE,View.VISIBLE);
+        setToolbarRightVisbility(View.VISIBLE, View.VISIBLE);
         setToolbarRightStrID(R.string.me_offer_reward_edit);
         setToolbarRightOnClick(this);
     }
+
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.toolbar_right_btn) {
@@ -68,10 +70,12 @@ public class MeInfoActivity extends AbsActivity implements OnClickListener {
 
         }
     }
+
     @Override
     public void onResume() {
         super.onResume();
     }
+
     private void findView() {
 
         fragments = new ArrayList<AbsFragment>();
@@ -82,7 +86,7 @@ public class MeInfoActivity extends AbsActivity implements OnClickListener {
         viewPager = (ViewPager) findViewById(R.id.view_pager);
 
         viewPager.setAdapter(adapter);
-        SmartTabLayout viewPagerTab = (SmartTabLayout)findViewById(R.id.viewpager_tab);
+        SmartTabLayout viewPagerTab = (SmartTabLayout) findViewById(R.id.viewpager_tab);
         viewPagerTab.setCustomTabView(new SmartTabLayout.TabProvider() {
             @Override
             public View createTabView(ViewGroup container, int position, PagerAdapter adapter) {
@@ -105,11 +109,13 @@ public class MeInfoActivity extends AbsActivity implements OnClickListener {
         viewPagerTab.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i1) {
-                if(!isReset) {
+
+                if (!isReset) {
                     isReset = true;
                     changeEditState(EditerAdapter.STATE_EDIT);
                     fragments.get(i).onActivityResult(EDIT_STATE_CHENGED, EditerAdapter.STATE_COMPLETE, null);
                 }
+
             }
 
             @Override
@@ -123,10 +129,12 @@ public class MeInfoActivity extends AbsActivity implements OnClickListener {
             }
         });
     }
+
     private void setIconInfo(ViewGroup custom_ly, int stringid) {
         TextView title = (TextView) custom_ly.findViewById(R.id.title);
         title.setText(stringid);
     }
+
     public void changeEditState(int state) {
         switch (state) {
             case EditerAdapter.STATE_REMOVE:

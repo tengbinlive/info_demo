@@ -153,6 +153,7 @@ public class InfoReleaseActivity extends AbsActivity {
         } else {
             CommonUtil.showToast(resposne.getErrorTip());
         }
+
     }
 
     private void loadQiniu(CommonResponse resposne) {
@@ -427,7 +428,7 @@ public class InfoReleaseActivity extends AbsActivity {
                             public void complete(String key, ResponseInfo info, JSONObject response) {
                                 if (info.isOK()) {
                                     bean.setIsUpload(true);
-                                    if (!isUpload&&uploadQiniuIndex == uploadNum && !isCancelled) {
+                                    if (!isUpload && uploadQiniuIndex == uploadNum && !isCancelled) {
                                         isUpload = true;
                                         uploadRelease();
                                     }

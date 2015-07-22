@@ -23,6 +23,7 @@ import com.touyan.investment.adapter.InvestmentPagerAdapter;
 import com.touyan.investment.bean.user.OtherInfoResult;
 import com.touyan.investment.bean.user.UserInfo;
 import com.touyan.investment.fragment.*;
+import com.touyan.investment.helper.Util;
 import com.touyan.investment.manager.UserManager;
 import com.touyan.investment.mview.FilterView;
 import com.touyan.investment.mview.NoScrollViewPager;
@@ -220,7 +221,7 @@ public class UserFansDetailsActivity extends AbsActivity {
                     public void onClick(View view) {
                         String userid = getIntent().getStringExtra("userid");
                         String otherid = getIntent().getStringExtra("otherid");
-                        if(userid.equals(otherid)){
+                        if (userid.equals(otherid)) {
                             CommonUtil.showToast("不能关注自己");
                             return;
                         }
@@ -277,6 +278,7 @@ public class UserFansDetailsActivity extends AbsActivity {
                 @Override
                 public void onClick(View view) {
                     menuRightPoupWindow.dismiss();
+                    Util.setTextViewDrawaleAnchor(UserFansDetailsActivity.this, fragmentTitle, R.drawable.arrow_red_bottom, Util.RIGHT);
                     setCurrentViewPager(INVESTMENT_NEWS);
                 }
             });
@@ -284,6 +286,7 @@ public class UserFansDetailsActivity extends AbsActivity {
                 @Override
                 public void onClick(View view) {
                     menuRightPoupWindow.dismiss();
+                    Util.setTextViewDrawaleAnchor(UserFansDetailsActivity.this, fragmentTitle, R.drawable.arrow_red_bottom, Util.RIGHT);
                     setCurrentViewPager(INVESTMENT_ACT);
 
                 }
@@ -292,12 +295,15 @@ public class UserFansDetailsActivity extends AbsActivity {
                 @Override
                 public void onClick(View view) {
                     menuRightPoupWindow.dismiss();
+                    Util.setTextViewDrawaleAnchor(UserFansDetailsActivity.this, fragmentTitle, R.drawable.arrow_red_bottom, Util.RIGHT);
                     setCurrentViewPager(INVESTMENT_OFFER);
 
                 }
             });
             menuRightPoupWindow = new FilterView(this, conentView, R.style.AnimationPreviewRigth);
+
         }
+        Util.setTextViewDrawaleAnchor(UserFansDetailsActivity.this, fragmentTitle, R.drawable.arrow_red_top, Util.RIGHT);
         menuRightPoupWindow.showPopupWindow(fragmentTitle, 0, -gapRigth);
     }
 
