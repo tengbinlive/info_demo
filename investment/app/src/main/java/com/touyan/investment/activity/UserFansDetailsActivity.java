@@ -218,7 +218,13 @@ public class UserFansDetailsActivity extends AbsActivity {
                 followBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        userManager.followOtherInfo(UserFansDetailsActivity.this, getIntent().getStringExtra("otherid"), "" + getIntent().getStringExtra("userid"), activityHandler, FOLLOW_OTHER);
+                        String userid = getIntent().getStringExtra("userid");
+                        String otherid = getIntent().getStringExtra("otherid");
+                        if(userid.equals(otherid)){
+                            CommonUtil.showToast("不能关注自己");
+                            return;
+                        }
+                        userManager.followOtherInfo(UserFansDetailsActivity.this, otherid, userid, activityHandler, FOLLOW_OTHER);
                         dialogShow(R.string.data_downloading);
                     }
                 });
