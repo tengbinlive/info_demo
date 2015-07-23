@@ -8,8 +8,8 @@
     <TextView
             android:layout_width="match_parent"
             android:text="A"
-            android:paddingTop="@dimen/content_10dp"
-            android:paddingBottom="@dimen/content_10dp"
+            android:paddingTop="@dimen/content_gap_small"
+            android:paddingBottom="@dimen/content_gap_small"
             android:paddingLeft="@dimen/content_gap"
             android:id="@+id/text"
             android:layout_centerVertical="true"

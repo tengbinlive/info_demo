@@ -30,26 +30,23 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 
     @Override
     public void onReq(BaseReq arg0) {
-        CommonUtil.showToast("onReq " + arg0);
         finish();
     }
 
     @Override
     public void onResp(BaseResp resp) {
-        CommonUtil.showToast("onResp");
         if (resp == null) {
             finish();
             return;
         }
         String result = "";
         if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
-            CommonUtil.showToast("支付");
             if (resp.errCode == 0) {
                 toPaySuccessActivity();
             } else if (resp.errCode == -1) {
-                CommonUtil.showToast("支付失败");
+                result = "支付失败";
             } else if (resp.errCode == -2) {
-                CommonUtil.showToast("支付取消");
+                result = "支付取消";
             }
         } else
             // 如果是分享

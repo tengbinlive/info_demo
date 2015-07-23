@@ -313,8 +313,8 @@ public class InfoDetailActivity extends AbsDetailActivity {
 
     private void shareMenu(){
         Bitmap icon = BitmapFactory.decodeResource(InfoDetailActivity.this.getResources(), R.drawable.info);
-        Platform.ShareParams params= ShareUtil.getParams(invInfoBean.getItitle(), invInfoBean.getContnt(), invInfoBean.getH5url(), icon);
-        ShareUtil.showShareView(InfoDetailActivity.this,params);
+        Platform.ShareParams params= ShareUtil.getInstance().getParams(invInfoBean.getItitle(), invInfoBean.getContnt(), invInfoBean.getH5url(), icon);
+        ShareUtil.getInstance().showShareView(InfoDetailActivity.this,params);
     }
 
     private void findView() {

@@ -157,6 +157,7 @@ public class LoginActivity extends AbsActivity implements OnClickListener {
     private void toMainActivity() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+        finish();
     }
 
     @Override

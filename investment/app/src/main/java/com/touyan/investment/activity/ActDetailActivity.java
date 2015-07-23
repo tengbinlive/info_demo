@@ -280,8 +280,8 @@ public class ActDetailActivity extends AbsDetailActivity {
     private void shareMenu() {
         int iconid = InvActBean.TYPE_ROADSHOW.equals(invActBean.getActvtp()) ? R.drawable.act_roadshow : R.drawable.act_product;
         Bitmap icon = BitmapFactory.decodeResource(ActDetailActivity.this.getResources(), iconid);
-        Platform.ShareParams params = ShareUtil.getParams(invActBean.getAtitle(), invActBean.getContnt(), invActBean.getH5url(), icon);
-        ShareUtil.showShareView(ActDetailActivity.this, params);
+        Platform.ShareParams params = ShareUtil.getInstance().getParams(invActBean.getAtitle(), invActBean.getContnt(), invActBean.getH5url(), icon);
+        ShareUtil.getInstance().showShareView(ActDetailActivity.this, params);
     }
 
     private void findView() {
