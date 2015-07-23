@@ -28,6 +28,7 @@ import com.touyan.investment.adapter.GungNewsAdapter;
 import com.touyan.investment.bean.message.TopMessageListResult;
 import com.touyan.investment.helper.Util;
 import com.touyan.investment.manager.MessageManager;
+import com.touyan.investment.manager.UserManager;
 import com.touyan.investment.mview.BezierView;
 
 import java.util.ArrayList;
@@ -35,7 +36,7 @@ import java.util.List;
 
 public class GungFragment extends AbsFragment {
 
-    private MessageManager manager = new MessageManager();
+    private UserManager manager = new UserManager();
 
     private LayoutInflater mInflater;
 
@@ -72,7 +73,7 @@ public class GungFragment extends AbsFragment {
         testData();
         if (resposne.isSuccess()) {
             TopMessageListResult result = (TopMessageListResult) resposne.getData();
-            mAdapter.refresh(mArrayList);
+//            mAdapter.refresh(mArrayList);
         } else {
             CommonUtil.showToast(resposne.getErrorTip());
         }
@@ -80,15 +81,15 @@ public class GungFragment extends AbsFragment {
     }
 
     private void testData() {
-        mArrayList = new ArrayList<String>();
-        mArrayList.add("");
-        mArrayList.add("");
-        mArrayList.add("");
-        mArrayList.add("");
-        mArrayList.add("");
-        mArrayList.add("");
-        mAdapter.refresh(mArrayList);
-        animationAdapter.reset();
+//        mArrayList = new ArrayList<String>();
+//        mArrayList.add("");
+//        mArrayList.add("");
+//        mArrayList.add("");
+//        mArrayList.add("");
+//        mArrayList.add("");
+//        mArrayList.add("");
+//        mAdapter.refresh(mArrayList);
+//        animationAdapter.reset();
     }
 
 
@@ -116,9 +117,9 @@ public class GungFragment extends AbsFragment {
         mActualListView.setEmptyView(ll_listEmpty);
     }
 
-//    private void getDataList() {
-//        manager.topMessageList(getActivity(), activityHandler, INIT_LIST);
-//    }
+    private void getDataList() {
+        manager.batchInfo(getActivity(),null,null ,activityHandler, INIT_LIST);
+    }
 
     @Override
     public boolean onBackPressed() {
