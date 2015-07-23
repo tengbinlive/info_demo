@@ -255,7 +255,7 @@ public class App extends Application {
             ConfigManager.init(this);
 
             //初始环信
-            initEMChat();
+            EMChatManagerInit.getInstance().initEMChat(this);
 
             initUniversalImageLoader();
 
@@ -346,17 +346,6 @@ public class App extends Application {
                 .writeDebugLogs()
                 .build(); //开始构建
         ImageLoader.getInstance().init(config);
-    }
-
-    //初始化环信
-    private void initEMChat() {
-        EMChat.getInstance().init(this);
-        /**
-         * debugMode == true 时为打开，sdk 会在log里输入调试信息
-         * @param debugMode
-         * 在做代码混淆的时候需要设置成false
-         */
-        EMChat.getInstance().setDebugMode(Constant.DEBUG);//在做打包混淆时，要关闭debug模式，如果未被关闭，则会出现程序无法运行问题
     }
 
     @Override

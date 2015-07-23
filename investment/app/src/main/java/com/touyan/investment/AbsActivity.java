@@ -21,6 +21,7 @@ import com.core.util.StringUtil;
 import com.gitonway.lee.niftymodaldialogeffects.Effectstype;
 import com.gitonway.lee.niftymodaldialogeffects.NiftyDialogBuilder;
 import com.touyan.investment.imp.EInitDate;
+import de.greenrobot.event.EventBus;
 import me.imid.swipebacklayout.lib.SwipeBackLayout;
 import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 
@@ -78,6 +79,7 @@ public abstract class AbsActivity extends SwipeBackActivity implements EInitDate
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
         App.getInstance().addActivity(this);
         ButterKnife.bind(this);
         int colos = getIntent().getIntExtra(STATUSBAR_COLOS, 0);
@@ -357,6 +359,7 @@ public abstract class AbsActivity extends SwipeBackActivity implements EInitDate
     public void onDestroy() {
         activityFinish = true;
         super.onDestroy();
+        EventBus.getDefault().unregister(this);
         EDestroy();
     }
 
