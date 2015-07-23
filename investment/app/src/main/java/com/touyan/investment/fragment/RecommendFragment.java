@@ -72,7 +72,7 @@ public class RecommendFragment extends AbsFragment {
         mArrayList.add("");
         mArrayList.add("");
         mArrayList.add("");
-        mAdapter.refresh(mArrayList);
+//        mAdapter.refresh(mArrayList);
         animationAdapter.reset();
     }
 

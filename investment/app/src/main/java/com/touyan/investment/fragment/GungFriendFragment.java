@@ -45,7 +45,7 @@ public class GungFriendFragment extends AbsFragment {
     private IndexableListView listView;
 
     private ArrayList<UserInfo> friends;
-
+    private List<String> usernames = null;
 
     private FriendListHeadersAdapter mAdapter;
 
@@ -137,8 +137,10 @@ public class GungFriendFragment extends AbsFragment {
 
 
     private void getDataList() {
+
+
         try {
-            List<String> usernames = EMContactManager.getInstance().getContactUserNames();
+            usernames = EMContactManager.getInstance().getContactUserNames();
 
             userManager.batchInfo(this.getActivity(), (ArrayList<String>) usernames, new ArrayList<String>(), activityHandler, LOAD_DATA);
         } catch (EaseMobException e) {
@@ -154,8 +156,7 @@ public class GungFriendFragment extends AbsFragment {
     }
 
     public void onEventMainThread(OnContactDeletedEvent event) {
-        dialogShow();
-        userManager.batchInfo(this.getActivity(), (ArrayList<String>) event.getUsernameList(), new ArrayList<String>(), activityHandler, LOAD_DATA);
-
+        usernames.removeAll(event.getUsernameList());
+        userManager.batchInfo(this.getActivity(), (ArrayList<String>) usernames, new ArrayList<String>(), activityHandler, LOAD_DATA);
     }
 }

@@ -1,6 +1,7 @@
 package com.touyan.investment;
 
 import android.app.Activity;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.KeyEvent;
 import android.view.View;
@@ -9,6 +10,8 @@ import android.widget.TextView;
 import com.core.util.StringUtil;
 import com.gitonway.lee.niftymodaldialogeffects.Effectstype;
 import com.gitonway.lee.niftymodaldialogeffects.NiftyDialogBuilder;
+import com.touyan.investment.event.AnyEventType;
+import de.greenrobot.event.EventBus;
 
 public abstract class AbsFragment extends Fragment {
 
@@ -32,10 +35,16 @@ public abstract class AbsFragment extends Fragment {
         super.onPause();
     }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
 
     @Override
     public void onDestroy() {
         dialogDismiss();
+        EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
 
@@ -105,10 +114,10 @@ public abstract class AbsFragment extends Fragment {
             linearLayout.findViewById(R.id.dialog_confirm_point).setVisibility(View.GONE);
         }
 
-        if(leftEvent!=null) {
+        if (leftEvent != null) {
             closeLeft.setOnClickListener(leftEvent);
         }
-        if(rightEvent!=null) {
+        if (rightEvent != null) {
             closeRight.setOnClickListener(rightEvent);
         }
         dialogBuilder = NiftyDialogBuilder.getInstance(activity);
@@ -123,5 +132,9 @@ public abstract class AbsFragment extends Fragment {
     }
 
     public abstract void scrollToTop();
+
+    public void onEvent(AnyEventType event) {
+
+    }
 
 }

@@ -18,6 +18,7 @@ import com.easemob.chat.EMContactManager;
 import com.easemob.exceptions.EaseMobException;
 import com.joooonho.SelectableRoundedImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.touyan.investment.AbsActivity;
 import com.touyan.investment.App;
 import com.touyan.investment.R;
 import com.touyan.investment.activity.UserFansDetailsActivity;
@@ -89,9 +90,11 @@ public class FriendListHeadersAdapter extends BaseSwipeAdapter implements Sticky
                 deleteArray.add(index);
                 try {
                     EMContactManager.getInstance().deleteContact(list.get(index).getServno());
+
                 } catch (EaseMobException e) {
                     e.printStackTrace();
                 }
+                ((AbsActivity) mContext).dialogShow();
             }
         });
         convertView.setTag(holder);
