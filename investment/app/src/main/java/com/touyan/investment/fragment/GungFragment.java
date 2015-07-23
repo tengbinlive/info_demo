@@ -23,6 +23,7 @@ import com.touyan.investment.activity.ActDetailActivity;
 import com.touyan.investment.activity.FriendsActivity;
 import com.touyan.investment.adapter.RecommendNewsAdapter;
 import com.touyan.investment.manager.InvestmentManager;
+import com.touyan.investment.manager.MessageManager;
 import com.touyan.investment.mview.BezierView;
 
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ import java.util.ArrayList;
 public class GungFragment extends AbsFragment {
 
 
-    private InvestmentManager manager = new InvestmentManager();
+    private MessageManager manager = new MessageManager();
 
     private LayoutInflater mInflater;
 
@@ -123,7 +124,7 @@ public class GungFragment extends AbsFragment {
     }
 
     private void getDataList() {
-        manager.LoginAct(getActivity(), "", "" + COUNT_MAX, activityHandler, INIT_LIST);
+        manager.topMessage(getActivity(), "", "" + COUNT_MAX, activityHandler, INIT_LIST);
     }
 
     @Override

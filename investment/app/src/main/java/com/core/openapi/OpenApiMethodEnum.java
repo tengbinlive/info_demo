@@ -10,6 +10,10 @@ package com.core.openapi;
  */
 public enum OpenApiMethodEnum {
 
+    /**
+     * 置顶消息详情查询
+     */
+    TOP_MESSAGE("/topMessage/queryDetail.action", "openapi_json", OpenApi.URL_TYPE_DATA),
 
     /**
      * 发布悬赏

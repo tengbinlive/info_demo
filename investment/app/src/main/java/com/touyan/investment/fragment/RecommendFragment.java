@@ -76,9 +76,6 @@ public class RecommendFragment extends AbsFragment {
         animationAdapter.reset();
     }
 
-    private void getDataList() {
-        manager.LoginAct(getActivity(), "", "" + COUNT_MAX, activityHandler, INIT_LIST);
-    }
 
     @Override
     public boolean onBackPressed() {
