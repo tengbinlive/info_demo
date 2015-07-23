@@ -10,29 +10,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.core.CommonResponse;
 import com.core.util.CommonUtil;
+import com.easemob.chat.EMContactManager;
+import com.easemob.exceptions.EaseMobException;
 import com.nhaarman.listviewanimations.appearance.StickyListHeadersAdapterDecorator;
 import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationAdapter;
 import com.nhaarman.listviewanimations.util.StickyListHeadersListViewWrapper;
 import com.touyan.investment.AbsFragment;
-import com.touyan.investment.App;
 import com.touyan.investment.R;
-import com.touyan.investment.adapter.FollowListHeadersAdapter;
 import com.touyan.investment.adapter.FriendListHeadersAdapter;
-import com.touyan.investment.bean.message.QueryUserFriendsResult;
-import com.touyan.investment.bean.user.QueryUserFansResult;
-import com.touyan.investment.bean.user.Subscriber;
 import com.touyan.investment.bean.user.UserInfo;
-import com.touyan.investment.helper.HanziComp;
+import com.touyan.investment.event.OnContactDeletedEvent;
 import com.touyan.investment.helper.UserInfoComp;
 import com.touyan.investment.manager.InvestmentManager;
-import com.touyan.investment.manager.MessageManager;
-import com.touyan.investment.manager.UserManager;
 import com.touyan.investment.mview.IndexableListView;
-import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 public class GungFriendFragment extends AbsFragment {
 
@@ -69,14 +64,14 @@ public class GungFriendFragment extends AbsFragment {
     };
 
     private void loadData(CommonResponse resposne) {
-        dialogDismiss();
-        if (resposne.isSuccess()) {
-            QueryUserFriendsResult result = (QueryUserFriendsResult) resposne.getData();
-            friends = result.getFriends();
-            hanziSequence();
-        } else {
-            CommonUtil.showToast(resposne.getErrorTip());
-        }
+//        dialogDismiss();
+//        if (resposne.isSuccess()) {
+//            QueryUserFriendsResult result = (QueryUserFriendsResult) resposne.getData();
+//            friends = result.getFriends();
+//            hanziSequence();
+//        } else {
+//            CommonUtil.showToast(resposne.getErrorTip());
+//        }
     }
 
     private void hanziSequence() {
@@ -140,8 +135,12 @@ public class GungFriendFragment extends AbsFragment {
 
 
     private void getDataList() {
-        MessageManager manager = new MessageManager();
-        manager.queryUserFriends(this.getActivity(), App.getInstance().getgUserInfo().getServno(), activityHandler, INIT_LIST);
+        try {
+            List<String> usernames = EMContactManager.getInstance().getContactUserNames();
+        } catch (EaseMobException e) {
+
+        }
+
 
     }
 
@@ -150,5 +149,8 @@ public class GungFriendFragment extends AbsFragment {
 
     }
 
+    public void onEventMainThread(OnContactDeletedEvent event) {
 
+
+    }
 }

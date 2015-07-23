@@ -7,6 +7,8 @@ import android.content.IntentFilter;
 import com.easemob.EMConnectionListener;
 import com.easemob.EMError;
 import com.easemob.chat.*;
+import com.touyan.investment.event.OnContactDeletedEvent;
+import de.greenrobot.event.EventBus;
 
 import java.util.List;
 import java.util.UUID;
@@ -42,6 +44,8 @@ public class EMChatManagerInit {
          */
         EMChat.getInstance().setDebugMode(Constant.DEBUG);//在做打包混淆时，要关闭debug模式，如果未被关闭，则会出现程序无法运行问题
 
+        EMChatManager.getInstance().getChatOptions().setUseRoster(true);//如果使用环信的好友体系需要先设置
+
         //只有注册了广播才能接收到新消息，目前离线消息，在线消息都是走接收消息的广播（离线消息目前无法监听，在登录以后，接收消息广播会执行一次拿到所有的离线消息）
         msgReceiver = new NewMessageBroadcastReceiver();
         IntentFilter intentFilter = new IntentFilter(EMChatManager.getInstance().getNewMessageBroadcastAction());
@@ -50,7 +54,6 @@ public class EMChatManagerInit {
 
         EMChatManager.getInstance().getChatOptions().setRequireAck(false);
         //如果用到已读的回执需要把这个flag设置成true
-
         IntentFilter ackMessageIntentFilter = new IntentFilter(EMChatManager.getInstance().getAckMessageBroadcastAction());
         ackMessageIntentFilter.setPriority(3);
         mContext.registerReceiver(ackMessageReceiver, ackMessageIntentFilter);
@@ -146,7 +149,7 @@ public class EMChatManagerInit {
         @Override
         public void onContactDeleted(final List<String> usernameList) {
             // 被删除
-
+            EventBus.getDefault().post(new OnContactDeletedEvent(usernameList));
         }
 
         @Override
@@ -165,6 +168,7 @@ public class EMChatManagerInit {
             // 拒绝好友请求
 
         }
+
 
     }
 
