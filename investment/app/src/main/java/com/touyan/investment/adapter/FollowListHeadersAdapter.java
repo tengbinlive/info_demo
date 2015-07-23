@@ -2,6 +2,7 @@ package com.touyan.investment.adapter;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.view.LayoutInflater;
@@ -14,30 +15,29 @@ import com.core.CommonResponse;
 import com.core.util.CommonUtil;
 import com.core.util.StringMatcher;
 import com.daimajia.swipe.adapters.BaseSwipeAdapter;
-import com.easemob.chat.EMContactManager;
-import com.easemob.exceptions.EaseMobException;
 import com.joooonho.SelectableRoundedImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.touyan.investment.AbsActivity;
 import com.touyan.investment.App;
 import com.touyan.investment.R;
 import com.touyan.investment.activity.UserFansDetailsActivity;
+import com.touyan.investment.bean.user.Subscriber;
 import com.touyan.investment.bean.user.UserInfo;
 import com.touyan.investment.manager.UserManager;
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
 import java.util.ArrayList;
 
-/**
- * Created by Administrator on 2015/7/23.
- */
-public class FriendListHeadersAdapter extends BaseSwipeAdapter implements StickyListHeadersAdapter, SectionIndexer {
+public class FollowListHeadersAdapter extends BaseSwipeAdapter implements StickyListHeadersAdapter, SectionIndexer {
+
     private String mSections = "#ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
+    private final static int DELETE_SERVER = 0;
+
+    private final static int DELETE_LOCAL = 1;
 
     private LayoutInflater mInflater;
 
-    private ArrayList<UserInfo> list;
+    private ArrayList<Subscriber> list;
 
     private Activity mContext;
 
@@ -47,16 +47,54 @@ public class FriendListHeadersAdapter extends BaseSwipeAdapter implements Sticky
 
     private UserManager manager = new UserManager();
 
+    /**
+     * 这里包含了调用数据请求的相关接口之后, 应该执行的回调方法, 根据msg.what来判断.
+     */
+    @SuppressLint("HandlerLeak")
+    private Handler activityHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            int what = msg.what;
+            switch (what) {
+                // 返回数据处理
+                case DELETE_SERVER:
+                    loadedDelete((CommonResponse) msg.obj);
+                    break;
+                case DELETE_LOCAL:
+                    int index = 0;
+                    for (int position : deleteArray) {
+                        deleteData(position);
+                        deleteArray.remove(index);
+                        index++;
+                    }
+                    notifyDataSetChanged();
+                    break;
+            }
+        }
+    };
+
+    /**
+     * @param resposne
+     */
+    private void loadedDelete(CommonResponse resposne) {
+        if (resposne.isSuccess()) {
+            CommonUtil.showToast(mContext, "取消成功");
+        } else {
+            CommonUtil.showToast(mContext, resposne.getErrorTip());
+        }
+    }
 
     private void deleteData(int index) {
         int size = list.size();
         if (index < size && index >= 0) {
-            UserInfo subscriber = list.get(index);
+            Subscriber subscriber = list.get(index);
             list.remove(index);
+            manager.cancelUserFollow(mContext, subscriber.getScrino(), activityHandler, DELETE_SERVER);
         }
     }
 
-    public FriendListHeadersAdapter(Activity context, ArrayList<UserInfo> _list) {
+    public FollowListHeadersAdapter(Activity context, ArrayList<Subscriber> _list) {
         this.list = _list;
         mContext = context;
         mInflater = LayoutInflater.from(mContext);
@@ -77,8 +115,8 @@ public class FriendListHeadersAdapter extends BaseSwipeAdapter implements Sticky
         holder.head.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int position = (Integer) view.getTag();
-                UserFansDetailsActivity.toOthersDetail(mContext, App.getInstance().getgUserInfo().getServno(), list.get(position).getServno());
+                int position = (Integer)view.getTag();
+                UserFansDetailsActivity.toOthersDetail(mContext, App.getInstance().getgUserInfo().getServno(), list.get(position).getUser().getServno());
             }
         });
         holder.deleteLayout = (RelativeLayout) convertView.findViewById(R.id.delete_layout);
@@ -88,13 +126,7 @@ public class FriendListHeadersAdapter extends BaseSwipeAdapter implements Sticky
                 closeAllItems();
                 int index = (Integer) view.getTag();
                 deleteArray.add(index);
-                try {
-                    EMContactManager.getInstance().deleteContact(list.get(index).getServno());
-
-                } catch (EaseMobException e) {
-                    e.printStackTrace();
-                }
-                ((AbsActivity) mContext).dialogShow();
+                activityHandler.sendEmptyMessageDelayed(DELETE_LOCAL, 300);
             }
         });
         convertView.setTag(holder);
@@ -104,12 +136,12 @@ public class FriendListHeadersAdapter extends BaseSwipeAdapter implements Sticky
     @Override
     public void fillValues(int position, View convertView) {
         ViewHolder holder = (ViewHolder) convertView.getTag();
-        UserInfo subscriber = list.get(position);
+        Subscriber subscriber = list.get(position);
         holder.deleteLayout.setTag(position);
-
-        holder.name.setText(subscriber.getUalias());
+        UserInfo userInfo = subscriber.getUser();
+        holder.name.setText(userInfo.getUalias());
         holder.head.setTag(position);
-        ImageLoader.getInstance().displayImage(subscriber.getUphoto(), holder.head);
+        ImageLoader.getInstance().displayImage(userInfo.getUphoto(), holder.head);
     }
 
     @Override
@@ -123,14 +155,14 @@ public class FriendListHeadersAdapter extends BaseSwipeAdapter implements Sticky
         } else {
             holder = (HeaderViewHolder) convertView.getTag();
         }
-        UserInfo bean = list.get(position);
+        Subscriber bean = list.get(position);
         holder.text.setText(bean.getNameSort());
         return convertView;
     }
 
     @Override
     public long getHeaderId(final int position) {
-        UserInfo bean = list.get(position);
+        Subscriber bean = list.get(position);
         keyIndex = mSections.indexOf(bean.getNameSort());
         if (keyIndex < 0) {
             keyIndex = 0;
@@ -157,7 +189,7 @@ public class FriendListHeadersAdapter extends BaseSwipeAdapter implements Sticky
         return 0;
     }
 
-    public void refresh(ArrayList<UserInfo> _list) {
+    public void refresh(ArrayList<Subscriber> _list) {
         list = _list;
         notifyDataSetChanged();
     }

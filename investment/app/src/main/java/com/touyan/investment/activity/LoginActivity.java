@@ -11,6 +11,9 @@ import com.alibaba.fastjson.JSON;
 import com.core.CommonResponse;
 import com.core.util.CommonUtil;
 import com.core.util.StringUtil;
+import com.easemob.EMCallBack;
+import com.easemob.chat.EMChatManager;
+import com.easemob.chat.EMGroupManager;
 import com.touyan.investment.AbsActivity;
 import com.touyan.investment.App;
 import com.touyan.investment.Constant;
@@ -40,7 +43,6 @@ public class LoginActivity extends AbsActivity implements OnClickListener {
 
     private Handler activityHandler = new Handler() {
         public void handleMessage(Message msg) {
-            dialogDismiss();
             switch (msg.what) {
                 case LOGIN_DATA:
                     loadLoginData((CommonResponse) msg.obj);
@@ -57,16 +59,15 @@ public class LoginActivity extends AbsActivity implements OnClickListener {
      * @param resposne
      */
     private void loadLoginData(CommonResponse resposne) {
-        dialogDismiss();
         if (resposne.isSuccess()) {
             SharedPreferencesHelper.setString(this, Constant.LoginUser.SHARED_PREFERENCES_PHONE, phone);
             SharedPreferencesHelper.setString(this, Constant.LoginUser.SHARED_PREFERENCES_PASSWORD, password);
             LoginResult result = (LoginResult) resposne.getData();
             UserInfo userInfo = result.getUsinfo();
             String userJson = JSON.toJSONString(userInfo);
-            SharedPreferencesHelper.setString(this, Constant.LoginUser.SHARED_PREFERENCES_USER,userJson );
+            SharedPreferencesHelper.setString(this, Constant.LoginUser.SHARED_PREFERENCES_USER,userJson);
             App.getInstance().setgUserInfo(result.getUsinfo());
-            toMainActivity();
+            EASEMOBLogin();
         } else {
             CommonUtil.showToast(resposne.getErrorTip());
         }
@@ -133,6 +134,35 @@ public class LoginActivity extends AbsActivity implements OnClickListener {
             dialogShow(R.string.login_prompt);
             Login(phone_et.getText().toString(), password_et.getText().toString());
         }
+    }
+
+    /**
+     * 登陆环信
+     */
+    private void EASEMOBLogin(){
+        EMChatManager.getInstance().login(phone,password,new EMCallBack() {//回调
+            @Override
+            public void onSuccess() {
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        dialogDismiss();
+                        EMGroupManager.getInstance().loadAllGroups();
+                        EMChatManager.getInstance().loadAllConversations();
+                        toMainActivity();
+                    }
+                });
+            }
+
+            @Override
+            public void onProgress(int progress, String status) {
+
+            }
+
+            @Override
+            public void onError(int code, String message) {
+                CommonUtil.showToast("登陆失败拉");
+            }
+        });
     }
 
     /**

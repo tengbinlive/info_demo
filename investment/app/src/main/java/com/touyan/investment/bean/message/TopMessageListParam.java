@@ -6,7 +6,7 @@ import com.core.util.StringUtil;
 
 import java.util.HashMap;
 
-public class TopMessage extends OpenApiBaseRequest implements OpenApiRequestInterface {
+public class TopMessageListParam extends OpenApiBaseRequest implements OpenApiRequestInterface {
 
     private String mesgid;
     private String groupid;
@@ -40,4 +40,11 @@ public class TopMessage extends OpenApiBaseRequest implements OpenApiRequestInte
         if (includeEmptyAttr || (!includeEmptyAttr && StringUtil.isNotBlank(groupid))) param.put("groupid", groupid);
     }
 
+    @Override
+    public String toString() {
+        return "TopMessageParam{" +
+                "mesgid='" + mesgid + '\'' +
+                ", groupid='" + groupid + '\'' +
+                '}';
+    }
 }

@@ -4,7 +4,7 @@
                 android:background="@color/gray_layout"
                 android:layout_height="match_parent">
 
-    <se.emilsjolander.stickylistheaders.StickyListHeadersListView
+    <com.touyan.investment.mview.IndexableListView
             android:id="@+id/stickylistheaders_listview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

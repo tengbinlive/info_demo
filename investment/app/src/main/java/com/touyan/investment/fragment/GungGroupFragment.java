@@ -5,6 +5,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -88,14 +89,13 @@ public class GungGroupFragment extends AbsFragment {
 
     // 初始化资源
     private void init(View viewGroup) {
-//        View ll_listEmpty = viewGroup.findViewById(R.id.ll_listEmpty);
-//        listView.setEmptyView(ll_listEmpty);
         setData();
         adapter = new GroupListAdapter(getActivity(), list, listTag);
         listView = (ListView)(viewGroup).findViewById(R.id.group_list);
         listView.setAdapter(adapter);
 
-
+        View ll_listEmpty = viewGroup.findViewById(R.id.ll_listEmpty);
+        listView.setEmptyView(ll_listEmpty);
     }
 
     private void initListView() {
@@ -117,10 +117,6 @@ public class GungGroupFragment extends AbsFragment {
 //        listView.setAdapter(stickyListHeadersAdapterDecorator);
     }
 
-
-    @Override
-    public void scrollToTop() {
-    }
 
     public void setData(){
         list.add("我创建的群");
@@ -162,5 +158,11 @@ public class GungGroupFragment extends AbsFragment {
             textView.setText(getItem(position));
             return view;
         }
+
+    }
+
+    @Override
+    public void scrollToTop() {
+
     }
 }

@@ -15,12 +15,14 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import butterknife.ButterKnife;
 import com.core.util.StringUtil;
 import com.gitonway.lee.niftymodaldialogeffects.Effectstype;
 import com.gitonway.lee.niftymodaldialogeffects.NiftyDialogBuilder;
+
+import com.touyan.investment.event.AnyEventType;
 import com.touyan.investment.imp.EInitDate;
+import de.greenrobot.event.EventBus;
 import me.imid.swipebacklayout.lib.SwipeBackLayout;
 import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 
@@ -78,8 +80,8 @@ public abstract class AbsActivity extends SwipeBackActivity implements EInitDate
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
         App.getInstance().addActivity(this);
-        ButterKnife.bind(this);
         int colos = getIntent().getIntExtra(STATUSBAR_COLOS, 0);
         setStatusBar(colos);
         mInflater = LayoutInflater.from(this);
@@ -90,6 +92,7 @@ public abstract class AbsActivity extends SwipeBackActivity implements EInitDate
             initActionBar();
         }
         ButterKnife.bind(this);
+
         EInit();
     }
 
@@ -357,6 +360,7 @@ public abstract class AbsActivity extends SwipeBackActivity implements EInitDate
     public void onDestroy() {
         activityFinish = true;
         super.onDestroy();
+        EventBus.getDefault().unregister(this);
         EDestroy();
     }
 
@@ -445,13 +449,11 @@ public abstract class AbsActivity extends SwipeBackActivity implements EInitDate
 
     }
 
-
     public void dialogDismiss() {
         if (null != dialogBuilder && dialogBuilder.isShowing()) {
             dialogBuilder.dismiss();
         }
     }
-
 
     public void showConfirmDialog(Activity activity, String content, String leftText, View.OnClickListener leftEvent, String rightText, View.OnClickListener rightEvent) {
         dialogDismiss();
@@ -527,7 +529,6 @@ public abstract class AbsActivity extends SwipeBackActivity implements EInitDate
         }
     }
 
-
     @Override
     public void EDestroy() {
     }
@@ -537,6 +538,10 @@ public abstract class AbsActivity extends SwipeBackActivity implements EInitDate
         super.onBackPressed();
         if (isBackAnim)
             overridePendingTransition(0, R.anim.push_translate_out_left);
+    }
+
+    public void onEvent(AnyEventType event) {
+
     }
 
 }

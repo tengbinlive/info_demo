@@ -8,7 +8,7 @@ import com.core.CommonRequest;
 import com.core.openapi.OpenApiMethodEnum;
 import com.core.openapi.OpenApiSimpleResult;
 import com.touyan.investment.App;
-import com.touyan.investment.bean.main.*;
+import com.touyan.investment.bean.main.InvInfoResult;
 import com.touyan.investment.bean.user.*;
 
 import java.util.ArrayList;
@@ -310,6 +310,30 @@ public class UserManager {
         // 接口参数
         param.setMethod(OpenApiMethodEnum.FOLLOW_OTHERINFO);
         param.setParseTokenType(new TypeReference<OpenApiSimpleResult>() {
+        });
+        // 请求对象
+        CommonRequest request = new CommonRequest(param, handler, handlerMsgCode);
+        // 开始执行加载
+        CommonDataLoader.getInstance(context).load(request);
+    }
+
+    /**
+     * 批量获取用户信息群信息
+     *
+     * @param context        上下文
+     * @param userids        用户ID
+     * @param groupids       群组id
+     * @param handler        在Activity中处理返回结果的Handler
+     * @param handlerMsgCode 返回结果的Handler的Msg代码
+     */
+    public void batchInfo(Context context, ArrayList<String> userids, ArrayList<String> groupids, final Handler handler, final int handlerMsgCode) {
+        BatchInfoParam param = new BatchInfoParam();
+        param.setUsernos(userids);
+        param.setGroups(groupids);
+
+        // 接口参数
+        param.setMethod(OpenApiMethodEnum.BATCH_INFO);
+        param.setParseTokenType(new TypeReference<BatchInfoResult>() {
         });
         // 请求对象
         CommonRequest request = new CommonRequest(param, handler, handlerMsgCode);

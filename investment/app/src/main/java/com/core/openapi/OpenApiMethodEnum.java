@@ -13,7 +13,17 @@ public enum OpenApiMethodEnum {
     /**
      * 置顶消息详情查询
      */
-    TOP_MESSAGE("/topMessage/queryDetail.action", "openapi_json", OpenApi.URL_TYPE_DATA),
+    TOP_MESSAGE_DEATAIL("/topMessage/queryDetail.action", "openapi_json", OpenApi.URL_TYPE_DATA),
+
+    /**
+     * 用户所有群置顶消息查询
+     */
+    TOP_MESSAGE_LIST("/topMessage/queryAllList.action", "openapi_json", OpenApi.URL_TYPE_DATA),
+
+    /**
+     * 批量获取用户信息群信息
+     */
+    BATCH_INFO("/user/batchInfo.action", "openapi_json", OpenApi.URL_TYPE_DATA),
 
     /**
      * 发布悬赏
@@ -240,7 +250,10 @@ public enum OpenApiMethodEnum {
      * 删除已收藏资讯列表
      */
     DELETE_COLLECTED_INFOS("/center/batchDelMsgs.action", "openapi_json", OpenApi.URL_TYPE_DATA),
-
+    /**
+     * 删除好友列表
+     */
+    QUERY_USER_FRIENDS("/user/friends.action", "openapi_json", OpenApi.URL_TYPE_DATA),
     /**
      * 登陆
      */

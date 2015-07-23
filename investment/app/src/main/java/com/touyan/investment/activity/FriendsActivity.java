@@ -1,5 +1,6 @@
 package com.touyan.investment.activity;
 
+import android.content.Intent;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
@@ -107,6 +108,13 @@ public class FriendsActivity extends AbsActivity {
         setToolbarIntermediateStrID(R.string.friends);
         setToolbarRightVisbility(View.VISIBLE, View.VISIBLE);
         setToolbarRight(R.drawable.friends_add);
+        setToolbarRightOnClick(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(FriendsActivity.this, AddFriendActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
 }

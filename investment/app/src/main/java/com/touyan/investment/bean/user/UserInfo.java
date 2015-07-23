@@ -1,5 +1,7 @@
 package com.touyan.investment.bean.user;
 
+import com.touyan.investment.helper.PinYinUtil;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -22,6 +24,19 @@ public class UserInfo implements Serializable {
     private String uisvip;
     private String uphoto;
     private double uavail;
+
+    private String nameSort;
+
+    //特殊处理
+    public String getNameSort() {
+        if (null == nameSort) {
+            String key = PinYinUtil.getFirstSpell(ualias);
+            key = key.replaceAll(" ", "");
+            nameSort = String.valueOf(key.charAt(0));
+        }
+        return nameSort;
+    }
+
 
     public double getUavail() {
         return uavail;
