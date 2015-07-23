@@ -21,6 +21,11 @@ public enum OpenApiMethodEnum {
     TOP_MESSAGE_LIST("/topMessage/queryAllList.action", "openapi_json", OpenApi.URL_TYPE_DATA),
 
     /**
+     * 批量获取用户信息群信息
+     */
+    BATCH_INFO("/user/batchInfo.action", "openapi_json", OpenApi.URL_TYPE_DATA),
+
+    /**
      * 发布悬赏
      */
     PUBLISH_REWARD("/reward/publish.action", "openapi_json", OpenApi.URL_TYPE_DATA),
