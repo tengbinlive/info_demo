@@ -13,6 +13,7 @@ import com.touyan.investment.R;
 import com.touyan.investment.adapter.FriendsPagerAdapter;
 import com.touyan.investment.enums.BottomMenu;
 import com.touyan.investment.fragment.GungFriendFragment;
+import com.touyan.investment.fragment.GungGroupFragment;
 import com.touyan.investment.fragment.InvActFragment;
 import com.touyan.investment.fragment.InvInfoFragment;
 
@@ -44,7 +45,7 @@ public class FriendsActivity extends AbsActivity {
 
         ArrayList<AbsFragment> fragments = new ArrayList<AbsFragment>();
         fragments.add(new GungFriendFragment());
-        fragments.add(new GungFriendFragment());
+        fragments.add(new GungGroupFragment());
 
         adapter = new FriendsPagerAdapter(getSupportFragmentManager(), fragments);
         viewPager = (ViewPager) findViewById(R.id.view_pager);
