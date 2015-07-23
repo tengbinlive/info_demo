@@ -76,7 +76,7 @@ public class MessageManager {
      * 用户所有群置顶消息查询
      *
      * @param context        上下文
-     * @param handler        在Activity中处理返回结果的Handler
+     * @param handler        在Activity中处理返回结果的Handlers
      * @param handlerMsgCode 返回结果的Handler的Msg代码
      */
     public void topMessageList(Context context, final Handler handler, final int handlerMsgCode) {
