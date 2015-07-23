@@ -8,7 +8,10 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.touyan.investment.AbsActivity;
+import com.touyan.investment.App;
+import com.touyan.investment.Constant;
 import com.touyan.investment.R;
+import com.touyan.investment.helper.SharedPreferencesHelper;
 import com.touyan.investment.mview.BottomView;
 
 public class MeSettingActivity extends AbsActivity implements OnClickListener {
@@ -87,9 +90,13 @@ public class MeSettingActivity extends AbsActivity implements OnClickListener {
         shareFriend.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, LoginActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent(context, LoginActivity.class);
+//                startActivity(intent);
+                SharedPreferencesHelper.setString(MeSettingActivity.this, Constant.LoginUser.SHARED_PREFERENCES_PASSWORD, "");
+
                 finish();
+                App.getInstance().exit();
+                System.exit(0);// 退出程序
 
             }
         });
