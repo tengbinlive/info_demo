@@ -13,6 +13,7 @@ import com.touyan.investment.AbsFragment;
 import com.touyan.investment.R;
 import com.touyan.investment.adapter.EditerAdapter;
 import com.touyan.investment.adapter.InvestmentPagerAdapter;
+import com.touyan.investment.event.MessageEvent;
 import com.touyan.investment.fragment.MeActivityFragment;
 import com.touyan.investment.fragment.MeActivityPartakeFragment;
 
