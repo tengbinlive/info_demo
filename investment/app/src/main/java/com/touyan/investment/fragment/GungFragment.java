@@ -1,7 +1,6 @@
 package com.touyan.investment.fragment;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -16,6 +15,7 @@ import com.core.CommonResponse;
 import com.core.util.CommonUtil;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMConversation;
+import com.easemob.chat.EMMessage;
 import com.handmark.pulltorefresh.PullToRefreshBase;
 import com.handmark.pulltorefresh.PullToRefreshListView;
 import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationAdapter;
@@ -23,16 +23,15 @@ import com.touyan.investment.AbsActivity;
 import com.touyan.investment.AbsFragment;
 import com.touyan.investment.App;
 import com.touyan.investment.R;
-import com.touyan.investment.activity.ActDetailActivity;
 import com.touyan.investment.activity.FriendsActivity;
-import com.touyan.investment.adapter.RecommendNewsAdapter;
+import com.touyan.investment.adapter.GungNewsAdapter;
 import com.touyan.investment.bean.message.TopMessageListResult;
 import com.touyan.investment.helper.Util;
-import com.touyan.investment.manager.InvestmentManager;
 import com.touyan.investment.manager.MessageManager;
 import com.touyan.investment.mview.BezierView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class GungFragment extends AbsFragment {
 
@@ -47,15 +46,13 @@ public class GungFragment extends AbsFragment {
 
     private ListView mActualListView;
 
-    private RecommendNewsAdapter mAdapter;
+    private GungNewsAdapter mAdapter;
 
     private SwingBottomInAnimationAdapter animationAdapter;
 
     private BezierView bezierview;
 
     private TopMessageListResult result;
-
-    private ArrayList<String> mArrayList;
 
     private Handler activityHandler = new Handler() {
         public void handleMessage(Message msg) {
@@ -109,14 +106,6 @@ public class GungFragment extends AbsFragment {
         // Need to use the Actual ListView when registering for Context Menu
         registerForContextMenu(mActualListView);
 
-        mAdapter = new RecommendNewsAdapter(getActivity(), mArrayList);
-
-        animationAdapter = new SwingBottomInAnimationAdapter(mAdapter);
-
-        animationAdapter.setAbsListView(mActualListView);
-
-        mActualListView.setAdapter(animationAdapter);
-
         mActualListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -149,8 +138,21 @@ public class GungFragment extends AbsFragment {
     private void init(View viewGroup) {
         mListView = (PullToRefreshListView) viewGroup.findViewById(R.id.pull_refresh_list);
         initListView(viewGroup);
+        initConversation();
+    }
+
+    private void initConversation() {
         String username = App.getInstance().getgUserInfo().getUalias();
         EMConversation conversation = EMChatManager.getInstance().getConversation(username);
+        List<EMMessage> messages = conversation.getAllMessages();
+
+        mAdapter = new GungNewsAdapter(getActivity(), messages);
+
+        animationAdapter = new SwingBottomInAnimationAdapter(mAdapter);
+
+        animationAdapter.setAbsListView(mActualListView);
+
+        mActualListView.setAdapter(animationAdapter);
     }
 
     public void initActionBar(View viewGroup) {
@@ -163,8 +165,8 @@ public class GungFragment extends AbsFragment {
         toolbar_intermediate_tv.setText(R.string.main_gung);
         menuRight.setVisibility(View.VISIBLE);
         toolbar_right_tv.setVisibility(View.VISIBLE);
-        Util.setTextViewDrawaleAnchor(getActivity(),menuLeft, R.drawable.notice_nomral, AbsActivity.LEFT);
-        Util.setTextViewDrawaleAnchor(getActivity(),toolbar_right_tv, R.drawable.group_icon, AbsActivity.RIGHT);
+        Util.setTextViewDrawaleAnchor(getActivity(), menuLeft, R.drawable.notice_nomral, AbsActivity.LEFT);
+        Util.setTextViewDrawaleAnchor(getActivity(), toolbar_right_tv, R.drawable.group_icon, AbsActivity.RIGHT);
         menuLeft.setOnClickListener(new View.OnClickListener() {
 
             @Override

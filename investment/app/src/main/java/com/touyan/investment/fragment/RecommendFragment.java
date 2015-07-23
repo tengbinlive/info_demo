@@ -12,7 +12,7 @@ import com.handmark.pulltorefresh.PullToRefreshListView;
 import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationAdapter;
 import com.touyan.investment.AbsFragment;
 import com.touyan.investment.R;
-import com.touyan.investment.adapter.RecommendNewsAdapter;
+import com.touyan.investment.adapter.GungNewsAdapter;
 import com.touyan.investment.manager.InvestmentManager;
 
 import java.util.ArrayList;
@@ -30,7 +30,7 @@ public class RecommendFragment extends AbsFragment {
     //列表
     private PullToRefreshListView mListView;
     private ListView mActualListView;
-    private RecommendNewsAdapter mAdapter;
+    private GungNewsAdapter mAdapter;
     private SwingBottomInAnimationAdapter animationAdapter;
 
     private ArrayList<String> mArrayList;
