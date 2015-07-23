@@ -13,6 +13,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.core.CommonResponse;
+import com.core.util.CommonUtil;
 import com.handmark.pulltorefresh.PullToRefreshBase;
 import com.handmark.pulltorefresh.PullToRefreshListView;
 import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationAdapter;
@@ -22,29 +23,34 @@ import com.touyan.investment.R;
 import com.touyan.investment.activity.ActDetailActivity;
 import com.touyan.investment.activity.FriendsActivity;
 import com.touyan.investment.adapter.RecommendNewsAdapter;
+import com.touyan.investment.bean.message.TopMessageListResult;
+import com.touyan.investment.helper.Util;
 import com.touyan.investment.manager.InvestmentManager;
+import com.touyan.investment.manager.MessageManager;
 import com.touyan.investment.mview.BezierView;
 
 import java.util.ArrayList;
 
 public class GungFragment extends AbsFragment {
 
-
-    private InvestmentManager manager = new InvestmentManager();
+    private MessageManager manager = new MessageManager();
 
     private LayoutInflater mInflater;
 
     private static final int INIT_LIST = 0x01;//初始化数据处理
 
-    private static final int COUNT_MAX = 15;//加载数据最大值
-
     //列表
     private PullToRefreshListView mListView;
+
     private ListView mActualListView;
+
     private RecommendNewsAdapter mAdapter;
+
     private SwingBottomInAnimationAdapter animationAdapter;
 
     private BezierView bezierview;
+
+    private TopMessageListResult result;
 
     private ArrayList<String> mArrayList;
 
@@ -64,16 +70,12 @@ public class GungFragment extends AbsFragment {
     private void loadData(CommonResponse resposne) {
         dialogDismiss();
         testData();
-//        if (resposne.isSuccess()) {
-//            if (what == INIT_LIST) {
-//                review_ly.removeAllViews();
-//                addTestData();
-//             } else {
-//                addTestData();
-//            }
-//        } else {
-//            CommonUtil.showToast(resposne.getErrorTip());
-//        }
+        if (resposne.isSuccess()) {
+            TopMessageListResult result = (TopMessageListResult) resposne.getData();
+            mAdapter.refresh(mArrayList);
+        } else {
+            CommonUtil.showToast(resposne.getErrorTip());
+        }
         mListView.onRefreshComplete();
     }
 
@@ -123,7 +125,7 @@ public class GungFragment extends AbsFragment {
     }
 
     private void getDataList() {
-        manager.LoginAct(getActivity(), "", "" + COUNT_MAX, activityHandler, INIT_LIST);
+        manager.topMessageList(getActivity(), activityHandler, INIT_LIST);
     }
 
     @Override
@@ -157,8 +159,8 @@ public class GungFragment extends AbsFragment {
         toolbar_intermediate_tv.setText(R.string.main_gung);
         menuRight.setVisibility(View.VISIBLE);
         toolbar_right_tv.setVisibility(View.VISIBLE);
-        setToolbarMenuAnchor(menuLeft, R.drawable.notice_nomral, AbsActivity.LEFT);
-        setToolbarMenuAnchor(toolbar_right_tv, R.drawable.group_icon, AbsActivity.RIGHT);
+        Util.setTextViewDrawaleAnchor(getActivity(),menuLeft, R.drawable.notice_nomral, AbsActivity.LEFT);
+        Util.setTextViewDrawaleAnchor(getActivity(),toolbar_right_tv, R.drawable.group_icon, AbsActivity.RIGHT);
         menuLeft.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -180,21 +182,6 @@ public class GungFragment extends AbsFragment {
         Intent mIntent = new Intent(getActivity(), FriendsActivity.class);
         startActivity(mIntent);
         getActivity().overridePendingTransition(R.anim.push_translate_in_right, 0);
-    }
-
-    public void setToolbarMenuAnchor(TextView view, int iconid, int anchor) {
-        Drawable drawable = getResources().getDrawable(iconid);
-        // 这一步必须要做,否则不会显示.
-        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-        if (anchor == AbsActivity.TOP) {
-            view.setCompoundDrawables(null, drawable, null, null);
-        } else if (anchor == AbsActivity.BOTTOM) {
-            view.setCompoundDrawables(null, null, null, drawable);
-        } else if (anchor == AbsActivity.LEFT) {
-            view.setCompoundDrawables(drawable, null, null, null);
-        } else if (anchor == AbsActivity.RIGHT) {
-            view.setCompoundDrawables(null, null, drawable, null);
-        }
     }
 
     @Override

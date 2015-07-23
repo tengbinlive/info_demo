@@ -444,13 +444,11 @@ public abstract class AbsActivity extends SwipeBackActivity implements EInitDate
 
     }
 
-
     public void dialogDismiss() {
         if (null != dialogBuilder && dialogBuilder.isShowing()) {
             dialogBuilder.dismiss();
         }
     }
-
 
     public void showConfirmDialog(Activity activity, String content, String leftText, View.OnClickListener leftEvent, String rightText, View.OnClickListener rightEvent) {
         dialogDismiss();

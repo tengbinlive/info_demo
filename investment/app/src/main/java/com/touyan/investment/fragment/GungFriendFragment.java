@@ -142,6 +142,7 @@ public class GungFriendFragment extends AbsFragment {
     private void getDataList() {
         MessageManager manager = new MessageManager();
         manager.queryUserFriends(this.getActivity(), App.getInstance().getgUserInfo().getServno(), activityHandler, INIT_LIST);
+
     }
 
     @Override
