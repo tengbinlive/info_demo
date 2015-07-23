@@ -2,6 +2,7 @@ package com.touyan.investment.adapter;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.view.LayoutInflater;
@@ -19,16 +20,15 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.touyan.investment.App;
 import com.touyan.investment.R;
 import com.touyan.investment.activity.UserFansDetailsActivity;
+import com.touyan.investment.bean.user.Subscriber;
 import com.touyan.investment.bean.user.UserInfo;
 import com.touyan.investment.manager.UserManager;
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
 import java.util.ArrayList;
 
-/**
- * Created by Administrator on 2015/7/23.
- */
-public class FriendListHeadersAdapter extends BaseSwipeAdapter implements StickyListHeadersAdapter, SectionIndexer {
+public class FollowListHeadersAdapter extends BaseSwipeAdapter implements StickyListHeadersAdapter, SectionIndexer {
+
     private String mSections = "#ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     private final static int DELETE_SERVER = 0;
@@ -37,7 +37,7 @@ public class FriendListHeadersAdapter extends BaseSwipeAdapter implements Sticky
 
     private LayoutInflater mInflater;
 
-    private ArrayList<UserInfo> list;
+    private ArrayList<Subscriber> list;
 
     private Activity mContext;
 
@@ -88,13 +88,13 @@ public class FriendListHeadersAdapter extends BaseSwipeAdapter implements Sticky
     private void deleteData(int index) {
         int size = list.size();
         if (index < size && index >= 0) {
-            UserInfo subscriber = list.get(index);
+            Subscriber subscriber = list.get(index);
             list.remove(index);
-            manager.cancelUserFollow(mContext, subscriber.getServno(), activityHandler, DELETE_SERVER);
+            manager.cancelUserFollow(mContext, subscriber.getScrino(), activityHandler, DELETE_SERVER);
         }
     }
 
-    public FriendListHeadersAdapter(Activity context, ArrayList<UserInfo> _list) {
+    public FollowListHeadersAdapter(Activity context, ArrayList<Subscriber> _list) {
         this.list = _list;
         mContext = context;
         mInflater = LayoutInflater.from(mContext);
@@ -115,8 +115,8 @@ public class FriendListHeadersAdapter extends BaseSwipeAdapter implements Sticky
         holder.head.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int position = (Integer) view.getTag();
-                UserFansDetailsActivity.toOthersDetail(mContext, App.getInstance().getgUserInfo().getServno(), list.get(position).getServno());
+                int position = (Integer)view.getTag();
+                UserFansDetailsActivity.toOthersDetail(mContext, App.getInstance().getgUserInfo().getServno(), list.get(position).getUser().getServno());
             }
         });
         holder.deleteLayout = (RelativeLayout) convertView.findViewById(R.id.delete_layout);
@@ -136,12 +136,12 @@ public class FriendListHeadersAdapter extends BaseSwipeAdapter implements Sticky
     @Override
     public void fillValues(int position, View convertView) {
         ViewHolder holder = (ViewHolder) convertView.getTag();
-        UserInfo subscriber = list.get(position);
+        Subscriber subscriber = list.get(position);
         holder.deleteLayout.setTag(position);
-
-        holder.name.setText(subscriber.getUalias());
+        UserInfo userInfo = subscriber.getUser();
+        holder.name.setText(userInfo.getUalias());
         holder.head.setTag(position);
-        ImageLoader.getInstance().displayImage(subscriber.getUphoto(), holder.head);
+        ImageLoader.getInstance().displayImage(userInfo.getUphoto(), holder.head);
     }
 
     @Override
@@ -155,14 +155,14 @@ public class FriendListHeadersAdapter extends BaseSwipeAdapter implements Sticky
         } else {
             holder = (HeaderViewHolder) convertView.getTag();
         }
-        UserInfo bean = list.get(position);
+        Subscriber bean = list.get(position);
         holder.text.setText(bean.getNameSort());
         return convertView;
     }
 
     @Override
     public long getHeaderId(final int position) {
-        UserInfo bean = list.get(position);
+        Subscriber bean = list.get(position);
         keyIndex = mSections.indexOf(bean.getNameSort());
         if (keyIndex < 0) {
             keyIndex = 0;
@@ -189,7 +189,7 @@ public class FriendListHeadersAdapter extends BaseSwipeAdapter implements Sticky
         return 0;
     }
 
-    public void refresh(ArrayList<UserInfo> _list) {
+    public void refresh(ArrayList<Subscriber> _list) {
         list = _list;
         notifyDataSetChanged();
     }
