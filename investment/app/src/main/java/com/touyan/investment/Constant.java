@@ -37,6 +37,11 @@ public class Constant {
 		 */
 		public final static String SHARED_PREFERENCES_USER= "user";
 
+		/**
+		 * 用户密码
+		 */
+		public final static String SHARED_PREFERENCES_PASSWORD= "password";
+
 	}
 
 
