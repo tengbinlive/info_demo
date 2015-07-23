@@ -15,12 +15,12 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import butterknife.ButterKnife;
 import com.core.util.StringUtil;
 import com.gitonway.lee.niftymodaldialogeffects.Effectstype;
 import com.gitonway.lee.niftymodaldialogeffects.NiftyDialogBuilder;
-import com.touyan.investment.event.MessageEvent;
+
+import com.touyan.investment.event.AnyEventType;
 import com.touyan.investment.imp.EInitDate;
 import de.greenrobot.event.EventBus;
 import me.imid.swipebacklayout.lib.SwipeBackLayout;
@@ -529,7 +529,6 @@ public abstract class AbsActivity extends SwipeBackActivity implements EInitDate
         }
     }
 
-
     @Override
     public void EDestroy() {
     }
@@ -539,6 +538,10 @@ public abstract class AbsActivity extends SwipeBackActivity implements EInitDate
         super.onBackPressed();
         if (isBackAnim)
             overridePendingTransition(0, R.anim.push_translate_out_left);
+    }
+
+    public void onEvent(AnyEventType event) {
+
     }
 
 }

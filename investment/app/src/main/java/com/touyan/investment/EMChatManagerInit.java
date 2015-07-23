@@ -20,6 +20,10 @@ public class EMChatManagerInit {
 
     public static EMChatManagerInit instance;
 
+    private Context mContext;
+
+    private NewMessageBroadcastReceiver msgReceiver;
+
     public static EMChatManagerInit getInstance() {
         if (null == instance) {
             instance = new EMChatManagerInit();
@@ -28,6 +32,8 @@ public class EMChatManagerInit {
     }
 
     public void initEMChat(Context context) {
+        mContext = context;
+
         EMChat.getInstance().init(context);
         /**
          * debugMode == true 时为打开，sdk 会在log里输入调试信息
@@ -37,17 +43,17 @@ public class EMChatManagerInit {
         EMChat.getInstance().setDebugMode(Constant.DEBUG);//在做打包混淆时，要关闭debug模式，如果未被关闭，则会出现程序无法运行问题
 
         //只有注册了广播才能接收到新消息，目前离线消息，在线消息都是走接收消息的广播（离线消息目前无法监听，在登录以后，接收消息广播会执行一次拿到所有的离线消息）
-        NewMessageBroadcastReceiver msgReceiver = new NewMessageBroadcastReceiver();
+        msgReceiver = new NewMessageBroadcastReceiver();
         IntentFilter intentFilter = new IntentFilter(EMChatManager.getInstance().getNewMessageBroadcastAction());
         intentFilter.setPriority(3);
-        context.registerReceiver(msgReceiver, intentFilter);
+        mContext.registerReceiver(msgReceiver, intentFilter);
 
         EMChatManager.getInstance().getChatOptions().setRequireAck(false);
         //如果用到已读的回执需要把这个flag设置成true
 
         IntentFilter ackMessageIntentFilter = new IntentFilter(EMChatManager.getInstance().getAckMessageBroadcastAction());
         ackMessageIntentFilter.setPriority(3);
-        context.registerReceiver(ackMessageReceiver, ackMessageIntentFilter);
+        mContext.registerReceiver(ackMessageReceiver, ackMessageIntentFilter);
 
         //监听联系人的变化等
         EMContactManager.getInstance().setContactListener(new MyContactListener());
@@ -57,6 +63,29 @@ public class EMChatManagerInit {
 
         //注册群聊相关的listener
         EMGroupManager.getInstance().addGroupChangeListener(new MyGroupChangeListener());
+
+        // 获取到EMChatOptions对象
+        EMChatOptions options = EMChatManager.getInstance().getChatOptions();
+
+        //设置notification点击listener
+        options.setOnNotificationClickListener(new OnNotificationClickListener() {
+
+            @Override
+            public Intent onNotificationClick(EMMessage message) {
+//                Intent intent = new Intent(applicationContext, ChatActivity.class);
+//                EMMessage.ChatType chatType = message.getChatType();
+//                if (chatType == EMMessage.ChatType.Chat) { //单聊信息
+//                    intent.putExtra("userId", message.getFrom());
+//                    intent.putExtra("chatType", ChatActivity.CHATTYPE_SINGLE);
+//                } else { //群聊信息
+//                    //message.getTo()为群聊id
+//                    intent.putExtra("groupId", message.getTo());
+//                    intent.putExtra("chatType", ChatActivity.CHATTYPE_GROUP);
+//                }
+//                return intent;
+                return null;
+            }
+        });
 
         //注：最后要通知sdk，UI 已经初始化完毕，注册了相应的receiver和listener, 可以接受broadcast了
         EMChat.getInstance().setAppInited();
@@ -247,6 +276,15 @@ public class EMChatManagerInit {
             // 加群申请被拒绝
         }
 
+    }
+
+    public void onDestroy() {
+        if (null != msgReceiver) {
+            mContext.unregisterReceiver(msgReceiver);
+        }
+        if (null != ackMessageReceiver) {
+            mContext.unregisterReceiver(ackMessageReceiver);
+        }
     }
 
 }

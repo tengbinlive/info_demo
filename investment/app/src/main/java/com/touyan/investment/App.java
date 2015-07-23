@@ -367,6 +367,7 @@ public class App extends Application {
     public void onTerminate() {
         unConnectionReceiver();
         ShareSDK.stopSDK();
+        EMChatManagerInit.getInstance().onDestroy();
         super.onTerminate();
     }
 }
