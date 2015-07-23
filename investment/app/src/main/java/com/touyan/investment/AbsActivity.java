@@ -81,7 +81,6 @@ public abstract class AbsActivity extends SwipeBackActivity implements EInitDate
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
         App.getInstance().addActivity(this);
-        ButterKnife.bind(this);
         int colos = getIntent().getIntExtra(STATUSBAR_COLOS, 0);
         setStatusBar(colos);
         mInflater = LayoutInflater.from(this);

@@ -9,16 +9,30 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.core.CommonResponse;
+import com.core.util.CommonUtil;
 import com.nhaarman.listviewanimations.appearance.StickyListHeadersAdapterDecorator;
 import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationAdapter;
 import com.nhaarman.listviewanimations.util.StickyListHeadersListViewWrapper;
 import com.touyan.investment.AbsFragment;
+import com.touyan.investment.App;
 import com.touyan.investment.R;
+import com.touyan.investment.adapter.FollowListHeadersAdapter;
 import com.touyan.investment.adapter.FriendListHeadersAdapter;
+import com.touyan.investment.bean.message.QueryUserFriendsResult;
+import com.touyan.investment.bean.user.QueryUserFansResult;
+import com.touyan.investment.bean.user.Subscriber;
+import com.touyan.investment.bean.user.UserInfo;
+import com.touyan.investment.helper.HanziComp;
+import com.touyan.investment.helper.UserInfoComp;
 import com.touyan.investment.manager.InvestmentManager;
+import com.touyan.investment.manager.MessageManager;
+import com.touyan.investment.manager.UserManager;
+import com.touyan.investment.mview.IndexableListView;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class GungFriendFragment extends AbsFragment {
 
@@ -31,11 +45,14 @@ public class GungFriendFragment extends AbsFragment {
 
     private LayoutInflater mInflater;
 
-    //列表
-    private StickyListHeadersListView listView;
+    private IndexableListView listView;
+
+    private ArrayList<UserInfo> friends;
+
+
     private FriendListHeadersAdapter mAdapter;
 
-    private ArrayList<String> mList;
+    private Comparator cmp = new UserInfoComp();
 
     private Handler activityHandler = new Handler() {
         public void handleMessage(Message msg) {
@@ -43,7 +60,7 @@ public class GungFriendFragment extends AbsFragment {
             switch (what) {
                 case INIT_LIST:
                 case LOAD_DATA:
-                    loadData((CommonResponse) msg.obj, what);
+                    loadData((CommonResponse) msg.obj);
                     break;
                 default:
                     break;
@@ -51,24 +68,23 @@ public class GungFriendFragment extends AbsFragment {
         }
     };
 
-    private void loadData(CommonResponse resposne, int what) {
+    private void loadData(CommonResponse resposne) {
         dialogDismiss();
-        initListView();
+        if (resposne.isSuccess()) {
+            QueryUserFriendsResult result = (QueryUserFriendsResult) resposne.getData();
+            friends = result.getFriends();
+            hanziSequence();
+        } else {
+            CommonUtil.showToast(resposne.getErrorTip());
+        }
+    }
 
-//        if (resposne.isSuccess()) {
-//            if (what == INIT_LIST) {
-//                mList = (ArrayList<MainInvActResult>) resposne.getData();
-//            } else {
-//                if (mList == null) {
-//                    mList = new ArrayList<MainInvActResult>();
-//                }
-//                mList.addAll((ArrayList<MainInvActResult>) resposne.getData());
-//            }
-//            mAdapter.refresh(mList);
-//        } else {
-//            CommonUtil.showToast(resposne.getErrorTip());
-//        }
-//        mListView.onRefreshComplete();
+    private void hanziSequence() {
+        if (friends == null) {
+            return;
+        }
+        Collections.sort(friends, cmp);
+        initListView();
     }
 
     @Override
@@ -90,8 +106,8 @@ public class GungFriendFragment extends AbsFragment {
 
     // 初始化资源
     private void init() {
-        listView = (StickyListHeadersListView) getView().findViewById(R.id.stickylistheaders_listview);
-
+        listView = (IndexableListView) getView().findViewById(R.id.stickylistheaders_listview);
+        listView.setFastScrollEnabled(true);
         View ll_listEmpty = getView().findViewById(R.id.ll_listEmpty);
         listView.setEmptyView(ll_listEmpty);
 
@@ -105,9 +121,8 @@ public class GungFriendFragment extends AbsFragment {
 
     private void initListView() {
 
-        testData();
 
-        FriendListHeadersAdapter mAdapter = new FriendListHeadersAdapter(getActivity(), null);
+        mAdapter = new FriendListHeadersAdapter(this.getActivity(), friends);
 
         SwingBottomInAnimationAdapter animationAdapter = new SwingBottomInAnimationAdapter(mAdapter);
 
@@ -125,32 +140,15 @@ public class GungFriendFragment extends AbsFragment {
 
 
     private void getDataList() {
-        int startIndex = mList == null || mList.size() <= 0 ? 1 : mList.size();
+        MessageManager manager = new MessageManager();
+        manager.queryUserFriends(this.getActivity(), App.getInstance().getgUserInfo().getServno(), activityHandler, INIT_LIST);
+
     }
 
     @Override
     public void scrollToTop() {
+
     }
 
-    private void testData() {
-        if (mList == null) {
-            mList = new ArrayList<String>();
-        }
-        mList.add("A");
-        mList.add("B");
-        mList.add("C");
-        mList.add("D");
-        mList.add("E");
-        mList.add("A");
-        mList.add("B");
-        mList.add("C");
-        mList.add("D");
-        mList.add("E");
-        mList.add("A");
-        mList.add("B");
-        mList.add("C");
-        mList.add("D");
-        mList.add("E");
-    }
 
 }

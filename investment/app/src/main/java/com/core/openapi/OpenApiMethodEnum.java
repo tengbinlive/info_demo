@@ -245,7 +245,10 @@ public enum OpenApiMethodEnum {
      * 删除已收藏资讯列表
      */
     DELETE_COLLECTED_INFOS("/center/batchDelMsgs.action", "openapi_json", OpenApi.URL_TYPE_DATA),
-
+    /**
+     * 删除好友列表
+     */
+    QUERY_USER_FRIENDS("/user/friends.action", "openapi_json", OpenApi.URL_TYPE_DATA),
     /**
      * 登陆
      */

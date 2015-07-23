@@ -1,5 +1,6 @@
 package com.touyan.investment.activity;
 
+import android.content.Intent;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
@@ -13,6 +14,7 @@ import com.touyan.investment.R;
 import com.touyan.investment.adapter.FriendsPagerAdapter;
 import com.touyan.investment.enums.BottomMenu;
 import com.touyan.investment.fragment.GungFriendFragment;
+import com.touyan.investment.fragment.GungGroupFragment;
 import com.touyan.investment.fragment.InvActFragment;
 import com.touyan.investment.fragment.InvInfoFragment;
 
@@ -44,7 +46,7 @@ public class FriendsActivity extends AbsActivity {
 
         ArrayList<AbsFragment> fragments = new ArrayList<AbsFragment>();
         fragments.add(new GungFriendFragment());
-        fragments.add(new GungFriendFragment());
+        fragments.add(new GungGroupFragment());
 
         adapter = new FriendsPagerAdapter(getSupportFragmentManager(), fragments);
         viewPager = (ViewPager) findViewById(R.id.view_pager);
@@ -106,6 +108,13 @@ public class FriendsActivity extends AbsActivity {
         setToolbarIntermediateStrID(R.string.friends);
         setToolbarRightVisbility(View.VISIBLE, View.VISIBLE);
         setToolbarRight(R.drawable.friends_add);
+        setToolbarRightOnClick(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(FriendsActivity.this, AddFriendActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
 }

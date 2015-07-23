@@ -1,41 +1,30 @@
 package com.touyan.investment.activity;
 
-import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.animation.OvershootInterpolator;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import com.core.CommonResponse;
 import com.core.util.CommonUtil;
 import com.nhaarman.listviewanimations.appearance.StickyListHeadersAdapterDecorator;
 import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationAdapter;
 import com.nhaarman.listviewanimations.util.StickyListHeadersListViewWrapper;
-import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.ValueAnimator;
 import com.touyan.investment.AbsActivity;
 import com.touyan.investment.App;
 import com.touyan.investment.R;
-import com.touyan.investment.adapter.FriendListHeadersAdapter;
+import com.touyan.investment.adapter.FollowListHeadersAdapter;
 import com.touyan.investment.bean.user.QueryUserFansResult;
 import com.touyan.investment.bean.user.Subscriber;
 import com.touyan.investment.helper.HanziComp;
 import com.touyan.investment.manager.UserManager;
-import com.touyan.investment.mview.EditTextWithDelete;
 import com.touyan.investment.mview.IndexableListView;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -61,7 +50,7 @@ public class UserFollowActivity extends AbsActivity {
 
     private ArrayList<Subscriber> subscribersSearch;
 
-    private FriendListHeadersAdapter mAdapter;
+    private FollowListHeadersAdapter mAdapter;
 
     private boolean isShowCancel = false;
 
@@ -215,7 +204,7 @@ public class UserFollowActivity extends AbsActivity {
 
     private void initListView() {
 
-        mAdapter = new FriendListHeadersAdapter(this, subscribers);
+        mAdapter = new FollowListHeadersAdapter(this, subscribers);
 
         SwingBottomInAnimationAdapter animationAdapter = new SwingBottomInAnimationAdapter(mAdapter);
 

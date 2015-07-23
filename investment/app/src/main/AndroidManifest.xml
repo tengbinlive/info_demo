@@ -298,6 +298,11 @@
                   android:theme="@style/AppTheme">
         </activity>
 
+        <!--添加-->
+        <activity android:name=".activity.AddFriendActivity"
+                  android:theme="@style/AppTheme">
+        </activity>
+
         <!--分享-->
         <activity
                 android:name="com.mob.tools.MobUIShell"
