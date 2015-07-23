@@ -8,31 +8,36 @@ import java.util.HashMap;
 
 public class TopMessage extends OpenApiBaseRequest implements OpenApiRequestInterface {
 
-    private String userid;
+    private String mesgid;
+    private String groupid;
 
-    public String getUserid() {
-        return userid;
+    public String getMesgid() {
+        return mesgid;
     }
 
-    public void setUserid(String userid) {
-        this.userid = userid;
+    public void setMesgid(String mesgid) {
+        this.mesgid = mesgid;
+    }
+
+    public String getGroupid() {
+        return groupid;
+    }
+
+    public void setGroupid(String groupid) {
+        this.groupid = groupid;
     }
 
     @Override
     public boolean validate() {
-        if (StringUtil.isBlank(this.userid)) return false;
+        if (StringUtil.isBlank(this.mesgid)) return false;
+        if (StringUtil.isBlank(this.groupid)) return false;
         return true;
     }
 
     @Override
     public void fill2Map(HashMap<String, Object> param, boolean includeEmptyAttr) {
-        if (includeEmptyAttr || (!includeEmptyAttr && StringUtil.isNotBlank(userid))) param.put("userid", userid);
+        if (includeEmptyAttr || (!includeEmptyAttr && StringUtil.isNotBlank(mesgid))) param.put("mesgid", mesgid);
+        if (includeEmptyAttr || (!includeEmptyAttr && StringUtil.isNotBlank(groupid))) param.put("groupid", groupid);
     }
 
-    @Override
-    public String toString() {
-        return "InvActSignParam{" +
-                "userid='" + userid + '\'' +
-                '}';
-    }
 }

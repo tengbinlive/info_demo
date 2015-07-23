@@ -169,33 +169,6 @@ public class InvestmentManager {
         CommonDataLoader.getInstance(context).load(request);
     }
 
-
-    /**
-     * 获取act 列表数据
-     *
-     * @param context
-     * @param page_number    当前页数
-     * @param page_size      获取个数
-     * @param handler
-     * @param handlerMsgCode
-     */
-    public void LoginAct(Context context, String page_number, String page_size, final Handler handler, final int handlerMsgCode) {
-
-        InvInfoParam param = new InvInfoParam();
-        param.setUserid(App.getInstance().getgUserInfo().getServno());
-        param.setItitle("111");
-        param.setStartno(111);
-        param.setPageSize(111);
-        // 接口参数
-        param.setMethod(OpenApiMethodEnum.LOAD_GET_CODE);
-        param.setParseTokenType(new TypeReference<OpenApiSimpleResult>() {
-        });
-        // 请求对象
-        CommonRequest request = new CommonRequest(param, handler, handlerMsgCode);
-        // 开始执行加载
-        CommonDataLoader.getInstance(context).load(request);
-    }
-
     /**
      * 评论资讯/回复悬赏
      *
