@@ -60,6 +60,7 @@ public class LoginActivity extends AbsActivity implements OnClickListener {
         dialogDismiss();
         if (resposne.isSuccess()) {
             SharedPreferencesHelper.setString(this, Constant.LoginUser.SHARED_PREFERENCES_PHONE, phone);
+            SharedPreferencesHelper.setString(this, Constant.LoginUser.SHARED_PREFERENCES_PASSWORD, password);
             LoginResult result = (LoginResult) resposne.getData();
             UserInfo userInfo = result.getUsinfo();
             String userJson = JSON.toJSONString(userInfo);
@@ -108,7 +109,12 @@ public class LoginActivity extends AbsActivity implements OnClickListener {
         login_btn.setOnClickListener(this);
 
         String phone = SharedPreferencesHelper.getString(this, Constant.LoginUser.SHARED_PREFERENCES_PHONE, "");
+        String password = SharedPreferencesHelper.getString(this, Constant.LoginUser.SHARED_PREFERENCES_PASSWORD, "");
         phone_et.setText(phone);
+        password_et.setText(password);
+        if(StringUtil.isNotBlank(phone)&&StringUtil.isNotBlank(password)){
+            OWNLogin();
+        }
     }
 
     /**
