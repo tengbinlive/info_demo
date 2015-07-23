@@ -14,11 +14,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.core.CommonResponse;
 import com.core.util.CommonUtil;
+import com.easemob.chat.EMChatManager;
+import com.easemob.chat.EMConversation;
 import com.handmark.pulltorefresh.PullToRefreshBase;
 import com.handmark.pulltorefresh.PullToRefreshListView;
 import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationAdapter;
 import com.touyan.investment.AbsActivity;
 import com.touyan.investment.AbsFragment;
+import com.touyan.investment.App;
 import com.touyan.investment.R;
 import com.touyan.investment.activity.ActDetailActivity;
 import com.touyan.investment.activity.FriendsActivity;
@@ -97,7 +100,7 @@ public class GungFragment extends AbsFragment {
         mListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
             public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-                getDataList();
+//                getDataList();
             }
         });
 
@@ -124,9 +127,9 @@ public class GungFragment extends AbsFragment {
         mActualListView.setEmptyView(ll_listEmpty);
     }
 
-    private void getDataList() {
-        manager.topMessageList(getActivity(), activityHandler, INIT_LIST);
-    }
+//    private void getDataList() {
+//        manager.topMessageList(getActivity(), activityHandler, INIT_LIST);
+//    }
 
     @Override
     public boolean onBackPressed() {
@@ -146,7 +149,8 @@ public class GungFragment extends AbsFragment {
     private void init(View viewGroup) {
         mListView = (PullToRefreshListView) viewGroup.findViewById(R.id.pull_refresh_list);
         initListView(viewGroup);
-        getDataList();
+        String username = App.getInstance().getgUserInfo().getUalias();
+        EMConversation conversation = EMChatManager.getInstance().getConversation(username);
     }
 
     public void initActionBar(View viewGroup) {
