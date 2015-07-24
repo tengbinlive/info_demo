@@ -206,6 +206,18 @@
 
     <string name="add">添加</string>
 
+    <string name="mayknow">可能认识的人</string>
+    <string name="create_group">创建群组</string>
+    <string name="create">创建</string>
+
+    <string name="group_head">头像</string>
+    <string name="group_head_instruction">点击头像更改</string>
+
+    <string name="group_name">群名称</string>
+    <string name="group_input">请填写群名称（2-10个字）</string>
+    <string name="search_visible">搜索可见</string>
+
+    <string name="hotgroup">热门群组</string>
 
     <!--环信-->
     <string name="clear_all_records">是否清空所有聊天记录？</string>

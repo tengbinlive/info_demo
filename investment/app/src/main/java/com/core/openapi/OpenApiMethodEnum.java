@@ -232,6 +232,11 @@ public enum OpenApiMethodEnum {
     DELETE_MYPARTAKE_OFFER("/center/batchDelJoinedRewards.action", "openapi_json", OpenApi.URL_TYPE_DATA),
 
     /**
+     *获取可能认识的人列表
+     */
+    LOAD_MAYKNOW_FRIEND("/user/recomUsers.action", "openapi_json", OpenApi.URL_TYPE_DATA),
+
+    /**
      * 查询已收藏资讯列表
      */
     QUERY_COLLECTED_INFOS("/center/myStoreInfos.action", "openapi_json", OpenApi.URL_TYPE_DATA),

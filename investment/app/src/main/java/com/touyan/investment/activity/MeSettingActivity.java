@@ -95,7 +95,7 @@ public class MeSettingActivity extends AbsActivity implements OnClickListener {
                 SharedPreferencesHelper.setString(MeSettingActivity.this, Constant.LoginUser.SHARED_PREFERENCES_PASSWORD, "");
 
                 finish();
-                App.getInstance().exit();
+//                App.getInstance().exit();
                 System.exit(0);// 退出程序
 
             }

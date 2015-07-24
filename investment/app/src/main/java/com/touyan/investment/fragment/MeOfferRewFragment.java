@@ -58,11 +58,7 @@ public class MeOfferRewFragment extends AbsFragment {
             switch (what) {
                 case INIT_LIST:
                 case LOAD_DATA:
-//                    if (viewType == MeOfferRewardActivity.REWARD_MYRELEASE){
                         loadData1((CommonResponse) msg.obj, what);
-//                    }else if (viewType == MeOfferRewardActivity.REWARD_MYPARTAKE){
-//                        loadData2((CommonResponse) msg.obj, what);
-//                    }
 
                     break;
                 case DELETE_COMPLETE:
@@ -85,31 +81,6 @@ public class MeOfferRewFragment extends AbsFragment {
                     mList = new ArrayList<InvOfferBean>();
                 }
                 mList.addAll(((InvOfferListResult) resposne.getData()).getRewards());
-            }
-            mAdapter.refresh(mList);
-        } else {
-            //避免第一次应用启动时 创建fragment加载数据多次提示
-            if (isInit) {
-                CommonUtil.showToast(resposne.getErrorTip());
-            } else {
-                isInit = true;
-            }
-        }
-        mListView.onRefreshComplete();
-    }
-
-
-    private void loadData2(CommonResponse resposne, int what) {
-        dialogDismiss();
-        if (resposne.isSuccess()) {
-            if (what == INIT_LIST) {
-                MyPartakeOfferListResult result = (MyPartakeOfferListResult) resposne.getData();
-                mList = result.getRetRewards();
-            } else {
-                if (mList == null) {
-                    mList = new ArrayList<InvOfferBean>();
-                }
-                mList.addAll(((MyPartakeOfferListResult) resposne.getData()).getRetRewards());
             }
             mAdapter.refresh(mList);
         } else {
@@ -212,11 +183,7 @@ public class MeOfferRewFragment extends AbsFragment {
 
     private void getDataList() {
         int startIndex = mList == null || mList.size() <= 0 ? 0 : mList.size();
-//        if (viewType == MeOfferRewardActivity.REWARD_MYRELEASE){
             manager.myReleaseOfferList(getActivity(), startIndex, COUNT_MAX, activityHandler, startIndex == 0 ? INIT_LIST : LOAD_DATA);
-//        }else if (viewType == MeOfferRewardActivity.REWARD_MYPARTAKE){
-//            manager.myPartakeOfferList(getActivity(), startIndex, COUNT_MAX, activityHandler, startIndex == 0 ? INIT_LIST : LOAD_DATA);
-//        }
     }
 
     @Override
@@ -246,12 +213,7 @@ public class MeOfferRewFragment extends AbsFragment {
                 case EditerAdapter.STATE_REMOVE:
                     mAdapter.updateEditState(EditerAdapter.STATE_EDIT);
                     checkedItems = mAdapter.checkedItemList;
-//                    if (viewType == MeOfferRewardActivity.REWARD_MYRELEASE) {
                         manager.deletemyReleaseOffer(getActivity(), mAdapter.getIdList(), activityHandler, DELETE_COMPLETE);
-//                    }
-//                    else if (viewType == MeOfferRewardActivity.REWARD_MYPARTAKE){
-//                        manager.deletemyPartakeOffer(getActivity(), mAdapter.getIdList(), activityHandler, DELETE_COMPLETE);
-//                    }
                     break;
                 case EditerAdapter.STATE_COMPLETE:
                     mAdapter.updateEditState(EditerAdapter.STATE_EDIT);

@@ -47,6 +47,7 @@
     <color name="textcolor_444">#444</color>
     <color name="textcolor_666">#666</color>
     <color name="textcolor_888">#888</color>
+    <color name="textcolor_bbb">#bbb</color>
 
     <color name="icon_enabled">#FFFFFFFF</color>
     <color name="icon_disabled">#FF63727B</color>

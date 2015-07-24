@@ -9,9 +9,7 @@ import com.core.openapi.OpenApiMethodEnum;
 import com.core.openapi.OpenApiSimpleResult;
 import com.touyan.investment.App;
 import com.touyan.investment.bean.main.*;
-import com.touyan.investment.bean.user.AccountParam;
-import com.touyan.investment.bean.user.AccountResult;
-import com.touyan.investment.bean.user.DeleteCollectedInfoParam;
+import com.touyan.investment.bean.user.*;
 
 import java.util.ArrayList;
 
@@ -683,6 +681,27 @@ public class InvestmentManager {
         param.setParseTokenType(new TypeReference<OpenApiSimpleResult>() {
         });
 
+        // 请求对象
+        CommonRequest request = new CommonRequest(param, handler, handlerMsgCode);
+        // 开始执行加载
+        CommonDataLoader.getInstance(context).load(request);
+    }
+
+
+    /**
+     * 可能认识的人
+     *
+     * @param context
+     * @param handler
+     * @param handlerMsgCode
+     */
+    public void mayKnowList(Context context,ArrayList<String> servnos,final Handler handler, final int handlerMsgCode) {
+
+        MayknowFriendParam param = new MayknowFriendParam();
+        param.setServnos(servnos);
+        // 接口参数
+        param.setMethod(OpenApiMethodEnum.LOAD_MAYKNOW_FRIEND);
+        param.setParseTokenType(new TypeReference<MayknowFriendResult>() {});
         // 请求对象
         CommonRequest request = new CommonRequest(param, handler, handlerMsgCode);
         // 开始执行加载
