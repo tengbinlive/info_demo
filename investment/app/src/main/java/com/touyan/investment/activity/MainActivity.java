@@ -1,6 +1,7 @@
 package com.touyan.investment.activity;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
@@ -8,23 +9,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.core.util.CommonUtil;
+import com.easemob.EMConnectionListener;
+import com.easemob.EMError;
+import com.easemob.chat.EMChatManager;
+import com.easemob.chat.EMConversation;
+import com.easemob.util.NetUtils;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
-import com.touyan.investment.AbsActivity;
-import com.touyan.investment.AbsFragment;
-import com.touyan.investment.App;
-import com.touyan.investment.R;
+import com.touyan.investment.*;
 import com.touyan.investment.adapter.MainViewPagerAdapter;
 import com.touyan.investment.enums.BottomMenu;
 import com.touyan.investment.fragment.GungFragment;
 import com.touyan.investment.fragment.InvestmentFragment;
 import com.touyan.investment.fragment.MeFragment;
-import com.touyan.investment.fragment.RecommendFragment;
+import com.touyan.investment.helper.Util;
+import com.touyan.investment.hx.HXConstant;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 
 public class MainActivity extends AbsActivity {
     /**
@@ -38,12 +41,13 @@ public class MainActivity extends AbsActivity {
     private long exitClickTimestamp = 0L;
 
     private final static int INVESTMENT = 0;//投研社
-    private final static int RECOMMEND = INVESTMENT + 1;//荐股
-    private final static int GUNG = RECOMMEND + 1;//拉呱
+    private final static int GUNG = INVESTMENT + 1;//拉呱
     private final static int ME = GUNG + 1;//个人
 
     private SmartTabLayout viewPagerTab;
     private ArrayList<AbsFragment> fragments;
+
+    private RelativeLayout launcher_ly;
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -70,7 +74,6 @@ public class MainActivity extends AbsActivity {
         }
     }
 
-
     @Override
     public void EInit() {
         super.EInit();
@@ -84,9 +87,9 @@ public class MainActivity extends AbsActivity {
     }
 
     private void findView() {
+        launcher_ly = (RelativeLayout) findViewById(R.id.launcher_ly);
         fragments = new ArrayList<AbsFragment>();
         fragments.add(new InvestmentFragment());
-        fragments.add(new RecommendFragment());
         fragments.add(new GungFragment());
         fragments.add(new MeFragment());
         MainViewPagerAdapter adapter = new MainViewPagerAdapter(getSupportFragmentManager(), fragments);
@@ -101,16 +104,13 @@ public class MainActivity extends AbsActivity {
                 LinearLayout custom_ly = (LinearLayout) mInflater.inflate(R.layout.tab_main_icon, container, false);
                 switch (position) {
                     case INVESTMENT:
-                        setIconInfo(custom_ly,BottomMenu.INVESTMENT, true);
-                        break;
-                    case RECOMMEND:
-                        setIconInfo(custom_ly,BottomMenu.RECOMMEND);
+                        setIconInfo(custom_ly, BottomMenu.INVESTMENT, true);
                         break;
                     case GUNG:
-                        setIconInfo(custom_ly,BottomMenu.GUNG);
+                        setIconInfo(custom_ly, BottomMenu.GUNG);
                         break;
                     case ME:
-                        setIconInfo(custom_ly,BottomMenu.ME);
+                        setIconInfo(custom_ly, BottomMenu.ME);
                         break;
                     default:
                         throw new IllegalStateException("Invalid position: " + position);
@@ -120,14 +120,31 @@ public class MainActivity extends AbsActivity {
         });
         viewPagerTab.setTabClickSelectListener(new SmartTabLayout.TabClickSelectListener() {
             @Override
-            public void onSelect(View view, boolean isSelect,int position) {
-                setSelectedBackground((ViewGroup) view,isSelect);
+            public void onSelect(View view, boolean isSelect, int position) {
+                setSelectedBackground((ViewGroup) view, isSelect);
             }
         });
         viewPagerTab.setViewPager(viewPager);
+
+        viewPagerTab.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                fragments.get(position).scrollToTop();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
-    private void setIconInfo(ViewGroup custom_ly, BottomMenu menu,boolean isClick) {
+    private void setIconInfo(ViewGroup custom_ly, BottomMenu menu, boolean isClick) {
         ImageView icon = (ImageView) custom_ly.findViewById(R.id.menu_icon);
         TextView title = (TextView) custom_ly.findViewById(R.id.menu_title);
         title.setText(menu.getTitle());
@@ -138,14 +155,14 @@ public class MainActivity extends AbsActivity {
             icon.setImageResource(menu.getResid_press());
             title.setTextColor(menu.getTitle_colos_press());
         }
-        custom_ly.setTag(R.id.main_tab_menu,menu);
+        custom_ly.setTag(R.id.main_tab_menu, menu);
     }
 
     private void setIconInfo(ViewGroup custom_ly, BottomMenu menu) {
-        setIconInfo(custom_ly, menu,false);
+        setIconInfo(custom_ly, menu, false);
     }
 
-    private void setSelectedBackground(ViewGroup custom_ly,boolean isSelect) {
+    private void setSelectedBackground(ViewGroup custom_ly, boolean isSelect) {
         BottomMenu menu = (BottomMenu) custom_ly.getTag(R.id.main_tab_menu);
         ImageView icon = (ImageView) custom_ly.findViewById(R.id.menu_icon);
         TextView title = (TextView) custom_ly.findViewById(R.id.menu_title);
@@ -163,4 +180,5 @@ public class MainActivity extends AbsActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
     }
+
 }

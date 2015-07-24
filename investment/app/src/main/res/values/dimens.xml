@@ -67,6 +67,8 @@
     <dimen name="bottom_bt_height">45dp</dimen>
     <dimen name="content_60dp">60dp</dimen>
 
+    <dimen name="delete_itme_height">70dp</dimen>
+
     <!--消息提示偏移量-->
     <dimen name="tip_offset_x">40dp</dimen>
     <dimen name="tip_offset_y">18dp</dimen>

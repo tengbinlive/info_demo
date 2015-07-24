@@ -43,7 +43,7 @@ public class BezierView extends FrameLayout {
     int themeColos = 0xfffd5252;
 
     // 定点圆半径
-    float radius = DEFAULT_RADIUS;
+   public float radius = DEFAULT_RADIUS;
 
     // 判断动画是否开始
     boolean isAnimStart;
@@ -110,9 +110,15 @@ public class BezierView extends FrameLayout {
         addView(exploredImageView);
     }
 
-    public void setNewMessage(String message) {
+    public void setNewMessage(String message,float anchorX,float anchorY) {
         isTouch = false;
         isAnimStart = false;
+        this.anchorX = anchorX;
+        this.anchorY = anchorY;
+        this.startX  = anchorX;
+        this.startY  = anchorY;
+        this.x  = anchorX;
+        this.y  = anchorY;
         this.setVisibility(View.VISIBLE);
         tipImageView.setText(message);
         tipImageView.setVisibility(View.VISIBLE);
@@ -218,7 +224,6 @@ public class BezierView extends FrameLayout {
             tipImageView.setX(startX - tipImageView.getWidth() / 2);
             tipImageView.setY(startY - tipImageView.getHeight() / 2);
         }
-        invalidate();
         if (isAnimStart) {
             return true;
         }
@@ -226,6 +231,7 @@ public class BezierView extends FrameLayout {
         anchorY = (event.getY() + startY) / 2;
         x = event.getX();
         y = event.getY();
+        postInvalidate();
         return true;
     }
 

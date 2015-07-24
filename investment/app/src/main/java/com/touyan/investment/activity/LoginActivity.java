@@ -12,6 +12,7 @@ import com.core.CommonResponse;
 import com.core.util.CommonUtil;
 import com.core.util.StringUtil;
 import com.easemob.EMCallBack;
+import com.easemob.chat.EMChat;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMGroupManager;
 import com.touyan.investment.AbsActivity;
@@ -67,7 +68,14 @@ public class LoginActivity extends AbsActivity implements OnClickListener {
             String userJson = JSON.toJSONString(userInfo);
             SharedPreferencesHelper.setString(this, Constant.LoginUser.SHARED_PREFERENCES_USER,userJson);
             App.getInstance().setgUserInfo(result.getUsinfo());
-            EASEMOBLogin();
+            if(!EMChat.getInstance().isLoggedIn()) {
+                EASEMOBLogin();
+            }else{
+                dialogDismiss();
+                EMGroupManager.getInstance().loadAllGroups();
+                EMChatManager.getInstance().loadAllConversations();
+                toMainActivity();
+            }
         } else {
             CommonUtil.showToast(resposne.getErrorTip());
         }

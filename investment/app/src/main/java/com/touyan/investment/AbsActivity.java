@@ -3,6 +3,7 @@ package com.touyan.investment;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -17,10 +18,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import butterknife.ButterKnife;
 import com.core.util.StringUtil;
+import com.easemob.EMError;
+import com.easemob.chat.EMChatManager;
+import com.easemob.util.NetUtils;
 import com.gitonway.lee.niftymodaldialogeffects.Effectstype;
 import com.gitonway.lee.niftymodaldialogeffects.NiftyDialogBuilder;
-
+import com.touyan.investment.activity.LoginActivity;
 import com.touyan.investment.event.AnyEventType;
+import com.touyan.investment.event.ConnectionEventType;
 import com.touyan.investment.imp.EInitDate;
 import de.greenrobot.event.EventBus;
 import me.imid.swipebacklayout.lib.SwipeBackLayout;
@@ -455,7 +460,7 @@ public abstract class AbsActivity extends SwipeBackActivity implements EInitDate
         }
     }
 
-    public void showConfirmDialog(Activity activity, String content, String leftText, View.OnClickListener leftEvent, String rightText, View.OnClickListener rightEvent) {
+    public void showConfirmDialog(Activity activity, String content, String leftText, View.OnClickListener leftEvent, String rightText, View.OnClickListener rightEvent, DialogInterface.OnCancelListener listener) {
         dialogDismiss();
         LinearLayout linearLayout = new LinearLayout(activity);
         activity.getLayoutInflater().inflate(R.layout.dialog_confirm, linearLayout);
@@ -497,10 +502,17 @@ public abstract class AbsActivity extends SwipeBackActivity implements EInitDate
             closeRight.setOnClickListener(rightEvent);
         }
         dialogBuilder = NiftyDialogBuilder.getInstance(activity);
+        if (null != listener) {
+            dialogBuilder.setOnCancelListener(listener);
+        }
         dialogBuilder.withDuration(700) // def
                 .isCancelableOnTouchOutside(false) // def | isCancelable(true)
                 .withEffect(Effectstype.Fadein) // def Effectstype.Slidetop
                 .setCustomView(linearLayout, activity).show();
+    }
+
+    public void showConfirmDialog(Activity activity, String content, String leftText, View.OnClickListener leftEvent, String rightText, View.OnClickListener rightEvent) {
+        showConfirmDialog(activity, content, leftText, leftEvent, rightText, rightEvent, null);
     }
 
     /**
@@ -544,4 +556,39 @@ public abstract class AbsActivity extends SwipeBackActivity implements EInitDate
 
     }
 
+    public void onEvent(ConnectionEventType event) {
+        int error = event.getStatus();
+        if (error == EMError.USER_REMOVED) {
+            // 显示帐号已经被移除
+            showConfirmDialog(this, "您的帐号已经被移除，\n若非本人操作请尽快修改密码", null, null, "确定", new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    App.isCurrentAccountRemoved = true;
+                    dialogDismiss();
+                    EMChatManager.getInstance().endCall();
+                    startActivity(new Intent(AbsActivity.this, LoginActivity.class));
+                }
+            });
+        } else if (error == EMError.CONNECTION_CONFLICT) {
+            // 显示帐号在其他设备登陆
+            App.isConflict = true;
+            showConfirmDialog(this, "您的账号已在别处登陆，\n若非本人操作请尽快修改密码", null, null, "确定", new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialogDismiss();
+                    startActivity(new Intent(AbsActivity.this, LoginActivity.class));
+                }
+            });
+            EMChatManager.getInstance().logout();
+        } else {
+            if (NetUtils.hasNetwork(this)) {
+//                CommonUtil.showToast("连接不到聊天服务器");
+            }
+            //连接不到聊天服务器
+            else {
+//                CommonUtil.showToast("当前网络不可用，请检查网络设置");
+            }
+            //当前网络不可用，请检查网络设置
+        }
+    }
 }

@@ -41,6 +41,10 @@ public abstract class AbsFragment extends Fragment {
         EventBus.getDefault().register(this);
     }
 
+    public void onEvent(AnyEventType event) {
+        //接收消息
+    }
+
     @Override
     public void onDestroy() {
         dialogDismiss();
@@ -132,9 +136,5 @@ public abstract class AbsFragment extends Fragment {
     }
 
     public abstract void scrollToTop();
-
-    public void onEvent(AnyEventType event) {
-
-    }
 
 }

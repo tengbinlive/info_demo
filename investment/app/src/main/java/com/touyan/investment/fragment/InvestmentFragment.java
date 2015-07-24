@@ -122,7 +122,6 @@ public class InvestmentFragment extends AbsFragment {
 
     @Override
     public void scrollToTop() {
-        initActionBar(getView());
     }
 
     public void initActionBar(View viewGroup) {

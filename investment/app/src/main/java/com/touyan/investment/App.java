@@ -30,6 +30,7 @@ import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.touyan.investment.bean.user.UserInfo;
 import com.touyan.investment.helper.SharedPreferencesHelper;
+import com.touyan.investment.hx.HXChatManagerInit;
 
 import java.util.ArrayList;
 
@@ -48,6 +49,11 @@ public class App extends Application {
     private static final String TAG = App.class.getSimpleName();
 
     private ArrayList<Activity> activities = new ArrayList<Activity>();
+
+    // 账号在别处登录
+    public static boolean isConflict = false;
+    // 账号被移除
+    public static boolean isCurrentAccountRemoved = false;
 
     private static App instance;
 
@@ -256,7 +262,7 @@ public class App extends Application {
             ConfigManager.init(this);
 
             //初始环信
-            EMChatManagerInit.getInstance().initEMChat(this);
+            HXChatManagerInit.getInstance().initEMChat(this);
 
             initUniversalImageLoader();
 
@@ -367,7 +373,7 @@ public class App extends Application {
     public void onTerminate() {
         unConnectionReceiver();
         ShareSDK.stopSDK();
-        EMChatManagerInit.getInstance().onDestroy();
+        HXChatManagerInit.getInstance().onDestroy();
         super.onTerminate();
     }
 }
