@@ -4,20 +4,10 @@
                 android:background="@color/gray_layout"
                 android:layout_height="match_parent">
 
-    <se.emilsjolander.stickylistheaders.StickyListHeadersListView
-            android:id="@+id/stickylistheaders_listview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:dividerHeight="0dp"
-            android:cacheColorHint="@color/transparent"
-            android:divider="@null"
-            android:fadingEdge="none"
-            android:fastScrollEnabled="false"
-            android:footerDividersEnabled="false"
-            android:headerDividersEnabled="false"
-            android:scrollbars="vertical"
-            android:smoothScrollbar="true"
-            />
+    <ListView android:id="@+id/group_list"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:cacheColorHint="#00000000"/>
 
     <include layout="@layout/list_empty"/>
 

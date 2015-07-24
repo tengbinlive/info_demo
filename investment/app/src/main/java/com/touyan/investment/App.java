@@ -19,6 +19,8 @@ import com.core.util.NetworkUtil.NetworkClassEnum;
 import com.dao.DaoMaster;
 import com.dao.DaoMaster.OpenHelper;
 import com.dao.DaoSession;
+import com.easemob.chat.EMChat;
+import com.easemob.chat.EMChatManager;
 import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -34,7 +36,7 @@ import java.util.ArrayList;
 
 /**
  * App运行时上下文.
- * <p>
+ * <p/>
  * 约定: 1)Constant类里保存系统安装之后就一直保持不变的常量;
  * 2)App类里保存系统启动后可变的变量,变量的值一般在系统初始化时保存,和状态相关的量在过程中可变;
  * 3)SharedPeferences对象持久化App里部分的变量, 供App初始化时读取, 其他类统一读取App里的变量,
@@ -49,7 +51,7 @@ public class App extends Application {
     private ArrayList<Activity> activities = new ArrayList<Activity>();
 
     // 账号在别处登录
-    public static  boolean isConflict = false;
+    public static boolean isConflict = false;
     // 账号被移除
     public static boolean isCurrentAccountRemoved = false;
 
@@ -352,6 +354,20 @@ public class App extends Application {
                 .build(); //开始构建
         ImageLoader.getInstance().init(config);
     }
+
+
+    //初始化环信
+    private void initEMChat() {
+        EMChat.getInstance().init(this);
+        /**
+         * debugMode == true 时为打开，sdk 会在log里输入调试信息
+         * @param debugMode
+         * 在做代码混淆的时候需要设置成false
+         */
+        EMChat.getInstance().setDebugMode(Constant.DEBUG);//在做打包混淆时，要关闭debug模式，如果未被关闭，则会出现程序无法运行问题
+        EMChatManager.getInstance().getChatOptions().setUseRoster(true);//如果使用环信的好友体系需要先设置
+    }
+
 
     @Override
     public void onTerminate() {

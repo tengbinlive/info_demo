@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="60dp">
+
+        <RelativeLayout android:layout_width="match_parent"
+                        android:background="@color/white"
+                        android:layout_height="match_parent">
+
+            <com.joooonho.SelectableRoundedImageView
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/head"
+                    android:layout_marginLeft="@dimen/content_gap"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/default_head"
+                    android:scaleType="centerCrop"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    app:sriv_left_top_corner_radius="4dip"
+                    app:sriv_right_top_corner_radius="4dip"
+                    app:sriv_left_bottom_corner_radius="4dip"
+                    app:sriv_right_bottom_corner_radius="4dip"
+                    app:sriv_oval="false"/>
+
+            <TextView
+                    android:layout_toRightOf="@+id/head"
+                    android:layout_width="wrap_content"
+                    android:id="@+id/group_name"
+                    android:text="kong"
+                    android:layout_marginTop="@dimen/view_vertical_margin"
+                    android:layout_marginLeft="@dimen/content_gap"
+                    android:layout_marginRight="@dimen/content_gap"
+                    android:textSize="@dimen/font_big"
+                    android:textColor="@color/textcolor_222"
+                    android:layout_height="wrap_content"/>
+
+            <TextView
+                    android:layout_toRightOf="@+id/head"
+                    android:layout_width="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:id="@+id/group_member"
+                    android:layout_marginLeft="@dimen/content_gap"
+                    android:layout_marginRight="@dimen/content_gap"
+                    android:textSize="@dimen/font_medium"
+                    android:textColor="@color/textcolor_444"
+                    android:layout_alignParentBottom="true"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/view_vertical_margin"
+                    android:drawablePadding="5dp"
+                    android:drawableLeft="@drawable/group_member_icon"/>
+
+        </RelativeLayout>
+
+
+    <View android:layout_width="match_parent"
+          android:background="@drawable/act_line"
+          android:layout_alignParentBottom="true"
+          android:layout_height="@dimen/content_1px"/>
+
+</RelativeLayout>

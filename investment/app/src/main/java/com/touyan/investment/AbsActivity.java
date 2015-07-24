@@ -97,6 +97,7 @@ public abstract class AbsActivity extends SwipeBackActivity implements EInitDate
             initActionBar();
         }
         ButterKnife.bind(this);
+
         EInit();
     }
 
@@ -570,7 +571,7 @@ public abstract class AbsActivity extends SwipeBackActivity implements EInitDate
             });
         } else if (error == EMError.CONNECTION_CONFLICT) {
             // 显示帐号在其他设备登陆
-            App.isConflict = true ;
+            App.isConflict = true;
             showConfirmDialog(this, "您的账号已在别处登陆，\n若非本人操作请尽快修改密码", null, null, "确定", new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

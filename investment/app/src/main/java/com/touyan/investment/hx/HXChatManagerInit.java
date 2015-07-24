@@ -12,6 +12,7 @@ import com.touyan.investment.Constant;
 import com.touyan.investment.event.ConnectionEventType;
 import com.touyan.investment.event.ContactsListEventType;
 import com.touyan.investment.event.GroupsListEventType;
+import com.touyan.investment.event.OnContactDeletedEvent;
 import de.greenrobot.event.EventBus;
 
 import java.util.List;
@@ -63,11 +64,31 @@ public class HXChatManagerInit {
         // 默认环信是不维护好友关系列表的，如果app依赖环信的好友关系，把这个属性设置为true
         options.setUseRoster(true);
 
+        EMChatManager.getInstance().getChatOptions().setUseRoster(true);//如果使用环信的好友体系需要先设置
+
+        //只有注册了广播才能接收到新消息，目前离线消息，在线消息都是走接收消息的广播（离线消息目前无法监听，在登录以后，接收消息广播会执行一次拿到所有的离线消息）
+        msgReceiver = new NewMessageBroadcastReceiver();
+        IntentFilter intentFilter = new IntentFilter(EMChatManager.getInstance().getNewMessageBroadcastAction());
+        intentFilter.setPriority(3);
+        mContext.registerReceiver(msgReceiver, intentFilter);
+
         //如果用到已读的回执需要把这个flag设置成true
         options.setRequireAck(true);
 
         // 设置从db初始化加载时, 每个conversation需要加载msg的个数
         options.setNumberOfMessagesLoaded(15);
+        IntentFilter ackMessageIntentFilter = new IntentFilter(EMChatManager.getInstance().getAckMessageBroadcastAction());
+        ackMessageIntentFilter.setPriority(3);
+        mContext.registerReceiver(ackMessageReceiver, ackMessageIntentFilter);
+
+        //监听联系人的变化等
+        EMContactManager.getInstance().setContactListener(new MyContactListener());
+
+        //注册一个监听连接状态的listener
+        EMChatManager.getInstance().addConnectionListener(new MyConnectionListener());
+
+        //注册群聊相关的listener
+        EMGroupManager.getInstance().addGroupChangeListener(new MyGroupChangeListener());
 
         //设置notification点击listener
         options.setOnNotificationClickListener(new OnNotificationClickListener() {
@@ -89,26 +110,6 @@ public class HXChatManagerInit {
             }
         });
 
-        //注册一个监听连接状态的listener
-        EMChatManager.getInstance().addConnectionListener(new MyConnectionListener());
-
-
-        //只有注册了广播才能接收到新消息，目前离线消息，在线消息都是走接收消息的广播（离线消息目前无法监听，在登录以后，接收消息广播会执行一次拿到所有的离线消息）
-        msgReceiver = new NewMessageBroadcastReceiver();
-        IntentFilter intentFilter = new IntentFilter(EMChatManager.getInstance().getNewMessageBroadcastAction());
-        intentFilter.setPriority(3);
-        mContext.registerReceiver(msgReceiver, intentFilter);
-
-
-        IntentFilter ackMessageIntentFilter = new IntentFilter(EMChatManager.getInstance().getAckMessageBroadcastAction());
-        ackMessageIntentFilter.setPriority(3);
-        mContext.registerReceiver(ackMessageReceiver, ackMessageIntentFilter);
-
-        //监听联系人的变化等
-        EMContactManager.getInstance().setContactListener(new MyContactListener());
-
-        //注册群聊相关的listener
-        EMGroupManager.getInstance().addGroupChangeListener(new MyGroupChangeListener());
 
         //注：最后要通知sdk，UI 已经初始化完毕，注册了相应的receiver和listener, 可以接受broadcast了
         EMChat.getInstance().setAppInited();
@@ -160,21 +161,21 @@ public class HXChatManagerInit {
     }
 
     //同步会话
-    public void asyncFetchContactsFromServer(){
-        if(isSyncingContactsWithServer){
+    public void asyncFetchContactsFromServer() {
+        if (isSyncingContactsWithServer) {
             return;
         }
 
         isSyncingContactsWithServer = true;
 
-        new Thread(){
+        new Thread() {
             @Override
-            public void run(){
+            public void run() {
                 List<String> usernames = null;
                 try {
                     usernames = EMContactManager.getInstance().getContactUserNames();
                     // in case that logout already before server returns, we should return immediately
-                    if(!EMChat.getInstance().isLoggedIn()){
+                    if (!EMChat.getInstance().isLoggedIn()) {
                         return;
                     }
                     isSyncingContact = true;
@@ -191,28 +192,30 @@ public class HXChatManagerInit {
     }
 
     //同步群组
+
     /**
      * 同步操作，从服务器获取群组列表
      * 该方法会记录更新状态，可以通过isSyncingGroupsFromServer获取是否正在更新
      * 和HXPreferenceUtils.getInstance().getSettingSyncGroupsFinished()获取是否更新已经完成
+     *
      * @throws EaseMobException
      */
-    public synchronized void asyncFetchGroupsFromServer(){
-        if(isSyncingGroupsWithServer){
+    public synchronized void asyncFetchGroupsFromServer() {
+        if (isSyncingGroupsWithServer) {
             return;
         }
 
         isSyncingGroupsWithServer = true;
 
-        new Thread(){
+        new Thread() {
             @Override
-            public void run(){
+            public void run() {
                 List<EMGroup> groups;
                 try {
                     groups = EMGroupManager.getInstance().getGroupsFromServer();
 
                     // in case that logout already before server returns, we should return immediately
-                    if(!EMChat.getInstance().isLoggedIn()){
+                    if (!EMChat.getInstance().isLoggedIn()) {
                         return;
                     }
                     isSyncingGroups = true;
@@ -258,7 +261,7 @@ public class HXChatManagerInit {
         @Override
         public void onContactDeleted(final List<String> usernameList) {
             // 被删除
-
+            EventBus.getDefault().post(new OnContactDeletedEvent(usernameList));
         }
 
         @Override
@@ -277,6 +280,7 @@ public class HXChatManagerInit {
             // 拒绝好友请求
 
         }
+
 
     }
 

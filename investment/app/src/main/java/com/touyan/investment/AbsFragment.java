@@ -39,10 +39,9 @@ public abstract class AbsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
-
     }
 
-    public void onEvent(AnyEventType event){
+    public void onEvent(AnyEventType event) {
         //接收消息
     }
 
@@ -119,10 +118,10 @@ public abstract class AbsFragment extends Fragment {
             linearLayout.findViewById(R.id.dialog_confirm_point).setVisibility(View.GONE);
         }
 
-        if(leftEvent!=null) {
+        if (leftEvent != null) {
             closeLeft.setOnClickListener(leftEvent);
         }
-        if(rightEvent!=null) {
+        if (rightEvent != null) {
             closeRight.setOnClickListener(rightEvent);
         }
         dialogBuilder = NiftyDialogBuilder.getInstance(activity);

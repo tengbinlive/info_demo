@@ -14,8 +14,11 @@ import com.core.CommonResponse;
 import com.core.util.CommonUtil;
 import com.core.util.StringMatcher;
 import com.daimajia.swipe.adapters.BaseSwipeAdapter;
+import com.easemob.chat.EMContactManager;
+import com.easemob.exceptions.EaseMobException;
 import com.joooonho.SelectableRoundedImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.touyan.investment.AbsActivity;
 import com.touyan.investment.App;
 import com.touyan.investment.R;
 import com.touyan.investment.activity.UserFansDetailsActivity;
@@ -31,9 +34,6 @@ import java.util.ArrayList;
 public class FriendListHeadersAdapter extends BaseSwipeAdapter implements StickyListHeadersAdapter, SectionIndexer {
     private String mSections = "#ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-    private final static int DELETE_SERVER = 0;
-
-    private final static int DELETE_LOCAL = 1;
 
     private LayoutInflater mInflater;
 
@@ -47,50 +47,12 @@ public class FriendListHeadersAdapter extends BaseSwipeAdapter implements Sticky
 
     private UserManager manager = new UserManager();
 
-    /**
-     * 这里包含了调用数据请求的相关接口之后, 应该执行的回调方法, 根据msg.what来判断.
-     */
-    @SuppressLint("HandlerLeak")
-    private Handler activityHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            int what = msg.what;
-            switch (what) {
-                // 返回数据处理
-                case DELETE_SERVER:
-                    loadedDelete((CommonResponse) msg.obj);
-                    break;
-                case DELETE_LOCAL:
-                    int index = 0;
-                    for (int position : deleteArray) {
-                        deleteData(position);
-                        deleteArray.remove(index);
-                        index++;
-                    }
-                    notifyDataSetChanged();
-                    break;
-            }
-        }
-    };
-
-    /**
-     * @param resposne
-     */
-    private void loadedDelete(CommonResponse resposne) {
-        if (resposne.isSuccess()) {
-            CommonUtil.showToast(mContext, "取消成功");
-        } else {
-            CommonUtil.showToast(mContext, resposne.getErrorTip());
-        }
-    }
 
     private void deleteData(int index) {
         int size = list.size();
         if (index < size && index >= 0) {
             UserInfo subscriber = list.get(index);
             list.remove(index);
-            manager.cancelUserFollow(mContext, subscriber.getServno(), activityHandler, DELETE_SERVER);
         }
     }
 
@@ -126,7 +88,13 @@ public class FriendListHeadersAdapter extends BaseSwipeAdapter implements Sticky
                 closeAllItems();
                 int index = (Integer) view.getTag();
                 deleteArray.add(index);
-                activityHandler.sendEmptyMessageDelayed(DELETE_LOCAL, 300);
+                try {
+                    EMContactManager.getInstance().deleteContact(list.get(index).getServno());
+
+                } catch (EaseMobException e) {
+                    e.printStackTrace();
+                }
+                ((AbsActivity) mContext).dialogShow();
             }
         });
         convertView.setTag(holder);
