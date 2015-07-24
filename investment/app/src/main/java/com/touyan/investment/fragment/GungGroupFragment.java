@@ -10,10 +10,14 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.core.CommonResponse;
+import com.easemob.EMValueCallBack;
+import com.easemob.chat.EMContactManager;
+import com.easemob.chat.EMGroup;
+import com.easemob.chat.EMGroupManager;
+import com.easemob.exceptions.EaseMobException;
 import com.nhaarman.listviewanimations.appearance.StickyListHeadersAdapterDecorator;
 import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationAdapter;
 import com.nhaarman.listviewanimations.util.StickyListHeadersListViewWrapper;
@@ -40,7 +44,7 @@ public class GungGroupFragment extends AbsFragment {
 
     //列表
    // private StickyListHeadersListView listView;
-    private FriendListHeadersAdapter mAdapter;
+   // private FriendListHeadersAdapter mAdapter;
 
     private ArrayList<String> mList;
 
@@ -65,8 +69,7 @@ public class GungGroupFragment extends AbsFragment {
     };
 
     private void loadData(CommonResponse resposne, int what) {
-
-
+        initListView();
     }
 
     @Override
@@ -89,33 +92,41 @@ public class GungGroupFragment extends AbsFragment {
 
     // 初始化资源
     private void init(View viewGroup) {
-        setData();
-        adapter = new GroupListAdapter(getActivity(), list, listTag);
-        listView = (ListView)(viewGroup).findViewById(R.id.group_list);
-        listView.setAdapter(adapter);
+        listView = (ListView)viewGroup.findViewById(R.id.group_list);
 
         View ll_listEmpty = viewGroup.findViewById(R.id.ll_listEmpty);
         listView.setEmptyView(ll_listEmpty);
+        dialogShow();
+        getDataList();
+        setData();
+        initListView();
     }
+
+
 
     private void initListView() {
+        dialogDismiss();
+        registerForContextMenu(listView);
+        adapter = new GroupListAdapter(mInflater, list, listTag);
+        SwingBottomInAnimationAdapter animationAdapter = new SwingBottomInAnimationAdapter(adapter);
+        animationAdapter.setAbsListView(listView);
+        listView.setAdapter(animationAdapter);
 
-
-//        FriendListHeadersAdapter mAdapter = new FriendListHeadersAdapter(getActivity(), null);
-//
-//        SwingBottomInAnimationAdapter animationAdapter = new SwingBottomInAnimationAdapter(mAdapter);
-//
-//        StickyListHeadersAdapterDecorator stickyListHeadersAdapterDecorator = new StickyListHeadersAdapterDecorator(animationAdapter);
-//        stickyListHeadersAdapterDecorator.setListViewWrapper(new StickyListHeadersListViewWrapper(listView));
-//
-//        assert animationAdapter.getViewAnimator() != null;
-//        animationAdapter.getViewAnimator().setInitialDelayMillis(500);
-//
-//        assert stickyListHeadersAdapterDecorator.getViewAnimator() != null;
-//        stickyListHeadersAdapterDecorator.getViewAnimator().setInitialDelayMillis(500);
-//
-//        listView.setAdapter(stickyListHeadersAdapterDecorator);
     }
+
+    private void getDataList() {
+        EMGroupManager.getInstance().asyncGetGroupsFromServer(new EMValueCallBack<List<EMGroup>>() {
+            @Override
+            public void onSuccess(List<EMGroup> value) {
+
+            }
+            @Override
+            public void onError(int error, String errorMsg){
+
+            }
+        });
+    }
+
 
 
     public void setData(){
@@ -129,36 +140,6 @@ public class GungGroupFragment extends AbsFragment {
         for(int i=0;i<3;i++){
             list.add("投研社"+i);
         }
-    }
-
-    private static class GroupListAdapter extends ArrayAdapter<String>{
-
-        private List<String> listTag = null;
-        public GroupListAdapter(Context context, List<String> objects, List<String> tags) {
-            super(context, 0, objects);
-            this.listTag = tags;
-        }
-
-        @Override
-        public boolean isEnabled(int position) {
-            if(listTag.contains(getItem(position))){
-                return false;
-            }
-            return super.isEnabled(position);
-        }
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            View view = convertView;
-            if(listTag.contains(getItem(position))){
-                view = LayoutInflater.from(getContext()).inflate(R.layout.item_gung_group_tag, null);
-            }else{
-                view = LayoutInflater.from(getContext()).inflate(R.layout.item_gung_group, null);
-            }
-            TextView textView = (TextView) view.findViewById(R.id.group_list_item_text);
-            textView.setText(getItem(position));
-            return view;
-        }
-
     }
 
     @Override

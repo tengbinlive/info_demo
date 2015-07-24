@@ -303,6 +303,21 @@
                   android:theme="@style/AppTheme">
         </activity>
 
+        <!--可能认识的人-->
+        <activity android:name=".activity.AddfriendMayKnowActivity"
+                  android:theme="@style/AppTheme">
+        </activity>
+
+        <!--创建群组-->
+        <activity android:name=".activity.CreateGroupActivity"
+                  android:theme="@style/AppTheme">
+        </activity>
+
+        <!--热门群组推荐-->
+        <activity android:name=".activity.HotGroupRecoActivity"
+                  android:theme="@style/AppTheme">
+        </activity>
+
         <!--分享-->
         <activity
                 android:name="com.mob.tools.MobUIShell"
