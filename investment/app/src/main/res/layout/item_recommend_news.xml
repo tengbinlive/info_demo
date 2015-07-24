@@ -19,7 +19,7 @@
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="@string/cancel_attention"
+                android:text="@string/delete"
                 android:gravity="center"
                 android:textSize="@dimen/font_medium"
                 android:textColor="@color/white"
@@ -83,6 +83,16 @@
                    android:layout_alignParentRight="true"
                    android:layout_alignParentBottom="true"
                    android:layout_height="wrap_content"/>
+
+        <com.touyan.investment.mview.BezierView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/bezierview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                app:offsetX="50dp"
+                app:offsetY="30dp"
+                />
     </RelativeLayout>
     </com.daimajia.swipe.SwipeLayout>
 

@@ -174,7 +174,7 @@ public class BezierView extends FrameLayout {
     }
 
     @Override
-    protected void onDraw(Canvas canvas) {
+    protected void dispatchDraw(Canvas canvas) {
         if (isAnimStart || !isTouch) {
             canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.OVERLAY);
         } else {
@@ -184,6 +184,11 @@ public class BezierView extends FrameLayout {
             canvas.drawCircle(startX, startY, radius, paint);
             canvas.drawCircle(x, y, radius, paint);
         }
+        super.dispatchDraw(canvas);
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
     }
 
@@ -214,9 +219,9 @@ public class BezierView extends FrameLayout {
             rect.bottom = rect.bottom + location[1] + Offset;
             int rawX = (int) event.getRawX();
             int rawY = (int) event.getRawY();
-            if (!rect.contains(rawX, rawY)) {
-                return false;
-            }
+//            if (!rect.contains(rawX, rawY)) {
+//                return false;
+//            }
             isTouch = true;
         } else if (event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_CANCEL) {
             getParent().requestDisallowInterceptTouchEvent(false);

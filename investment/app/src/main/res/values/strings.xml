@@ -202,6 +202,7 @@
     <string name="broker">经纪人</string>
     <string name="user_detail_fragment_title">个人发布</string>
     <string name="cancel_attention">取消关注</string>
+    <string name="delete">删除</string>
 
     <string name="add">添加</string>
 

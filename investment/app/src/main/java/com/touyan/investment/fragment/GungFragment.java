@@ -5,9 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Pair;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -32,6 +30,8 @@ import com.touyan.investment.bean.user.UserInfo;
 import com.touyan.investment.helper.Util;
 import com.touyan.investment.manager.UserManager;
 import com.touyan.investment.mview.BezierView;
+import com.touyan.investment.mview.FilterView;
+import com.touyan.investment.mview.MessageView;
 
 import java.util.*;
 
@@ -41,7 +41,7 @@ public class GungFragment extends AbsFragment {
 
     private View rootView;
 
-    private BezierView bezierView;
+    private BezierView bezierview;
 
     private LayoutInflater mInflater;
 
@@ -170,8 +170,10 @@ public class GungFragment extends AbsFragment {
 
     // 初始化资源
     private void init(View viewGroup) {
+//        bezierview = (BezierView) viewGroup.findViewById(R.id.bezierview);
         mListView = (PullToRefreshListView) viewGroup.findViewById(R.id.pull_refresh_list);
         relativeLayout = (RelativeLayout) viewGroup.findViewById(R.id.launcher_ly);
+
         initListView(viewGroup);
         refresh();
     }
@@ -258,6 +260,8 @@ public class GungFragment extends AbsFragment {
         getDataList();
     }
 
+    private MessageView messageView;
+
     public void initActionBar(View viewGroup) {
         menuLeft = (TextView) viewGroup.findViewById(R.id.toolbar_left_btn);
         TextView toolbar_right_tv = (TextView) viewGroup.findViewById(R.id.toolbar_right_tv);
@@ -276,6 +280,16 @@ public class GungFragment extends AbsFragment {
                 toFriends();
             }
         });
+        menuLeft.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if(messageView==null){
+                    messageView = new MessageView(GungFragment.this.getActivity());
+                }
+                messageView.showPopupWindow(menuLeft,50,50);
+                return false;
+            }
+        });
     }
 
     private void toFriends() {
@@ -289,9 +303,9 @@ public class GungFragment extends AbsFragment {
      */
     private void updateUnreadLabel() {
         int count = getUnreadMsgCountTotal();
-        if (null == bezierView) {
-            bezierView = Util.viewMessage("" + count, menuLeft, 0, 0);
-            ((ViewGroup) rootView).addView(bezierView);
+        if (null == bezierview) {
+//            bezierView = Util.viewMessage("" + count, menuLeft, 0, 0);
+//            ((ViewGroup) rootView).addView(bezierView);
         }else{
 //            bezierView.setNewMessage();
         }
