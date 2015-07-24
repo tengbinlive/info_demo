@@ -4,12 +4,16 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Environment;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.nineoldandroids.animation.PropertyValuesHolder;
 import com.nineoldandroids.view.ViewHelper;
+import com.touyan.investment.App;
+import com.touyan.investment.mview.BezierView;
 
 public class Util {
 
@@ -61,6 +65,22 @@ public class Util {
 		ObjectAnimator animator2 = ObjectAnimator.ofPropertyValuesHolder(view, pvhX, pvhY).setDuration(150);
 		animator2.setInterpolator(mInterpolator);
 		animator2.start();
+	}
+
+	/**
+	 * 注意: getLocationOnScreen方法在OnCreate方法中调用,都会返回0,这是因为View还未加载完毕.
+	 * 消息
+	 */
+	public static BezierView viewMessage(String count,View anchor,int offerx,int offery){
+		BezierView bezierView = new BezierView(App.getInstance());
+		ViewGroup.LayoutParams  layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+		bezierView.setLayoutParams(layoutParams);
+		int[] location = new int[2];
+		anchor.getLocationOnScreen(location);
+		int x = location[0]+offerx+anchor.getWidth();
+		int y = (int) (location[1]+offery+bezierView.radius);
+		bezierView.setNewMessage(count,x,y);
+		return bezierView;
 	}
 
 }

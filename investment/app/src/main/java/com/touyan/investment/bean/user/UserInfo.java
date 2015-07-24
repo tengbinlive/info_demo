@@ -37,6 +37,9 @@ public class UserInfo implements Serializable {
         return nameSort;
     }
 
+    public void setNameSort(String nameSort) {
+        this.nameSort = nameSort;
+    }
 
     public double getUavail() {
         return uavail;

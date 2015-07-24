@@ -3,15 +3,24 @@ package com.touyan.investment.manager;
 import android.content.Context;
 import android.os.Handler;
 import com.alibaba.fastjson.TypeReference;
+import com.android.volley.Response;
 import com.core.CommonDataLoader;
 import com.core.CommonRequest;
+import com.core.CommonResponse;
 import com.core.openapi.OpenApiMethodEnum;
 import com.core.openapi.OpenApiSimpleResult;
+import com.core.util.CommonUtil;
+import com.core.util.Log;
+import com.dao.*;
 import com.touyan.investment.App;
 import com.touyan.investment.bean.main.InvInfoResult;
+import com.touyan.investment.bean.message.GroupDetal;
 import com.touyan.investment.bean.user.*;
+import com.touyan.investment.helper.BeanCopyHelper;
+import de.greenrobot.dao.query.WhereCondition;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 用户中心业务类.
@@ -326,10 +335,64 @@ public class UserManager {
      * @param handler        在Activity中处理返回结果的Handler
      * @param handlerMsgCode 返回结果的Handler的Msg代码
      */
-    public void batchInfo(Context context, ArrayList<String> userids, ArrayList<String> groupids, final Handler handler, final int handlerMsgCode) {
+    public BatchInfoResult batchInfo(Context context, ArrayList<String> userids, ArrayList<String> groupids, final Handler handler, final int handlerMsgCode) {
+        // ------------开始 数据库缓存处理部分-----------//
+
+        ArrayList<String> useridsTemp = new ArrayList<>(userids);
+        ArrayList<String> groupidsTemp = new ArrayList<>(groupids);
+
+        // 从数据库中查询
+        UserInfoDao userInfoDao = App.getDaoSession().getUserInfoDao();
+        GroupDetalDao groupDetalDao = App.getDaoSession().getGroupDetalDao();
+
+        WhereCondition wc = UserInfoDao.Properties.Servno.in(userids);
+        WhereCondition wc1 = GroupDetalDao.Properties.Groupid.in(groupids);
+
+        List<UserInfoDO> usernos = userInfoDao.queryBuilder().where(wc).list();
+        List<GroupDetalDO> groups = groupDetalDao.queryBuilder().where(wc1).list();
+
+        BatchInfoResult result = new BatchInfoResult();
+        if (usernos != null && usernos.size() > 0) {
+            ArrayList<UserInfo> users = new ArrayList<>();
+            // 数据转换
+            for (UserInfoDO item : usernos) {
+                UserInfo user = BeanCopyHelper.cast2UserInfo(item);
+                String servno = user.getServno();
+                useridsTemp.remove(servno);
+                users.add(user);
+            }
+            result.setUserinfo(users);
+        }
+
+        if (groups != null && groups.size() > 0) {
+            ArrayList<GroupDetal> groupDetals = new ArrayList<>();
+            // 数据转换
+            for (GroupDetalDO item : groups) {
+                GroupDetal gd = BeanCopyHelper.cast2GroupDetal(item);
+                String id = gd.getGroupid();
+                groupidsTemp.remove(id);
+                groupDetals.add(gd);
+            }
+            result.setGroupinfo(groupDetals);
+        }
+
+        if (useridsTemp.size() <= 0 && groupidsTemp.size() <= 0) {
+            return result;
+        }
+
+        // 自定义处理Listener
+        Response.Listener<CommonResponse> listener = new Response.Listener<CommonResponse>() {
+            @Override
+            public void onResponse(CommonResponse response) {
+                CommonUtil.delivery2Handler(handler, handlerMsgCode, response);
+                // 将结果存入数据库
+                updateBatchInfoResult(response);
+            }
+        };
+
         BatchInfoParam param = new BatchInfoParam();
-        param.setUsernos(userids);
-        param.setGroups(groupids);
+        param.setUsernos(useridsTemp);
+        param.setGroups(groupidsTemp);
 
         // 接口参数
         param.setMethod(OpenApiMethodEnum.BATCH_INFO);
@@ -337,7 +400,57 @@ public class UserManager {
         });
         // 请求对象
         CommonRequest request = new CommonRequest(param, handler, handlerMsgCode);
+        // 自定义处理Listener
+        request.setListener(listener);
         // 开始执行加载
         CommonDataLoader.getInstance(context).load(request);
+        return null;
+    }
+
+    private void updateBatchInfoResult(CommonResponse response) {
+        final DaoSession daoSession = App.getDaoSession();
+        // 如果查询结果正确才保存
+        if (response != null && response.isSuccess()) {
+            BatchInfoResult result = (BatchInfoResult) response.getData();
+            ArrayList<GroupDetal> groupinfo = result.getGroupinfo();
+            ArrayList<UserInfo> userinfo = result.getUserinfo();
+            final List<GroupDetalDO> groupDOs = new ArrayList<>();
+            final List<UserInfoDO> usernoDOs = new ArrayList<>();
+            if (null != groupinfo) {
+                for (GroupDetal item : groupinfo) {
+                    GroupDetalDO groupDetalDO = BeanCopyHelper.cast2GroupDetalDO(item);
+                    groupDOs.add(groupDetalDO);
+                }
+            }
+            if (null != userinfo) {
+                for (UserInfo item : userinfo) {
+                    UserInfoDO userInfoDO = BeanCopyHelper.cast2UserInfoDO(item);
+                    usernoDOs.add(userInfoDO);
+                }
+            }
+            daoSession.runInTx(new Runnable() {
+                @Override
+                public void run() {
+                    GroupDetalDao groupDetalDao = daoSession.getGroupDetalDao();
+                    UserInfoDao userInfoDao = daoSession.getUserInfoDao();
+                    if (null != groupDOs && groupDOs.size() > 0) {
+                        int count = 0;
+                        for (GroupDetalDO itme : groupDOs) {
+                            groupDetalDao.insert(itme);
+                            count++;
+                        }
+                        Log.i(TAG, "同步群组信息成功, 一共保存=" + count + "条");
+                    }
+                    if (null != usernoDOs && usernoDOs.size() > 0) {
+                        int count = 0;
+                        for (UserInfoDO itme : usernoDOs) {
+                            userInfoDao.insert(itme);
+                            count++;
+                        }
+                        Log.i(TAG, "同步用户信息成功, 一共保存=" + count + "条");
+                    }
+                }
+            });
+        }
     }
 }
