@@ -29,15 +29,14 @@
 
     <include layout="@layout/list_empty"/>
 
-    <!--<com.touyan.investment.mview.BezierView-->
-            <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
-            <!--android:id="@+id/bezierview"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:background="@android:color/transparent"-->
-            <!--app:offsetX="@dimen/tip_offset_x"-->
-            <!--app:offsetY="@dimen/tip_offset_y"-->
-            <!--app:statusBarOffset="@dimen/statusBar_height"/>-->
-
+    <com.touyan.investment.mview.BezierView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/bezierview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            app:offsetX="@dimen/tip_offset_x"
+            app:offsetY="@dimen/tip_offset_y"
+            app:statusBarOffset="@dimen/statusBar_height"/>
 
 </RelativeLayout>

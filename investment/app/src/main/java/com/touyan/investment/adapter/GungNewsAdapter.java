@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import com.daimajia.swipe.SwipeLayout;
 import com.daimajia.swipe.adapters.BaseSwipeAdapter;
 import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMMessage;
@@ -73,24 +74,44 @@ public class GungNewsAdapter extends BaseSwipeAdapter {
     @Override
     public void fillValues(int position, View convertView) {
         ViewHolder holder = (ViewHolder) convertView.getTag();
-        ConversationBean bean = list.get(position);
-        EMConversation conversation = bean.getConversation();
-        EMMessage lastMessage = conversation.getLastMessage();
-        Object object = bean.getObject();
-        holder.value.setText(HXSmileUtils.getSmiledText(context, HXUtil.getMessageDigest(lastMessage, context)),
-                TextView.BufferType.SPANNABLE);
-        holder.date.setText(HXDateUtils.getTimestampString(new Date(lastMessage.getMsgTime())));
-        if (null != object) {
-            if (conversation.isGroup()) {
-                GroupDetal groupDetal = (GroupDetal) object;
-                holder.group_subscript.setVisibility(View.VISIBLE);
-                ImageLoader.getInstance().displayImage(groupDetal.getGphoto(), holder.head);
-                holder.name.setText(groupDetal.getGroupname());
+        //消息置顶
+        if(position==0){
+            holder.group_subscript.setVisibility(View.GONE);
+            holder.swipe.setEnabled(false);
+            holder.head.setImageResource(R.drawable.top_message);
+            holder.name.setText("置顶消息");
+            holder.value.setText("所有置顶消息");
+            holder.date.setVisibility(View.GONE);
+        }else {
+            //正常对话
+            holder.swipe.setEnabled(true);
+            ConversationBean bean = list.get(position);
+            EMConversation conversation = bean.getConversation();
+            EMMessage lastMessage = conversation.getLastMessage();
+            Object object = bean.getObject();
+            holder.value.setText(HXSmileUtils.getSmiledText(context, HXUtil.getMessageDigest(lastMessage, context)),
+                    TextView.BufferType.SPANNABLE);
+            holder.date.setText(HXDateUtils.getTimestampString(new Date(lastMessage.getMsgTime())));
+            holder.date.setVisibility(View.VISIBLE);
+            int message_count = conversation.getUnreadMsgCount();
+            if (message_count > 0) {
+                holder.message_count.setVisibility(View.VISIBLE);
+                holder.message_count.setText("" + message_count);
             } else {
-                UserInfo userInfo = (UserInfo) object;
-                holder.group_subscript.setVisibility(View.GONE);
-                ImageLoader.getInstance().displayImage(userInfo.getUphoto(), holder.head);
-                holder.name.setText(userInfo.getUalias());
+                holder.message_count.setVisibility(View.GONE);
+            }
+            if (null != object) {
+                if (conversation.isGroup()) {
+                    GroupDetal groupDetal = (GroupDetal) object;
+                    holder.group_subscript.setVisibility(View.VISIBLE);
+                    ImageLoader.getInstance().displayImage(groupDetal.getGphoto(), holder.head);
+                    holder.name.setText(groupDetal.getGroupname());
+                } else {
+                    UserInfo userInfo = (UserInfo) object;
+                    holder.group_subscript.setVisibility(View.GONE);
+                    ImageLoader.getInstance().displayImage(userInfo.getUphoto(), holder.head);
+                    holder.name.setText(userInfo.getUalias());
+                }
             }
         }
     }
@@ -103,6 +124,8 @@ public class GungNewsAdapter extends BaseSwipeAdapter {
      * @author ButterKnifeZelezny, plugin for Android Studio by Avast Developers (http://github.com/avast)
      */
     class ViewHolder {
+        @Bind(R.id.swipe)
+        SwipeLayout swipe;
         @Bind(R.id.head)
         SelectableRoundedImageView head;
         @Bind(R.id.name)
@@ -111,6 +134,8 @@ public class GungNewsAdapter extends BaseSwipeAdapter {
         TextView date;
         @Bind(R.id.value)
         TextView value;
+        @Bind(R.id.message_count)
+        TextView message_count;
         @Bind(R.id.group_subscript)
         ImageView group_subscript;
 

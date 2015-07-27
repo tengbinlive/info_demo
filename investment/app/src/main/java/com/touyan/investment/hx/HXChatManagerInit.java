@@ -150,13 +150,7 @@ public class HXChatManagerInit {
 
         @Override
         public void onDisconnected(final int error) {
-            new Thread(new Runnable() {
-
-                @Override
-                public void run() {
-                    EventBus.getDefault().post(new ConnectionEventType(error));
-                }
-            });
+            EventBus.getDefault().post(new ConnectionEventType(error));
         }
     }
 

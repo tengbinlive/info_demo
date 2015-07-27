@@ -9,6 +9,7 @@ public class ConversationBean implements Serializable {
     private EMConversation conversation;
     private Object object;
 
+
     public EMConversation getConversation() {
         return conversation;
     }

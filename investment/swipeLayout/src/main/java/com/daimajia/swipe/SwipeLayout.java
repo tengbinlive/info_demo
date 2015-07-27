@@ -906,7 +906,6 @@ public class SwipeLayout extends FrameLayout {
                 }
 
                 if (doNothing) {
-                    parent.requestDisallowInterceptTouchEvent(false);
                     return false;
                 } else {
                     if (touching != null) {
@@ -919,6 +918,7 @@ public class SwipeLayout extends FrameLayout {
             }
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL: {
+                parent.requestDisallowInterceptTouchEvent(false);
                 sX = -1;
                 sY = -1;
                 if (touching != null) {

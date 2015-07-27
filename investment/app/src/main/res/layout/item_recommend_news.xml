@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="@dimen/delete_itme_height">
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/delete_itme_height">
 
     <com.daimajia.swipe.SwipeLayout
             xmlns:swipe="http://schemas.android.com/apk/res-auto"
@@ -11,89 +11,92 @@
             swipe:rightEdgeSwipeOffset="0dp"
             android:layout_height="match_parent">
 
-    <RelativeLayout android:layout_width="90dp"
-                    android:id="@+id/delete_layout"
-                    android:background="@color/theme"
-                    android:layout_height="match_parent">
+        <RelativeLayout android:layout_width="90dp"
+                        android:id="@+id/delete_layout"
+                        android:background="@color/theme"
+                        android:layout_height="match_parent">
 
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="@string/delete"
-                android:gravity="center"
-                android:textSize="@dimen/font_medium"
-                android:textColor="@color/white"
-                android:layout_height="wrap_content"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="@string/delete"
+                    android:gravity="center"
+                    android:textSize="@dimen/font_medium"
+                    android:textColor="@color/white"
+                    android:layout_height="wrap_content"/>
 
-    </RelativeLayout>
+        </RelativeLayout>
 
-    <RelativeLayout
-            android:layout_width="match_parent"
-            android:background="@color/white"
-            android:layout_height="wrap_content">
-
-        <com.joooonho.SelectableRoundedImageView
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/head"
-                android:layout_margin="@dimen/content_gap"
-                android:src="@drawable/default_head"
-                android:scaleType="centerCrop"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                app:sriv_left_top_corner_radius="4dip"
-                app:sriv_right_top_corner_radius="4dip"
-                app:sriv_left_bottom_corner_radius="4dip"
-                app:sriv_right_bottom_corner_radius="4dip"
-                app:sriv_oval="false"/>
-
-        <TextView android:layout_toRightOf="@+id/head"
-                  android:layout_alignTop="@+id/head"
-                  android:layout_width="wrap_content"
-                  android:text="南昌地铁"
-                  android:id="@+id/name"
-                  android:layout_marginRight="@dimen/content_gap"
-                  android:textSize="@dimen/font_small"
-                  android:textColor="@color/textcolor_222"
-                  android:layout_height="wrap_content"/>
-
-        <TextView android:layout_alignParentRight="true"
-                  android:id="@+id/date"
-                  android:layout_margin="@dimen/content_gap"
-                  android:layout_width="wrap_content"
-                  android:text="04-21  17:28"
-                  android:textSize="@dimen/font_least"
-                  android:textColor="@color/gray_hint"
-                  android:layout_height="wrap_content"/>
-
-        <TextView android:id="@+id/value"
-                  android:layout_marginRight="@dimen/content_gap"
-                  android:layout_toRightOf="@+id/head"
-                  android:layout_alignBottom="@+id/head"
-                  android:paddingRight="@dimen/content_gap"
-                  android:layout_width="wrap_content"
-                  android:text="受偏北气流控制，近三日"
-                  android:textSize="@dimen/font_small"
-                  android:textColor="@color/textcolor_666"
-                  android:layout_height="wrap_content"/>
-
-        <ImageView android:layout_width="wrap_content"
-                   android:src="@drawable/group_subscript"
-                   android:id="@+id/group_subscript"
-                   android:scaleType="centerInside"
-                   android:layout_alignParentRight="true"
-                   android:layout_alignParentBottom="true"
-                   android:layout_height="wrap_content"/>
-
-        <com.touyan.investment.mview.BezierView
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/bezierview"
+        <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@android:color/transparent"
-                app:offsetX="50dp"
-                app:offsetY="30dp"
-                />
-    </RelativeLayout>
+                android:background="@color/white"
+                android:layout_height="wrap_content">
+
+            <com.joooonho.SelectableRoundedImageView
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/head"
+                    android:layout_margin="@dimen/content_gap"
+                    android:src="@drawable/default_head"
+                    android:scaleType="centerCrop"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    app:sriv_left_top_corner_radius="4dip"
+                    app:sriv_right_top_corner_radius="4dip"
+                    app:sriv_left_bottom_corner_radius="4dip"
+                    app:sriv_right_bottom_corner_radius="4dip"
+                    app:sriv_oval="false"/>
+
+            <TextView android:layout_toRightOf="@+id/head"
+                      android:layout_alignTop="@+id/head"
+                      android:layout_width="wrap_content"
+                      android:text="南昌地铁"
+                      android:id="@+id/name"
+                      android:layout_marginRight="@dimen/content_gap"
+                      android:textSize="@dimen/font_small"
+                      android:textColor="@color/textcolor_222"
+                      android:layout_height="wrap_content"/>
+
+            <TextView android:layout_alignParentRight="true"
+                      android:id="@+id/date"
+                      android:layout_margin="@dimen/content_gap"
+                      android:layout_width="wrap_content"
+                      android:text="04-21  17:28"
+                      android:textSize="@dimen/font_least"
+                      android:textColor="@color/gray_hint"
+                      android:layout_height="wrap_content"/>
+
+            <TextView android:id="@+id/value"
+                      android:layout_marginRight="@dimen/content_gap"
+                      android:layout_toRightOf="@+id/head"
+                      android:layout_alignBottom="@+id/head"
+                      android:paddingRight="@dimen/content_gap"
+                      android:layout_width="wrap_content"
+                      android:text="受偏北气流控制，近三日"
+                      android:textSize="@dimen/font_small"
+                      android:textColor="@color/textcolor_666"
+                      android:layout_height="wrap_content"/>
+
+            <ImageView android:layout_width="wrap_content"
+                       android:src="@drawable/group_subscript"
+                       android:id="@+id/group_subscript"
+                       android:scaleType="centerInside"
+                       android:layout_alignParentRight="true"
+                       android:layout_alignParentBottom="true"
+                       android:layout_height="wrap_content"/>
+
+            <TextView android:layout_width="wrap_content"
+                      android:id="@+id/message_count"
+                      android:text="2"
+                      android:gravity="center"
+                      android:visibility="gone"
+                      android:layout_marginTop="@dimen/content_10dp"
+                      android:textSize="@dimen/font_least"
+                      android:background="@drawable/skin_tips_message_red_bg"
+                      android:layout_marginLeft="46dp"
+                      android:textColor="@color/white"
+                      android:layout_height="wrap_content"/>
+        </RelativeLayout>
+
     </com.daimajia.swipe.SwipeLayout>
 
     <View android:layout_width="match_parent"

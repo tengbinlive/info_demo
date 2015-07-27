@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.*;
 import android.graphics.drawable.AnimationDrawable;
+import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -53,6 +54,16 @@ public class BezierView extends FrameLayout {
 
     ImageView exploredImageView;
     TextView tipImageView;
+
+    public interface EndOnBack{
+        void endOnBack();
+    }
+
+    private EndOnBack endOnBack;
+
+    public void setEndOnBack(EndOnBack endOnBack) {
+        this.endOnBack = endOnBack;
+    }
 
     public BezierView(Context context) {
         super(context);
@@ -110,19 +121,11 @@ public class BezierView extends FrameLayout {
         addView(exploredImageView);
     }
 
-    public void setNewMessage(String message,float anchorX,float anchorY) {
+    public void setNewMessage(String message) {
         isTouch = false;
         isAnimStart = false;
-        this.anchorX = anchorX;
-        this.anchorY = anchorY;
-        this.startX  = anchorX;
-        this.startY  = anchorY;
-        this.x  = anchorX;
-        this.y  = anchorY;
-        this.setVisibility(View.VISIBLE);
         tipImageView.setText(message);
         tipImageView.setVisibility(View.VISIBLE);
-        postInvalidate();
     }
 
     @Override
@@ -141,7 +144,7 @@ public class BezierView extends FrameLayout {
         float distance = (float) Math.sqrt(Math.pow(y - startY, 2) + Math.pow(x - startX, 2));
         radius = -distance / 20 + DEFAULT_RADIUS;
 
-        if (radius < 5) {
+        if (radius < 8) {
             endAnimation();
         }
 
@@ -187,19 +190,33 @@ public class BezierView extends FrameLayout {
         super.dispatchDraw(canvas);
     }
 
-    @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-    }
-
     private void endAnimation() {
-
         isAnimStart = true;
         exploredImageView.setVisibility(View.VISIBLE);
         exploredImageView.setImageResource(R.drawable.tip_anim);
         AnimationDrawable animationDrawable= (AnimationDrawable) exploredImageView.getDrawable();
         animationDrawable.stop();
         animationDrawable.start();
+        int duration = 0;
+        for(int i=0;i<animationDrawable.getNumberOfFrames();i++){
+
+            duration += animationDrawable.getDuration(i);
+
+        }
+
+        Handler handler = new Handler();
+
+        handler.postDelayed(new Runnable() {
+
+            public void run() {
+
+                if(null!=endOnBack){
+                    endOnBack.endOnBack();
+                }
+
+            }
+
+        }, duration);
         tipImageView.setVisibility(View.GONE);
         this.setVisibility(View.GONE);
     }
@@ -219,9 +236,9 @@ public class BezierView extends FrameLayout {
             rect.bottom = rect.bottom + location[1] + Offset;
             int rawX = (int) event.getRawX();
             int rawY = (int) event.getRawY();
-//            if (!rect.contains(rawX, rawY)) {
-//                return false;
-//            }
+            if (!rect.contains(rawX, rawY)) {
+                return false;
+            }
             isTouch = true;
         } else if (event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_CANCEL) {
             getParent().requestDisallowInterceptTouchEvent(false);

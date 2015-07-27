@@ -310,6 +310,12 @@ public class App extends Application {
         activities.clear();
     }
 
+    public void accountExit(){
+        EMChatManager.getInstance().endCall();
+        EMChatManager.getInstance().logout();
+        SharedPreferencesHelper.setString(this, Constant.LoginUser.SHARED_PREFERENCES_PASSWORD, "");
+    }
+
     /**
      * 设置图片加载配置
      */

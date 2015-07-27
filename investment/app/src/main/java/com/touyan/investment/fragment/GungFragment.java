@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Pair;
-import android.view.*;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -30,8 +32,6 @@ import com.touyan.investment.bean.user.UserInfo;
 import com.touyan.investment.helper.Util;
 import com.touyan.investment.manager.UserManager;
 import com.touyan.investment.mview.BezierView;
-import com.touyan.investment.mview.FilterView;
-import com.touyan.investment.mview.MessageView;
 
 import java.util.*;
 
@@ -51,7 +51,6 @@ public class GungFragment extends AbsFragment {
 
     private TextView menuLeft;
 
-    private RelativeLayout relativeLayout;
     //列表
     private PullToRefreshListView mListView;
 
@@ -59,9 +58,9 @@ public class GungFragment extends AbsFragment {
 
     private GungNewsAdapter mAdapter;
 
-    private SwingBottomInAnimationAdapter animationAdapter;
-
     private Hashtable<String, ConversationBean> conversationHT;
+
+    private ArrayList<ConversationBean> conversationArray;
 
     private ArrayList<String> userids;
 
@@ -108,9 +107,18 @@ public class GungFragment extends AbsFragment {
                 conversationHT.get(groupDetal.getGroupid()).setObject(groupDetal);
             }
         }
-        if (null != mAdapter) {
-            mAdapter.refresh(new ArrayList<>(conversationHT.values()));
-        }
+        conversationArray = new ArrayList<>(conversationHT.values());
+        refreshAdapter();
+    }
+
+    /**
+     *  刷新对话列表
+     */
+    private void refreshAdapter() {
+        conversationArray = new ArrayList<>(conversationHT.values());
+        //添加消息置顶item
+        conversationArray.add(0,new ConversationBean());
+        mAdapter.refresh(conversationArray);
     }
 
 
@@ -131,12 +139,13 @@ public class GungFragment extends AbsFragment {
         mActualListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                mAdapter.closeAllItems();
             }
         });
 
         mAdapter = new GungNewsAdapter(getActivity(), null);
 
-        animationAdapter = new SwingBottomInAnimationAdapter(mAdapter);
+        SwingBottomInAnimationAdapter animationAdapter = new SwingBottomInAnimationAdapter(mAdapter);
 
         animationAdapter.setAbsListView(mActualListView);
 
@@ -170,14 +179,19 @@ public class GungFragment extends AbsFragment {
 
     // 初始化资源
     private void init(View viewGroup) {
-//        bezierview = (BezierView) viewGroup.findViewById(R.id.bezierview);
+        bezierview = (BezierView) viewGroup.findViewById(R.id.bezierview);
+        bezierview.setEndOnBack(new BezierView.EndOnBack() {
+            @Override
+            public void endOnBack() {
+                clearConversation();
+                updateUnreadLabel();
+                refresh();
+            }
+        });
         mListView = (PullToRefreshListView) viewGroup.findViewById(R.id.pull_refresh_list);
-        relativeLayout = (RelativeLayout) viewGroup.findViewById(R.id.launcher_ly);
-
         initListView(viewGroup);
         refresh();
     }
-
 
     /**
      * 获取所有会话
@@ -260,8 +274,6 @@ public class GungFragment extends AbsFragment {
         getDataList();
     }
 
-    private MessageView messageView;
-
     public void initActionBar(View viewGroup) {
         menuLeft = (TextView) viewGroup.findViewById(R.id.toolbar_left_btn);
         TextView toolbar_right_tv = (TextView) viewGroup.findViewById(R.id.toolbar_right_tv);
@@ -280,16 +292,6 @@ public class GungFragment extends AbsFragment {
                 toFriends();
             }
         });
-        menuLeft.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                if(messageView==null){
-                    messageView = new MessageView(GungFragment.this.getActivity());
-                }
-                messageView.showPopupWindow(menuLeft,50,50);
-                return false;
-            }
-        });
     }
 
     private void toFriends() {
@@ -303,13 +305,11 @@ public class GungFragment extends AbsFragment {
      */
     private void updateUnreadLabel() {
         int count = getUnreadMsgCountTotal();
-        if (null == bezierview) {
-//            bezierView = Util.viewMessage("" + count, menuLeft, 0, 0);
-//            ((ViewGroup) rootView).addView(bezierView);
-        }else{
-//            bezierView.setNewMessage();
-        }
         if (count > 0) {
+            bezierview.setNewMessage("" + count);
+            bezierview.setVisibility(View.VISIBLE);
+        } else {
+            bezierview.setVisibility(View.GONE);
         }
     }
 
@@ -329,16 +329,22 @@ public class GungFragment extends AbsFragment {
         return unreadMsgCountTotal - chatroomUnreadMsgCount;
     }
 
+
+    /**
+     * 清除所有未读消息
+     *
+     * @return
+     */
+    private void clearConversation() {
+        for (EMConversation conversation : EMChatManager.getInstance().getAllConversations().values()) {
+            conversation.resetUnreadMsgCount();
+        }
+    }
+
     @Override
     public void scrollToTop() {
         if (!App.isConflict && !App.isCurrentAccountRemoved) {
-            rootView.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    updateUnreadLabel();
-                    rootView.postInvalidate();
-                }
-            }, 300);
+            updateUnreadLabel();
         }
     }
 }

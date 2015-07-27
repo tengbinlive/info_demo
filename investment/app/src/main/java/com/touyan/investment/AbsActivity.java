@@ -8,6 +8,8 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -17,12 +19,14 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import butterknife.ButterKnife;
+import com.core.CommonResponse;
 import com.core.util.StringUtil;
 import com.easemob.EMError;
 import com.easemob.chat.EMChatManager;
 import com.easemob.util.NetUtils;
 import com.gitonway.lee.niftymodaldialogeffects.Effectstype;
 import com.gitonway.lee.niftymodaldialogeffects.NiftyDialogBuilder;
+import com.mob.tools.utils.UIHandler;
 import com.touyan.investment.activity.LoginActivity;
 import com.touyan.investment.event.AnyEventType;
 import com.touyan.investment.event.ConnectionEventType;
@@ -404,9 +408,8 @@ public abstract class AbsActivity extends SwipeBackActivity implements EInitDate
         dialogBuilder.withDuration(700) // def
                 .isCancelableOnTouchOutside(false) // def | isCancelable(true)
                 .withEffect(Effectstype.Fadein) // def Effectstype.Slidetop
-                .setCustomView(R.layout.loading_view, this) // .setCustomView(View
-                .show();
-
+                .setCustomView(R.layout.loading_view, this); // .setCustomView(View
+        activityHandler.sendEmptyMessage(DIALOGSHOW);
     }
 
     public void dialogShow(String title) {
@@ -418,8 +421,8 @@ public abstract class AbsActivity extends SwipeBackActivity implements EInitDate
         dialogBuilder.withDuration(700) // def
                 .isCancelableOnTouchOutside(false) // def | isCancelable(true)
                 .withEffect(Effectstype.Fadein) // def Effectstype.Slidetop
-                .setCustomView(convertView, this) // .setCustomView(View
-                .show();
+                .setCustomView(convertView, this); // .setCustomView(View
+        activityHandler.sendEmptyMessage(DIALOGSHOW);
 
     }
 
@@ -432,8 +435,8 @@ public abstract class AbsActivity extends SwipeBackActivity implements EInitDate
         dialogBuilder.withDuration(700) // def
                 .isCancelableOnTouchOutside(false) // def | isCancelable(true)
                 .withEffect(Effectstype.Fadein) // def Effectstype.Slidetop
-                .setCustomView(convertView, this) // .setCustomView(View
-                .show();
+                .setCustomView(convertView, this); // .setCustomView(View
+        activityHandler.sendEmptyMessage(DIALOGSHOW);
 
     }
 
@@ -449,14 +452,14 @@ public abstract class AbsActivity extends SwipeBackActivity implements EInitDate
         dialogBuilder.withDuration(700) // def
                 .isCancelableOnTouchOutside(false) // def | isCancelable(true)
                 .withEffect(Effectstype.Fadein) // def Effectstype.Slidetop
-                .setCustomView(convertView, this) // .setCustomView(View
-                .show();
+                .setCustomView(convertView, this); // .setCustomView(View
+        activityHandler.sendEmptyMessage(DIALOGSHOW);
 
     }
 
     public void dialogDismiss() {
         if (null != dialogBuilder && dialogBuilder.isShowing()) {
-            dialogBuilder.dismiss();
+            activityHandler.sendEmptyMessage(DIALOGDISMISS);
         }
     }
 
@@ -508,7 +511,8 @@ public abstract class AbsActivity extends SwipeBackActivity implements EInitDate
         dialogBuilder.withDuration(700) // def
                 .isCancelableOnTouchOutside(false) // def | isCancelable(true)
                 .withEffect(Effectstype.Fadein) // def Effectstype.Slidetop
-                .setCustomView(linearLayout, activity).show();
+                .setCustomView(linearLayout, activity);
+        activityHandler.sendEmptyMessage(DIALOGSHOW);
     }
 
     public void showConfirmDialog(Activity activity, String content, String leftText, View.OnClickListener leftEvent, String rightText, View.OnClickListener rightEvent) {
@@ -564,8 +568,8 @@ public abstract class AbsActivity extends SwipeBackActivity implements EInitDate
                 @Override
                 public void onClick(View view) {
                     App.isCurrentAccountRemoved = true;
+                    App.getInstance().accountExit();
                     dialogDismiss();
-                    EMChatManager.getInstance().endCall();
                     startActivity(new Intent(AbsActivity.this, LoginActivity.class));
                 }
             });
@@ -575,11 +579,11 @@ public abstract class AbsActivity extends SwipeBackActivity implements EInitDate
             showConfirmDialog(this, "您的账号已在别处登陆，\n若非本人操作请尽快修改密码", null, null, "确定", new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    App.getInstance().accountExit();
                     dialogDismiss();
                     startActivity(new Intent(AbsActivity.this, LoginActivity.class));
                 }
             });
-            EMChatManager.getInstance().logout();
         } else {
             if (NetUtils.hasNetwork(this)) {
 //                CommonUtil.showToast("连接不到聊天服务器");
@@ -591,4 +595,22 @@ public abstract class AbsActivity extends SwipeBackActivity implements EInitDate
             //当前网络不可用，请检查网络设置
         }
     }
+
+    private final  static int DIALOGSHOW = 1;
+    private final  static int DIALOGDISMISS = 0;
+
+    private Handler activityHandler = new Handler() {
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case DIALOGSHOW:
+                    dialogBuilder.show();
+                    break;
+                case DIALOGDISMISS:
+                    dialogBuilder.dismiss();
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 }

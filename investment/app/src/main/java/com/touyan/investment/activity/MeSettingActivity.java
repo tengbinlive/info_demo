@@ -90,14 +90,9 @@ public class MeSettingActivity extends AbsActivity implements OnClickListener {
         shareFriend.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent = new Intent(context, LoginActivity.class);
-//                startActivity(intent);
-                SharedPreferencesHelper.setString(MeSettingActivity.this, Constant.LoginUser.SHARED_PREFERENCES_PASSWORD, "");
-
-                finish();
-//                App.getInstance().exit();
-                System.exit(0);// 退出程序
-
+                App.getInstance().accountExit();
+                Intent intent = new Intent(context, LoginActivity.class);
+                startActivity(intent);
             }
         });
         cancel.setOnClickListener(new OnClickListener() {

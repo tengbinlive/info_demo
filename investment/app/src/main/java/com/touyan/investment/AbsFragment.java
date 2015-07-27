@@ -2,6 +2,8 @@ package com.touyan.investment;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.view.KeyEvent;
 import android.view.View;
@@ -58,8 +60,8 @@ public abstract class AbsFragment extends Fragment {
         dialogBuilder.withDuration(700) // def
                 .isCancelableOnTouchOutside(false) // def | isCancelable(true)
                 .withEffect(Effectstype.Fadein) // def Effectstype.Slidetop
-                .setCustomView(R.layout.loading_view, getActivity()) // .setCustomView(View
-                .show();
+                .setCustomView(R.layout.loading_view, getActivity()); // .setCustomView(View
+        activityHandler.sendEmptyMessage(DIALOGSHOW);
 
     }
 
@@ -72,14 +74,14 @@ public abstract class AbsFragment extends Fragment {
         dialogBuilder.withDuration(700) // def
                 .isCancelableOnTouchOutside(false) // def | isCancelable(true)
                 .withEffect(Effectstype.Fadein) // def Effectstype.Slidetop
-                .setCustomView(convertView, getActivity()) // .setCustomView(View
-                .show();
+                .setCustomView(convertView, getActivity()); // .setCustomView(View
+        activityHandler.sendEmptyMessage(DIALOGSHOW);
 
     }
 
     public void dialogDismiss() {
         if (null != dialogBuilder && dialogBuilder.isShowing()) {
-            dialogBuilder.dismiss();
+            activityHandler.sendEmptyMessage(DIALOGDISMISS);
         }
     }
 
@@ -137,4 +139,21 @@ public abstract class AbsFragment extends Fragment {
 
     public abstract void scrollToTop();
 
+    private final  static int DIALOGSHOW = 1;
+    private final  static int DIALOGDISMISS = 0;
+
+    private Handler activityHandler = new Handler() {
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case DIALOGSHOW:
+                    dialogBuilder.show();
+                    break;
+                case DIALOGDISMISS:
+                    dialogBuilder.dismiss();
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 }
