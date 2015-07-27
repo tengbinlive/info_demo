@@ -275,6 +275,19 @@ public class App extends Application {
             @Override
             public void onReceive(Context context, Intent intent) {
                 setCurrentNetworkStatus(NetworkUtil.getCurrentNextworkState(context));
+                if(!NetworkUtil.isLowMode(currentNetworkStatus)){
+                    if(HXChatManagerInit.getInstance().isSyncingDatas){
+                        if(!HXChatManagerInit.getInstance().isSyncingGroups){
+                            HXChatManagerInit.getInstance().asyncFetchGroupsFromServer();
+                        }
+                        if(!HXChatManagerInit.getInstance().isSyncingUsers){
+                            HXChatManagerInit.getInstance().asyncFetchUserFromServer();
+                        }
+                        if(!HXChatManagerInit.getInstance().isSyncingContact){
+                            HXChatManagerInit.getInstance().asyncFetchContactsFromServer();
+                        }
+                    }
+                }
             }
         };
         IntentFilter intentFilter = new IntentFilter();
