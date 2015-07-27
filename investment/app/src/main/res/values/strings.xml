@@ -219,6 +219,9 @@
 
     <string name="hotgroup">热门群组</string>
 
+    <string name="groups_empty">您还没加入群组</string>
+    <string name="groups_empty_tip">点击屏幕右上角“+”来加入或创建群组吧</string>
+
     <!--环信-->
     <string name="clear_all_records">是否清空所有聊天记录？</string>
     <string name="location_recv">[%1$s的位置]</string>

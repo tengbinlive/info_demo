@@ -131,6 +131,27 @@ public class UserManager {
     }
 
     /**
+     * 获取和我相关的群组列表
+     *
+     * @param context        上下文
+     * @param handler        在Activity中处理返回结果的Handler
+     * @param handlerMsgCode 返回结果的Handler的Msg代码
+     */
+    public void queryGroupsByUserId(Context context, final Handler handler, final int handlerMsgCode) {
+        QueryUserGroupsParam param = new QueryUserGroupsParam();
+        param.setUserid(App.getInstance().getgUserInfo().getServno());
+        // 接口参数
+        param.setMethod(OpenApiMethodEnum.QUERY_USERGROUPS);
+        param.setParseTokenType(new TypeReference<QueryUserGroupsResult>() {
+        });
+        // 请求对象
+        CommonRequest request = new CommonRequest(param, handler, handlerMsgCode);
+        // 开始执行加载
+        CommonDataLoader.getInstance(context).load(request);
+    }
+
+
+    /**
      * 我的关注
      *
      * @param context        上下文
