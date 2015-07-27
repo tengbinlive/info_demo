@@ -12,14 +12,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="40dp"
-            android:layout_marginBottom="40dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"
             android:gravity="center"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
             android:text="提示"
             android:textColor="@color/black"
-            android:textSize="@dimen/font_small"/>
+            android:textSize="@dimen/font_medium15"/>
 
     <RelativeLayout
             android:layout_width="match_parent"
@@ -39,8 +39,8 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_toLeftOf="@+id/dialog_confirm_point"
                 android:gravity="center"
-                android:paddingBottom="@dimen/content_gap_big"
-                android:paddingTop="@dimen/content_gap_big"
+                android:paddingBottom="@dimen/content_gap"
+                android:paddingTop="@dimen/content_gap"
                 android:text="YES"
                 android:textColor="#1c78e2"
                 android:textSize="@dimen/font_small"/>
@@ -62,8 +62,8 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_toRightOf="@id/dialog_confirm_point"
                 android:gravity="center"
-                android:paddingBottom="@dimen/content_gap_big"
-                android:paddingTop="@dimen/content_gap_big"
+                android:paddingBottom="@dimen/content_gap"
+                android:paddingTop="@dimen/content_gap"
                 android:text="NO"
                 android:textColor="#1c78e2"
                 android:textSize="@dimen/font_small"/>

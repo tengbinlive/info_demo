@@ -13,6 +13,15 @@ public class RegistParam extends OpenApiBaseRequest implements OpenApiRequestInt
     private String passwd;
     private String ivcode;
     private String inrank;
+    private String ualias;
+
+    public String getUalias() {
+        return ualias;
+    }
+
+    public void setUalias(String ualias) {
+        this.ualias = ualias;
+    }
 
     public String getServno() {
         return servno;
@@ -61,6 +70,7 @@ public class RegistParam extends OpenApiBaseRequest implements OpenApiRequestInt
         if (StringUtil.isBlank(this.passwd)) return false;
         if (StringUtil.isBlank(this.ivcode)) return false;
         if (StringUtil.isBlank(this.inrank)) return false;
+        if (StringUtil.isBlank(this.ualias)) return false;
 		return true;
 	}
 
@@ -71,6 +81,7 @@ public class RegistParam extends OpenApiBaseRequest implements OpenApiRequestInt
         if (includeEmptyAttr || (!includeEmptyAttr && StringUtil.isNotBlank(passwd))) param.put("passwd", passwd);
         if (includeEmptyAttr || (!includeEmptyAttr && StringUtil.isNotBlank(ivcode))) param.put("ivcode", ivcode);
         if (includeEmptyAttr || (!includeEmptyAttr && StringUtil.isNotBlank(inrank))) param.put("inrank", inrank);
+        if (includeEmptyAttr || (!includeEmptyAttr && StringUtil.isNotBlank(ualias))) param.put("ualias", ualias);
 	}
 
     @Override
@@ -81,6 +92,7 @@ public class RegistParam extends OpenApiBaseRequest implements OpenApiRequestInt
                 ", passwd='" + passwd + '\'' +
                 ", ivcode='" + ivcode + '\'' +
                 ", inrank='" + inrank + '\'' +
+                ", ualias='" + ualias + '\'' +
                 '}';
     }
 }
