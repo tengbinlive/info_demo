@@ -115,9 +115,11 @@ public class GungFragment extends AbsFragment {
      *  刷新对话列表
      */
     private void refreshAdapter() {
-        conversationArray = new ArrayList<>(conversationHT.values());
+        conversationArray = new ArrayList<>();
         //添加消息置顶item
-        conversationArray.add(0,new ConversationBean());
+        conversationArray.add(new ConversationBean());
+        //所有会话
+        conversationArray.addAll(conversationHT.values());
         mAdapter.refresh(conversationArray);
     }
 

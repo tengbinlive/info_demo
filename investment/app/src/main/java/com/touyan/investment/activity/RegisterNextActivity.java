@@ -227,6 +227,7 @@ public class RegisterNextActivity extends AbsActivity implements OnClickListener
         }
         dialogShow("正在注册");
         RegistParam param = new RegistParam();
+        param.setUalias(name);
         param.setServno(phoneNum);
         param.setAucode(verification);
         param.setIvcode(invitecode);
