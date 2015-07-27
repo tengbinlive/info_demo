@@ -138,17 +138,18 @@ public class GungFriendFragment extends AbsFragment {
 
 
     private void getDataList() {
+        activityHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    usernames = EMContactManager.getInstance().getContactUserNames();
+                    userManager.batchInfo(GungFriendFragment.this.getActivity(), (ArrayList<String>) usernames, new ArrayList<String>(), activityHandler, LOAD_DATA);
 
+                } catch (EaseMobException e) {
 
-        try {
-            usernames = EMContactManager.getInstance().getContactUserNames();
-
-            userManager.batchInfo(this.getActivity(), (ArrayList<String>) usernames, new ArrayList<String>(), activityHandler, LOAD_DATA);
-        } catch (EaseMobException e) {
-
-        }
-
-
+                }
+            }
+        });
     }
 
     @Override

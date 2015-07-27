@@ -1,5 +1,6 @@
 package com.touyan.investment.helper;
 
+import com.core.util.StringUtil;
 import net.sourceforge.pinyin4j.PinyinHelper;
 import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
 import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;
@@ -14,6 +15,9 @@ public class PinYinUtil {
      * @return 汉语拼音首字母
      */
     public static String getFirstSpell(String chinese) {
+        if(StringUtil.isBlank(chinese)){
+            return "#";
+        }
         StringBuffer pybf = new StringBuffer();
         char[] arr = chinese.toCharArray();
         HanyuPinyinOutputFormat defaultFormat = new HanyuPinyinOutputFormat();
