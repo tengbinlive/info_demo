@@ -260,6 +260,10 @@ public enum OpenApiMethodEnum {
      */
     QUERY_USER_FRIENDS("/user/friends.action", "openapi_json", OpenApi.URL_TYPE_DATA),
     /**
+     * 搜索用户
+     */
+    SEARCH_USER("/user/searchUser.action", "openapi_json", OpenApi.URL_TYPE_DATA),
+    /**
      * 登陆
      */
     LOAD_LOGIN("/user/login.action", "openapi_json", OpenApi.URL_TYPE_DATA);

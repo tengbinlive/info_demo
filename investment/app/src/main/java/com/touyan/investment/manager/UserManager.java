@@ -446,4 +446,27 @@ public class UserManager {
             });
         }
     }
+
+
+    /**
+     * 关注他人
+     *
+     * @param context        上下文
+     * @param handler        在Activity中处理返回结果的Handler
+     * @param handlerMsgCode 返回结果的Handler的Msg代码
+     */
+    public void searchUsers(Context context, String keyword, int startno, int pageSize, final Handler handler, final int handlerMsgCode) {
+        SearchUserParam param = new SearchUserParam();
+        param.setKeyword(keyword);
+        param.setPageSize(pageSize);
+        param.setStartno(startno);
+        // 接口参数
+        param.setMethod(OpenApiMethodEnum.SEARCH_USER);
+        param.setParseTokenType(new TypeReference<SearchUserResult>() {
+        });
+        // 请求对象
+        CommonRequest request = new CommonRequest(param, handler, handlerMsgCode);
+        // 开始执行加载
+        CommonDataLoader.getInstance(context).load(request);
+    }
 }

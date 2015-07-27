@@ -147,7 +147,7 @@ public class ModifyUserInfoActivity extends AbsActivity implements View.OnClickL
     }
 
     private void loadHead(CommonResponse resposne) {
-        if(!userInfoUpload){
+        if (!userInfoUpload) {
             dialogDismiss();
         }
         headInfoUpload = false;
@@ -198,7 +198,7 @@ public class ModifyUserInfoActivity extends AbsActivity implements View.OnClickL
                                 uploadFile.setIsUpload(true);
                                 if (!isCancelled) {
                                     uploadHead();
-                                }else{
+                                } else {
                                     headInfoUpload = false;
                                 }
                             } else {
@@ -238,7 +238,7 @@ public class ModifyUserInfoActivity extends AbsActivity implements View.OnClickL
     private void finishActivity() {
         if (!userInfoUpload && !headInfoUpload) {
             scrollToFinishActivity();
-        }else if(!userInfoUpload&&headInfoUpload){
+        } else if (!userInfoUpload && headInfoUpload) {
             dialogShow("正在上传头像");
         }
     }
@@ -308,28 +308,39 @@ public class ModifyUserInfoActivity extends AbsActivity implements View.OnClickL
                 getQiniuTokenOrRe();
                 userInfoUpload = true;
                 userInfo = App.getInstance().getgUserInfo();
-                userManager.modifyUserInfo(ModifyUserInfoActivity.this,
-                        userInfo.getServno(),
-                        StringUtil.isNotBlank(userNameEdit.getText().toString()) ? userNameEdit.getText().toString() : userInfo.getUalias(),
-                        userInfo.getUphoto(),
-                        StringUtil.isNotBlank(userCityEdit.getText().toString()) ? userCityEdit.getText().toString() : userInfo.getLocatn(),
-                        userInfo.getInrank(),
-                        StringUtil.isNotBlank(userCompanyEdit.getText().toString()) ? userCompanyEdit.getText().toString() : userInfo.getCompny(),
-                        StringUtil.isNotBlank(userOccupationTv.getText().toString()) ? userOccupationTv.getText().toString() : userInfo.getPostin(),
-                        userInfo.getTeleph(),
-                        userInfo.getRscope(),
-                        userInfo.getUisvip(),
-                        tagsStr != null ? tagsStr.toString() : userInfo.getTags(),
-                        null,
-                        null,
-                        activityHandler,
-                        MODIFY_DATA);
-                dialogShow(R.string.carrying, new DialogInterface.OnCancelListener() {
-                    @Override
-                    public void onCancel(DialogInterface dialogInterface) {
-                        isCancelled = true;
-                    }
-                });
+                if (StringUtil.isBlank(userNameEdit.getText().toString()) && StringUtil.isBlank(userInfo.getUalias())) {
+                    CommonUtil.showToast("请填写姓名");
+                } else if (StringUtil.isBlank(userOccupationTv.getText().toString()) && StringUtil.isBlank(userInfo.getPostin())) {
+                    CommonUtil.showToast("请填写职位");
+                } else if (StringUtil.isBlank(userCompanyEdit.getText().toString()) && StringUtil.isBlank(userInfo.getCompny())) {
+                    CommonUtil.showToast("请填写公司");
+                } else if (StringUtil.isBlank(userCityEdit.getText().toString()) && StringUtil.isBlank(userInfo.getLocatn())) {
+                    CommonUtil.showToast("请填写地区");
+                } else {
+                    userManager.modifyUserInfo(ModifyUserInfoActivity.this,
+                            userInfo.getServno(),
+                            StringUtil.isNotBlank(userNameEdit.getText().toString()) ? userNameEdit.getText().toString() : userInfo.getUalias(),
+                            userInfo.getUphoto(),
+                            StringUtil.isNotBlank(userCityEdit.getText().toString()) ? userCityEdit.getText().toString() : userInfo.getLocatn(),
+                            userInfo.getInrank(),
+                            StringUtil.isNotBlank(userCompanyEdit.getText().toString()) ? userCompanyEdit.getText().toString() : userInfo.getCompny(),
+                            StringUtil.isNotBlank(userOccupationTv.getText().toString()) ? userOccupationTv.getText().toString() : userInfo.getPostin(),
+                            userInfo.getTeleph(),
+                            userInfo.getRscope(),
+                            userInfo.getUisvip(),
+                            tagsStr != null ? tagsStr.toString() : userInfo.getTags(),
+                            null,
+                            null,
+                            activityHandler,
+                            MODIFY_DATA);
+                    dialogShow(R.string.carrying, new DialogInterface.OnCancelListener() {
+                        @Override
+                        public void onCancel(DialogInterface dialogInterface) {
+                            isCancelled = true;
+                        }
+                    });
+                }
+
                 break;
             case R.id.user_head_btn:
                 selectPict();

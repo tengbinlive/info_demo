@@ -9,6 +9,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import butterknife.ButterKnife;
 import com.core.util.StringUtil;
 import com.gitonway.lee.niftymodaldialogeffects.Effectstype;
 import com.gitonway.lee.niftymodaldialogeffects.NiftyDialogBuilder;
@@ -62,6 +63,18 @@ public abstract class AbsFragment extends Fragment {
                 .withEffect(Effectstype.Fadein) // def Effectstype.Slidetop
                 .setCustomView(R.layout.loading_view, getActivity()); // .setCustomView(View
         activityHandler.sendEmptyMessage(DIALOGSHOW);
+
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        ButterKnife.bind(this, view);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
 
     }
 
@@ -139,8 +152,8 @@ public abstract class AbsFragment extends Fragment {
 
     public abstract void scrollToTop();
 
-    private final  static int DIALOGSHOW = 1;
-    private final  static int DIALOGDISMISS = 0;
+    private final static int DIALOGSHOW = 1;
+    private final static int DIALOGDISMISS = 0;
 
     private Handler activityHandler = new Handler() {
         public void handleMessage(Message msg) {
@@ -156,4 +169,6 @@ public abstract class AbsFragment extends Fragment {
             }
         }
     };
+
+
 }

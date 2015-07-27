@@ -1,17 +1,13 @@
 package com.touyan.investment.adapter;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.os.Handler;
-import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.RelativeLayout;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
-import com.core.CommonResponse;
-import com.core.util.CommonUtil;
 import com.core.util.StringMatcher;
 import com.daimajia.swipe.adapters.BaseSwipeAdapter;
 import com.easemob.chat.EMContactManager;
@@ -29,9 +25,9 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 import java.util.ArrayList;
 
 /**
- * Created by Administrator on 2015/7/23.
+ * Created by Administrator on 2015/7/27.
  */
-public class FriendListHeadersAdapter extends BaseSwipeAdapter implements StickyListHeadersAdapter, SectionIndexer {
+public class AddFriendListHeadersAdapter extends BaseAdapter implements StickyListHeadersAdapter, SectionIndexer {
     private String mSections = "#ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     private LayoutInflater mInflater;
@@ -42,73 +38,49 @@ public class FriendListHeadersAdapter extends BaseSwipeAdapter implements Sticky
 
     private int keyIndex;
 
-    private ArrayList<Integer> deleteArray = new ArrayList<>();
 
     private UserManager manager = new UserManager();
 
 
-    private void deleteData(int index) {
-        int size = list.size();
-        if (index < size && index >= 0) {
-            UserInfo subscriber = list.get(index);
-            list.remove(index);
-        }
-    }
-
-    public FriendListHeadersAdapter(Activity context, ArrayList<UserInfo> _list) {
+    public AddFriendListHeadersAdapter(Activity context, ArrayList<UserInfo> _list) {
         this.list = _list;
         mContext = context;
         mInflater = LayoutInflater.from(mContext);
     }
 
-    @Override
-    public int getSwipeLayoutResourceId(int position) {
-        return R.id.swipe;
-    }
 
     @Override
-    public View generateView(int position, ViewGroup parent) {
-        View convertView;
-        convertView = mInflater.inflate(R.layout.item_friend, parent, false);
-        ViewHolder holder = new ViewHolder();
-        holder.name = (TextView) convertView.findViewById(R.id.name);
-        holder.head = (SelectableRoundedImageView) convertView.findViewById(R.id.head);
-        holder.head.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int position = (Integer) view.getTag();
-                UserFansDetailsActivity.toOthersDetail(mContext, App.getInstance().getgUserInfo().getServno(), list.get(position).getServno());
-            }
-        });
-        holder.deleteLayout = (RelativeLayout) convertView.findViewById(R.id.delete_layout);
-        holder.deleteLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                closeAllItems();
-                int index = (Integer) view.getTag();
-                deleteArray.add(index);
-                try {
-                    EMContactManager.getInstance().deleteContact(list.get(index).getServno());
-
-                } catch (EaseMobException e) {
-                    e.printStackTrace();
+    public View getView(int position, View convertView, ViewGroup viewGroup) {
+        ViewHolder holder;
+        if (convertView == null) {
+            convertView = mInflater.inflate(R.layout.item_add_friend, viewGroup, false);
+            holder = new ViewHolder();
+            holder.name = (TextView) convertView.findViewById(R.id.name);
+            holder.head = (SelectableRoundedImageView) convertView.findViewById(R.id.head);
+            holder.add = (TextView) convertView.findViewById(R.id.add);
+            holder.head.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = (Integer) view.getTag();
+                    UserFansDetailsActivity.toOthersDetail(mContext, App.getInstance().getgUserInfo().getServno(), list.get(position).getServno());
                 }
-                ((AbsActivity) mContext).dialogShow();
-            }
-        });
-        convertView.setTag(holder);
-        return convertView;
-    }
+            });
+            holder.add.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
 
-    @Override
-    public void fillValues(int position, View convertView) {
-        ViewHolder holder = (ViewHolder) convertView.getTag();
+                }
+            });
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
+        }
         UserInfo subscriber = list.get(position);
-        holder.deleteLayout.setTag(position);
-
+        holder.add.setTag(position);
         holder.name.setText(subscriber.getUalias());
         holder.head.setTag(position);
         ImageLoader.getInstance().displayImage(subscriber.getUphoto(), holder.head);
+        return convertView;
     }
 
     @Override
@@ -196,7 +168,7 @@ public class FriendListHeadersAdapter extends BaseSwipeAdapter implements Sticky
     class ViewHolder {
         SelectableRoundedImageView head;
         TextView name;
-        RelativeLayout deleteLayout;
+        TextView add;
     }
 
     class HeaderViewHolder {
