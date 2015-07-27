@@ -25,6 +25,9 @@ import com.touyan.investment.AbsFragment;
 import com.touyan.investment.R;
 import com.touyan.investment.adapter.FriendListHeadersAdapter;
 import com.touyan.investment.adapter.GroupListAdapter;
+import com.touyan.investment.event.AnyEventType;
+import com.touyan.investment.event.GroupsListEventType;
+import com.touyan.investment.hx.HXChatManagerInit;
 import com.touyan.investment.manager.InvestmentManager;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
@@ -95,15 +98,22 @@ public class GungGroupFragment extends AbsFragment {
 
         View ll_listEmpty = viewGroup.findViewById(R.id.ll_listEmpty);
         listView.setEmptyView(ll_listEmpty);
-        dialogShow();
-        getDataList();
-        setData();
+
+        HXChatManagerInit hxChatManagerInit = HXChatManagerInit.getInstance();
+        if (!hxChatManagerInit.isSyncingGroups) {
+            hxChatManagerInit.asyncFetchGroupsFromServer();
+        }
+
         initListView();
+    }
+
+    public void onEvent(GroupsListEventType event) {
+
+
     }
 
 
     private void initListView() {
-        dialogDismiss();
         registerForContextMenu(listView);
         adapter = new GroupListAdapter(mInflater, list, listTag);
         SwingBottomInAnimationAdapter animationAdapter = new SwingBottomInAnimationAdapter(adapter);
@@ -111,6 +121,7 @@ public class GungGroupFragment extends AbsFragment {
         listView.setAdapter(animationAdapter);
 
     }
+
 
     private void getDataList() {
         EMGroupManager.getInstance().asyncGetGroupsFromServer(new EMValueCallBack<List<EMGroup>>() {
