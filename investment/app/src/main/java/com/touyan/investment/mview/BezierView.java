@@ -37,14 +37,14 @@ public class BezierView extends FrameLayout {
     float anchorY = 300;
 
     // 起点坐标
-    float startX = 180;
-    float startY = 150;
+    float startX = -180;
+    float startY = -150;
 
     //颜色
     int themeColos = 0xfffd5252;
 
     // 定点圆半径
-   public float radius = DEFAULT_RADIUS;
+    public float radius = DEFAULT_RADIUS;
 
     // 判断动画是否开始
     boolean isAnimStart;
@@ -55,7 +55,7 @@ public class BezierView extends FrameLayout {
     ImageView exploredImageView;
     TextView tipImageView;
 
-    public interface EndOnBack{
+    public interface EndOnBack {
         void endOnBack();
     }
 
@@ -81,7 +81,8 @@ public class BezierView extends FrameLayout {
     }
 
     private void init(Context context, AttributeSet attrs) {
-
+        int bgid;
+        int textColos;
         if (attrs != null) {
             // Styleables from XML
             TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.BezierView);
@@ -89,10 +90,14 @@ public class BezierView extends FrameLayout {
             float offsetY = a.getDimension(R.styleable.BezierView_offsetY, 0);
             float statusBarOffset = a.getDimension(R.styleable.BezierView_statusBarOffset, 0);
             startY = offsetY + statusBarOffset;
+            bgid = a.getInt(R.styleable.BezierView_viewBg,R.drawable.skin_tips_message_bg);
+            textColos = a.getColor(R.styleable.BezierView_fontColos, R.color.theme);
             a.recycle();
         } else {
             startX = getContext().getResources().getDimension(R.dimen.tip_offset_x);
             startY = getContext().getResources().getDimension(R.dimen.tip_offset_y);
+            bgid = R.drawable.skin_tips_message_bg;
+            textColos = getResources().getColor(R.color.theme);
         }
 
         path = new Path();
@@ -111,17 +116,23 @@ public class BezierView extends FrameLayout {
         exploredImageView.setVisibility(View.INVISIBLE);
 
         tipImageView = new TextView(getContext());
-        tipImageView.setTextColor(themeColos);
+        tipImageView.setTextColor(textColos);
         tipImageView.setText("1");
         tipImageView.setLayoutParams(params);
         tipImageView.setGravity(Gravity.CENTER);
-        tipImageView.setBackgroundResource(R.drawable.skin_tips_message_bg);
+        tipImageView.setBackgroundResource(bgid);
 
         addView(tipImageView);
         addView(exploredImageView);
     }
 
-    public void setNewMessage(String message) {
+    public void setNewMessage(String message, float x, float y) {
+        startX = x;
+        startY = y;
+        anchorX = startX;
+        anchorY = startY;
+        this.x = startX;
+        this.y = startY;
         isTouch = false;
         isAnimStart = false;
         tipImageView.setText(message);
@@ -194,11 +205,11 @@ public class BezierView extends FrameLayout {
         isAnimStart = true;
         exploredImageView.setVisibility(View.VISIBLE);
         exploredImageView.setImageResource(R.drawable.tip_anim);
-        AnimationDrawable animationDrawable= (AnimationDrawable) exploredImageView.getDrawable();
+        AnimationDrawable animationDrawable = (AnimationDrawable) exploredImageView.getDrawable();
         animationDrawable.stop();
         animationDrawable.start();
         int duration = 0;
-        for(int i=0;i<animationDrawable.getNumberOfFrames();i++){
+        for (int i = 0; i < animationDrawable.getNumberOfFrames(); i++) {
 
             duration += animationDrawable.getDuration(i);
 
@@ -210,7 +221,7 @@ public class BezierView extends FrameLayout {
 
             public void run() {
 
-                if(null!=endOnBack){
+                if (null != endOnBack) {
                     endOnBack.endOnBack();
                 }
 

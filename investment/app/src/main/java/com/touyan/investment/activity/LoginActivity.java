@@ -77,6 +77,7 @@ public class LoginActivity extends AbsActivity implements OnClickListener {
                 toMainActivity();
             }
         } else {
+            dialogDismiss();
             CommonUtil.showToast(resposne.getErrorTip());
         }
     }

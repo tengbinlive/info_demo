@@ -41,7 +41,7 @@ public class GungFragment extends AbsFragment {
 
     private View rootView;
 
-    private BezierView bezierview;
+    private BezierView notice_bv;
 
     private LayoutInflater mInflater;
 
@@ -123,7 +123,6 @@ public class GungFragment extends AbsFragment {
         mAdapter.refresh(conversationArray);
     }
 
-
     private void initListView(View viewGroup) {
 
         mListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
@@ -181,15 +180,13 @@ public class GungFragment extends AbsFragment {
 
     // 初始化资源
     private void init(View viewGroup) {
-        bezierview = (BezierView) viewGroup.findViewById(R.id.bezierview);
-        bezierview.setEndOnBack(new BezierView.EndOnBack() {
+        notice_bv = (BezierView) viewGroup.findViewById(R.id.notice_bv);
+        notice_bv.setEndOnBack(new BezierView.EndOnBack() {
             @Override
             public void endOnBack() {
-                clearConversation();
-                updateUnreadLabel();
-                refresh();
-            }
+             }
         });
+
         mListView = (PullToRefreshListView) viewGroup.findViewById(R.id.pull_refresh_list);
         initListView(viewGroup);
         refresh();
@@ -265,7 +262,6 @@ public class GungFragment extends AbsFragment {
     //接收到新消息
     public void onEvent(EMConversation event) {
         refresh();
-        updateUnreadLabel();
     }
 
     /**
@@ -302,51 +298,9 @@ public class GungFragment extends AbsFragment {
         getActivity().overridePendingTransition(R.anim.push_translate_in_right, 0);
     }
 
-    /**
-     * 刷新未读消息数
-     */
-    private void updateUnreadLabel() {
-        int count = getUnreadMsgCountTotal();
-        if (count > 0) {
-            bezierview.setNewMessage("" + count);
-            bezierview.setVisibility(View.VISIBLE);
-        } else {
-            bezierview.setVisibility(View.GONE);
-        }
-    }
-
-    /**
-     * 获取未读消息数
-     *
-     * @return
-     */
-    private int getUnreadMsgCountTotal() {
-        int unreadMsgCountTotal = 0;
-        int chatroomUnreadMsgCount = 0;
-        unreadMsgCountTotal = EMChatManager.getInstance().getUnreadMsgsCount();
-        for (EMConversation conversation : EMChatManager.getInstance().getAllConversations().values()) {
-            if (conversation.getType() == EMConversation.EMConversationType.ChatRoom)
-                chatroomUnreadMsgCount = chatroomUnreadMsgCount + conversation.getUnreadMsgCount();
-        }
-        return unreadMsgCountTotal - chatroomUnreadMsgCount;
-    }
-
-
-    /**
-     * 清除所有未读消息
-     *
-     * @return
-     */
-    private void clearConversation() {
-        for (EMConversation conversation : EMChatManager.getInstance().getAllConversations().values()) {
-            conversation.resetUnreadMsgCount();
-        }
-    }
 
     @Override
     public void scrollToTop() {
-        if (!App.isConflict && !App.isCurrentAccountRemoved) {
-            updateUnreadLabel();
-        }
+
     }
 }

@@ -4,6 +4,8 @@
     <declare-styleable name="BezierView">
         <attr name="offsetX" format="dimension" />
         <attr name="offsetY" format="dimension" />
+        <attr name="fontColos" format="color" />
+        <attr name="viewBg" format="integer" />
         <attr name="statusBarOffset" format="dimension" />
     </declare-styleable>
 

@@ -2,6 +2,8 @@ package com.touyan.investment.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
@@ -11,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import com.core.CommonResponse;
 import com.core.util.CommonUtil;
 import com.easemob.EMConnectionListener;
 import com.easemob.EMError;
@@ -26,6 +29,7 @@ import com.touyan.investment.fragment.InvestmentFragment;
 import com.touyan.investment.fragment.MeFragment;
 import com.touyan.investment.helper.Util;
 import com.touyan.investment.hx.HXConstant;
+import com.touyan.investment.mview.BezierView;
 
 import java.util.ArrayList;
 
@@ -44,10 +48,25 @@ public class MainActivity extends AbsActivity {
     private final static int GUNG = INVESTMENT + 1;//拉呱
     private final static int ME = GUNG + 1;//个人
 
+    private final static int UPDATE_UNREADLABEL = 0x07;//更新未读消息
+
     private SmartTabLayout viewPagerTab;
     private ArrayList<AbsFragment> fragments;
 
-    private RelativeLayout launcher_ly;
+    private BezierView message_bv;
+
+
+    private Handler activityHandler = new Handler() {
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case UPDATE_UNREADLABEL:
+                    updateUnreadLabel();
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -87,7 +106,7 @@ public class MainActivity extends AbsActivity {
     }
 
     private void findView() {
-        launcher_ly = (RelativeLayout) findViewById(R.id.launcher_ly);
+        message_bv = (BezierView) findViewById(R.id.message_bv);
         fragments = new ArrayList<AbsFragment>();
         fragments.add(new InvestmentFragment());
         fragments.add(new GungFragment());
@@ -142,6 +161,16 @@ public class MainActivity extends AbsActivity {
 
             }
         });
+
+        message_bv.setEndOnBack(new BezierView.EndOnBack() {
+            @Override
+            public void endOnBack() {
+                EMChatManager.getInstance().resetAllUnreadMsgCount();
+                activityHandler.sendEmptyMessage(UPDATE_UNREADLABEL);
+            }
+        });
+
+        activityHandler.sendEmptyMessageDelayed(UPDATE_UNREADLABEL,300);
     }
 
     private void setIconInfo(ViewGroup custom_ly, BottomMenu menu, boolean isClick) {
@@ -179,6 +208,48 @@ public class MainActivity extends AbsActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    //接收到新消息
+    public void onEvent(EMConversation event) {
+        if (!App.isConflict && !App.isCurrentAccountRemoved) {
+            activityHandler.sendEmptyMessage(UPDATE_UNREADLABEL);
+        }
+    }
+
+
+    /**
+     * 刷新未读消息数
+     */
+    private void updateUnreadLabel() {
+        int count = getUnreadMsgCountTotal();
+        if (count > 0) {
+            int[] location = new  int[2] ;
+            View view = viewPagerTab.getTabAt(1);
+            view.getLocationInWindow(location); //获取在当前窗口内的绝对坐标
+            int x = location[0]+(view.getWidth()>>1)+50;
+            int y = location[1];
+            message_bv.setNewMessage("" + count,x,y);
+            message_bv.setVisibility(View.VISIBLE);
+        } else {
+            message_bv.setVisibility(View.GONE);
+        }
+    }
+
+    /**
+     * 获取未读消息数
+     *
+     * @return
+     */
+    private int getUnreadMsgCountTotal() {
+        int unreadMsgCountTotal = 0;
+        int chatroomUnreadMsgCount = 0;
+        unreadMsgCountTotal = EMChatManager.getInstance().getUnreadMsgsCount();
+        for (EMConversation conversation : EMChatManager.getInstance().getAllConversations().values()) {
+            if (conversation.getType() == EMConversation.EMConversationType.ChatRoom)
+                chatroomUnreadMsgCount = chatroomUnreadMsgCount + conversation.getUnreadMsgCount();
+        }
+        return unreadMsgCountTotal - chatroomUnreadMsgCount;
     }
 
 }
