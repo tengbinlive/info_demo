@@ -18,11 +18,19 @@ package com.touyan.investment.mview;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Rect;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
+import android.view.View;
+import android.view.accessibility.AccessibilityEvent;
+import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import com.handmark.pulltorefresh.PullToRefreshBase;
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
@@ -69,10 +77,10 @@ public class IndexableListView extends StickyListHeadersListView {
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
         // Intercept ListView's touch event
-        int action =ev.getAction();
+        int action = ev.getAction();
         if (action == MotionEvent.ACTION_DOWN) {
             getParent().requestDisallowInterceptTouchEvent(false);
-        } else if (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_CANCEL){
+        } else if (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_CANCEL) {
             getParent().requestDisallowInterceptTouchEvent(true);
         }
         if (mScroller != null && mScroller.onTouchEvent(ev))
@@ -90,17 +98,18 @@ public class IndexableListView extends StickyListHeadersListView {
     }
 
     @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        if (mScroller != null)
+            mScroller.onSizeChanged(w, h, oldw, oldh);
+    }
+
+    @Override
     public void setAdapter(StickyListHeadersAdapter adapter) {
         super.setAdapter(adapter);
         if (mScroller != null)
             mScroller.setAdapter(adapter);
     }
 
-    @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
-        if (mScroller != null)
-            mScroller.onSizeChanged(w, h, oldw, oldh);
-    }
 
 }

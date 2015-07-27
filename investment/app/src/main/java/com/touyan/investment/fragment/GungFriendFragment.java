@@ -8,8 +8,10 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import butterknife.ButterKnife;
 import com.core.CommonResponse;
 import com.core.util.CommonUtil;
+import com.core.util.Log;
 import com.easemob.chat.EMContactManager;
 import com.easemob.exceptions.EaseMobException;
 import com.nhaarman.listviewanimations.appearance.StickyListHeadersAdapterDecorator;
@@ -99,6 +101,7 @@ public class GungFriendFragment extends AbsFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         init();
     }
 
@@ -113,7 +116,7 @@ public class GungFriendFragment extends AbsFragment {
             listView.setFitsSystemWindows(true);
         }
 
-        dialogShow();
+
         getDataList();
     }
 
@@ -138,18 +141,29 @@ public class GungFriendFragment extends AbsFragment {
 
 
     private void getDataList() {
+
         activityHandler.post(new Runnable() {
             @Override
             public void run() {
                 try {
                     usernames = EMContactManager.getInstance().getContactUserNames();
-                    userManager.batchInfo(GungFriendFragment.this.getActivity(), (ArrayList<String>) usernames, new ArrayList<String>(), activityHandler, LOAD_DATA);
+                    if (usernames != null) {
+
+                        BatchInfoResult result = userManager.batchInfo(GungFriendFragment.this.getActivity(), (ArrayList<String>) usernames, new ArrayList<String>(), activityHandler, LOAD_DATA);
+                        if (result != null) {
+                            dialogDismiss();
+                            friends = result.getUserinfo();
+                            hanziSequence();
+                        }
+
+                    }
 
                 } catch (EaseMobException e) {
-
+                    Log.e(TAG + e.getErrorCode(), e.getMessage());
                 }
             }
         });
+
     }
 
     @Override

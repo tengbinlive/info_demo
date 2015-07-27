@@ -173,6 +173,7 @@ public class RegisterNextActivity extends AbsActivity implements OnClickListener
         name_et = (EditTextWithDelete) findViewById(R.id.name_et);
         role_tv = (TextView) findViewById(R.id.role_et);
         role_tv.setOnClickListener(this);
+        sendcode_btn.setOnClickListener(this);
         TextView phone_tv = (TextView) findViewById(R.id.phone_tv);
         phone_tv.setText(phoneNum);
         register_btn = (Button) findViewById(R.id.register_btn);

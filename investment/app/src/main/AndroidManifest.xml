@@ -318,6 +318,12 @@
                   android:theme="@style/AppTheme">
         </activity>
 
+        <!--邀请联系人-->
+        <activity android:name=".activity.InviteContactsActivity"
+                  android:theme="@style/AppTheme">
+        </activity>
+
+
         <!--分享-->
         <activity
                 android:name="com.mob.tools.MobUIShell"

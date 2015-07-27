@@ -43,11 +43,10 @@ public class GungGroupFragment extends AbsFragment {
     private LayoutInflater mInflater;
 
     //列表
-   // private StickyListHeadersListView listView;
-   // private FriendListHeadersAdapter mAdapter;
+    // private StickyListHeadersListView listView;
+    // private FriendListHeadersAdapter mAdapter;
 
     private ArrayList<String> mList;
-
 
 
     private GroupListAdapter adapter = null;
@@ -92,7 +91,7 @@ public class GungGroupFragment extends AbsFragment {
 
     // 初始化资源
     private void init(View viewGroup) {
-        listView = (ListView)viewGroup.findViewById(R.id.group_list);
+        listView = (ListView) viewGroup.findViewById(R.id.group_list);
 
         View ll_listEmpty = viewGroup.findViewById(R.id.ll_listEmpty);
         listView.setEmptyView(ll_listEmpty);
@@ -101,7 +100,6 @@ public class GungGroupFragment extends AbsFragment {
         setData();
         initListView();
     }
-
 
 
     private void initListView() {
@@ -120,25 +118,25 @@ public class GungGroupFragment extends AbsFragment {
             public void onSuccess(List<EMGroup> value) {
 
             }
+
             @Override
-            public void onError(int error, String errorMsg){
+            public void onError(int error, String errorMsg) {
 
             }
         });
     }
 
 
-
-    public void setData(){
+    public void setData() {
         list.add("我创建的群");
         listTag.add("我创建的群");
-        for(int i=0;i<3;i++){
-            list.add("浅笑无痕"+i);
+        for (int i = 0; i < 3; i++) {
+            list.add("浅笑无痕" + i);
         }
         list.add("我加入的群");
         listTag.add("我加入的群");
-        for(int i=0;i<3;i++){
-            list.add("投研社"+i);
+        for (int i = 0; i < 3; i++) {
+            list.add("投研社" + i);
         }
     }
 

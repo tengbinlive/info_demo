@@ -181,4 +181,19 @@ public class UserInfo implements Serializable {
                 ", uavail=" + uavail +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        UserInfo userInfo = (UserInfo) o;
+
+        if (servno != null ? !servno.equals(userInfo.servno) : userInfo.servno != null) return false;
+
+        return true;
+
+    }
+
+
 }
