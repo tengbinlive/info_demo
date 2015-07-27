@@ -2,7 +2,7 @@ package com.touyan.investment.bean.message;
 
 import java.io.Serializable;
 
-public class GroupDetal implements Serializable {
+public class GroupDetail implements Serializable {
 
     private Boolean approval;
     private String canadd;

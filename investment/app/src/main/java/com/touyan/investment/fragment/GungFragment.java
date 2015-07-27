@@ -8,10 +8,7 @@ import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+import android.widget.*;
 import com.core.CommonResponse;
 import com.core.util.CommonUtil;
 import com.easemob.chat.EMChatManager;
@@ -21,17 +18,18 @@ import com.handmark.pulltorefresh.PullToRefreshListView;
 import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationAdapter;
 import com.touyan.investment.AbsActivity;
 import com.touyan.investment.AbsFragment;
-import com.touyan.investment.App;
 import com.touyan.investment.R;
 import com.touyan.investment.activity.FriendsActivity;
 import com.touyan.investment.adapter.GungNewsAdapter;
 import com.touyan.investment.bean.message.ConversationBean;
-import com.touyan.investment.bean.message.GroupDetal;
+import com.touyan.investment.bean.message.GroupDetail;
 import com.touyan.investment.bean.user.BatchInfoResult;
 import com.touyan.investment.bean.user.UserInfo;
+import com.touyan.investment.event.NetworkEvent;
 import com.touyan.investment.helper.Util;
 import com.touyan.investment.manager.UserManager;
 import com.touyan.investment.mview.BezierView;
+import com.touyan.investment.mview.NetworkPrompt;
 
 import java.util.*;
 
@@ -43,13 +41,19 @@ public class GungFragment extends AbsFragment {
 
     private BezierView notice_bv;
 
+    private NetworkPrompt networkPrompt;
+
     private LayoutInflater mInflater;
 
     private static final int INIT_LIST = 0x01;//初始化数据处理
 
     private static final int FINISH_LIST = 0x02;//结束listview
 
+    private static final int NETWORK_PROMPT = 0x03;//显示网络状态提示
+
     private TextView menuLeft;
+
+    private LinearLayout action_bar;
 
     //列表
     private PullToRefreshListView mListView;
@@ -76,6 +80,9 @@ public class GungFragment extends AbsFragment {
                 case FINISH_LIST:
                     mListView.onRefreshComplete();
                     break;
+                case NETWORK_PROMPT:
+                    networkPrompt.showPopupWindow(action_bar, 0, 0);
+                    break;
                 default:
                     break;
             }
@@ -95,7 +102,7 @@ public class GungFragment extends AbsFragment {
 
     private void processData(BatchInfoResult result) {
         ArrayList<UserInfo> userinfos = result.getUserinfo();
-        ArrayList<GroupDetal> groupinfos = result.getGroupinfo();
+        ArrayList<GroupDetail> groupinfos = result.getGroupinfo();
         if (null != userinfos) {
             for (UserInfo userInfo : userinfos) {
                 conversationHT.get(userInfo.getServno()).setObject(userInfo);
@@ -103,8 +110,8 @@ public class GungFragment extends AbsFragment {
         }
 
         if (null != groupinfos) {
-            for (GroupDetal groupDetal : groupinfos) {
-                conversationHT.get(groupDetal.getGroupid()).setObject(groupDetal);
+            for (GroupDetail groupDetail : groupinfos) {
+                conversationHT.get(groupDetail.getGroupid()).setObject(groupDetail);
             }
         }
         conversationArray = new ArrayList<>(conversationHT.values());
@@ -260,8 +267,39 @@ public class GungFragment extends AbsFragment {
     }
 
     //接收到新消息
-    public void onEvent(EMConversation event) {
-        refresh();
+    public void onEvent(NetworkEvent event) {
+        showNetworkPrompt(event.getStatus());
+    }
+
+    private void showNetworkPrompt(String prompt) {
+        if (networkPrompt == null) {
+            RelativeLayout conentView = (RelativeLayout) mInflater.inflate(R.layout.dialog_no_network, null);
+            TextView value = (TextView) conentView.findViewById(R.id.value);
+            TextView cancle = (TextView) conentView.findViewById(R.id.cancle);
+            value.setText(prompt);
+            cancle.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    networkPrompt.dismiss();
+                }
+            });
+            int height = (int) getActivity().getResources().getDimension(R.dimen.prompt_height);
+            networkPrompt = new NetworkPrompt(conentView, R.style.AnimationPreviewRigth,height);
+        }
+        activityHandler.sendEmptyMessage(NETWORK_PROMPT);
+    }
+
+    /**
+     * 获取未读申请与通知消息
+     *
+     * @return
+     */
+    public int getUnreadAddressCountTotal() {
+        int unreadAddressCountTotal = 0;
+//        if (DemoApplication.getInstance().getContactList().get(Constant.NEW_FRIENDS_USERNAME) != null)
+//            unreadAddressCountTotal = DemoApplication.getInstance().getContactList().get(Constant.NEW_FRIENDS_USERNAME)
+//                    .getUnreadMsgCount();
+        return unreadAddressCountTotal;
     }
 
     /**
@@ -273,6 +311,7 @@ public class GungFragment extends AbsFragment {
     }
 
     public void initActionBar(View viewGroup) {
+        action_bar = (LinearLayout) viewGroup.findViewById(R.id.action_bar);
         menuLeft = (TextView) viewGroup.findViewById(R.id.toolbar_left_btn);
         TextView toolbar_right_tv = (TextView) viewGroup.findViewById(R.id.toolbar_right_tv);
         TextView toolbar_intermediate_tv = (TextView) viewGroup.findViewById(R.id.toolbar_intermediate_tv);

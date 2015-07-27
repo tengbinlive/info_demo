@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.*;
 import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -39,9 +40,6 @@ public class BezierView extends FrameLayout {
     // 起点坐标
     float startX = -180;
     float startY = -150;
-
-    //颜色
-    int themeColos = 0xfffd5252;
 
     // 定点圆半径
     public float radius = DEFAULT_RADIUS;
@@ -81,8 +79,9 @@ public class BezierView extends FrameLayout {
     }
 
     private void init(Context context, AttributeSet attrs) {
-        int bgid;
-        int textColos;
+        Drawable textBg = null;
+        int textColos = 0;
+        int pathColos = 0;
         if (attrs != null) {
             // Styleables from XML
             TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.BezierView);
@@ -90,14 +89,19 @@ public class BezierView extends FrameLayout {
             float offsetY = a.getDimension(R.styleable.BezierView_offsetY, 0);
             float statusBarOffset = a.getDimension(R.styleable.BezierView_statusBarOffset, 0);
             startY = offsetY + statusBarOffset;
-            bgid = a.getInt(R.styleable.BezierView_viewBg,R.drawable.skin_tips_message_bg);
-            textColos = a.getColor(R.styleable.BezierView_fontColos, R.color.theme);
+            textBg = a.getDrawable(R.styleable.BezierView_viewBg);
+            textColos = a.getColor(R.styleable.BezierView_numColos, 0xfff12e40);
+            pathColos = a.getColor(R.styleable.BezierView_pathColos, 0xffffffff);
             a.recycle();
         } else {
             startX = getContext().getResources().getDimension(R.dimen.tip_offset_x);
             startY = getContext().getResources().getDimension(R.dimen.tip_offset_y);
-            bgid = R.drawable.skin_tips_message_bg;
-            textColos = getResources().getColor(R.color.theme);
+            textColos = 0xfff12e40;
+            pathColos = 0xffffffff;
+
+        }
+        if(textBg==null){
+            textBg = context.getResources().getDrawable(R.drawable.skin_tips_message_white);
         }
 
         path = new Path();
@@ -106,7 +110,7 @@ public class BezierView extends FrameLayout {
         paint.setAntiAlias(true);
         paint.setStyle(Paint.Style.FILL_AND_STROKE);
         paint.setStrokeWidth(2);
-        paint.setColor(Color.WHITE);
+        paint.setColor(pathColos);
 
         LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.gravity = Gravity.CENTER;
@@ -117,13 +121,25 @@ public class BezierView extends FrameLayout {
 
         tipImageView = new TextView(getContext());
         tipImageView.setTextColor(textColos);
-        tipImageView.setText("1");
+        tipImageView.setText("0");
         tipImageView.setLayoutParams(params);
         tipImageView.setGravity(Gravity.CENTER);
-        tipImageView.setBackgroundResource(bgid);
+        tipImageView.setBackground(textBg);
 
         addView(tipImageView);
         addView(exploredImageView);
+    }
+
+    public void setMessageAttr(int textColos,int pathColos,int textBg){
+        if(textColos>0){
+            tipImageView.setTextColor(textColos);
+        }
+        if(pathColos>0){
+            paint.setColor(pathColos);
+        }
+        if(textBg>0){
+            tipImageView.setBackgroundResource(textBg);
+        }
     }
 
     public void setNewMessage(String message, float x, float y) {

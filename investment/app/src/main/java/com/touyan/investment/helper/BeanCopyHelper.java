@@ -2,7 +2,7 @@ package com.touyan.investment.helper;
 
 import com.dao.GroupDetalDO;
 import com.dao.UserInfoDO;
-import com.touyan.investment.bean.message.GroupDetal;
+import com.touyan.investment.bean.message.GroupDetail;
 import com.touyan.investment.bean.user.UserInfo;
 
 public class BeanCopyHelper {
@@ -49,9 +49,9 @@ public class BeanCopyHelper {
         return dist;
     }
 
-    public static GroupDetal cast2GroupDetal(GroupDetalDO source) {
+    public static GroupDetail cast2GroupDetal(GroupDetalDO source) {
         if (source == null) return null;
-        GroupDetal dist = new GroupDetal();
+        GroupDetail dist = new GroupDetail();
         dist.setApproval(source.getApproval());
         dist.setCanadd(source.getCanadd());
         dist.setDesc(source.getDesc());
@@ -67,7 +67,7 @@ public class BeanCopyHelper {
         return dist;
     }
 
-    public static GroupDetalDO cast2GroupDetalDO(GroupDetal source) {
+    public static GroupDetalDO cast2GroupDetalDO(GroupDetail source) {
         if (source == null) return null;
         GroupDetalDO dist = new GroupDetalDO();
         dist.setApproval(source.getApproval());

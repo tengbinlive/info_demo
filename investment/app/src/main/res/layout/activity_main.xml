@@ -31,8 +31,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@android:color/transparent"
-            app:fontColos="@color/white"
-            app:viewBg="@drawable/skin_tips_message_red_bg"
+            app:numColos="#ffffffff"
+            app:pathColos="#fff12e40"
+            app:viewBg="@drawable/skin_tips_message_red"
             app:statusBarOffset="@dimen/statusBar_height"/>
 
 </RelativeLayout>

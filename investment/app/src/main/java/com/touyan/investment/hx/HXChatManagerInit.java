@@ -4,17 +4,25 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import com.dao.*;
 import com.easemob.EMConnectionListener;
 import com.easemob.chat.*;
 import com.easemob.exceptions.EaseMobException;
 import com.touyan.investment.App;
 import com.touyan.investment.Constant;
+import com.touyan.investment.bean.user.BatchInfoResult;
+import com.touyan.investment.bean.user.User;
+import com.touyan.investment.bean.user.UserInfo;
 import com.touyan.investment.event.ConnectionEventType;
 import com.touyan.investment.event.ContactsListEventType;
 import com.touyan.investment.event.GroupsListEventType;
 import com.touyan.investment.event.OnContactDeletedEvent;
+import com.touyan.investment.helper.BeanCopyHelper;
+import com.touyan.investment.helper.SharedPreferencesHelper;
 import de.greenrobot.event.EventBus;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -145,7 +153,7 @@ public class HXChatManagerInit {
         @Override
         public void onConnected() {
             asyncFetchContactsFromServer();
-            asyncFetchGroupsFromServer();
+            DBDataProcess();
         }
 
         @Override
@@ -183,6 +191,62 @@ public class HXChatManagerInit {
 
             }
         }.start();
+    }
+
+    public void asyncData(){
+        asyncFetchGroupsFromServer();
+    }
+
+    private void DBDataProcess() {
+        long dbtmep = SharedPreferencesHelper.getLong(App.getInstance(), Constant.SHARED_PREFERENCES_DB_TIME, -1);
+        if (dbtmep <= 0) {
+            asyncData();
+        } else {
+            long currenttime = System.currentTimeMillis();
+            boolean tempoffer = (currenttime - dbtmep) > Constant.DB_TIME;
+            if (tempoffer) {
+                SharedPreferencesHelper.setLong(App.getInstance(), Constant.SHARED_PREFERENCES_DB_TIME, System.currentTimeMillis());
+                clearConfig();
+                asyncData();
+            } else {
+                // 从数据库中加载好友&群列表
+                UserDao userDao = App.getDaoSession().getUserDao();
+
+                List<UserDO> users = userDao.queryBuilder().list();
+
+                HashMap<String, User> friendsHashMap = new HashMap<>();
+
+                HashMap<String, User> groupsHashMap = new HashMap<>();
+
+                for(UserDO userdo:users){
+                    User user = new User();
+                    user.setAvatar(userdo.getAvatar());
+                    user.setHeader(userdo.getHeader());
+                    user.setUnreadMsgCount(userdo.getUnreadMsgCount());
+                    String type = userdo.getType();
+                    user.setType(type);
+                    if(User.TYPE_FRIENDS.equals(type)){
+                        friendsHashMap.put(userdo.getAvatar(),user);
+                    }else{
+                        groupsHashMap.put(userdo.getAvatar(),user);
+                    }
+                }
+
+                HXUserUtils.getInstance().setFriendsHashMap(friendsHashMap);
+                HXUserUtils.getInstance().setGroupsHashMap(groupsHashMap);
+
+            }
+        }
+    }
+
+    /**
+     * 清除缓存
+     */
+    public static void clearConfig() {
+        DaoSession daoSession = App.getDaoSession();
+        daoSession.getUserInfoDao().deleteAll();
+        daoSession.getGroupDetalDao().deleteAll();
+        daoSession.getUserDao().deleteAll();
     }
 
     //同步群组
@@ -224,6 +288,45 @@ public class HXChatManagerInit {
             }
         }.start();
     }
+
+    /**
+     * 同步操作，从服务器获取群组列表
+     * 该方法会记录更新状态，可以通过isSyncingGroupsFromServer获取是否正在更新
+     * 和HXPreferenceUtils.getInstance().getSettingSyncGroupsFinished()获取是否更新已经完成
+     *
+     * @throws EaseMobException
+     */
+    public synchronized void asyncFetchGroupsFromServer() {
+        if (isSyncingGroupsWithServer) {
+            return;
+        }
+
+        isSyncingGroupsWithServer = true;
+
+        new Thread() {
+            @Override
+            public void run() {
+                List<EMGroup> groups;
+                try {
+                    groups = EMGroupManager.getInstance().getGroupsFromServer();
+
+                    // in case that logout already before server returns, we should return immediately
+                    if (!EMChat.getInstance().isLoggedIn()) {
+                        return;
+                    }
+                    isSyncingGroups = true;
+                    isSyncingGroupsWithServer = false;
+                    EventBus.getDefault().post(new GroupsListEventType(groups));
+
+                } catch (EaseMobException e) {
+                    isSyncingGroups = false;
+                    isSyncingGroupsWithServer = false;
+                }
+
+            }
+        }.start();
+    }
+
 
     private BroadcastReceiver ackMessageReceiver = new BroadcastReceiver() {
 

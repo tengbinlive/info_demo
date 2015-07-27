@@ -1,7 +1,7 @@
 package com.touyan.investment.bean.user;
 
 import com.core.openapi.OpenApiSimpleResult;
-import com.touyan.investment.bean.message.GroupDetal;
+import com.touyan.investment.bean.message.GroupDetail;
 
 import java.util.ArrayList;
 
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class BatchInfoResult extends OpenApiSimpleResult {
 
     private ArrayList<UserInfo> userinfo;
-    private ArrayList<GroupDetal> groupinfo;
+    private ArrayList<GroupDetail> groupinfo;
 
     public ArrayList<UserInfo> getUserinfo() {
         return userinfo;
@@ -21,11 +21,11 @@ public class BatchInfoResult extends OpenApiSimpleResult {
         this.userinfo = userinfo;
     }
 
-    public ArrayList<GroupDetal> getGroupinfo() {
+    public ArrayList<GroupDetail> getGroupinfo() {
         return groupinfo;
     }
 
-    public void setGroupinfo(ArrayList<GroupDetal> groupinfo) {
+    public void setGroupinfo(ArrayList<GroupDetail> groupinfo) {
         this.groupinfo = groupinfo;
     }
 

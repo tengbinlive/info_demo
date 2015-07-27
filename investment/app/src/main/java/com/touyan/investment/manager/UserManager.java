@@ -14,7 +14,7 @@ import com.core.util.Log;
 import com.dao.*;
 import com.touyan.investment.App;
 import com.touyan.investment.bean.main.InvInfoResult;
-import com.touyan.investment.bean.message.GroupDetal;
+import com.touyan.investment.bean.message.GroupDetail;
 import com.touyan.investment.bean.user.*;
 import com.touyan.investment.helper.BeanCopyHelper;
 import de.greenrobot.dao.query.WhereCondition;
@@ -365,15 +365,15 @@ public class UserManager {
         }
 
         if (groups != null && groups.size() > 0) {
-            ArrayList<GroupDetal> groupDetals = new ArrayList<>();
+            ArrayList<GroupDetail> groupDetails = new ArrayList<>();
             // 数据转换
             for (GroupDetalDO item : groups) {
-                GroupDetal gd = BeanCopyHelper.cast2GroupDetal(item);
+                GroupDetail gd = BeanCopyHelper.cast2GroupDetal(item);
                 String id = gd.getGroupid();
                 groupidsTemp.remove(id);
-                groupDetals.add(gd);
+                groupDetails.add(gd);
             }
-            result.setGroupinfo(groupDetals);
+            result.setGroupinfo(groupDetails);
         }
 
         if (useridsTemp.size() <= 0 && groupidsTemp.size() <= 0) {
@@ -412,12 +412,12 @@ public class UserManager {
         // 如果查询结果正确才保存
         if (response != null && response.isSuccess()) {
             BatchInfoResult result = (BatchInfoResult) response.getData();
-            ArrayList<GroupDetal> groupinfo = result.getGroupinfo();
+            ArrayList<GroupDetail> groupinfo = result.getGroupinfo();
             ArrayList<UserInfo> userinfo = result.getUserinfo();
             final List<GroupDetalDO> groupDOs = new ArrayList<>();
             final List<UserInfoDO> usernoDOs = new ArrayList<>();
             if (null != groupinfo) {
-                for (GroupDetal item : groupinfo) {
+                for (GroupDetail item : groupinfo) {
                     GroupDetalDO groupDetalDO = BeanCopyHelper.cast2GroupDetalDO(item);
                     groupDOs.add(groupDetalDO);
                 }
@@ -434,20 +434,13 @@ public class UserManager {
                     GroupDetalDao groupDetalDao = daoSession.getGroupDetalDao();
                     UserInfoDao userInfoDao = daoSession.getUserInfoDao();
                     if (null != groupDOs && groupDOs.size() > 0) {
-                        int count = 0;
-                        for (GroupDetalDO itme : groupDOs) {
-                            groupDetalDao.insert(itme);
-                            count++;
-                        }
-                        Log.i(TAG, "同步群组信息成功, 一共保存=" + count + "条");
+                        groupDetalDao.insertInTx(groupDOs);
                     }
+                    Log.i(TAG, "同步群组信息成功");
                     if (null != usernoDOs && usernoDOs.size() > 0) {
                         int count = 0;
-                        for (UserInfoDO itme : usernoDOs) {
-                            userInfoDao.insert(itme);
-                            count++;
-                        }
-                        Log.i(TAG, "同步用户信息成功, 一共保存=" + count + "条");
+                        userInfoDao.insertInTx(usernoDOs);
+                        Log.i(TAG, "同步用户信息成功");
                     }
                 }
             });
