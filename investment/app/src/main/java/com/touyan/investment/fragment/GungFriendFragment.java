@@ -51,6 +51,7 @@ public class GungFriendFragment extends AbsFragment {
 
     private Comparator cmp = new UserInfoComp();
 
+
     private Handler activityHandler = new Handler() {
         public void handleMessage(Message msg) {
             int what = msg.what;
