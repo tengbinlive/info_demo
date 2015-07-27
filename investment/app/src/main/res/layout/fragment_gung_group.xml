@@ -11,4 +11,7 @@
 
     <include layout="@layout/list_empty"/>
 
+    <include layout="@layout/list_groups_empty"
+            />
+
 </RelativeLayout>
