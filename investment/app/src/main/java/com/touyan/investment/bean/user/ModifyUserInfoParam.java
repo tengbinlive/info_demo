@@ -12,20 +12,20 @@ import java.util.HashMap;
  */
 public class ModifyUserInfoParam extends OpenApiBaseRequest implements OpenApiRequestInterface {
 
-    private String servno;
-    private String ualias;
-    private String uphoto;
-    private String locatn;
-    private String inrank;
-    private String compny;
-    private String postin;
-    private String teleph;
-    private String rscope;
-    private String uisvip;
-    private String tagstr;
+    private String servno="";
+    private String ualias="";
+    private String uphoto="";
+    private String locatn="";
+    private String inrank="";
+    private String compny="";
+    private String postin="";
+    private String teleph="";
+    private String rscope="";
+    private String uisvip="";
+    private String tagstr="";
 
-    private String[] instags;
-    private String[] deltags;
+    private String[] instags = new String[]{};
+    private String[] deltags= new String[]{};
 
     public String getServno() {
         return servno;

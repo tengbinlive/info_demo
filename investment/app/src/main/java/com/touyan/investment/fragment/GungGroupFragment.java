@@ -26,6 +26,9 @@ public class GungGroupFragment extends AbsFragment {
     private LayoutInflater mInflater;
 
     private View ll_listEmpty,groupsEmpty;
+
+    private ArrayList<String> mList;
+
     private GroupListAdapter adapter = null;
     private ListView listView = null;
     private List<GroupDetal> list = new ArrayList<GroupDetal>();
@@ -104,7 +107,6 @@ public class GungGroupFragment extends AbsFragment {
         listView = (ListView)viewGroup.findViewById(R.id.group_list);
         groupsEmpty = viewGroup.findViewById(R.id.group_listEmpty);
         groupsEmpty.setVisibility(View.GONE);
-
         ll_listEmpty = viewGroup.findViewById(R.id.ll_listEmpty);
         listView.setEmptyView(ll_listEmpty);
 
@@ -114,6 +116,7 @@ public class GungGroupFragment extends AbsFragment {
     private void getGroupsList(){
         manager.queryGroupsByUserId(getActivity(), activityHandler, INIT_LIST);
     }
+
     private void initListView() {
         registerForContextMenu(listView);
         adapter = new GroupListAdapter(mInflater, list, Tag);
@@ -122,22 +125,6 @@ public class GungGroupFragment extends AbsFragment {
         listView.setAdapter(animationAdapter);
 
     }
-
-
-
-
-//    public void setData(){
-//        list.add("我创建的群");
-//        listTag.add("我创建的群");
-//        for(int i=0;i<3;i++){
-//            list.add("浅笑无痕"+i);
-//        }
-//        list.add("我加入的群");
-//        listTag.add("我加入的群");
-//        for(int i=0;i<3;i++){
-//            list.add("投研社"+i);
-//        }
-//    }
 
     @Override
     public void scrollToTop() {
