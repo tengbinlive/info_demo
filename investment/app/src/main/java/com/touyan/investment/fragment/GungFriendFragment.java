@@ -63,7 +63,6 @@ public class GungFriendFragment extends AbsFragment {
     };
 
     private void loadData(CommonResponse resposne) {
-        dialogDismiss();
         if (resposne.isSuccess()) {
             BatchInfoResult result = (BatchInfoResult) resposne.getData();
             friends = result.getUserinfo() ;
@@ -142,13 +141,7 @@ public class GungFriendFragment extends AbsFragment {
         usernames = new ArrayList<>(HXCacheUtils.getInstance().getFriendsHashMap().keySet());
 
         if (usernames != null) {
-            BatchInfoResult result = userManager.batchInfo(GungFriendFragment.this.getActivity(), (ArrayList<String>) usernames, new ArrayList<String>(), activityHandler, LOAD_DATA);
-            if (result != null) {
-                dialogDismiss();
-                friends = result.getUserinfo();
-                hanziSequence();
-            }
-
+            userManager.batchInfo(GungFriendFragment.this.getActivity(), (ArrayList<String>) usernames, new ArrayList<String>(), activityHandler, LOAD_DATA);
         }
 
     }
