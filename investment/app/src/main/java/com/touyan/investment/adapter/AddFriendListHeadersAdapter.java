@@ -50,7 +50,7 @@ public class AddFriendListHeadersAdapter extends BaseAdapter implements StickyLi
 
 
     @Override
-    public View getView(int position, View convertView, ViewGroup viewGroup) {
+    public View getView(final int position, View convertView, ViewGroup viewGroup) {
         ViewHolder holder;
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.item_add_friend, viewGroup, false);
@@ -68,6 +68,11 @@ public class AddFriendListHeadersAdapter extends BaseAdapter implements StickyLi
             holder.add.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    try {
+                        EMContactManager.getInstance().addContact(list.get(position).getServno(), "");
+                    } catch (EaseMobException e) {
+
+                    }
 
                 }
             });
