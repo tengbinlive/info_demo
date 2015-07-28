@@ -63,6 +63,7 @@ public class GungFriendFragment extends AbsFragment {
     };
 
     private void loadData(CommonResponse resposne) {
+        dialogDismiss();
 
         if (resposne.isSuccess()) {
             BatchInfoResult result = (BatchInfoResult) resposne.getData();
@@ -143,10 +144,8 @@ public class GungFriendFragment extends AbsFragment {
 
         if (usernames != null) {
             userManager.batchInfo(GungFriendFragment.this.getActivity(), (ArrayList<String>) usernames, new ArrayList<String>(), activityHandler, LOAD_DATA);
-
         } else {
             dialogDismiss();
-
         }
 
     }

@@ -237,6 +237,7 @@ public class ModifyUserInfoActivity extends AbsActivity implements View.OnClickL
 
     private void finishActivity() {
         if (!userInfoUpload && !headInfoUpload) {
+            dialogDismiss();
             scrollToFinishActivity();
         } else if (!userInfoUpload && headInfoUpload) {
             dialogShow("正在上传头像");
