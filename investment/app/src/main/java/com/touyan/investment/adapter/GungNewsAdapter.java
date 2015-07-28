@@ -16,7 +16,7 @@ import com.joooonho.SelectableRoundedImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.touyan.investment.R;
 import com.touyan.investment.bean.message.ConversationBean;
-import com.touyan.investment.bean.message.GroupDetal;
+import com.touyan.investment.bean.message.GroupDetail;
 import com.touyan.investment.bean.user.UserInfo;
 import com.touyan.investment.hx.HXDateUtils;
 import com.touyan.investment.hx.HXUtil;
@@ -102,10 +102,10 @@ public class GungNewsAdapter extends BaseSwipeAdapter {
             }
             if (null != object) {
                 if (conversation.isGroup()) {
-                    GroupDetal groupDetal = (GroupDetal) object;
+                    GroupDetail groupDetail = (GroupDetail) object;
                     holder.group_subscript.setVisibility(View.VISIBLE);
-                    ImageLoader.getInstance().displayImage(groupDetal.getGphoto(), holder.head);
-                    holder.name.setText(groupDetal.getGroupname());
+                    ImageLoader.getInstance().displayImage(groupDetail.getGphoto(), holder.head);
+                    holder.name.setText(groupDetail.getGroupname());
                 } else {
                     UserInfo userInfo = (UserInfo) object;
                     holder.group_subscript.setVisibility(View.GONE);

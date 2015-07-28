@@ -10,6 +10,7 @@
     <color name="transparent">#00000000</color>
     <color name="transparent_w">#88ffffff</color>
     <color name="transparent_window">#bb000000</color>
+    <color name="transparent_50">#50000000</color>
     <color name="gray">#808080</color>
 
     <color name="white">#FFFFFFFF</color>

@@ -5,10 +5,10 @@ import com.core.util.CommonUtil;
 import com.core.util.DeviceUtil;
 import com.core.util.Log;
 import com.core.util.StringUtil;
+import com.core.enums.ConfigKeyEnum;
 import com.dao.ConfigDO;
 import com.dao.ConfigDao;
 import com.dao.DaoSession;
-import com.core.enums.ConfigKeyEnum;
 import com.touyan.investment.App;
 import com.touyan.investment.Constant;
 

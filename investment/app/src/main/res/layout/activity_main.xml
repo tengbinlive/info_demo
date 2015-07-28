@@ -25,4 +25,15 @@
             app:stl_underlineColor="@color/transparent"
             app:stl_underlineThickness="0dp"/>
 
+    <com.touyan.investment.mview.BezierView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/message_bv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            app:numColos="#ffffffff"
+            app:pathColos="#fff12e40"
+            app:viewBg="@drawable/skin_tips_message_red"
+            app:statusBarOffset="@dimen/statusBar_height"/>
+
 </RelativeLayout>

@@ -2,9 +2,12 @@
 <resources>
 
     <declare-styleable name="BezierView">
-        <attr name="offsetX" format="dimension" />
-        <attr name="offsetY" format="dimension" />
-        <attr name="statusBarOffset" format="dimension" />
+        <attr name="offsetX" format="dimension"/>
+        <attr name="offsetY" format="dimension"/>
+        <attr name="numColos" format="color"/>
+        <attr name="pathColos" format="color"/>
+        <attr name="viewBg" format="reference"/>
+        <attr name="statusBarOffset" format="dimension"/>
     </declare-styleable>
 
 </resources>

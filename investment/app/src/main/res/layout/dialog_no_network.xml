@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:background="@color/transparent_50"
+                android:layout_height="@dimen/prompt_height">
+
+    <TextView android:layout_width="match_parent"
+              android:id="@+id/value"
+              android:textSize="@dimen/font_small12"
+              android:gravity="center"
+              android:textColor="@color/white"
+              android:layout_height="match_parent"/>
+
+    <TextView android:layout_width="match_parent"
+              android:id="@+id/cancle"
+              android:text="X"
+              android:layout_centerVertical="true"
+              android:paddingRight="30dp"
+              android:textSize="@dimen/font_small12"
+              android:gravity="center|right"
+              android:textColor="@color/white"
+              android:layout_height="match_parent"/>
+
+</RelativeLayout>

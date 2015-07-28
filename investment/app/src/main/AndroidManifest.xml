@@ -97,6 +97,7 @@
         <!--登录-->
         <activity
                 android:name=".activity.LoginActivity"
+                android:windowSoftInputMode="adjustPan"
                 android:launchMode="singleTop"
                 android:theme="@style/AppThemeWTN">
         </activity>
@@ -112,6 +113,7 @@
         <activity
                 android:name=".activity.RegisterActivity"
                 android:launchMode="singleTop"
+                android:windowSoftInputMode="adjustPan"
                 android:theme="@style/AppTheme">
         </activity>
 
@@ -132,6 +134,7 @@
         <!--发布资讯-->
         <activity
                 android:name=".activity.InfoReleaseActivity"
+                android:windowSoftInputMode="adjustPan"
                 android:theme="@style/AppTheme">
         </activity>
 
@@ -144,6 +147,7 @@
         <!--回复界面-->
         <activity
                 android:name=".activity.InvReviewActivity"
+                android:windowSoftInputMode="adjustPan"
                 android:theme="@style/AppTheme">
         </activity>
 
@@ -156,12 +160,14 @@
         <!--发布路演活动-->
         <activity
                 android:name=".activity.ActReleaseRoadshowActivity"
+                android:windowSoftInputMode="adjustPan"
                 android:theme="@style/AppTheme">
         </activity>
 
         <!--发布活动-->
         <activity
                 android:name=".activity.ActReleaseProductActivity"
+                android:windowSoftInputMode="adjustPan"
                 android:theme="@style/AppTheme">
         </activity>
 
@@ -180,6 +186,7 @@
         <!--发布悬赏-->
         <activity
                 android:name=".activity.OfferReleaseActivity"
+                android:windowSoftInputMode="adjustPan"
                 android:theme="@style/AppTheme">
         </activity>
 
@@ -243,6 +250,7 @@
                 android:theme="@style/AppTheme">
         </activity>
 
+        <!--用户粉丝-->
         <activity
                 android:name=".activity.UserFansActivity"
                 android:theme="@style/AppTheme">
@@ -273,6 +281,7 @@
         <!--用户关注-->
         <activity
                 android:name=".activity.UserFollowActivity"
+                android:windowSoftInputMode="adjustPan"
                 android:theme="@style/AppTheme">
         </activity>
 
@@ -300,6 +309,7 @@
 
         <!--添加-->
         <activity android:name=".activity.AddFriendActivity"
+                  android:windowSoftInputMode="adjustPan"
                   android:theme="@style/AppTheme">
         </activity>
 

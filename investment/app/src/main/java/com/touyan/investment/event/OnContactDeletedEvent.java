@@ -1,6 +1,5 @@
 package com.touyan.investment.event;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

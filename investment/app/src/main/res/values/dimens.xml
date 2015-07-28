@@ -79,4 +79,7 @@
     <dimen name="layout_radius_tumblr">135dp</dimen>
 
 
+    <dimen name="prompt_height">30dp</dimen>
+
+
 </resources>

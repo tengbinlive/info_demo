@@ -23,6 +23,11 @@ public class Constant {
 
 	public static final String SHARED_PREFERENCES_USERNAME = "username";
 
+	public final static String SHARED_PREFERENCES_DB_TIME = "DB_TIME";
+
+	public final static long DB_TIME = 24*60*60*3;
+
+
 	/**
 	 * 登陆信息
 	 */

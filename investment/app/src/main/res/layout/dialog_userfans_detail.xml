@@ -19,7 +19,7 @@
 
         <LinearLayout android:layout_width="wrap_content"
                       android:orientation="vertical"
-                      android:background="@drawable/inv_info_down_bg"
+                      android:background="@drawable/inv_info_up_bg"
                       android:layout_height="wrap_content">
             <TextView android:layout_width="match_parent"
                       android:text="@string/investment_info"
@@ -50,18 +50,18 @@
                   android:background="@drawable/line_white"
                   android:layout_height="@dimen/content_1px"/>
 
-            <TextView android:layout_width="match_parent"
-                      android:text="@string/investment_offer"
-                      android:id="@+id/offer"
-                      android:textSize="@dimen/font_medium"
-                      android:textStyle="bold"
-                      android:textColor="@color/white"
-                      android:paddingTop="@dimen/content_10dp"
-                      android:gravity="center"
-                      android:paddingBottom="@dimen/content_10dp"
-                      android:layout_height="wrap_content"/>
-
         </LinearLayout>
+        <TextView android:layout_width="match_parent"
+                  android:text="@string/investment_offer"
+                  android:id="@+id/offer"
+                  android:textSize="@dimen/font_medium"
+                  android:textStyle="bold"
+                  android:textColor="@color/white"
+                  android:paddingTop="@dimen/content_10dp"
+                  android:gravity="center"
+                  android:paddingBottom="@dimen/content_10dp"
+                  android:background="@drawable/inv_info_down_bg"
+                  android:layout_height="wrap_content"/>
     </LinearLayout>
 
 </RelativeLayout>

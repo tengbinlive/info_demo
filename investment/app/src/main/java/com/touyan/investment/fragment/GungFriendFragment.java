@@ -21,9 +21,11 @@ import com.touyan.investment.AbsFragment;
 import com.touyan.investment.R;
 import com.touyan.investment.adapter.FriendListHeadersAdapter;
 import com.touyan.investment.bean.user.BatchInfoResult;
+import com.touyan.investment.bean.user.User;
 import com.touyan.investment.bean.user.UserInfo;
 import com.touyan.investment.event.OnContactDeletedEvent;
 import com.touyan.investment.helper.UserInfoComp;
+import com.touyan.investment.hx.HXUserUtils;
 import com.touyan.investment.manager.InvestmentManager;
 import com.touyan.investment.manager.UserManager;
 import com.touyan.investment.mview.IndexableListView;
@@ -40,13 +42,11 @@ public class GungFriendFragment extends AbsFragment {
     private static final int INIT_LIST = 0x01;//初始化数据处理
     private static final int LOAD_DATA = 0x02;//加载数据处理
 
-    private static final int COUNT_MAX = 15;//加载数据最大值
-
     private LayoutInflater mInflater;
 
     private IndexableListView listView;
 
-    private ArrayList<UserInfo> friends;
+    private ArrayList<UserInfo> friends = new ArrayList<>();
     private List<String> usernames = null;
 
     private FriendListHeadersAdapter mAdapter;
@@ -72,7 +72,7 @@ public class GungFriendFragment extends AbsFragment {
         dialogDismiss();
         if (resposne.isSuccess()) {
             BatchInfoResult result = (BatchInfoResult) resposne.getData();
-            friends = result.getUserinfo();
+            friends = result.getUserinfo() ;
             hanziSequence();
         } else {
             CommonUtil.showToast(resposne.getErrorTip());
@@ -122,47 +122,40 @@ public class GungFriendFragment extends AbsFragment {
 
     private void initListView() {
 
+        if(mAdapter==null) {
+            mAdapter = new FriendListHeadersAdapter(this.getActivity(), friends);
 
-        mAdapter = new FriendListHeadersAdapter(this.getActivity(), friends);
+            SwingBottomInAnimationAdapter animationAdapter = new SwingBottomInAnimationAdapter(mAdapter);
 
-        SwingBottomInAnimationAdapter animationAdapter = new SwingBottomInAnimationAdapter(mAdapter);
+            StickyListHeadersAdapterDecorator stickyListHeadersAdapterDecorator = new StickyListHeadersAdapterDecorator(animationAdapter);
+            stickyListHeadersAdapterDecorator.setListViewWrapper(new StickyListHeadersListViewWrapper(listView));
 
-        StickyListHeadersAdapterDecorator stickyListHeadersAdapterDecorator = new StickyListHeadersAdapterDecorator(animationAdapter);
-        stickyListHeadersAdapterDecorator.setListViewWrapper(new StickyListHeadersListViewWrapper(listView));
+            assert animationAdapter.getViewAnimator() != null;
+            animationAdapter.getViewAnimator().setInitialDelayMillis(500);
 
-        assert animationAdapter.getViewAnimator() != null;
-        animationAdapter.getViewAnimator().setInitialDelayMillis(500);
+            assert stickyListHeadersAdapterDecorator.getViewAnimator() != null;
+            stickyListHeadersAdapterDecorator.getViewAnimator().setInitialDelayMillis(500);
 
-        assert stickyListHeadersAdapterDecorator.getViewAnimator() != null;
-        stickyListHeadersAdapterDecorator.getViewAnimator().setInitialDelayMillis(500);
-
-        listView.setAdapter(stickyListHeadersAdapterDecorator);
+            listView.setAdapter(stickyListHeadersAdapterDecorator);
+        }else{
+            mAdapter.refresh(friends);
+        }
     }
 
 
     private void getDataList() {
 
-        activityHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    usernames = EMContactManager.getInstance().getContactUserNames();
-                    if (usernames != null) {
+        usernames = new ArrayList<>(HXUserUtils.getInstance().getFriendsHashMap().keySet());
 
-                        BatchInfoResult result = userManager.batchInfo(GungFriendFragment.this.getActivity(), (ArrayList<String>) usernames, new ArrayList<String>(), activityHandler, LOAD_DATA);
-                        if (result != null) {
-                            dialogDismiss();
-                            friends = result.getUserinfo();
-                            hanziSequence();
-                        }
-
-                    }
-
-                } catch (EaseMobException e) {
-                    Log.e(TAG + e.getErrorCode(), e.getMessage());
-                }
+        if (usernames != null) {
+            BatchInfoResult result = userManager.batchInfo(GungFriendFragment.this.getActivity(), (ArrayList<String>) usernames, new ArrayList<String>(), activityHandler, LOAD_DATA);
+            if (result != null) {
+                dialogDismiss();
+                friends = result.getUserinfo();
+                hanziSequence();
             }
-        });
+
+        }
 
     }
 

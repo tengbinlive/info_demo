@@ -14,7 +14,7 @@ import com.core.util.Log;
 import com.dao.*;
 import com.touyan.investment.App;
 import com.touyan.investment.bean.main.InvInfoResult;
-import com.touyan.investment.bean.message.GroupDetal;
+import com.touyan.investment.bean.message.GroupDetail;
 import com.touyan.investment.bean.user.*;
 import com.touyan.investment.helper.BeanCopyHelper;
 import de.greenrobot.dao.query.WhereCondition;
@@ -129,27 +129,6 @@ public class UserManager {
         // 开始执行加载
         CommonDataLoader.getInstance(context).load(request);
     }
-
-    /**
-     * 获取和我相关的群组列表
-     *
-     * @param context        上下文
-     * @param handler        在Activity中处理返回结果的Handler
-     * @param handlerMsgCode 返回结果的Handler的Msg代码
-     */
-    public void queryGroupsByUserId(Context context, final Handler handler, final int handlerMsgCode) {
-        QueryUserGroupsParam param = new QueryUserGroupsParam();
-        param.setUserid(App.getInstance().getgUserInfo().getServno());
-        // 接口参数
-        param.setMethod(OpenApiMethodEnum.QUERY_USERGROUPS);
-        param.setParseTokenType(new TypeReference<QueryUserGroupsResult>() {
-        });
-        // 请求对象
-        CommonRequest request = new CommonRequest(param, handler, handlerMsgCode);
-        // 开始执行加载
-        CommonDataLoader.getInstance(context).load(request);
-    }
-
 
     /**
      * 我的关注
@@ -349,10 +328,15 @@ public class UserManager {
 
     /**
      * 批量获取用户信息群信息
-     *
+     * <p/>
+     * 用户信息本地缓存 返回数据为当前查询列表所有用户数据
+     * （本地数据中未缓存的以没有详情的新对象返回）
+     * ，若有未缓存对象则继续请求服务器查询，
+     * 在后续handle队列返回（返回数据为所有当前查询数据（包括前部分本地缓存数据+服务器返回数据列表））
+     *Ï
      * @param context        上下文
-     * @param userids        用户ID
-     * @param groupids       群组id
+     * @param userids        用户ID 不能为null 可以new arraylist<>
+     * @param groupids       群组id 不能为null 可以new arraylist<>
      * @param handler        在Activity中处理返回结果的Handler
      * @param handlerMsgCode 返回结果的Handler的Msg代码
      */
@@ -372,9 +356,9 @@ public class UserManager {
         List<UserInfoDO> usernos = userInfoDao.queryBuilder().where(wc).list();
         List<GroupDetalDO> groups = groupDetalDao.queryBuilder().where(wc1).list();
 
-        BatchInfoResult result = new BatchInfoResult();
+        ArrayList<UserInfo> users = new ArrayList<>();
+        final BatchInfoResult result = new BatchInfoResult();
         if (usernos != null && usernos.size() > 0) {
-            ArrayList<UserInfo> users = new ArrayList<>();
             // 数据转换
             for (UserInfoDO item : usernos) {
                 UserInfo user = BeanCopyHelper.cast2UserInfo(item);
@@ -382,24 +366,40 @@ public class UserManager {
                 useridsTemp.remove(servno);
                 users.add(user);
             }
-            result.setUserinfo(users);
         }
 
+        ArrayList<GroupDetail> groupDetails = new ArrayList<>();
+
         if (groups != null && groups.size() > 0) {
-            ArrayList<GroupDetal> groupDetals = new ArrayList<>();
             // 数据转换
             for (GroupDetalDO item : groups) {
-                GroupDetal gd = BeanCopyHelper.cast2GroupDetal(item);
+                GroupDetail gd = BeanCopyHelper.cast2GroupDetal(item);
                 String id = gd.getGroupid();
                 groupidsTemp.remove(id);
-                groupDetals.add(gd);
+                groupDetails.add(gd);
             }
-            result.setGroupinfo(groupDetals);
         }
 
         if (useridsTemp.size() <= 0 && groupidsTemp.size() <= 0) {
+            result.setUserinfo(users);
+            result.setGroupinfo(groupDetails);
             return result;
         }
+
+        //添加未查询到数据
+        for (String name : useridsTemp) {
+            UserInfo user = new UserInfo();
+            user.setUalias(name);
+            users.add(user);
+        }
+        for (String id : groupidsTemp) {
+            GroupDetail gd = new GroupDetail();
+            gd.setGroupid(id);
+            groupDetails.add(gd);
+        }
+
+        result.setUserinfo(users);
+        result.setGroupinfo(groupDetails);
 
         // 自定义处理Listener
         Response.Listener<CommonResponse> listener = new Response.Listener<CommonResponse>() {
@@ -407,7 +407,7 @@ public class UserManager {
             public void onResponse(CommonResponse response) {
                 CommonUtil.delivery2Handler(handler, handlerMsgCode, response);
                 // 将结果存入数据库
-                updateBatchInfoResult(response);
+                updateBatchInfoResult(response, result);
             }
         };
 
@@ -425,20 +425,30 @@ public class UserManager {
         request.setListener(listener);
         // 开始执行加载
         CommonDataLoader.getInstance(context).load(request);
-        return null;
+
+        return result;
     }
 
-    private void updateBatchInfoResult(CommonResponse response) {
+    private void updateBatchInfoResult(CommonResponse response, BatchInfoResult result) {
         final DaoSession daoSession = App.getDaoSession();
         // 如果查询结果正确才保存
         if (response != null && response.isSuccess()) {
-            BatchInfoResult result = (BatchInfoResult) response.getData();
-            ArrayList<GroupDetal> groupinfo = result.getGroupinfo();
-            ArrayList<UserInfo> userinfo = result.getUserinfo();
+            BatchInfoResult tempResult = (BatchInfoResult) response.getData();
+            ArrayList<GroupDetail> groupinfo = tempResult.getGroupinfo();
+            ArrayList<UserInfo> userinfo = tempResult.getUserinfo();
+            //设置返回数据
+            int groupSize = groupinfo.size();
+            int userSize = userinfo.size();
+            int resultGroupS = result.getGroupinfo().size();
+            int resultUserS = result.getUserinfo().size();
+            result.getGroupinfo().subList(0, resultGroupS - groupSize).addAll(groupinfo);
+            result.getUserinfo().subList(0, resultUserS - userSize).addAll(userinfo);
             final List<GroupDetalDO> groupDOs = new ArrayList<>();
             final List<UserInfoDO> usernoDOs = new ArrayList<>();
+            response.setData(result);
+            //缓存数据库
             if (null != groupinfo) {
-                for (GroupDetal item : groupinfo) {
+                for (GroupDetail item : groupinfo) {
                     GroupDetalDO groupDetalDO = BeanCopyHelper.cast2GroupDetalDO(item);
                     groupDOs.add(groupDetalDO);
                 }
@@ -455,20 +465,12 @@ public class UserManager {
                     GroupDetalDao groupDetalDao = daoSession.getGroupDetalDao();
                     UserInfoDao userInfoDao = daoSession.getUserInfoDao();
                     if (null != groupDOs && groupDOs.size() > 0) {
-                        int count = 0;
-                        for (GroupDetalDO itme : groupDOs) {
-                            groupDetalDao.insert(itme);
-                            count++;
-                        }
-                        Log.i(TAG, "同步群组信息成功, 一共保存=" + count + "条");
+                        groupDetalDao.insertInTx(groupDOs);
                     }
+                    Log.i(TAG, "同步群组信息成功");
                     if (null != usernoDOs && usernoDOs.size() > 0) {
-                        int count = 0;
-                        for (UserInfoDO itme : usernoDOs) {
-                            userInfoDao.insert(itme);
-                            count++;
-                        }
-                        Log.i(TAG, "同步用户信息成功, 一共保存=" + count + "条");
+                        userInfoDao.insertInTx(usernoDOs);
+                        Log.i(TAG, "同步用户信息成功");
                     }
                 }
             });

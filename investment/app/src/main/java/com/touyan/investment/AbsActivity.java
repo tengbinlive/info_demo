@@ -30,6 +30,7 @@ import com.mob.tools.utils.UIHandler;
 import com.touyan.investment.activity.LoginActivity;
 import com.touyan.investment.event.AnyEventType;
 import com.touyan.investment.event.ConnectionEventType;
+import com.touyan.investment.event.NetworkEvent;
 import com.touyan.investment.imp.EInitDate;
 import de.greenrobot.event.EventBus;
 import me.imid.swipebacklayout.lib.SwipeBackLayout;
@@ -586,11 +587,11 @@ public abstract class AbsActivity extends SwipeBackActivity implements EInitDate
             });
         } else {
             if (NetUtils.hasNetwork(this)) {
-//                CommonUtil.showToast("连接不到聊天服务器");
+                EventBus.getDefault().post(new NetworkEvent("连接不到聊天服务器"));
             }
             //连接不到聊天服务器
             else {
-//                CommonUtil.showToast("当前网络不可用，请检查网络设置");
+                EventBus.getDefault().post(new NetworkEvent("当前网络不可用，请检查网络设置"));
             }
             //当前网络不可用，请检查网络设置
         }
