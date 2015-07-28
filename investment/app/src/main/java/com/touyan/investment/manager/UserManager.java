@@ -358,8 +358,8 @@ public class UserManager {
         List<UserInfoDO> usernos = userInfoDao.queryBuilder().where(wc).list();
         List<GroupDetalDO> groups = groupDetalDao.queryBuilder().where(wc1).list();
 
-        ArrayList<UserInfo> users = new ArrayList<>();
         final BatchInfoResult result = new BatchInfoResult();
+        ArrayList<UserInfo> users = new ArrayList<>();
         if (usernos != null && usernos.size() > 0) {
             // 数据转换
             for (UserInfoDO item : usernos) {
@@ -371,7 +371,6 @@ public class UserManager {
         }
 
         ArrayList<GroupDetail> groupDetails = new ArrayList<>();
-
         if (groups != null && groups.size() > 0) {
             // 数据转换
             for (GroupDetalDO item : groups) {
@@ -380,18 +379,6 @@ public class UserManager {
                 groupidsTemp.remove(id);
                 groupDetails.add(gd);
             }
-        }
-
-        //添加未查询到数据
-        for (String name : useridsTemp) {
-            UserInfo user = new UserInfo();
-            user.setUalias(name);
-            users.add(user);
-        }
-        for (String id : groupidsTemp) {
-            GroupDetail gd = new GroupDetail();
-            gd.setGroupid(id);
-            groupDetails.add(gd);
         }
 
         result.setUserinfo(users);
