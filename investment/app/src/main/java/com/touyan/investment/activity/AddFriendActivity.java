@@ -127,8 +127,6 @@ public class AddFriendActivity extends AbsActivity {
         if (resposne.isSuccess()) {
             BatchInfoResult result = (BatchInfoResult) resposne.getData();
             friends = result.getUserinfo();
-            hanziSequence();
-            mAdapter.refresh(friends);
         } else {
             CommonUtil.showToast(resposne.getErrorTip());
         }
@@ -139,7 +137,6 @@ public class AddFriendActivity extends AbsActivity {
             return;
         }
         Collections.sort(friendsSearch, cmp);
-
     }
 
     @Override
