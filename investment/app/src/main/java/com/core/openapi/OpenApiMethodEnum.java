@@ -237,7 +237,7 @@ public enum OpenApiMethodEnum {
     DELETE_MYPARTAKE_OFFER("/center/batchDelJoinedRewards.action", "openapi_json", OpenApi.URL_TYPE_DATA),
 
     /**
-     *获取可能认识的人列表
+     * 获取可能认识的人列表
      */
     LOAD_MAYKNOW_FRIEND("/user/recomUsers.action", "openapi_json", OpenApi.URL_TYPE_DATA),
 
@@ -268,6 +268,10 @@ public enum OpenApiMethodEnum {
      * 搜索用户
      */
     SEARCH_USER("/user/searchUser.action", "openapi_json", OpenApi.URL_TYPE_DATA),
+    /**
+     * 通讯录好友
+     */
+    QUERY_CONTACT_FRIENDS("/user/relation.action", "openapi_json", OpenApi.URL_TYPE_DATA),
     /**
      * 登陆
      */

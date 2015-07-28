@@ -322,8 +322,6 @@ public class AddFriendActivity extends AbsActivity {
             if (result != null) {
                 dialogDismiss();
                 friends = result.getUserinfo();
-                hanziSequence();
-                mAdapter.refresh(friends);
             }
 
         }

@@ -194,7 +194,7 @@ public class HXChatManagerInit {
         }.start();
     }
 
-    public void asyncData(){
+    public void asyncData() {
         asyncFetchGroupsFromServer();
         asyncFetchUserFromServer();
     }
@@ -222,17 +222,17 @@ public class HXChatManagerInit {
 
                 HashMap<String, User> groupsHashMap = new HashMap<>();
 
-                for(UserDO userdo:users){
+                for (UserDO userdo : users) {
                     User user = new User();
                     user.setAvatar(userdo.getAvatar());
                     user.setHeader(userdo.getHeader());
                     user.setUnreadMsgCount(userdo.getUnreadMsgCount());
                     String type = userdo.getType();
                     user.setType(type);
-                    if(User.TYPE_FRIENDS.equals(type)){
-                        friendsHashMap.put(userdo.getAvatar(),user);
-                    }else{
-                        groupsHashMap.put(userdo.getAvatar(),user);
+                    if (User.TYPE_FRIENDS.equals(type)) {
+                        friendsHashMap.put(userdo.getAvatar(), user);
+                    } else {
+                        groupsHashMap.put(userdo.getAvatar(), user);
                     }
                 }
 
@@ -290,8 +290,8 @@ public class HXChatManagerInit {
         }.start();
     }
 
-    private void saveGroupList(List<EMGroup> groups){
-        if(null!=groups&&groups.size()>0){
+    private void saveGroupList(List<EMGroup> groups) {
+        if (null != groups && groups.size() > 0) {
             final DaoSession daoSession = App.getDaoSession();
             final List<UserDO> userDOs = new ArrayList<>();
             HashMap<String, User> groupsHashMap = new HashMap<>();
@@ -304,7 +304,7 @@ public class HXChatManagerInit {
                 userdo.setAvatar(username);
                 user.setAvatar(username);
                 userDOs.add(userdo);
-                groupsHashMap.put(username,user);
+                groupsHashMap.put(username, user);
             }
             HXUserUtils.getInstance().setGroupsHashMap(groupsHashMap);
             daoSession.getUserDao().insertInTx(userDOs);
@@ -350,8 +350,8 @@ public class HXChatManagerInit {
         }.start();
     }
 
-    private void saveUserList(List<String> usernames){
-        if(null!=usernames&&usernames.size()>0){
+    private void saveUserList(List<String> usernames) {
+        if (null != usernames && usernames.size() > 0) {
             final DaoSession daoSession = App.getDaoSession();
             final List<UserDO> userDOs = new ArrayList<>();
             HashMap<String, User> friendsHashMap = new HashMap<>();
@@ -363,7 +363,7 @@ public class HXChatManagerInit {
                 userdo.setAvatar(username);
                 user.setAvatar(username);
                 userDOs.add(userdo);
-                friendsHashMap.put(username,user);
+                friendsHashMap.put(username, user);
             }
             HXUserUtils.getInstance().setFriendsHashMap(friendsHashMap);
             daoSession.getUserDao().insertInTx(userDOs);
