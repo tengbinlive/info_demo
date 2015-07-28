@@ -33,6 +33,7 @@ import com.touyan.investment.bean.user.*;
 import com.touyan.investment.event.OnContactDeletedEvent;
 import com.touyan.investment.helper.HanziComp;
 import com.touyan.investment.helper.UserInfoComp;
+import com.touyan.investment.hx.HXUserUtils;
 import com.touyan.investment.manager.UserManager;
 import com.touyan.investment.mview.IndexableListView;
 import com.touyan.investment.mview.PullToRefreshIndexableListView;
@@ -136,7 +137,8 @@ public class AddFriendActivity extends AbsActivity {
         if (resposne.isSuccess()) {
             BatchInfoResult result = (BatchInfoResult) resposne.getData();
             friends = result.getUserinfo();
-
+            hanziSequence();
+            mAdapter.refresh(friends);
         } else {
             CommonUtil.showToast(resposne.getErrorTip());
         }
@@ -193,8 +195,8 @@ public class AddFriendActivity extends AbsActivity {
         listview = ptflistview.getRefreshableView();
         listview.setFastScrollEnabled(true);
         listview.setEmptyView(listviewEmpty);
-        getDataList();
         initListView();
+        getDataList();
     }
 
 
@@ -312,27 +314,19 @@ public class AddFriendActivity extends AbsActivity {
 
     private void getDataList() {
 
+        usernames = new ArrayList<>(HXUserUtils.getInstance().getFriendsHashMap().keySet());
 
-        activityHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    usernames = EMContactManager.getInstance().getContactUserNames();
-                    if (usernames != null) {
+        if (usernames != null) {
 
-                        BatchInfoResult result = userManager.batchInfo(AddFriendActivity.this, (ArrayList<String>) usernames, new ArrayList<String>(), activityHandler, FRIEND_DATA);
-                        if (result != null) {
-                            dialogDismiss();
-                            friends = result.getUserinfo();
-                        }
-
-                    }
-
-                } catch (EaseMobException e) {
-                    Log.e("" + e.getErrorCode(), e.getMessage());
-                }
+            BatchInfoResult result = userManager.batchInfo(AddFriendActivity.this, (ArrayList<String>) usernames, new ArrayList<String>(), activityHandler, FRIEND_DATA);
+            if (result != null) {
+                dialogDismiss();
+                friends = result.getUserinfo();
+                hanziSequence();
+                mAdapter.refresh(friends);
             }
-        });
+
+        }
 
     }
 

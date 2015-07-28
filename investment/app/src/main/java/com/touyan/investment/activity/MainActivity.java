@@ -55,6 +55,10 @@ public class MainActivity extends AbsActivity {
 
     private BezierView message_bv;
 
+    private int currentPager;
+
+    private int xBV;//消息数量显示描点
+    private int yBV;
 
     private Handler activityHandler = new Handler() {
         public void handleMessage(Message msg) {
@@ -153,6 +157,11 @@ public class MainActivity extends AbsActivity {
 
             @Override
             public void onPageSelected(int position) {
+                currentPager = position;
+                if(currentPager==1){
+                    EMChatManager.getInstance().resetAllUnreadMsgCount();
+                    activityHandler.sendEmptyMessage(UPDATE_UNREADLABEL);
+                }
                 fragments.get(position).scrollToTop();
             }
 
@@ -213,7 +222,9 @@ public class MainActivity extends AbsActivity {
     //接收到新消息
     public void onEvent(EMConversation event) {
         if (!App.isConflict && !App.isCurrentAccountRemoved) {
-            activityHandler.sendEmptyMessage(UPDATE_UNREADLABEL);
+            if(currentPager!=1) {
+                activityHandler.sendEmptyMessage(UPDATE_UNREADLABEL);
+            }
         }
     }
 
@@ -224,12 +235,14 @@ public class MainActivity extends AbsActivity {
     private void updateUnreadLabel() {
         int count = getUnreadMsgCountTotal();
         if (count > 0) {
-            int[] location = new  int[2] ;
-            View view = viewPagerTab.getTabAt(1);
-            view.getLocationInWindow(location); //获取在当前窗口内的绝对坐标
-            int x = location[0]+(view.getWidth()>>1)+50;
-            int y = location[1];
-            message_bv.setNewMessage("" + count,x,y);
+            if(xBV<=0) {
+                int[] location = new int[2];
+                View view = viewPagerTab.getTabAt(1);
+                view.getLocationInWindow(location); //获取在当前窗口内的绝对坐标
+                xBV = location[0] + (view.getWidth() >> 1) + 50;
+                yBV= location[1];
+            }
+            message_bv.setNewMessage("" + count,xBV,yBV);
             message_bv.setVisibility(View.VISIBLE);
         } else {
             message_bv.setVisibility(View.GONE);

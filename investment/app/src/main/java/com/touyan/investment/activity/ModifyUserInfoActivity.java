@@ -390,8 +390,6 @@ public class ModifyUserInfoActivity extends AbsActivity implements View.OnClickL
                     uploadFile.setPath(path);
                 }
             }
-        } else {
-            CommonUtil.showToast("操作取消");
         }
     }
 

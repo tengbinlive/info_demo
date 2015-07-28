@@ -7,13 +7,11 @@ import android.support.annotation.Nullable;
 import android.view.*;
 import android.widget.ListView;
 import com.core.CommonResponse;
-import com.core.util.CommonUtil;
 import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationAdapter;
 import com.touyan.investment.AbsFragment;
 import com.touyan.investment.R;
 import com.touyan.investment.adapter.GroupListAdapter;
-import com.touyan.investment.bean.message.GroupDetal;
-import com.touyan.investment.bean.user.QueryUserGroupsResult;
+import com.touyan.investment.bean.message.GroupDetail;
 import com.touyan.investment.manager.UserManager;
 
 import java.util.ArrayList;
@@ -22,7 +20,7 @@ import java.util.List;
 public class GungGroupFragment extends AbsFragment {
 
     private UserManager manager = new UserManager();
-    private static final int INIT_LIST = 0x06;//初始化数据处理
+    private static final int INIT_LIST = 0x01;//初始化数据处理
     private LayoutInflater mInflater;
 
     private View ll_listEmpty,groupsEmpty;
@@ -31,7 +29,7 @@ public class GungGroupFragment extends AbsFragment {
 
     private GroupListAdapter adapter = null;
     private ListView listView = null;
-    private List<GroupDetal> list = new ArrayList<GroupDetal>();
+    private List<GroupDetail> list = new ArrayList<>();
     private int Tag =-1;
     private Handler activityHandler = new Handler() {
         public void handleMessage(Message msg) {
@@ -47,34 +45,8 @@ public class GungGroupFragment extends AbsFragment {
     };
 
     private void loadData(CommonResponse resposne, int what) {
-
         if (resposne.isSuccess()) {
-            if (what == INIT_LIST) {
-                QueryUserGroupsResult result = (QueryUserGroupsResult) resposne.getData();
-                ArrayList<GroupDetal> myCreateGroups = result.getMyJoinedGroups();
-                ArrayList<GroupDetal> myJoinedGroups = result.getMyCreateGroups();
 
-                if (myCreateGroups!=null&&myCreateGroups.size()>0){
-                    GroupDetal groupDetal1= new GroupDetal();
-                    groupDetal1.setGroupname("我创建的群");
-                    list.add(groupDetal1);
-                    list.addAll(myCreateGroups);
-                }
-                if (myJoinedGroups!=null&&myJoinedGroups.size()>0){
-                    GroupDetal groupDetal2= new GroupDetal();
-                    groupDetal2.setGroupname("我加入的群");
-                    list.add(groupDetal2);
-                    list.addAll(myJoinedGroups);
-                    Tag = myCreateGroups.size();
-                }
-                if (list.size()<=0){
-                    ll_listEmpty.setVisibility(View.GONE);
-                    groupsEmpty.setVisibility(View.VISIBLE);
-                    listView.setEmptyView(groupsEmpty);
-                }else {
-                    initListView();
-                }
-            }
         } else {
             ll_listEmpty.setVisibility(View.GONE);
             groupsEmpty.setVisibility(View.VISIBLE);
@@ -114,7 +86,8 @@ public class GungGroupFragment extends AbsFragment {
     }
 
     private void getGroupsList(){
-        manager.queryGroupsByUserId(getActivity(), activityHandler, INIT_LIST);
+
+//        manager.queryGroupsByUserId(getActivity(), activityHandler, INIT_LIST);
     }
 
     private void initListView() {
