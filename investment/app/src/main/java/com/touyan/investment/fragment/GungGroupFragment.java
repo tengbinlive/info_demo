@@ -103,7 +103,7 @@ public class GungGroupFragment extends AbsFragment {
 //                hanziSequence();
 //            }
 
-            userManager.batchInfo(getActivity(), new ArrayList<String>(),(ArrayList<String>) groupids, activityHandler, LOAD_DATA);
+            BatchInfoResult result = userManager.batchInfo(getActivity(), new ArrayList<String>(),(ArrayList<String>) groupids, activityHandler, LOAD_DATA);
         }
 
     }
