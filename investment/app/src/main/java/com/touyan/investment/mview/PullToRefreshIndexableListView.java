@@ -1,10 +1,15 @@
 package com.touyan.investment.mview;
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ScrollView;
+import com.handmark.pulltorefresh.OverscrollHelper;
 import com.handmark.pulltorefresh.PullToRefreshBase;
+import com.handmark.pulltorefresh.PullToRefreshListView;
 import com.touyan.investment.R;
 
 /**
@@ -37,9 +42,16 @@ public class PullToRefreshIndexableListView extends PullToRefreshBase<IndexableL
     protected IndexableListView createRefreshableView(Context context, AttributeSet attrs) {
 
         IndexableListView indexableListView;
-        indexableListView = new IndexableListView(context, attrs, R.style.IndexableListView);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+            indexableListView = new InternalListViewSDK9(context, attrs, R.style.IndexableListView);
+        } else {
+            indexableListView = new IndexableListView(context, attrs, R.style.IndexableListView);
+        }
+
         indexableListView.setId(com.handmark.pulltorefresh.R.id.scrollview);
         return indexableListView;
+
+
     }
 
     @Override
@@ -56,34 +68,29 @@ public class PullToRefreshIndexableListView extends PullToRefreshBase<IndexableL
         return false;
     }
 
+    @TargetApi(9)
+    class InternalListViewSDK9 extends IndexableListView {
 
-    // 滑动距离及坐标
-    private float xDistance, yDistance, xLast, yLast;
-
-    @Override
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
-        switch (ev.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                xDistance = yDistance = 0f;
-                xLast = ev.getX();
-                yLast = ev.getY();
-                break;
-            case MotionEvent.ACTION_MOVE:
-                final float curX = ev.getX();
-                final float curY = ev.getY();
-
-                xDistance += Math.abs(curX - xLast);
-                yDistance += Math.abs(curY - yLast);
-                xLast = curX;
-                yLast = curY;
-
-                if (xDistance > yDistance) {
-                    getParent().requestDisallowInterceptTouchEvent(false);
-                    return false;   //表示向下传递事件
-                }
+        public InternalListViewSDK9(Context context, AttributeSet attrs) {
+            super(context, attrs);
         }
 
-        return super.onInterceptTouchEvent(ev);
+        public InternalListViewSDK9(Context context, AttributeSet attrs, int defStyle) {
+            super(context, attrs, defStyle);
+        }
+
+        @Override
+        protected boolean overScrollBy(int deltaX, int deltaY, int scrollX, int scrollY, int scrollRangeX,
+                                       int scrollRangeY, int maxOverScrollX, int maxOverScrollY, boolean isTouchEvent) {
+
+            final boolean returnValue = super.overScrollBy(deltaX, deltaY, scrollX, scrollY, scrollRangeX,
+                    scrollRangeY, maxOverScrollX, maxOverScrollY, isTouchEvent);
+
+            // Does all of the hard work...
+            OverscrollHelper.overScrollBy(PullToRefreshIndexableListView.this, deltaX, scrollX, deltaY, scrollY, isTouchEvent);
+
+            return returnValue;
+        }
     }
 
 }
