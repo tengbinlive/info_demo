@@ -184,8 +184,8 @@ public class HXChatManagerInit {
         @Override
         public void onConnected() {
             asyncFetchContactsFromServer();
-            asyUnreadNotice();
             dbDataProcess();
+            asyUnreadNotice();
         }
 
         @Override
@@ -227,7 +227,7 @@ public class HXChatManagerInit {
 
 
     private void asyUnreadNotice() {
-        final InviteMessageDao inviteMessageDao = App.getDaoSession().getInviteMessageDao();
+        InviteMessageDao inviteMessageDao = App.getDaoSession().getInviteMessageDao();
         List<InviteMessageDO> dos = inviteMessageDao.queryBuilder().list();
         HashMap<String, InviteMessage> tempHashMap = new HashMap<>();
         if (null != dos) {
@@ -342,8 +342,8 @@ public class HXChatManagerInit {
 
     private void saveGroupList(List<EMGroup> groups) {
         if (null != groups && groups.size() > 0) {
-            final DaoSession daoSession = App.getDaoSession();
-            final List<UserDO> userDOs = new ArrayList<>();
+            DaoSession daoSession = App.getDaoSession();
+            List<UserDO> userDOs = new ArrayList<>();
             HashMap<String, User> groupsHashMap = new HashMap<>();
             for (EMGroup group : groups) {
                 UserDO userdo = new UserDO();
@@ -363,7 +363,7 @@ public class HXChatManagerInit {
 
     private void saveGroupList(EMGroup group) {
         if (null != group) {
-            final DaoSession daoSession = App.getDaoSession();
+            DaoSession daoSession = App.getDaoSession();
             UserDO userdo = new UserDO();
             User user = new User();
             userdo.setType(User.TYPE_GROUPS);
@@ -379,8 +379,8 @@ public class HXChatManagerInit {
     //本地&内存 删除群组
     private void removeGroupList(List<EMGroup> groups) {
         if (null != groups && groups.size() > 0) {
-            final DaoSession daoSession = App.getDaoSession();
-            final List<UserDO> userDOs = new ArrayList<>();
+            DaoSession daoSession = App.getDaoSession();
+            List<UserDO> userDOs = new ArrayList<>();
             for (EMGroup group : groups) {
                 UserDO userdo = new UserDO();
                 User user = new User();
@@ -440,8 +440,8 @@ public class HXChatManagerInit {
 
     private void saveUserList(List<String> usernames) {
         if (null != usernames && usernames.size() > 0) {
-            final DaoSession daoSession = App.getDaoSession();
-            final List<UserDO> userDOs = new ArrayList<>();
+            DaoSession daoSession = App.getDaoSession();
+            List<UserDO> userDOs = new ArrayList<>();
             HashMap<String, User> friendsHashMap = new HashMap<>();
             for (String username : usernames) {
                 UserDO userdo = new UserDO();
@@ -460,7 +460,7 @@ public class HXChatManagerInit {
 
     private void saveUserList(String username) {
         if (StringUtil.isNotBlank(username)) {
-            final DaoSession daoSession = App.getDaoSession();
+            DaoSession daoSession = App.getDaoSession();
             UserDO userdo = new UserDO();
             User user = new User();
             userdo.setType(User.TYPE_FRIENDS);
@@ -475,8 +475,8 @@ public class HXChatManagerInit {
     //本地&内存 删除用户
     private void removeUserList(List<String> usernames) {
         if (null != usernames && usernames.size() > 0) {
-            final DaoSession daoSession = App.getDaoSession();
-            final List<UserDO> userDOs = new ArrayList<>();
+            DaoSession daoSession = App.getDaoSession();
+            List<UserDO> userDOs = new ArrayList<>();
             for (String username : usernames) {
                 UserDO userdo = new UserDO();
                 User user = new User();
@@ -602,7 +602,7 @@ public class HXChatManagerInit {
      */
     private void saveInviteMsg(InviteMessage msg) {
         if (null != msg) {
-            final DaoSession daoSession = App.getDaoSession();
+            DaoSession daoSession = App.getDaoSession();
             String title = msg.getFrom();
             InviteMessageDO inviteMessageDO = BeanCopyHelper.cast2InviteMessageDO(msg);
             HXCacheUtils.getInstance().getInviteMessageHashMap().put(title, msg);

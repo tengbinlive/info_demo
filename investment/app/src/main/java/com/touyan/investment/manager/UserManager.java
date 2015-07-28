@@ -381,12 +381,6 @@ public class UserManager {
             }
         }
 
-        if (useridsTemp.size() <= 0 && groupidsTemp.size() <= 0) {
-            result.setUserinfo(users);
-            result.setGroupinfo(groupDetails);
-            return result;
-        }
-
         //添加未查询到数据
         for (String name : useridsTemp) {
             UserInfo user = new UserInfo();
@@ -431,7 +425,7 @@ public class UserManager {
     }
 
     private void updateBatchInfoResult(CommonResponse response, BatchInfoResult result) {
-        final DaoSession daoSession = App.getDaoSession();
+        DaoSession daoSession = App.getDaoSession();
         // 如果查询结果正确才保存
         if (response != null && response.isSuccess()) {
             BatchInfoResult tempResult = (BatchInfoResult) response.getData();
@@ -471,6 +465,7 @@ public class UserManager {
             daoSession.runInTx(new Runnable() {
                 @Override
                 public void run() {
+                    DaoSession daoSession = App.getDaoSession();
                     GroupDetalDao groupDetalDao = daoSession.getGroupDetalDao();
                     UserInfoDao userInfoDao = daoSession.getUserInfoDao();
                     if (null != groupDOs && groupDOs.size() > 0) {

@@ -66,7 +66,7 @@ public class GungFriendFragment extends AbsFragment {
         dialogDismiss();
         if (resposne.isSuccess()) {
             BatchInfoResult result = (BatchInfoResult) resposne.getData();
-            friends = result.getUserinfo() ;
+            friends = result.getUserinfo();
             hanziSequence();
         } else {
             CommonUtil.showToast(resposne.getErrorTip());
@@ -110,13 +110,13 @@ public class GungFriendFragment extends AbsFragment {
             listView.setFitsSystemWindows(true);
         }
 
-
+        dialogShow();
         getDataList();
     }
 
     private void initListView() {
 
-        if(mAdapter==null) {
+        if (mAdapter == null) {
             mAdapter = new FriendListHeadersAdapter(this.getActivity(), friends);
 
             SwingBottomInAnimationAdapter animationAdapter = new SwingBottomInAnimationAdapter(mAdapter);
@@ -131,7 +131,7 @@ public class GungFriendFragment extends AbsFragment {
             stickyListHeadersAdapterDecorator.getViewAnimator().setInitialDelayMillis(500);
 
             listView.setAdapter(stickyListHeadersAdapterDecorator);
-        }else{
+        } else {
             mAdapter.refresh(friends);
         }
     }
@@ -142,13 +142,9 @@ public class GungFriendFragment extends AbsFragment {
         usernames = new ArrayList<>(HXCacheUtils.getInstance().getFriendsHashMap().keySet());
 
         if (usernames != null) {
-            BatchInfoResult result = userManager.batchInfo(GungFriendFragment.this.getActivity(), (ArrayList<String>) usernames, new ArrayList<String>(), activityHandler, LOAD_DATA);
-            if (result != null) {
-                dialogDismiss();
-                friends = result.getUserinfo();
-                hanziSequence();
-            }
-
+            userManager.batchInfo(GungFriendFragment.this.getActivity(), (ArrayList<String>) usernames, new ArrayList<String>(), activityHandler, LOAD_DATA);
+        } else {
+            dialogDismiss();
         }
 
     }

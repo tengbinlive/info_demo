@@ -186,6 +186,7 @@ public class AddFriendActivity extends AbsActivity {
         listview.setFastScrollEnabled(true);
         listview.setEmptyView(listviewEmpty);
         initListView();
+        dialogShow();
         getDataList();
     }
 
@@ -307,13 +308,9 @@ public class AddFriendActivity extends AbsActivity {
         usernames = new ArrayList<>(HXCacheUtils.getInstance().getFriendsHashMap().keySet());
 
         if (usernames != null) {
-
-            BatchInfoResult result = userManager.batchInfo(AddFriendActivity.this, (ArrayList<String>) usernames, new ArrayList<String>(), activityHandler, FRIEND_DATA);
-            if (result != null) {
-                dialogDismiss();
-                friends = result.getUserinfo();
-            }
-
+            userManager.batchInfo(AddFriendActivity.this, (ArrayList<String>) usernames, new ArrayList<String>(), activityHandler, FRIEND_DATA);
+        } else {
+            dialogDismiss();
         }
 
     }
