@@ -99,12 +99,14 @@ public class InviteContactsActivity extends AbsActivity {
 
             for (int i = 0; i < contacts.size(); i++) {
                 if (mContacts.contains(contacts.get(i))) {
-                    Log.e("zxh", contacts.toString());
-                    mContacts.set(mContacts.indexOf(contacts.get(i)), contacts.get(i));
+//                    Log.e("zxh", contacts.toString());
+//                    mContacts.set(mContacts.indexOf(contacts.get(i)), contacts.get(i));
+                    contacts.set(contacts.indexOf(mContacts.get(i)), mContacts.get(i));
                 }
             }
+
             hanziSequence();
-            mAdapter.refresh(mContacts);
+            mAdapter.refresh(contacts);
         } else {
             CommonUtil.showToast(resposne.getErrorTip());
         }
@@ -112,10 +114,10 @@ public class InviteContactsActivity extends AbsActivity {
     }
 
     private void hanziSequence() {
-        if (mContacts == null) {
+        if (contacts == null) {
             return;
         }
-        Collections.sort(mContacts, cmp);
+        Collections.sort(contacts, cmp);
         initListView();
     }
 
