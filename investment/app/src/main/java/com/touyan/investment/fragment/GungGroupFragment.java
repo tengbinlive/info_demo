@@ -97,11 +97,11 @@ public class GungGroupFragment extends AbsFragment {
         groupids = new ArrayList<>(HXCacheUtils.getInstance().getGroupsHashMap().keySet());
         if (groupids != null) {
             BatchInfoResult result = userManager.batchInfo(getActivity(), new ArrayList<String>(),(ArrayList<String>) groupids, activityHandler, LOAD_DATA);
-            if (result != null) {
-                List<GroupDetail> listGroups = result.getGroupinfo();
-                sortDate(listGroups);
-                hanziSequence();
-            }
+//            if (result != null) {
+//                List<GroupDetail> listGroups = result.getGroupinfo();
+//                sortDate(listGroups);
+//                hanziSequence();
+//            }
 
         }
 
