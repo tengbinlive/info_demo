@@ -103,7 +103,7 @@ public class GungFragment extends AbsFragment {
         } else {
             CommonUtil.showToast(resposne.getErrorTip());
         }
-        mListView.onRefreshComplete();
+        activityHandler.sendEmptyMessageDelayed(FINISH_LIST, 1000);
     }
 
     private void processData(BatchInfoResult result) {
@@ -170,11 +170,8 @@ public class GungFragment extends AbsFragment {
     }
 
     private void getDataList() {
-        BatchInfoResult result = manager.batchInfo(getActivity(), userids, groupids, activityHandler, INIT_LIST);
-        if (null != result) {
-            processData(result);
-            activityHandler.sendEmptyMessageDelayed(FINISH_LIST, 1000);
-        }
+        dialogShow();
+        manager.batchInfo(getActivity(), userids, groupids, activityHandler, INIT_LIST);
     }
 
     @Override

@@ -307,13 +307,7 @@ public class AddFriendActivity extends AbsActivity {
         usernames = new ArrayList<>(HXCacheUtils.getInstance().getFriendsHashMap().keySet());
 
         if (usernames != null) {
-
-            BatchInfoResult result = userManager.batchInfo(AddFriendActivity.this, (ArrayList<String>) usernames, new ArrayList<String>(), activityHandler, FRIEND_DATA);
-            if (result != null) {
-                dialogDismiss();
-                friends = result.getUserinfo();
-            }
-
+            userManager.batchInfo(AddFriendActivity.this, (ArrayList<String>) usernames, new ArrayList<String>(), activityHandler, FRIEND_DATA);
         }
 
     }

@@ -77,15 +77,15 @@ public class IndexableListView extends StickyListHeadersListView {
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
         // Intercept ListView's touch event
-        int action = ev.getAction();
-        if (action == MotionEvent.ACTION_DOWN) {
-            getParent().requestDisallowInterceptTouchEvent(false);
-        } else if (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_CANCEL) {
-            getParent().requestDisallowInterceptTouchEvent(true);
-        }
-        if (mScroller != null && mScroller.onTouchEvent(ev))
+        if (mScroller != null && mScroller.onTouchEvent(ev)) {
+            int action = ev.getAction();
+            if (action == MotionEvent.ACTION_DOWN) {
+                getParent().requestDisallowInterceptTouchEvent(true);
+            } else if (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_CANCEL) {
+                getParent().requestDisallowInterceptTouchEvent(false);
+            }
             return true;
-
+        }
         return super.onTouchEvent(ev);
     }
 
