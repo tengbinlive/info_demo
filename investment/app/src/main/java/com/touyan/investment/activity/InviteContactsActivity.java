@@ -99,6 +99,7 @@ public class InviteContactsActivity extends AbsActivity {
 
             for (int i = 0; i < contacts.size(); i++) {
                 if (mContacts.contains(contacts.get(i))) {
+                    Log.e("zxh", contacts.toString());
                     mContacts.set(mContacts.indexOf(contacts.get(i)), contacts.get(i));
                 }
             }
@@ -257,7 +258,7 @@ public class InviteContactsActivity extends AbsActivity {
                 userInfo.setUphoto(imagPath);
                 contactFriend.setUserinfo(userInfo);
                 contactFriend.setRole(2);
-
+                contactFriend.setServno(phoneStr);
                 Log.e("zxh", contactFriend.toString());
 
                 mContacts.add(contactFriend);

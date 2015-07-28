@@ -334,6 +334,7 @@
 
         <!--邀请联系人-->
         <activity android:name=".activity.InviteContactsActivity"
+                  android:windowSoftInputMode="adjustPan"
                   android:theme="@style/AppTheme">
         </activity>
 
