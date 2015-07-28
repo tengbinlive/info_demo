@@ -4,7 +4,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import com.dao.*;
+import com.core.util.StringUtil;
+import com.dao.DaoSession;
+import com.dao.UserDO;
+import com.dao.UserDao;
 import com.easemob.EMConnectionListener;
 import com.easemob.chat.*;
 import com.easemob.exceptions.EaseMobException;
@@ -194,7 +197,7 @@ public class HXChatManagerInit {
         }.start();
     }
 
-    public void asyncData(){
+    public void asyncData() {
         asyncFetchGroupsFromServer();
         asyncFetchUserFromServer();
     }
@@ -210,6 +213,7 @@ public class HXChatManagerInit {
                 isSyncingDatas = true;
                 SharedPreferencesHelper.setLong(App.getInstance(), Constant.SHARED_PREFERENCES_DB_TIME, System.currentTimeMillis());
                 clearConfig();
+                HXUserUtils.getInstance().resetData();
                 asyncData();
             } else {
                 isSyncingDatas = false;
@@ -222,17 +226,17 @@ public class HXChatManagerInit {
 
                 HashMap<String, User> groupsHashMap = new HashMap<>();
 
-                for(UserDO userdo:users){
+                for (UserDO userdo : users) {
                     User user = new User();
                     user.setAvatar(userdo.getAvatar());
                     user.setHeader(userdo.getHeader());
                     user.setUnreadMsgCount(userdo.getUnreadMsgCount());
                     String type = userdo.getType();
                     user.setType(type);
-                    if(User.TYPE_FRIENDS.equals(type)){
-                        friendsHashMap.put(userdo.getAvatar(),user);
-                    }else{
-                        groupsHashMap.put(userdo.getAvatar(),user);
+                    if (User.TYPE_FRIENDS.equals(type)) {
+                        friendsHashMap.put(userdo.getAvatar(), user);
+                    } else {
+                        groupsHashMap.put(userdo.getAvatar(), user);
                     }
                 }
 
@@ -290,8 +294,9 @@ public class HXChatManagerInit {
         }.start();
     }
 
-    private void saveGroupList(List<EMGroup> groups){
-        if(null!=groups&&groups.size()>0){
+    //本地&内存 保存群组
+    private void saveGroupList(List<EMGroup> groups) {
+        if (null != groups && groups.size() > 0) {
             final DaoSession daoSession = App.getDaoSession();
             final List<UserDO> userDOs = new ArrayList<>();
             HashMap<String, User> groupsHashMap = new HashMap<>();
@@ -304,10 +309,45 @@ public class HXChatManagerInit {
                 userdo.setAvatar(username);
                 user.setAvatar(username);
                 userDOs.add(userdo);
-                groupsHashMap.put(username,user);
+                groupsHashMap.put(username, user);
             }
-            HXUserUtils.getInstance().setGroupsHashMap(groupsHashMap);
+            HXUserUtils.getInstance().getGroupsHashMap().putAll(groupsHashMap);
             daoSession.getUserDao().insertInTx(userDOs);
+        }
+    }
+
+    private void saveGroupList(EMGroup group) {
+        if (null != group) {
+            final DaoSession daoSession = App.getDaoSession();
+            UserDO userdo = new UserDO();
+            User user = new User();
+            userdo.setType(User.TYPE_GROUPS);
+            user.setType(User.TYPE_GROUPS);
+            String username = group.getGroupId();
+            userdo.setAvatar(username);
+            user.setAvatar(username);
+            HXUserUtils.getInstance().getGroupsHashMap().put(username, user);
+            daoSession.getUserDao().insert(userdo);
+        }
+    }
+
+    //本地&内存 删除群组
+    private void removeGroupList(List<EMGroup> groups) {
+        if (null != groups && groups.size() > 0) {
+            final DaoSession daoSession = App.getDaoSession();
+            final List<UserDO> userDOs = new ArrayList<>();
+            for (EMGroup group : groups) {
+                UserDO userdo = new UserDO();
+                User user = new User();
+                userdo.setType(User.TYPE_GROUPS);
+                user.setType(User.TYPE_GROUPS);
+                String username = group.getGroupId();
+                userdo.setAvatar(username);
+                user.setAvatar(username);
+                userDOs.add(userdo);
+                HXUserUtils.getInstance().getGroupsHashMap().remove(username);
+            }
+            daoSession.getUserDao().deleteInTx(userDOs);
         }
     }
 
@@ -350,8 +390,9 @@ public class HXChatManagerInit {
         }.start();
     }
 
-    private void saveUserList(List<String> usernames){
-        if(null!=usernames&&usernames.size()>0){
+    //本地&内存 保存用户
+    private void saveUserList(List<String> usernames) {
+        if (null != usernames && usernames.size() > 0) {
             final DaoSession daoSession = App.getDaoSession();
             final List<UserDO> userDOs = new ArrayList<>();
             HashMap<String, User> friendsHashMap = new HashMap<>();
@@ -363,10 +404,43 @@ public class HXChatManagerInit {
                 userdo.setAvatar(username);
                 user.setAvatar(username);
                 userDOs.add(userdo);
-                friendsHashMap.put(username,user);
+                friendsHashMap.put(username, user);
             }
-            HXUserUtils.getInstance().setFriendsHashMap(friendsHashMap);
+            HXUserUtils.getInstance().getFriendsHashMap().putAll(friendsHashMap);
             daoSession.getUserDao().insertInTx(userDOs);
+        }
+    }
+
+    private void saveUserList(String username) {
+        if (StringUtil.isNotBlank(username)) {
+            final DaoSession daoSession = App.getDaoSession();
+            UserDO userdo = new UserDO();
+            User user = new User();
+            userdo.setType(User.TYPE_FRIENDS);
+            user.setType(User.TYPE_FRIENDS);
+            userdo.setAvatar(username);
+            user.setAvatar(username);
+            HXUserUtils.getInstance().getFriendsHashMap().put(username,user);
+            daoSession.getUserDao().insert(userdo);
+        }
+    }
+
+    //本地&内存 删除用户
+    private void removeUserList(List<String> usernames) {
+        if (null != usernames && usernames.size() > 0) {
+            final DaoSession daoSession = App.getDaoSession();
+            final List<UserDO> userDOs = new ArrayList<>();
+            for (String username : usernames) {
+                UserDO userdo = new UserDO();
+                User user = new User();
+                userdo.setType(User.TYPE_FRIENDS);
+                user.setType(User.TYPE_FRIENDS);
+                userdo.setAvatar(username);
+                user.setAvatar(username);
+                userDOs.add(userdo);
+                HXUserUtils.getInstance().getFriendsHashMap().remove(username);
+            }
+            daoSession.getUserDao().deleteInTx(userDOs);
         }
     }
 
@@ -395,12 +469,13 @@ public class HXChatManagerInit {
         @Override
         public void onContactAdded(List<String> usernameList) {
             // 保存增加的联系人
-
+            saveUserList(usernameList);
         }
 
         @Override
         public void onContactDeleted(final List<String> usernameList) {
             // 被删除
+            removeUserList(usernameList);
             EventBus.getDefault().post(new OnContactDeletedEvent(usernameList));
         }
 
@@ -413,6 +488,7 @@ public class HXChatManagerInit {
         @Override
         public void onContactAgreed(String username) {
             //同意好友请求
+            saveUserList(username);
         }
 
         @Override

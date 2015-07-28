@@ -15,6 +15,11 @@ public class HXUserUtils {
         return instance;
     }
 
+    public void resetData(){
+        friendsHashMap = new HashMap<>();
+        groupsHashMap = new HashMap<>();
+    }
+
     private HashMap<String, User> friendsHashMap = new HashMap<>();
 
     private HashMap<String, User> groupsHashMap = new HashMap<>();
