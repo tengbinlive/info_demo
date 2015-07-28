@@ -76,7 +76,7 @@ public class GroupListAdapter extends BaseAdapter {
             TextView group_member = (TextView) view.findViewById(R.id.group_member);
             textView.setText(objects.get(position).getGroupname());
             ImageLoader.getInstance().displayImage(objects.get(position).getGphoto(), head);
-            group_member.setText(objects.get(position).getMemnum());
+            group_member.setText(""+objects.get(position).getMemnum());
 
         }
 
