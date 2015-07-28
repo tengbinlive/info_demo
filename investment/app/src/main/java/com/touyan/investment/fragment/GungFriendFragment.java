@@ -8,12 +8,8 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import butterknife.ButterKnife;
 import com.core.CommonResponse;
 import com.core.util.CommonUtil;
-import com.core.util.Log;
-import com.easemob.chat.EMContactManager;
-import com.easemob.exceptions.EaseMobException;
 import com.nhaarman.listviewanimations.appearance.StickyListHeadersAdapterDecorator;
 import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationAdapter;
 import com.nhaarman.listviewanimations.util.StickyListHeadersListViewWrapper;
@@ -21,12 +17,10 @@ import com.touyan.investment.AbsFragment;
 import com.touyan.investment.R;
 import com.touyan.investment.adapter.FriendListHeadersAdapter;
 import com.touyan.investment.bean.user.BatchInfoResult;
-import com.touyan.investment.bean.user.User;
 import com.touyan.investment.bean.user.UserInfo;
 import com.touyan.investment.event.OnContactDeletedEvent;
 import com.touyan.investment.helper.UserInfoComp;
-import com.touyan.investment.hx.HXUserUtils;
-import com.touyan.investment.manager.InvestmentManager;
+import com.touyan.investment.hx.HXCacheUtils;
 import com.touyan.investment.manager.UserManager;
 import com.touyan.investment.mview.IndexableListView;
 
@@ -145,7 +139,7 @@ public class GungFriendFragment extends AbsFragment {
 
     private void getDataList() {
 
-        usernames = new ArrayList<>(HXUserUtils.getInstance().getFriendsHashMap().keySet());
+        usernames = new ArrayList<>(HXCacheUtils.getInstance().getFriendsHashMap().keySet());
 
         if (usernames != null) {
             BatchInfoResult result = userManager.batchInfo(GungFriendFragment.this.getActivity(), (ArrayList<String>) usernames, new ArrayList<String>(), activityHandler, LOAD_DATA);

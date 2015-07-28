@@ -24,10 +24,13 @@ import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.touyan.investment.*;
 import com.touyan.investment.adapter.MainViewPagerAdapter;
 import com.touyan.investment.enums.BottomMenu;
+import com.touyan.investment.event.NewMessageEvent;
 import com.touyan.investment.fragment.GungFragment;
 import com.touyan.investment.fragment.InvestmentFragment;
 import com.touyan.investment.fragment.MeFragment;
 import com.touyan.investment.helper.Util;
+import com.touyan.investment.hx.HXCacheUtils;
+import com.touyan.investment.hx.HXChatManagerInit;
 import com.touyan.investment.hx.HXConstant;
 import com.touyan.investment.mview.BezierView;
 
@@ -220,14 +223,13 @@ public class MainActivity extends AbsActivity {
     }
 
     //接收到新消息
-    public void onEvent(EMConversation event) {
+    public void onEvent(NewMessageEvent event) {
         if (!App.isConflict && !App.isCurrentAccountRemoved) {
             if(currentPager!=1) {
                 activityHandler.sendEmptyMessage(UPDATE_UNREADLABEL);
             }
         }
     }
-
 
     /**
      * 刷新未读消息数
@@ -257,12 +259,13 @@ public class MainActivity extends AbsActivity {
     private int getUnreadMsgCountTotal() {
         int unreadMsgCountTotal = 0;
         int chatroomUnreadMsgCount = 0;
+        int inviteMessageSize= HXChatManagerInit.getInstance().unreadNoticeCount;
         unreadMsgCountTotal = EMChatManager.getInstance().getUnreadMsgsCount();
         for (EMConversation conversation : EMChatManager.getInstance().getAllConversations().values()) {
             if (conversation.getType() == EMConversation.EMConversationType.ChatRoom)
                 chatroomUnreadMsgCount = chatroomUnreadMsgCount + conversation.getUnreadMsgCount();
         }
-        return unreadMsgCountTotal - chatroomUnreadMsgCount;
+        return unreadMsgCountTotal - chatroomUnreadMsgCount+inviteMessageSize;
     }
 
 }

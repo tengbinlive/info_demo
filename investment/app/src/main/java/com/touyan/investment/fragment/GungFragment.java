@@ -16,9 +16,7 @@ import com.easemob.chat.EMConversation;
 import com.handmark.pulltorefresh.PullToRefreshBase;
 import com.handmark.pulltorefresh.PullToRefreshListView;
 import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationAdapter;
-import com.touyan.investment.AbsActivity;
-import com.touyan.investment.AbsFragment;
-import com.touyan.investment.R;
+import com.touyan.investment.*;
 import com.touyan.investment.activity.FriendsActivity;
 import com.touyan.investment.adapter.GungNewsAdapter;
 import com.touyan.investment.bean.message.ConversationBean;
@@ -26,7 +24,10 @@ import com.touyan.investment.bean.message.GroupDetail;
 import com.touyan.investment.bean.user.BatchInfoResult;
 import com.touyan.investment.bean.user.UserInfo;
 import com.touyan.investment.event.NetworkEvent;
+import com.touyan.investment.event.NewMessageEvent;
+import com.touyan.investment.helper.SharedPreferencesHelper;
 import com.touyan.investment.helper.Util;
+import com.touyan.investment.hx.HXChatManagerInit;
 import com.touyan.investment.manager.UserManager;
 import com.touyan.investment.mview.BezierView;
 import com.touyan.investment.mview.NetworkPrompt;
@@ -50,6 +51,8 @@ public class GungFragment extends AbsFragment {
     private static final int FINISH_LIST = 0x02;//结束listview
 
     private static final int NETWORK_PROMPT = 0x03;//显示网络状态提示
+
+    private final static int UPDATE_UNREADLABEL = 0x07;//更新未读通知
 
     private TextView menuLeft;
 
@@ -82,6 +85,9 @@ public class GungFragment extends AbsFragment {
                     break;
                 case NETWORK_PROMPT:
                     networkPrompt.showPopupWindow(action_bar, 0, 0);
+                    break;
+                case UPDATE_UNREADLABEL:
+                    updateUnreadLabel();
                     break;
                 default:
                     break;
@@ -197,6 +203,20 @@ public class GungFragment extends AbsFragment {
         mListView = (PullToRefreshListView) viewGroup.findViewById(R.id.pull_refresh_list);
         initListView(viewGroup);
         refresh();
+        activityHandler.sendEmptyMessageDelayed(UPDATE_UNREADLABEL,300);
+    }
+
+    /**
+     * 刷新未读消息数
+     */
+    private void updateUnreadLabel() {
+        int count = HXChatManagerInit.getInstance().unreadNoticeCount;
+        if (count > 0) {
+            notice_bv.setNewMessage("" + count,0,0);
+            notice_bv.setVisibility(View.VISIBLE);
+        } else {
+            notice_bv.setVisibility(View.GONE);
+        }
     }
 
     /**
@@ -289,17 +309,11 @@ public class GungFragment extends AbsFragment {
         activityHandler.sendEmptyMessage(NETWORK_PROMPT);
     }
 
-    /**
-     * 获取未读申请与通知消息
-     *
-     * @return
-     */
-    public int getUnreadAddressCountTotal() {
-        int unreadAddressCountTotal = 0;
-//        if (DemoApplication.getInstance().getContactList().get(Constant.NEW_FRIENDS_USERNAME) != null)
-//            unreadAddressCountTotal = DemoApplication.getInstance().getContactList().get(Constant.NEW_FRIENDS_USERNAME)
-//                    .getUnreadMsgCount();
-        return unreadAddressCountTotal;
+    //接收到新消息
+    public void onEvent(NewMessageEvent event) {
+        if (!App.isConflict && !App.isCurrentAccountRemoved) {
+            activityHandler.sendEmptyMessage(UPDATE_UNREADLABEL);
+        }
     }
 
     /**
@@ -329,6 +343,23 @@ public class GungFragment extends AbsFragment {
                 toFriends();
             }
         });
+
+        menuLeft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int count = HXChatManagerInit.getInstance().unreadNoticeCount;
+                if(count>0){
+                    HXChatManagerInit.getInstance().unreadNoticeCount = 0;
+                    SharedPreferencesHelper.setPreferInt(App.getInstance(), Constant.SHARED_PREFERENCES_DB_UNREADNOTICECOUNT, 0);
+                    activityHandler.sendEmptyMessage(UPDATE_UNREADLABEL);
+                }
+                toNoticeActivity();
+            }
+        });
+    }
+
+    private void toNoticeActivity(){
+
     }
 
     private void toFriends() {
