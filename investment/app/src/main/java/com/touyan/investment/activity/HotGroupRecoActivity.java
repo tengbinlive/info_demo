@@ -10,21 +10,24 @@ import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationA
 import com.touyan.investment.AbsActivity;
 import com.touyan.investment.R;
 import com.touyan.investment.adapter.HotGroupRecomAdapter;
+import com.touyan.investment.bean.message.GroupDetail;
+import com.touyan.investment.bean.message.QueryHotGroupsResult;
 import com.touyan.investment.bean.user.MayknowFriendResult;
 import com.touyan.investment.bean.user.UserInfo;
 import com.touyan.investment.manager.InvestmentManager;
+import com.touyan.investment.manager.MessageManager;
 
 import java.util.ArrayList;
 
-public class HotGroupRecoActivity extends AbsActivity implements OnClickListener {
+public class HotGroupRecoActivity extends AbsActivity{
 
-    private InvestmentManager manager = new InvestmentManager();
+    private MessageManager manager = new MessageManager();
     private static final int LOAD_DATA = 0x02;//加载数据处理
     //列表
     private ListView mListView;
     private HotGroupRecomAdapter mAdapter;
 
-    private ArrayList<UserInfo> mList = new ArrayList<UserInfo>();
+    private ArrayList<GroupDetail> mList = new ArrayList<GroupDetail>();
 
     private Handler activityHandler = new Handler() {
         public void handleMessage(Message msg) {
@@ -42,13 +45,15 @@ public class HotGroupRecoActivity extends AbsActivity implements OnClickListener
     public void EInit() {
         super.EInit();
         initListView();
+        dialogShow();
         getDataList();
     }
 
     private void loadData(CommonResponse resposne, int what) {
         dialogDismiss();
         if (resposne.isSuccess()) {
-            mList.addAll(((MayknowFriendResult) resposne.getData()).getUsers());
+            QueryHotGroupsResult queryHotGroupsResult = (QueryHotGroupsResult) resposne.getData();
+            mList.addAll(queryHotGroupsResult.getGroups());
             mAdapter.refresh(mList);
         }
     }
@@ -62,10 +67,6 @@ public class HotGroupRecoActivity extends AbsActivity implements OnClickListener
         setToolbarLeftStrID(R.string.back);
         setToolbarIntermediateStrID(R.string.hotgroup);
         setToolbarRightVisbility(View.INVISIBLE, View.INVISIBLE);
-    }
-
-    @Override
-    public void onClick(View view) {
     }
 
     @Override
@@ -91,8 +92,6 @@ public class HotGroupRecoActivity extends AbsActivity implements OnClickListener
     }
 
     private void getDataList() {
-        ArrayList<String> servnos =  new ArrayList<String>();
-        servnos.add("13127640379");
-        manager.mayKnowList(this, servnos, activityHandler,LOAD_DATA);
+        manager.queryHotgroups(this, activityHandler, LOAD_DATA);
     }
 }

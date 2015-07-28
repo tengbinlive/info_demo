@@ -1,62 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout android:id="@+id/checkbox_layout"
+                xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-               >
+                android:layout_height="@dimen/delete_itme_height"
+                android:paddingLeft="@dimen/content_gap"
+                android:paddingRight="@dimen/content_gap"
+                android:paddingTop="@dimen/view_margin"
+                android:background="@color/white"
+        >
+
+<com.joooonho.SelectableRoundedImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/head"
+        android:layout_centerVertical="true"
+        android:src="@drawable/default_group_icon"
+        android:scaleType="centerCrop"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:sriv_left_top_corner_radius="4dip"
+        app:sriv_right_top_corner_radius="4dip"
+        app:sriv_left_bottom_corner_radius="4dip"
+        app:sriv_right_bottom_corner_radius="4dip"
+        app:sriv_oval="false"/>
+
+<TextView
+        android:id="@+id/group_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="你好"
+        android:textColor="@color/textcolor_444"
+        android:textSize="@dimen/font_medium"
+        android:layout_toRightOf="@+id/head"
+        android:layout_marginLeft="20dp"
+        android:singleLine="true"/>
 
 
-    <RelativeLayout
-            android:layout_width="match_parent"
-            android:background="@color/white"
-            android:layout_height="@dimen/delete_itme_height"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-          >
-        <com.joooonho.SelectableRoundedImageView
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/head"
-                android:layout_marginLeft="@dimen/content_gap"
-                android:layout_centerVertical="true"
-                android:src="@drawable/default_group_icon"
-                android:scaleType="centerCrop"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                app:sriv_left_top_corner_radius="4dip"
-                app:sriv_right_top_corner_radius="4dip"
-                app:sriv_left_bottom_corner_radius="4dip"
-                app:sriv_right_bottom_corner_radius="4dip"
-                app:sriv_oval="false"/>
+<TextView
+        android:id="@+id/group_member"
+        android:gravity="center_vertical"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_toRightOf="@+id/head"
+        android:layout_marginLeft="@dimen/content_gap"
+        android:layout_alignBottom="@+id/head"
+        android:layout_marginBottom="-2dp"
+        android:textSize="@dimen/font_medium"
+        android:textColor="@color/textcolor_bbb"
+        android:drawableLeft="@drawable/group_member_icon"
+        android:drawablePadding="5dp"
+        android:text="0"
+        />
 
-        <TextView
-                android:id="@+id/group_name"
-                android:layout_toRightOf="@+id/head"
-                android:layout_width="wrap_content"
-                android:text="kong"
-                android:layout_marginLeft="@dimen/content_gap"
-                android:gravity="center"
-                android:layout_marginTop="2dp"
-                android:textSize="@dimen/font_medium"
-                android:textColor="@color/textcolor_444"
-                android:layout_height="wrap_content"/>
-
-
-
-        <TextView
-                android:id="@+id/group_member"
-                android:gravity="center_vertical"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:layout_toRightOf="@+id/head"
-                android:layout_marginLeft="@dimen/content_gap"
-                android:layout_alignBottom="@+id/head"
-                android:layout_marginBottom="-2dp"
-                android:textSize="@dimen/font_medium"
-                android:textColor="@color/textcolor_bbb"
-                android:drawableLeft="@drawable/group_member_icon"
-                android:drawablePadding="5dp"
-                android:text="0"
-               />
-
-    </RelativeLayout>
-</LinearLayout>
+<View android:layout_width="match_parent"
+      android:background="@drawable/act_line"
+      android:layout_height="@dimen/content_1px"
+      android:paddingLeft="@dimen/content_gap"
+      android:paddingRight="@dimen/content_gap"
+      android:layout_marginTop="@dimen/view_margin"
+      android:layout_below="@+id/head"
+        />
+</RelativeLayout>
