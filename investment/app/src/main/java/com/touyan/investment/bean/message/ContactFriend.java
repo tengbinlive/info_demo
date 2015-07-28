@@ -43,4 +43,18 @@ public class ContactFriend {
                 ", userinfo=" + userinfo +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ContactFriend contactFriend = (ContactFriend) o;
+
+        if (servno != null ? !servno.equals(contactFriend.servno) : contactFriend.servno != null) return false;
+
+        return true;
+    }
+
+
 }

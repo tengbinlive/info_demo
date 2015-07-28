@@ -64,6 +64,7 @@ public class GungFriendFragment extends AbsFragment {
 
     private void loadData(CommonResponse resposne) {
         dialogDismiss();
+
         if (resposne.isSuccess()) {
             BatchInfoResult result = (BatchInfoResult) resposne.getData();
             friends = result.getUserinfo();

@@ -9,11 +9,10 @@ import com.core.openapi.OpenApiMethodEnum;
 import com.core.openapi.OpenApiSimpleResult;
 import com.touyan.investment.App;
 import com.touyan.investment.bean.BeanParam;
-import com.touyan.investment.bean.message.QueryContactFriendsParam;
-import com.touyan.investment.bean.message.QueryContactFriendsResult;
-import com.touyan.investment.bean.message.TopMessageListParam;
-import com.touyan.investment.bean.message.TopMessageListResult;
+import com.touyan.investment.bean.message.*;
 import com.touyan.investment.bean.user.DeleteCollectedInfoParam;
+import com.touyan.investment.bean.user.MayknowFriendParam;
+import com.touyan.investment.bean.user.MayknowFriendResult;
 import com.touyan.investment.bean.user.OtherInfoResult;
 
 import java.util.ArrayList;
@@ -68,6 +67,26 @@ public class MessageManager {
         param.setMethod(OpenApiMethodEnum.TOP_MESSAGE_LIST);
         param.setParseTokenType(new TypeReference<TopMessageListResult>() {
         });
+        // 请求对象
+        CommonRequest request = new CommonRequest(param, handler, handlerMsgCode);
+        // 开始执行加载
+        CommonDataLoader.getInstance(context).load(request);
+    }
+
+    /**
+     *获取热门群组
+     *
+     * @param context
+     * @param handler
+     * @param handlerMsgCode
+     */
+    public void queryHotgroups(Context context ,final Handler handler, final int handlerMsgCode) {
+
+       BeanParam param = new BeanParam();
+        param.setUserid(App.getInstance().getgUserInfo().getServno());
+        // 接口参数
+        param.setMethod(OpenApiMethodEnum.LOAD_HOTGROUP);
+        param.setParseTokenType(new TypeReference<QueryHotGroupsResult>() {});
         // 请求对象
         CommonRequest request = new CommonRequest(param, handler, handlerMsgCode);
         // 开始执行加载

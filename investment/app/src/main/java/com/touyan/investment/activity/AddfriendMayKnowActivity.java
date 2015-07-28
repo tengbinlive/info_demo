@@ -30,9 +30,11 @@ import com.touyan.investment.bean.user.MayknowFriendResult;
 import com.touyan.investment.bean.user.UserInfo;
 import com.touyan.investment.fragment.MeActivityFragment;
 import com.touyan.investment.fragment.MeActivityPartakeFragment;
+import com.touyan.investment.hx.HXCacheUtils;
 import com.touyan.investment.manager.InvestmentManager;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class AddfriendMayKnowActivity extends AbsActivity implements OnClickListener {
 
@@ -60,6 +62,7 @@ public class AddfriendMayKnowActivity extends AbsActivity implements OnClickList
     public void EInit() {
         super.EInit();
         initListView();
+
         getDataList();
     }
 
@@ -109,8 +112,12 @@ public class AddfriendMayKnowActivity extends AbsActivity implements OnClickList
     }
 
     private void getDataList() {
-        ArrayList<String> servnos =  new ArrayList<String>();
-        servnos.add("13127640379");
-        manager.mayKnowList(this, servnos, activityHandler,LOAD_DATA);
+        dialogShow();
+        ArrayList<String> servnos= new ArrayList<>(HXCacheUtils.getInstance().getFriendsHashMap().keySet());
+        if (servnos != null) {
+            manager.mayKnowList(this, servnos, activityHandler,LOAD_DATA);
+        }else {
+            dialogDismiss();
+        }
     }
 }

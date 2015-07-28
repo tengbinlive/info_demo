@@ -5,12 +5,11 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.view.*;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 import com.core.CommonResponse;
 import com.core.util.CommonUtil;
-import com.easemob.EMValueCallBack;
-import com.easemob.chat.EMGroup;
-import com.easemob.chat.EMGroupManager;
 import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationAdapter;
 import com.touyan.investment.AbsFragment;
 import com.touyan.investment.App;
@@ -50,6 +49,7 @@ public class GungGroupFragment extends AbsFragment {
     };
 
     private void loadData(CommonResponse resposne, int what) {
+        dialogDismiss();
         if (resposne.isSuccess()) {
             BatchInfoResult result = (BatchInfoResult) resposne.getData();
             List<GroupDetail> listGroups = result.getGroupinfo();
@@ -88,22 +88,22 @@ public class GungGroupFragment extends AbsFragment {
         groupsEmpty.setVisibility(View.GONE);
         ll_listEmpty = viewGroup.findViewById(R.id.ll_listEmpty);
         listView.setEmptyView(ll_listEmpty);
-
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                CommonUtil.showToast("点击");
+            }
+        });
         getGroupsList();//发送请求
     }
 
     private void getGroupsList(){
-
+        dialogShow();
         groupids = new ArrayList<>(HXCacheUtils.getInstance().getGroupsHashMap().keySet());
         if (groupids != null) {
-//            BatchInfoResult result = userManager.batchInfo(getActivity(), new ArrayList<String>(),(ArrayList<String>) groupids, activityHandler, LOAD_DATA);
-//            if (result != null) {
-//                List<GroupDetail> listGroups = result.getGroupinfo();
-//                sortDate(listGroups);
-//                hanziSequence();
-//            }
-
-            BatchInfoResult result = userManager.batchInfo(getActivity(), new ArrayList<String>(),(ArrayList<String>) groupids, activityHandler, LOAD_DATA);
+            userManager.batchInfo(getActivity(), new ArrayList<String>(),(ArrayList<String>) groupids, activityHandler, LOAD_DATA);
+        }else {
+            dialogDismiss();
         }
 
     }

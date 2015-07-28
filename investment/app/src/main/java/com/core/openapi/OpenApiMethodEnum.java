@@ -241,6 +241,11 @@ public enum OpenApiMethodEnum {
      */
     LOAD_MAYKNOW_FRIEND("/user/recomUsers.action", "openapi_json", OpenApi.URL_TYPE_DATA),
 
+
+    /**
+     * 获取热门群组
+     */
+    LOAD_HOTGROUP("/group/recomGroups.action", "openapi_json", OpenApi.URL_TYPE_DATA),
     /**
      * 查询已收藏资讯列表
      */
