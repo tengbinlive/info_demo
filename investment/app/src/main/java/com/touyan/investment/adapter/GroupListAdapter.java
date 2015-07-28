@@ -9,7 +9,9 @@ import com.joooonho.SelectableRoundedImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.touyan.investment.R;
 import com.touyan.investment.bean.message.GroupDetail;
+import com.touyan.investment.bean.user.UserInfo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GroupListAdapter extends BaseAdapter {
@@ -23,7 +25,10 @@ public class GroupListAdapter extends BaseAdapter {
         this.objects = objects;
         this.mInflater = mInflater;
     }
-
+    public void refresh(ArrayList<GroupDetail> _list) {
+        objects = _list;
+        notifyDataSetChanged();
+    }
     @Override
     public boolean isEnabled(int position) {
 
