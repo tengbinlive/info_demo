@@ -6,11 +6,17 @@ import com.alibaba.fastjson.TypeReference;
 import com.core.CommonDataLoader;
 import com.core.CommonRequest;
 import com.core.openapi.OpenApiMethodEnum;
+import com.core.openapi.OpenApiSimpleResult;
 import com.touyan.investment.App;
 import com.touyan.investment.bean.BeanParam;
+import com.touyan.investment.bean.message.QueryContactFriendsParam;
+import com.touyan.investment.bean.message.QueryContactFriendsResult;
 import com.touyan.investment.bean.message.TopMessageListParam;
 import com.touyan.investment.bean.message.TopMessageListResult;
+import com.touyan.investment.bean.user.DeleteCollectedInfoParam;
 import com.touyan.investment.bean.user.OtherInfoResult;
+
+import java.util.ArrayList;
 
 /**
  * 通信&消息相关业务类.
@@ -20,7 +26,6 @@ import com.touyan.investment.bean.user.OtherInfoResult;
 public class MessageManager {
 
     private static final String TAG = MessageManager.class.getSimpleName();
-
 
 
     /**
@@ -62,6 +67,30 @@ public class MessageManager {
         // 接口参数
         param.setMethod(OpenApiMethodEnum.TOP_MESSAGE_LIST);
         param.setParseTokenType(new TypeReference<TopMessageListResult>() {
+        });
+        // 请求对象
+        CommonRequest request = new CommonRequest(param, handler, handlerMsgCode);
+        // 开始执行加载
+        CommonDataLoader.getInstance(context).load(request);
+    }
+
+    /**
+     * 获取通讯录好友
+     *
+     * @param context
+     * @param cntact
+     * @param handler
+     * @param handlerMsgCode
+     */
+    public void queryContactFriends(Context context, ArrayList<String> cntact, final Handler handler, final int handlerMsgCode) {
+
+        QueryContactFriendsParam param = new QueryContactFriendsParam();
+        param.setServno(App.getInstance().getgUserInfo().getServno());
+        param.setCntact(cntact);
+
+        // 接口参数
+        param.setMethod(OpenApiMethodEnum.QUERY_CONTACT_FRIENDS);
+        param.setParseTokenType(new TypeReference<QueryContactFriendsResult>() {
         });
         // 请求对象
         CommonRequest request = new CommonRequest(param, handler, handlerMsgCode);

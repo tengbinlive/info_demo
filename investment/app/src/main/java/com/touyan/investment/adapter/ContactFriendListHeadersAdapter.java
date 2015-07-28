@@ -5,34 +5,31 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.RelativeLayout;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
 import com.core.util.StringMatcher;
-import com.daimajia.swipe.adapters.BaseSwipeAdapter;
 import com.easemob.chat.EMContactManager;
 import com.easemob.exceptions.EaseMobException;
 import com.joooonho.SelectableRoundedImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.touyan.investment.AbsActivity;
 import com.touyan.investment.App;
 import com.touyan.investment.R;
 import com.touyan.investment.activity.UserFansDetailsActivity;
-import com.touyan.investment.bean.user.UserInfo;
+import com.touyan.investment.bean.message.ContactFriend;
 import com.touyan.investment.manager.UserManager;
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
 import java.util.ArrayList;
 
 /**
- * Created by Administrator on 2015/7/27.
+ * Created by Administrator on 2015/7/28.
  */
-public class AddFriendListHeadersAdapter extends BaseAdapter implements StickyListHeadersAdapter, SectionIndexer {
+public class ContactFriendListHeadersAdapter extends BaseAdapter implements StickyListHeadersAdapter, SectionIndexer {
     private String mSections = "#ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     private LayoutInflater mInflater;
 
-    private ArrayList<UserInfo> list;
+    private ArrayList<ContactFriend> list;
 
     private Activity mContext;
 
@@ -42,7 +39,7 @@ public class AddFriendListHeadersAdapter extends BaseAdapter implements StickyLi
     private UserManager manager = new UserManager();
 
 
-    public AddFriendListHeadersAdapter(Activity context, ArrayList<UserInfo> _list) {
+    public ContactFriendListHeadersAdapter(Activity context, ArrayList<ContactFriend> _list) {
         this.list = _list;
         mContext = context;
         mInflater = LayoutInflater.from(mContext);
@@ -68,10 +65,21 @@ public class AddFriendListHeadersAdapter extends BaseAdapter implements StickyLi
             holder.add.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    try {
-                        EMContactManager.getInstance().addContact(list.get(position).getServno(), "");
-                    } catch (EaseMobException e) {
+                    switch (list.get(position).getRole()) {
+                        case 0:
 
+                            break;
+                        case 1:
+                            try {
+                                EMContactManager.getInstance().addContact(list.get(position).getServno(), "");
+                            } catch (EaseMobException e) {
+
+                            }
+
+                            break;
+                        case 2:
+
+                            break;
                     }
 
                 }
@@ -80,11 +88,28 @@ public class AddFriendListHeadersAdapter extends BaseAdapter implements StickyLi
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        UserInfo subscriber = list.get(position);
-        holder.add.setTag(position);
-        holder.name.setText(subscriber.getUalias());
-        holder.head.setTag(position);
-        ImageLoader.getInstance().displayImage(subscriber.getUphoto(), holder.head);
+        ContactFriend subscriber = list.get(position);
+        switch (subscriber.getRole()) {
+            case 0:
+                holder.add.setText("已添加");
+                holder.add.setTextColor(mContext.getResources().getColor(R.color.textcolor_888));
+                holder.add.setBackgroundColor(mContext.getResources().getColor(R.color.transparent));
+                break;
+            case 1:
+                holder.add.setText("添加");
+                holder.add.setTextColor(mContext.getResources().getColor(R.color.white));
+                holder.add.setBackgroundResource(R.drawable.bg_round_red);
+
+                break;
+            case 2:
+                holder.add.setText("邀请");
+                holder.add.setTextColor(mContext.getResources().getColor(R.color.white));
+                holder.add.setBackgroundResource(R.drawable.bg_round_red);
+                break;
+        }
+
+        holder.name.setText(subscriber.getUserinfo().getUalias());
+        ImageLoader.getInstance().displayImage(subscriber.getUserinfo().getUphoto(), holder.head);
         return convertView;
     }
 
@@ -99,15 +124,15 @@ public class AddFriendListHeadersAdapter extends BaseAdapter implements StickyLi
         } else {
             holder = (HeaderViewHolder) convertView.getTag();
         }
-        UserInfo bean = list.get(position);
-        holder.text.setText(bean.getNameSort());
+        ContactFriend bean = list.get(position);
+        holder.text.setText(bean.getUserinfo().getNameSort());
         return convertView;
     }
 
     @Override
     public long getHeaderId(final int position) {
-        UserInfo bean = list.get(position);
-        keyIndex = mSections.indexOf(bean.getNameSort());
+        ContactFriend bean = list.get(position);
+        keyIndex = mSections.indexOf(bean.getUserinfo().getNameSort());
         if (keyIndex < 0) {
             keyIndex = 0;
         }
@@ -125,7 +150,7 @@ public class AddFriendListHeadersAdapter extends BaseAdapter implements StickyLi
     }
 
     public String getItemInitials(int position) {
-        return list.get(position).getNameSort();
+        return list.get(position).getUserinfo().getNameSort();
     }
 
     @Override
@@ -133,7 +158,7 @@ public class AddFriendListHeadersAdapter extends BaseAdapter implements StickyLi
         return 0;
     }
 
-    public void refresh(ArrayList<UserInfo> _list) {
+    public void refresh(ArrayList<ContactFriend> _list) {
         list = _list;
         notifyDataSetChanged();
     }

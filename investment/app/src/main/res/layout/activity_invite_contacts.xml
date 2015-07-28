@@ -25,7 +25,7 @@
             android:layout_height="match_parent"
             android:layout_below="@+id/search_layout"
             ptr:ptrAnimationStyle="flip"
-            ptr:ptrMode="both">
+            ptr:ptrMode="pullFromStart">
 
     </com.touyan.investment.mview.PullToRefreshIndexableListView>
 

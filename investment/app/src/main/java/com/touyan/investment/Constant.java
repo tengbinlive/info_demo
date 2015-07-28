@@ -25,6 +25,8 @@ public class Constant {
 
 	public final static String SHARED_PREFERENCES_DB_TIME = "DB_TIME";
 
+	public final static String SHARED_PREFERENCES_DB_UNREADNOTICECOUNT = "UNREADNOTICECOUNT";
+
 	public final static long DB_TIME = 24*60*60*3;
 
 

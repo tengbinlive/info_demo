@@ -191,7 +191,6 @@ public class UserFollowActivity extends AbsActivity {
                 }
             }
         }
-
         mAdapter.refresh(subscribersSearch);
     }
 

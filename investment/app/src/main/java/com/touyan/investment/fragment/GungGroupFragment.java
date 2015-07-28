@@ -18,7 +18,7 @@ import com.touyan.investment.R;
 import com.touyan.investment.adapter.GroupListAdapter;
 import com.touyan.investment.bean.message.GroupDetail;
 import com.touyan.investment.bean.user.BatchInfoResult;
-import com.touyan.investment.hx.HXUserUtils;
+import com.touyan.investment.hx.HXCacheUtils;
 import com.touyan.investment.manager.UserManager;
 
 import java.util.ArrayList;
@@ -94,7 +94,7 @@ public class GungGroupFragment extends AbsFragment {
 
     private void getGroupsList(){
 
-        groupids = new ArrayList<>(HXUserUtils.getInstance().getGroupsHashMap().keySet());
+        groupids = new ArrayList<>(HXCacheUtils.getInstance().getGroupsHashMap().keySet());
         if (groupids != null) {
             BatchInfoResult result = userManager.batchInfo(getActivity(), new ArrayList<String>(),(ArrayList<String>) groupids, activityHandler, LOAD_DATA);
             if (result != null) {

@@ -333,7 +333,8 @@ public class UserManager {
      * （本地数据中未缓存的以没有详情的新对象返回）
      * ，若有未缓存对象则继续请求服务器查询，
      * 在后续handle队列返回（返回数据为所有当前查询数据（包括前部分本地缓存数据+服务器返回数据列表））
-     *Ï
+     * Ï
+     *
      * @param context        上下文
      * @param userids        用户ID 不能为null 可以new arraylist<>
      * @param groupids       群组id 不能为null 可以new arraylist<>
@@ -437,12 +438,17 @@ public class UserManager {
             ArrayList<GroupDetail> groupinfo = tempResult.getGroupinfo();
             ArrayList<UserInfo> userinfo = tempResult.getUserinfo();
             //设置返回数据
-            int groupSize = groupinfo.size();
-            int userSize = userinfo.size();
-            int resultGroupS = result.getGroupinfo().size();
-            int resultUserS = result.getUserinfo().size();
-            result.getGroupinfo().subList(0, resultGroupS - groupSize).addAll(groupinfo);
-            result.getUserinfo().subList(0, resultUserS - userSize).addAll(userinfo);
+            if(groupinfo!=null){
+                int groupSize = groupinfo.size();
+                int resultGroupS = result.getGroupinfo().size();
+                result.getGroupinfo().subList(0, resultGroupS - groupSize).addAll(groupinfo);
+
+            }
+            if(userinfo!=null) {
+                int userSize = userinfo.size();
+                int resultUserS = result.getUserinfo().size();
+                result.getUserinfo().subList(0, resultUserS - userSize).addAll(userinfo);
+            }
             final List<GroupDetalDO> groupDOs = new ArrayList<>();
             final List<UserInfoDO> usernoDOs = new ArrayList<>();
             response.setData(result);
@@ -458,6 +464,9 @@ public class UserManager {
                     UserInfoDO userInfoDO = BeanCopyHelper.cast2UserInfoDO(item);
                     usernoDOs.add(userInfoDO);
                 }
+            }
+            if((groupDOs==null||groupDOs.size()<=0)&&(usernoDOs==null||usernoDOs.size()<=0)){
+                return;
             }
             daoSession.runInTx(new Runnable() {
                 @Override
@@ -479,7 +488,7 @@ public class UserManager {
 
 
     /**
-     * 关注他人
+     * 搜索用户
      *
      * @param context        上下文
      * @param handler        在Activity中处理返回结果的Handler
@@ -499,4 +508,6 @@ public class UserManager {
         // 开始执行加载
         CommonDataLoader.getInstance(context).load(request);
     }
+
+
 }
