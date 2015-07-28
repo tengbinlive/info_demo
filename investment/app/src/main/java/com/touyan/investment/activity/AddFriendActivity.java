@@ -311,6 +311,7 @@ public class AddFriendActivity extends AbsActivity {
             userManager.batchInfo(AddFriendActivity.this, (ArrayList<String>) usernames, new ArrayList<String>(), activityHandler, FRIEND_DATA);
         } else {
             dialogDismiss();
+
         }
 
     }

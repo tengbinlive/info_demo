@@ -11,6 +11,7 @@ import com.core.openapi.OpenApiMethodEnum;
 import com.core.openapi.OpenApiSimpleResult;
 import com.core.util.CommonUtil;
 import com.core.util.Log;
+import com.core.util.StringUtil;
 import com.dao.*;
 import com.touyan.investment.App;
 import com.touyan.investment.bean.main.InvInfoResult;
@@ -429,43 +430,49 @@ public class UserManager {
         // 如果查询结果正确才保存
         if (response != null && response.isSuccess()) {
             BatchInfoResult tempResult = (BatchInfoResult) response.getData();
-            ArrayList<GroupDetail> groupinfo = tempResult.getGroupinfo();
-            ArrayList<UserInfo> userinfo = tempResult.getUserinfo();
+            final ArrayList<GroupDetail> groupinfo = tempResult.getGroupinfo();
+            final ArrayList<UserInfo> userinfo = tempResult.getUserinfo();
             //设置返回数据
             if(groupinfo!=null){
-                int groupSize = groupinfo.size();
-                int resultGroupS = result.getGroupinfo().size();
-                result.getGroupinfo().subList(0, resultGroupS - groupSize).addAll(groupinfo);
-
+                for(GroupDetail gd:groupinfo){
+                    if(StringUtil.isNotBlank(gd.getGroupname())){
+                        result.getGroupinfo().add(gd);
+                    }
+                }
             }
             if(userinfo!=null) {
-                int userSize = userinfo.size();
-                int resultUserS = result.getUserinfo().size();
-                result.getUserinfo().subList(0, resultUserS - userSize).addAll(userinfo);
+                for(UserInfo ui:userinfo){
+                    if(StringUtil.isNotBlank(ui.getUalias())){
+                        result.getUserinfo().add(ui);
+                    }
+                }
             }
-            final List<GroupDetalDO> groupDOs = new ArrayList<>();
-            final List<UserInfoDO> usernoDOs = new ArrayList<>();
             response.setData(result);
-            //缓存数据库
-            if (null != groupinfo) {
-                for (GroupDetail item : groupinfo) {
-                    GroupDetalDO groupDetalDO = BeanCopyHelper.cast2GroupDetalDO(item);
-                    groupDOs.add(groupDetalDO);
-                }
-            }
-            if (null != userinfo) {
-                for (UserInfo item : userinfo) {
-                    UserInfoDO userInfoDO = BeanCopyHelper.cast2UserInfoDO(item);
-                    usernoDOs.add(userInfoDO);
-                }
-            }
-            if((groupDOs==null||groupDOs.size()<=0)&&(usernoDOs==null||usernoDOs.size()<=0)){
-                return;
-            }
             daoSession.runInTx(new Runnable() {
                 @Override
                 public void run() {
+
                     DaoSession daoSession = App.getDaoSession();
+
+                    final List<GroupDetalDO> groupDOs = new ArrayList<>();
+                    final List<UserInfoDO> usernoDOs = new ArrayList<>();
+                    //缓存数据库
+                    if (null != groupinfo) {
+                        for (GroupDetail item : groupinfo) {
+                            GroupDetalDO groupDetalDO = BeanCopyHelper.cast2GroupDetalDO(item);
+                            groupDOs.add(groupDetalDO);
+                        }
+                    }
+                    if (null != userinfo) {
+                        for (UserInfo item : userinfo) {
+                            UserInfoDO userInfoDO = BeanCopyHelper.cast2UserInfoDO(item);
+                            usernoDOs.add(userInfoDO);
+                        }
+                    }
+                    if((groupDOs==null||groupDOs.size()<=0)&&(usernoDOs==null||usernoDOs.size()<=0)){
+                        return;
+                    }
+
                     GroupDetalDao groupDetalDao = daoSession.getGroupDetalDao();
                     UserInfoDao userInfoDao = daoSession.getUserInfoDao();
                     if (null != groupDOs && groupDOs.size() > 0) {
