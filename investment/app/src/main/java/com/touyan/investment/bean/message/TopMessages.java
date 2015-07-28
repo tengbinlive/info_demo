@@ -1,6 +1,7 @@
 package com.touyan.investment.bean.message;
 
 import java.io.Serializable;
+import java.sql.Date;
 
 public class TopMessages implements Serializable {
 
@@ -10,7 +11,7 @@ public class TopMessages implements Serializable {
     private String mesgtp;
     private String mtitle;
     private String servno;
-    private String toptim;
+    private Date toptim;
 
     public String getContnt() {
         return contnt;
@@ -60,11 +61,11 @@ public class TopMessages implements Serializable {
         this.servno = servno;
     }
 
-    public String getToptim() {
+    public Date getToptim() {
         return toptim;
     }
 
-    public void setToptim(String toptim) {
+    public void setToptim(Date toptim) {
         this.toptim = toptim;
     }
 
@@ -77,7 +78,7 @@ public class TopMessages implements Serializable {
                 ", mesgtp='" + mesgtp + '\'' +
                 ", mtitle='" + mtitle + '\'' +
                 ", servno='" + servno + '\'' +
-                ", toptim='" + toptim + '\'' +
+                ", toptim=" + toptim +
                 '}';
     }
 }

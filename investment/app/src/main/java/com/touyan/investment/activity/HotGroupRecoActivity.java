@@ -16,7 +16,7 @@ import com.touyan.investment.manager.InvestmentManager;
 
 import java.util.ArrayList;
 
-public class HotGroupRecoActivity extends AbsActivity implements OnClickListener {
+public class HotGroupRecoActivity extends AbsActivity{
 
     private InvestmentManager manager = new InvestmentManager();
     private static final int LOAD_DATA = 0x02;//加载数据处理
@@ -62,15 +62,6 @@ public class HotGroupRecoActivity extends AbsActivity implements OnClickListener
         setToolbarLeftStrID(R.string.back);
         setToolbarIntermediateStrID(R.string.hotgroup);
         setToolbarRightVisbility(View.INVISIBLE, View.INVISIBLE);
-    }
-
-    @Override
-    public void onClick(View view) {
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
     }
 
     private void initListView() {

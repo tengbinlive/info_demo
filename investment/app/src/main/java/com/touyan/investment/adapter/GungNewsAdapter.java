@@ -77,14 +77,14 @@ public class GungNewsAdapter extends BaseSwipeAdapter {
         //消息置顶
         if(position==0){
             holder.group_subscript.setVisibility(View.GONE);
-            holder.swipe.setEnabled(false);
+            holder.swipe.setRightSwipeEnabled(false);
             holder.head.setImageResource(R.drawable.top_message);
             holder.name.setText("置顶消息");
             holder.value.setText("所有置顶消息");
             holder.date.setVisibility(View.GONE);
         }else {
             //正常对话
-            holder.swipe.setEnabled(true);
+            holder.swipe.setRightSwipeEnabled(true);
             ConversationBean bean = list.get(position);
             EMConversation conversation = bean.getConversation();
             EMMessage lastMessage = conversation.getLastMessage();

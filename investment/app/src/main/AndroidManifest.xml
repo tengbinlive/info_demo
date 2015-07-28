@@ -337,6 +337,10 @@
                   android:theme="@style/AppTheme">
         </activity>
 
+        <!--置顶消息-->
+        <activity android:name=".activity.TopMessageActivity"
+                  android:theme="@style/AppTheme">
+        </activity>
 
         <!--分享-->
         <activity

@@ -18,6 +18,7 @@ import com.handmark.pulltorefresh.PullToRefreshListView;
 import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationAdapter;
 import com.touyan.investment.*;
 import com.touyan.investment.activity.FriendsActivity;
+import com.touyan.investment.activity.TopMessageActivity;
 import com.touyan.investment.adapter.GungNewsAdapter;
 import com.touyan.investment.bean.message.ConversationBean;
 import com.touyan.investment.bean.message.GroupDetail;
@@ -125,7 +126,7 @@ public class GungFragment extends AbsFragment {
     }
 
     /**
-     *  刷新对话列表
+     * 刷新对话列表
      */
     private void refreshAdapter() {
         conversationArray = new ArrayList<>();
@@ -153,6 +154,16 @@ public class GungFragment extends AbsFragment {
         mActualListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                mAdapter.closeAllItems();
+                if (i == 1) {
+                    toTopMessage();
+                }
+            }
+        });
+
+        rootView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 mAdapter.closeAllItems();
             }
         });
@@ -194,13 +205,14 @@ public class GungFragment extends AbsFragment {
         notice_bv.setEndOnBack(new BezierView.EndOnBack() {
             @Override
             public void endOnBack() {
-             }
+                resetNotice();
+            }
         });
 
         mListView = (PullToRefreshListView) viewGroup.findViewById(R.id.pull_refresh_list);
         initListView(viewGroup);
         refresh();
-        activityHandler.sendEmptyMessageDelayed(UPDATE_UNREADLABEL,300);
+        activityHandler.sendEmptyMessageDelayed(UPDATE_UNREADLABEL, 300);
     }
 
     /**
@@ -209,7 +221,7 @@ public class GungFragment extends AbsFragment {
     private void updateUnreadLabel() {
         int count = HXChatManagerInit.getInstance().unreadNoticeCount;
         if (count > 0) {
-            notice_bv.setNewMessage("" + count,0,0);
+            notice_bv.setNewMessage("" + count, 0, 0);
             notice_bv.setVisibility(View.VISIBLE);
         } else {
             notice_bv.setVisibility(View.GONE);
@@ -283,11 +295,6 @@ public class GungFragment extends AbsFragment {
         });
     }
 
-    //接收到新消息
-    public void onEvent(NetworkEvent event) {
-        showNetworkPrompt(event.getStatus());
-    }
-
     private void showNetworkPrompt(String prompt) {
         if (networkPrompt == null) {
             RelativeLayout conentView = (RelativeLayout) mInflater.inflate(R.layout.dialog_no_network, null);
@@ -301,16 +308,9 @@ public class GungFragment extends AbsFragment {
                 }
             });
             int height = (int) getActivity().getResources().getDimension(R.dimen.prompt_height);
-            networkPrompt = new NetworkPrompt(conentView, R.style.AnimationPreviewRigth,height);
+            networkPrompt = new NetworkPrompt(conentView, R.style.AnimationPreviewRigth, height);
         }
         activityHandler.sendEmptyMessage(NETWORK_PROMPT);
-    }
-
-    //接收到新消息
-    public void onEvent(NewMessageEvent event) {
-        if (!App.isConflict && !App.isCurrentAccountRemoved) {
-            activityHandler.sendEmptyMessage(UPDATE_UNREADLABEL);
-        }
     }
 
     /**
@@ -344,18 +344,22 @@ public class GungFragment extends AbsFragment {
         menuLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int count = HXChatManagerInit.getInstance().unreadNoticeCount;
-                if(count>0){
-                    HXChatManagerInit.getInstance().unreadNoticeCount = 0;
-                    SharedPreferencesHelper.setPreferInt(App.getInstance(), Constant.SHARED_PREFERENCES_DB_UNREADNOTICECOUNT, 0);
-                    activityHandler.sendEmptyMessage(UPDATE_UNREADLABEL);
-                }
                 toNoticeActivity();
             }
         });
     }
 
-    private void toNoticeActivity(){
+    private void resetNotice() {
+        int count = HXChatManagerInit.getInstance().unreadNoticeCount;
+        if (count > 0) {
+            HXChatManagerInit.getInstance().unreadNoticeCount = 0;
+            SharedPreferencesHelper.setPreferInt(App.getInstance(), Constant.SHARED_PREFERENCES_DB_UNREADNOTICECOUNT, 0);
+            activityHandler.sendEmptyMessage(UPDATE_UNREADLABEL);
+        }
+    }
+
+    private void toNoticeActivity() {
+        resetNotice();
 
     }
 
@@ -365,9 +369,28 @@ public class GungFragment extends AbsFragment {
         getActivity().overridePendingTransition(R.anim.push_translate_in_right, 0);
     }
 
+    private void toTopMessage() {
+        resetNotice();
+        Intent mIntent = new Intent(getActivity(), TopMessageActivity.class);
+        startActivity(mIntent);
+        getActivity().overridePendingTransition(R.anim.push_translate_in_right, 0);
+    }
+
 
     @Override
     public void scrollToTop() {
 
+    }
+
+    //网络状态改变
+    public void onEvent(NetworkEvent event) {
+        showNetworkPrompt(event.getStatus());
+    }
+
+    //接收到新消息
+    public void onEvent(NewMessageEvent event) {
+        if (!App.isConflict && !App.isCurrentAccountRemoved) {
+            activityHandler.sendEmptyMessage(UPDATE_UNREADLABEL);
+        }
     }
 }

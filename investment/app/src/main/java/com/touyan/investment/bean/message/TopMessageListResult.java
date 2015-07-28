@@ -6,31 +6,21 @@ import java.util.ArrayList;
 
 public class TopMessageListResult extends OpenApiSimpleResult {
 
-    private GroupDetail groupDetail;
+    private ArrayList<TopMessageList> allTopMessage;
 
-    private ArrayList<TopMessages> topMessages;
 
-    public GroupDetail getGroupDetail() {
-        return groupDetail;
+    public ArrayList<TopMessageList> getAllTopMessage() {
+        return allTopMessage;
     }
 
-    public void setGroupDetail(GroupDetail groupDetail) {
-        this.groupDetail = groupDetail;
-    }
-
-    public ArrayList<TopMessages> getTopMessages() {
-        return topMessages;
-    }
-
-    public void setTopMessages(ArrayList<TopMessages> topMessages) {
-        this.topMessages = topMessages;
+    public void setAllTopMessage(ArrayList<TopMessageList> allTopMessage) {
+        this.allTopMessage = allTopMessage;
     }
 
     @Override
     public String toString() {
         return "TopMessageListResult{" +
-                "groupDetal=" + groupDetail +
-                ", topMessages=" + topMessages +
+                "allTopMessage=" + allTopMessage +
                 '}';
     }
 }
