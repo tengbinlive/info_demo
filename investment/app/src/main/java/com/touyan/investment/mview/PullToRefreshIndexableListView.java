@@ -87,9 +87,22 @@ public class PullToRefreshIndexableListView extends PullToRefreshBase<IndexableL
                     scrollRangeY, maxOverScrollX, maxOverScrollY, isTouchEvent);
 
             // Does all of the hard work...
-            OverscrollHelper.overScrollBy(PullToRefreshIndexableListView.this, deltaX, scrollX, deltaY, scrollY, isTouchEvent);
+            OverscrollHelper.overScrollBy(PullToRefreshIndexableListView.this, deltaX, scrollX, deltaY, scrollY,
+                    getScrollRange(), isTouchEvent);
 
             return returnValue;
+        }
+
+        /**
+         * Taken from the AOSP ScrollView source
+         */
+        private int getScrollRange() {
+            int scrollRange = 0;
+            if (getChildCount() > 0) {
+                View child = getChildAt(0);
+                scrollRange = Math.max(0, child.getHeight() - (getHeight() - getPaddingBottom() - getPaddingTop()));
+            }
+            return scrollRange;
         }
     }
 
