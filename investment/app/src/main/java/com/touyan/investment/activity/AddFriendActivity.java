@@ -1,7 +1,6 @@
 package com.touyan.investment.activity;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
@@ -10,14 +9,10 @@ import android.view.animation.OvershootInterpolator;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import butterknife.*;
 import com.core.CommonResponse;
 import com.core.util.CommonUtil;
-import com.core.util.Log;
 import com.core.util.StringUtil;
-import com.easemob.chat.EMContactManager;
-import com.easemob.exceptions.EaseMobException;
 import com.handmark.pulltorefresh.PullToRefreshBase;
 import com.nhaarman.listviewanimations.appearance.StickyListHeadersAdapterDecorator;
 import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationAdapter;
@@ -26,14 +21,9 @@ import com.nineoldandroids.animation.ValueAnimator;
 import com.touyan.investment.AbsActivity;
 import com.touyan.investment.R;
 import com.touyan.investment.adapter.AddFriendListHeadersAdapter;
-import com.touyan.investment.adapter.FollowListHeadersAdapter;
-import com.touyan.investment.adapter.FriendListHeadersAdapter;
-import com.touyan.investment.bean.main.InvOfferBean;
 import com.touyan.investment.bean.user.*;
-import com.touyan.investment.event.OnContactDeletedEvent;
-import com.touyan.investment.helper.HanziComp;
 import com.touyan.investment.helper.UserInfoComp;
-import com.touyan.investment.hx.HXUserUtils;
+import com.touyan.investment.hx.HXCacheUtils;
 import com.touyan.investment.manager.UserManager;
 import com.touyan.investment.mview.IndexableListView;
 import com.touyan.investment.mview.PullToRefreshIndexableListView;
@@ -314,7 +304,7 @@ public class AddFriendActivity extends AbsActivity {
 
     private void getDataList() {
 
-        usernames = new ArrayList<>(HXUserUtils.getInstance().getFriendsHashMap().keySet());
+        usernames = new ArrayList<>(HXCacheUtils.getInstance().getFriendsHashMap().keySet());
 
         if (usernames != null) {
 

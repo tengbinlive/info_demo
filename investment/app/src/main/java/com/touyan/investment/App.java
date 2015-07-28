@@ -375,23 +375,12 @@ public class App extends Application {
     }
 
 
-    //初始化环信
-    private void initEMChat() {
-        EMChat.getInstance().init(this);
-        /**
-         * debugMode == true 时为打开，sdk 会在log里输入调试信息
-         * @param debugMode
-         * 在做代码混淆的时候需要设置成false
-         */
-        EMChat.getInstance().setDebugMode(Constant.DEBUG);//在做打包混淆时，要关闭debug模式，如果未被关闭，则会出现程序无法运行问题
-        EMChatManager.getInstance().getChatOptions().setUseRoster(true);//如果使用环信的好友体系需要先设置
-    }
-
-
     @Override
     public void onTerminate() {
         unConnectionReceiver();
         ShareSDK.stopSDK();
+        EMChatManager.getInstance().endCall();
+        EMChatManager.getInstance().logout();
         HXChatManagerInit.getInstance().onDestroy();
         super.onTerminate();
     }
