@@ -89,8 +89,6 @@ public class HXChatManagerInit {
         // 默认环信是不维护好友关系列表的，如果app依赖环信的好友关系，把这个属性设置为true
         options.setUseRoster(true);
 
-        EMChatManager.getInstance().getChatOptions().setUseRoster(true);//如果使用环信的好友体系需要先设置
-
         //只有注册了广播才能接收到新消息，目前离线消息，在线消息都是走接收消息的广播（离线消息目前无法监听，在登录以后，接收消息广播会执行一次拿到所有的离线消息）
         msgReceiver = new NewMessageBroadcastReceiver();
         IntentFilter intentFilter = new IntentFilter(EMChatManager.getInstance().getNewMessageBroadcastAction());
