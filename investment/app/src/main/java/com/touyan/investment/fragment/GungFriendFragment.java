@@ -20,6 +20,7 @@ import com.touyan.investment.R;
 import com.touyan.investment.adapter.FriendListHeadersAdapter;
 import com.touyan.investment.bean.user.BatchInfoResult;
 import com.touyan.investment.bean.user.UserInfo;
+import com.touyan.investment.event.OnContactAddedEvent;
 import com.touyan.investment.event.OnContactDeletedEvent;
 import com.touyan.investment.helper.UserInfoComp;
 import com.touyan.investment.hx.HXCacheUtils;
@@ -171,5 +172,12 @@ public class GungFriendFragment extends AbsFragment {
             userManager.batchInfo(this.getActivity(), event.getUsernameList(), new ArrayList<String>(), activityHandler, LOAD_DATA);
         }
 
+    }
+
+    public void onEventMainThread(OnContactAddedEvent event) {
+
+        if (event.getUsernameList().size() > 0 && null != event.getUsernameList()) {
+            userManager.batchInfo(this.getActivity(), event.getUsernameList(), new ArrayList<String>(), activityHandler, LOAD_DATA);
+        }
     }
 }

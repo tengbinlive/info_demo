@@ -315,9 +315,6 @@ public class AddFriendActivity extends AbsActivity {
 
     }
 
-    public void onEventMainThread(OnContactAddedEvent event) {
 
-        userManager.batchInfo(this, event.getUsernameList(), new ArrayList<String>(), activityHandler, LOAD_DATA);
-    }
 
 }
