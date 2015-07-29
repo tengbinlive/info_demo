@@ -14,7 +14,7 @@ import com.dao.GroupDetalDO;
 /** 
  * DAO for table GroupDetal.
 */
-public class GroupDetalDao extends AbstractDao<GroupDetalDO, Void> {
+public class GroupDetalDao extends AbstractDao<GroupDetalDO, String> {
 
     public static final String TABLENAME = "GroupDetal";
 
@@ -23,20 +23,19 @@ public class GroupDetalDao extends AbstractDao<GroupDetalDO, Void> {
      * Can be used for QueryBuilder and for referencing column names.
     */
     public static class Properties {
-        public final static Property Id = new Property(0, Long.class, "id", true, "_id");
-        public final static Property Approval = new Property(1, Boolean.class, "approval", false, "APPROVAL");
-        public final static Property Canadd = new Property(2, String.class, "canadd", false, "CANADD");
-        public final static Property Desc = new Property(3, String.class, "desc", false, "DESC");
-        public final static Property Gphoto = new Property(4, String.class, "gphoto", false, "GPHOTO");
-        public final static Property Groupid = new Property(5, String.class, "groupid", true, "GROUPID");
-        public final static Property Groupname = new Property(6, String.class, "groupname", false, "GROUPNAME");
-        public final static Property Maxusers = new Property(7, Integer.class, "maxusers", false, "MAXUSERS");
-        public final static Property Memnum = new Property(8, Integer.class, "memnum", false, "MEMNUM");
-        public final static Property Owner = new Property(9, String.class, "owner", false, "OWNER");
-        public final static Property Payfor = new Property(10, Integer.class, "payfor", false, "PAYFOR");
-        public final static Property Validt = new Property(11, String.class, "validt", false, "VALIDT");
-        public final static Property Visble = new Property(12, String.class, "visble", false, "VISBLE");
-        public final static Property Istoll = new Property(13, String.class, "istoll", false, "ISTOLL");
+        public final static Property Approval = new Property(0, Boolean.class, "approval", false, "APPROVAL");
+        public final static Property Canadd = new Property(1, String.class, "canadd", false, "CANADD");
+        public final static Property Desc = new Property(2, String.class, "desc", false, "DESC");
+        public final static Property Gphoto = new Property(3, String.class, "gphoto", false, "GPHOTO");
+        public final static Property Groupid = new Property(4, String.class, "groupid", true, "GROUPID");
+        public final static Property Groupname = new Property(5, String.class, "groupname", false, "GROUPNAME");
+        public final static Property Maxusers = new Property(6, Integer.class, "maxusers", false, "MAXUSERS");
+        public final static Property Memnum = new Property(7, Integer.class, "memnum", false, "MEMNUM");
+        public final static Property Owner = new Property(8, String.class, "owner", false, "OWNER");
+        public final static Property Payfor = new Property(9, Integer.class, "payfor", false, "PAYFOR");
+        public final static Property Validt = new Property(10, String.class, "validt", false, "VALIDT");
+        public final static Property Visble = new Property(11, String.class, "visble", false, "VISBLE");
+        public final static Property Istoll = new Property(12, String.class, "istoll", false, "ISTOLL");
     };
 
 
@@ -52,20 +51,19 @@ public class GroupDetalDao extends AbstractDao<GroupDetalDO, Void> {
     public static void createTable(SQLiteDatabase db, boolean ifNotExists) {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "'GroupDetal' (" + //
-                "'_id' INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: id
-                "'APPROVAL' INTEGER," + // 1: approval
-                "'CANADD' TEXT," + // 2: canadd
-                "'DESC' TEXT," + // 3: desc
-                "'GPHOTO' TEXT," + // 4: gphoto
-                "'GROUPID' TEXT PRIMARY KEY NOT NULL ," + // 5: groupid
-                "'GROUPNAME' TEXT," + // 6: groupname
-                "'MAXUSERS' INTEGER," + // 7: maxusers
-                "'MEMNUM' INTEGER," + // 8: memnum
-                "'OWNER' TEXT," + // 9: owner
-                "'PAYFOR' INTEGER," + // 10: payfor
-                "'VALIDT' TEXT," + // 11: validt
-                "'VISBLE' TEXT," + // 12: visble
-                "'ISTOLL' TEXT);"); // 13: istoll
+                "'APPROVAL' INTEGER," + // 0: approval
+                "'CANADD' TEXT," + // 1: canadd
+                "'DESC' TEXT," + // 2: desc
+                "'GPHOTO' TEXT," + // 3: gphoto
+                "'GROUPID' TEXT PRIMARY KEY NOT NULL ," + // 4: groupid
+                "'GROUPNAME' TEXT," + // 5: groupname
+                "'MAXUSERS' INTEGER," + // 6: maxusers
+                "'MEMNUM' INTEGER," + // 7: memnum
+                "'OWNER' TEXT," + // 8: owner
+                "'PAYFOR' INTEGER," + // 9: payfor
+                "'VALIDT' TEXT," + // 10: validt
+                "'VISBLE' TEXT," + // 11: visble
+                "'ISTOLL' TEXT);"); // 12: istoll
     }
 
     /** Drops the underlying database table. */
@@ -79,101 +77,95 @@ public class GroupDetalDao extends AbstractDao<GroupDetalDO, Void> {
     protected void bindValues(SQLiteStatement stmt, GroupDetalDO entity) {
         stmt.clearBindings();
  
-        Long id = entity.getId();
-        if (id != null) {
-            stmt.bindLong(1, id);
-        }
- 
         Boolean approval = entity.getApproval();
         if (approval != null) {
-            stmt.bindLong(2, approval ? 1l: 0l);
+            stmt.bindLong(1, approval ? 1l: 0l);
         }
  
         String canadd = entity.getCanadd();
         if (canadd != null) {
-            stmt.bindString(3, canadd);
+            stmt.bindString(2, canadd);
         }
  
         String desc = entity.getDesc();
         if (desc != null) {
-            stmt.bindString(4, desc);
+            stmt.bindString(3, desc);
         }
  
         String gphoto = entity.getGphoto();
         if (gphoto != null) {
-            stmt.bindString(5, gphoto);
+            stmt.bindString(4, gphoto);
         }
  
         String groupid = entity.getGroupid();
         if (groupid != null) {
-            stmt.bindString(6, groupid);
+            stmt.bindString(5, groupid);
         }
  
         String groupname = entity.getGroupname();
         if (groupname != null) {
-            stmt.bindString(7, groupname);
+            stmt.bindString(6, groupname);
         }
  
         Integer maxusers = entity.getMaxusers();
         if (maxusers != null) {
-            stmt.bindLong(8, maxusers);
+            stmt.bindLong(7, maxusers);
         }
  
         Integer memnum = entity.getMemnum();
         if (memnum != null) {
-            stmt.bindLong(9, memnum);
+            stmt.bindLong(8, memnum);
         }
  
         String owner = entity.getOwner();
         if (owner != null) {
-            stmt.bindString(10, owner);
+            stmt.bindString(9, owner);
         }
  
         Integer payfor = entity.getPayfor();
         if (payfor != null) {
-            stmt.bindLong(11, payfor);
+            stmt.bindLong(10, payfor);
         }
  
         String validt = entity.getValidt();
         if (validt != null) {
-            stmt.bindString(12, validt);
+            stmt.bindString(11, validt);
         }
  
         String visble = entity.getVisble();
         if (visble != null) {
-            stmt.bindString(13, visble);
+            stmt.bindString(12, visble);
         }
  
         String istoll = entity.getIstoll();
         if (istoll != null) {
-            stmt.bindString(14, istoll);
+            stmt.bindString(13, istoll);
         }
     }
 
     /** @inheritdoc */
     @Override
-    public Void readKey(Cursor cursor, int offset) {
-        return null;
+    public String readKey(Cursor cursor, int offset) {
+        return cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4);
     }    
 
     /** @inheritdoc */
     @Override
     public GroupDetalDO readEntity(Cursor cursor, int offset) {
         GroupDetalDO entity = new GroupDetalDO( //
-            cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
-            cursor.isNull(offset + 1) ? null : cursor.getShort(offset + 1) != 0, // approval
-            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // canadd
-            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // desc
-            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // gphoto
-            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // groupid
-            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // groupname
-            cursor.isNull(offset + 7) ? null : cursor.getInt(offset + 7), // maxusers
-            cursor.isNull(offset + 8) ? null : cursor.getInt(offset + 8), // memnum
-            cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9), // owner
-            cursor.isNull(offset + 10) ? null : cursor.getInt(offset + 10), // payfor
-            cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11), // validt
-            cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12), // visble
-            cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13) // istoll
+            cursor.isNull(offset + 0) ? null : cursor.getShort(offset + 0) != 0, // approval
+            cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // canadd
+            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // desc
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // gphoto
+            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // groupid
+            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // groupname
+            cursor.isNull(offset + 6) ? null : cursor.getInt(offset + 6), // maxusers
+            cursor.isNull(offset + 7) ? null : cursor.getInt(offset + 7), // memnum
+            cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // owner
+            cursor.isNull(offset + 9) ? null : cursor.getInt(offset + 9), // payfor
+            cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10), // validt
+            cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11), // visble
+            cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12) // istoll
         );
         return entity;
     }
@@ -181,33 +173,35 @@ public class GroupDetalDao extends AbstractDao<GroupDetalDO, Void> {
     /** @inheritdoc */
     @Override
     public void readEntity(Cursor cursor, GroupDetalDO entity, int offset) {
-        entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
-        entity.setApproval(cursor.isNull(offset + 1) ? null : cursor.getShort(offset + 1) != 0);
-        entity.setCanadd(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
-        entity.setDesc(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
-        entity.setGphoto(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
-        entity.setGroupid(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
-        entity.setGroupname(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
-        entity.setMaxusers(cursor.isNull(offset + 7) ? null : cursor.getInt(offset + 7));
-        entity.setMemnum(cursor.isNull(offset + 8) ? null : cursor.getInt(offset + 8));
-        entity.setOwner(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));
-        entity.setPayfor(cursor.isNull(offset + 10) ? null : cursor.getInt(offset + 10));
-        entity.setValidt(cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11));
-        entity.setVisble(cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12));
-        entity.setIstoll(cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13));
+        entity.setApproval(cursor.isNull(offset + 0) ? null : cursor.getShort(offset + 0) != 0);
+        entity.setCanadd(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
+        entity.setDesc(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
+        entity.setGphoto(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setGroupid(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
+        entity.setGroupname(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
+        entity.setMaxusers(cursor.isNull(offset + 6) ? null : cursor.getInt(offset + 6));
+        entity.setMemnum(cursor.isNull(offset + 7) ? null : cursor.getInt(offset + 7));
+        entity.setOwner(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
+        entity.setPayfor(cursor.isNull(offset + 9) ? null : cursor.getInt(offset + 9));
+        entity.setValidt(cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10));
+        entity.setVisble(cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11));
+        entity.setIstoll(cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12));
      }
     
     /** @inheritdoc */
     @Override
-    protected Void updateKeyAfterInsert(GroupDetalDO entity, long rowId) {
-        // Unsupported or missing PK type
-        return null;
+    protected String updateKeyAfterInsert(GroupDetalDO entity, long rowId) {
+        return entity.getGroupid();
     }
     
     /** @inheritdoc */
     @Override
-    public Void getKey(GroupDetalDO entity) {
-        return null;
+    public String getKey(GroupDetalDO entity) {
+        if(entity != null) {
+            return entity.getGroupid();
+        } else {
+            return null;
+        }
     }
 
     /** @inheritdoc */

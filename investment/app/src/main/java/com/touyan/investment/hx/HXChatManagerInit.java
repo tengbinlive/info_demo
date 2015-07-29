@@ -17,6 +17,7 @@ import com.touyan.investment.bean.user.User;
 import com.touyan.investment.event.*;
 import com.touyan.investment.helper.BeanCopyHelper;
 import com.touyan.investment.helper.SharedPreferencesHelper;
+import de.greenrobot.dao.query.WhereCondition;
 import de.greenrobot.event.EventBus;
 
 import java.util.ArrayList;
@@ -376,20 +377,21 @@ public class HXChatManagerInit {
     //本地&内存 删除群组
     private void removeGroupList(List<EMGroup> groups) {
         if (null != groups && groups.size() > 0) {
-            DaoSession daoSession = App.getDaoSession();
-            List<UserDO> userDOs = new ArrayList<>();
+            final DaoSession daoSession = App.getDaoSession();
+            final List<String> id = new ArrayList<>();
             for (EMGroup group : groups) {
-                UserDO userdo = new UserDO();
-                User user = new User();
-                userdo.setType(User.TYPE_GROUPS);
-                user.setType(User.TYPE_GROUPS);
-                String username = group.getGroupId();
-                userdo.setAvatar(username);
-                user.setAvatar(username);
-                userDOs.add(userdo);
-                HXCacheUtils.getInstance().getGroupsHashMap().remove(username);
+                String groupid = group.getGroupId();
+                id.add(groupid);
+                HXCacheUtils.getInstance().getGroupsHashMap().remove(groupid);
             }
-            daoSession.getUserDao().deleteInTx(userDOs);
+            daoSession.runInTx(new Runnable() {
+                @Override
+                public void run() {
+                    WhereCondition wc = UserDao.Properties.Avatar.in(id);
+                    List<UserDO> chatEntityList = daoSession.getUserDao().queryBuilder().where(wc).list();
+                    daoSession.getUserDao().deleteInTx(chatEntityList);
+                }
+            });
         }
     }
 
@@ -470,21 +472,20 @@ public class HXChatManagerInit {
     }
 
     //本地&内存 删除用户
-    private void removeUserList(List<String> usernames) {
+    private void removeUserList(final List<String> usernames) {
         if (null != usernames && usernames.size() > 0) {
-            DaoSession daoSession = App.getDaoSession();
-            List<UserDO> userDOs = new ArrayList<>();
+            final DaoSession daoSession = App.getDaoSession();
             for (String username : usernames) {
-                UserDO userdo = new UserDO();
-                User user = new User();
-                userdo.setType(User.TYPE_FRIENDS);
-                user.setType(User.TYPE_FRIENDS);
-                userdo.setAvatar(username);
-                user.setAvatar(username);
-                userDOs.add(userdo);
                 HXCacheUtils.getInstance().getFriendsHashMap().remove(username);
             }
-            daoSession.getUserDao().deleteInTx(userDOs);
+            daoSession.runInTx(new Runnable() {
+                @Override
+                public void run() {
+                    WhereCondition wc = UserDao.Properties.Avatar.in(usernames);
+                    List<UserDO> chatEntityList = daoSession.getUserDao().queryBuilder().where(wc).list();
+                    daoSession.getUserDao().deleteInTx(chatEntityList);
+                }
+            });
         }
     }
 

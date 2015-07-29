@@ -1,6 +1,5 @@
 package com.touyan.investment.activity;
 
-import android.app.Fragment;
 import android.graphics.Typeface;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.PagerAdapter;
@@ -10,14 +9,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import com.core.util.CommonUtil;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.touyan.investment.AbsActivity;
 import com.touyan.investment.AbsFragment;
 import com.touyan.investment.R;
 import com.touyan.investment.adapter.EditerAdapter;
 import com.touyan.investment.adapter.InvestmentPagerAdapter;
-import com.touyan.investment.fragment.*;
+import com.touyan.investment.fragment.CollectedInvActFragment;
+import com.touyan.investment.fragment.CollectedInvInfoFragment;
+import com.touyan.investment.fragment.CollectedInvOfferFragment;
 
 import java.util.ArrayList;
 
@@ -109,7 +109,7 @@ public class UserCollectActivity extends AbsActivity implements View.OnClickList
         viewPagerTab.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i1) {
-                if(!isReset) {
+                if (!isReset) {
                     isReset = true;
                     changeEditState(EditerAdapter.STATE_EDIT);
                     fragments.get(i).onActivityResult(EDIT_STATE_CHENGED, EditerAdapter.STATE_COMPLETE, null);

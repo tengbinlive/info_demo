@@ -14,6 +14,7 @@ public class InviteMessageDO {
     private Integer unreadCount;
     private String groupId;
     private String groupName;
+    private String headphoto;
 
     public InviteMessageDO() {
     }
@@ -22,7 +23,7 @@ public class InviteMessageDO {
         this.id = id;
     }
 
-    public InviteMessageDO(Long id, String from, Long time, String reason, Integer status, Integer unreadCount, String groupId, String groupName) {
+    public InviteMessageDO(Long id, String from, Long time, String reason, Integer status, Integer unreadCount, String groupId, String groupName, String headphoto) {
         this.id = id;
         this.from = from;
         this.time = time;
@@ -31,6 +32,7 @@ public class InviteMessageDO {
         this.unreadCount = unreadCount;
         this.groupId = groupId;
         this.groupName = groupName;
+        this.headphoto = headphoto;
     }
 
     public Long getId() {
@@ -95,6 +97,14 @@ public class InviteMessageDO {
 
     public void setGroupName(String groupName) {
         this.groupName = groupName;
+    }
+
+    public String getHeadphoto() {
+        return headphoto;
+    }
+
+    public void setHeadphoto(String headphoto) {
+        this.headphoto = headphoto;
     }
 
 }

@@ -6,7 +6,6 @@ package com.dao;
  */
 public class UserDO {
 
-    private Long id;
     private Integer unreadMsgCount;
     private String header;
     private String avatar;
@@ -15,25 +14,15 @@ public class UserDO {
     public UserDO() {
     }
 
-    public UserDO(Long id, String avatar) {
-        this.id = id;
+    public UserDO(String avatar) {
         this.avatar = avatar;
     }
 
-    public UserDO(Long id, Integer unreadMsgCount, String header, String avatar, String type) {
-        this.id = id;
+    public UserDO(Integer unreadMsgCount, String header, String avatar, String type) {
         this.unreadMsgCount = unreadMsgCount;
         this.header = header;
         this.avatar = avatar;
         this.type = type;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public Integer getUnreadMsgCount() {
