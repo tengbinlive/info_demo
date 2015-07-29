@@ -66,6 +66,7 @@ public class BeanCopyHelper {
         dist.setPayfor(source.getPayfor());
         dist.setValidt(source.getValidt());
         dist.setVisble(source.getVisble());
+        dist.setIstoll(source.getIstoll());
         return dist;
     }
 
@@ -84,6 +85,7 @@ public class BeanCopyHelper {
         dist.setPayfor(source.getPayfor());
         dist.setValidt(source.getValidt());
         dist.setVisble(source.getVisble());
+        dist.setIstoll(source.getIstoll());
         return dist;
     }
 
