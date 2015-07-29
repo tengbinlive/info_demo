@@ -17,6 +17,8 @@ public class InviteMessage {
 
 	private Long id;
 
+	private String headphoto;
+
 	private int unreadCount; //未读消息数量
 
 	private String from;
@@ -31,7 +33,14 @@ public class InviteMessage {
 	private String groupId;
 	//群名称
 	private String groupName;
-	
+
+	public String getHeadphoto() {
+		return headphoto;
+	}
+
+	public void setHeadphoto(String headphoto) {
+		this.headphoto = headphoto;
+	}
 
 	public int getUnreadCount() {
 		return unreadCount;
@@ -121,6 +130,7 @@ public class InviteMessage {
 	public String toString() {
 		return "InviteMessage{" +
 				"id=" + id +
+				", headphoto='" + headphoto + '\'' +
 				", unreadCount=" + unreadCount +
 				", from='" + from + '\'' +
 				", time=" + time +

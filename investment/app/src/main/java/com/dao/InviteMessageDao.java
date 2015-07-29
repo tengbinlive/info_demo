@@ -31,6 +31,7 @@ public class InviteMessageDao extends AbstractDao<InviteMessageDO, Long> {
         public final static Property UnreadCount = new Property(5, Integer.class, "unreadCount", false, "UNREAD_COUNT");
         public final static Property GroupId = new Property(6, String.class, "groupId", false, "GROUP_ID");
         public final static Property GroupName = new Property(7, String.class, "groupName", false, "GROUP_NAME");
+        public final static Property Headphoto = new Property(8, String.class, "headphoto", false, "HEADPHOTO");
     };
 
 
@@ -53,7 +54,8 @@ public class InviteMessageDao extends AbstractDao<InviteMessageDO, Long> {
                 "'STATUS' INTEGER," + // 4: status
                 "'UNREAD_COUNT' INTEGER," + // 5: unreadCount
                 "'GROUP_ID' TEXT," + // 6: groupId
-                "'GROUP_NAME' TEXT);"); // 7: groupName
+                "'GROUP_NAME' TEXT," + // 7: groupName
+                "'HEADPHOTO' TEXT);"); // 8: headphoto
     }
 
     /** Drops the underlying database table. */
@@ -106,6 +108,11 @@ public class InviteMessageDao extends AbstractDao<InviteMessageDO, Long> {
         if (groupName != null) {
             stmt.bindString(8, groupName);
         }
+ 
+        String headphoto = entity.getHeadphoto();
+        if (headphoto != null) {
+            stmt.bindString(9, headphoto);
+        }
     }
 
     /** @inheritdoc */
@@ -125,7 +132,8 @@ public class InviteMessageDao extends AbstractDao<InviteMessageDO, Long> {
             cursor.isNull(offset + 4) ? null : cursor.getInt(offset + 4), // status
             cursor.isNull(offset + 5) ? null : cursor.getInt(offset + 5), // unreadCount
             cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // groupId
-            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7) // groupName
+            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // groupName
+            cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8) // headphoto
         );
         return entity;
     }
@@ -141,6 +149,7 @@ public class InviteMessageDao extends AbstractDao<InviteMessageDO, Long> {
         entity.setUnreadCount(cursor.isNull(offset + 5) ? null : cursor.getInt(offset + 5));
         entity.setGroupId(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
         entity.setGroupName(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
+        entity.setHeadphoto(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
      }
     
     /** @inheritdoc */

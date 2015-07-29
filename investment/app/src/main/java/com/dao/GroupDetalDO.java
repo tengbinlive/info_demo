@@ -6,7 +6,6 @@ package com.dao;
  */
 public class GroupDetalDO {
 
-    private Long id;
     private Boolean approval;
     private String canadd;
     private String desc;
@@ -24,13 +23,11 @@ public class GroupDetalDO {
     public GroupDetalDO() {
     }
 
-    public GroupDetalDO(Long id, String groupid) {
-        this.id = id;
+    public GroupDetalDO(String groupid) {
         this.groupid = groupid;
     }
 
-    public GroupDetalDO(Long id, Boolean approval, String canadd, String desc, String gphoto, String groupid, String groupname, Integer maxusers, Integer memnum, String owner, Integer payfor, String validt, String visble, String istoll) {
-        this.id = id;
+    public GroupDetalDO(Boolean approval, String canadd, String desc, String gphoto, String groupid, String groupname, Integer maxusers, Integer memnum, String owner, Integer payfor, String validt, String visble, String istoll) {
         this.approval = approval;
         this.canadd = canadd;
         this.desc = desc;
@@ -44,14 +41,6 @@ public class GroupDetalDO {
         this.validt = validt;
         this.visble = visble;
         this.istoll = istoll;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public Boolean getApproval() {

@@ -12,7 +12,6 @@ public class BeanCopyHelper {
     public static UserInfo cast2UserInfo(UserInfoDO source) {
         if (source == null) return null;
         UserInfo dist = new UserInfo();
-        dist.setId(source.getId());
         dist.setServno(source.getServno());
         dist.setAucode(source.getAucode());
         dist.setCompny(source.getCompny());
@@ -34,7 +33,6 @@ public class BeanCopyHelper {
     public static UserInfoDO cast2UserInfoDO(UserInfo source) {
         if (source == null) return null;
         UserInfoDO dist = new UserInfoDO();
-        dist.setId(source.getId());
         dist.setServno(source.getServno());
         dist.setAucode(source.getAucode());
         dist.setCompny(source.getCompny());
@@ -56,7 +54,6 @@ public class BeanCopyHelper {
     public static GroupDetail cast2GroupDetal(GroupDetalDO source) {
         if (source == null) return null;
         GroupDetail dist = new GroupDetail();
-        dist.setId(source.getId());
         dist.setApproval(source.getApproval());
         dist.setCanadd(source.getCanadd());
         dist.setDesc(source.getDesc());
@@ -76,7 +73,6 @@ public class BeanCopyHelper {
     public static GroupDetalDO cast2GroupDetalDO(GroupDetail source) {
         if (source == null) return null;
         GroupDetalDO dist = new GroupDetalDO();
-        dist.setId(source.getId());
         dist.setApproval(source.getApproval());
         dist.setCanadd(source.getCanadd());
         dist.setDesc(source.getDesc());
