@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.RelativeLayout;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
+import com.core.util.CommonUtil;
 import com.core.util.StringMatcher;
 import com.daimajia.swipe.adapters.BaseSwipeAdapter;
 import com.easemob.chat.EMContactManager;
@@ -70,6 +71,7 @@ public class AddFriendListHeadersAdapter extends BaseAdapter implements StickyLi
                 public void onClick(View view) {
                     try {
                         EMContactManager.getInstance().addContact(list.get(position).getServno(), "");
+                        CommonUtil.showToast("添加好友请求已发送");
                     } catch (EaseMobException e) {
 
                     }

@@ -167,7 +167,9 @@ public class GungFriendFragment extends AbsFragment {
     }
 
     public void onEventMainThread(OnContactDeletedEvent event) {
-        usernames.removeAll(event.getUsernameList());
-        userManager.batchInfo(this.getActivity(), (ArrayList<String>) usernames, new ArrayList<String>(), activityHandler, LOAD_DATA);
+        if (event.getUsernameList().size() > 0 && null != event.getUsernameList()) {
+            userManager.batchInfo(this.getActivity(), event.getUsernameList(), new ArrayList<String>(), activityHandler, LOAD_DATA);
+        }
+
     }
 }

@@ -3,12 +3,12 @@ package com.touyan.investment.event;
 import java.util.ArrayList;
 
 /**
- * Created by Administrator on 2015/7/23.
+ * Created by Administrator on 2015/7/29.
  */
-public class OnContactDeletedEvent {
+public class OnContactAddedEvent {
     private ArrayList<String> usernameList;
 
-    public OnContactDeletedEvent(ArrayList<String> usernameList) {
+    public OnContactAddedEvent(ArrayList<String> usernameList) {
         // TODO Auto-generated constructor stub
         this.usernameList = usernameList;
     }

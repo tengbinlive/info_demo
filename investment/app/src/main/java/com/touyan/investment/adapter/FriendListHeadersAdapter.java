@@ -67,11 +67,13 @@ public class FriendListHeadersAdapter extends BaseSwipeAdapter implements Sticky
     }
 
     @Override
-    public View generateView(int position, ViewGroup parent) {
+    public View generateView(final int position, ViewGroup parent) {
         View convertView;
         convertView = mInflater.inflate(R.layout.item_friend, parent, false);
         ViewHolder holder = new ViewHolder();
         holder.name = (TextView) convertView.findViewById(R.id.name);
+        holder.backText = (TextView) convertView.findViewById(R.id.back_text);
+        holder.backText.setText("删除好友");
         holder.head = (SelectableRoundedImageView) convertView.findViewById(R.id.head);
         holder.head.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,8 +90,8 @@ public class FriendListHeadersAdapter extends BaseSwipeAdapter implements Sticky
                 int index = (Integer) view.getTag();
                 deleteArray.add(index);
                 try {
-                    EMContactManager.getInstance().deleteContact(list.get(index).getServno());
-
+                    EMContactManager.getInstance().deleteContact(list.get(position).getServno());
+                    CommonUtil.showToast("删除好友请求已发送");
                 } catch (EaseMobException e) {
                     e.printStackTrace();
                 }
@@ -197,6 +199,7 @@ public class FriendListHeadersAdapter extends BaseSwipeAdapter implements Sticky
         SelectableRoundedImageView head;
         TextView name;
         RelativeLayout deleteLayout;
+        TextView backText;
     }
 
     class HeaderViewHolder {

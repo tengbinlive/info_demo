@@ -14,10 +14,7 @@ import com.touyan.investment.App;
 import com.touyan.investment.Constant;
 import com.touyan.investment.bean.message.InviteMessage;
 import com.touyan.investment.bean.user.User;
-import com.touyan.investment.event.ConnectionEventType;
-import com.touyan.investment.event.ContactsListEventType;
-import com.touyan.investment.event.NewMessageEvent;
-import com.touyan.investment.event.OnContactDeletedEvent;
+import com.touyan.investment.event.*;
 import com.touyan.investment.helper.BeanCopyHelper;
 import com.touyan.investment.helper.SharedPreferencesHelper;
 import de.greenrobot.event.EventBus;
@@ -516,14 +513,17 @@ public class HXChatManagerInit {
         @Override
         public void onContactAdded(List<String> usernameList) {
             // 保存增加的联系人
-            saveUserList(usernameList);
+
         }
 
         @Override
         public void onContactDeleted(final List<String> usernameList) {
             // 被删除
+            Log.d(TAG, "您删除了好友" + usernameList.get(0));
+
             removeUserList(usernameList);
-            EventBus.getDefault().post(new OnContactDeletedEvent(usernameList));
+            ArrayList<String> usernames = new ArrayList<>(HXCacheUtils.getInstance().getFriendsHashMap().keySet());
+            EventBus.getDefault().post(new OnContactDeletedEvent(usernames));
         }
 
         @Override
@@ -552,6 +552,10 @@ public class HXChatManagerInit {
             msg.setReason("同意了你的好友请求");
             msg.setStatus(InviteMessage.InviteMesageStatus.BEAGREED);
             notifyNewIviteMessage(msg);
+
+
+            ArrayList<String> usernames = new ArrayList<>(HXCacheUtils.getInstance().getFriendsHashMap().keySet());
+            EventBus.getDefault().post(new OnContactAddedEvent(usernames));
         }
 
         @Override

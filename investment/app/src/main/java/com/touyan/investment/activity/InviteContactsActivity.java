@@ -10,10 +10,14 @@ import android.os.Message;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.animation.OvershootInterpolator;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import butterknife.Bind;
+import butterknife.OnFocusChange;
+import butterknife.OnTextChanged;
 import com.core.CommonResponse;
 import com.core.util.CommonUtil;
 import com.core.util.Log;
@@ -22,11 +26,13 @@ import com.handmark.pulltorefresh.PullToRefreshBase;
 import com.nhaarman.listviewanimations.appearance.StickyListHeadersAdapterDecorator;
 import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationAdapter;
 import com.nhaarman.listviewanimations.util.StickyListHeadersListViewWrapper;
+import com.nineoldandroids.animation.ValueAnimator;
 import com.touyan.investment.AbsActivity;
 import com.touyan.investment.R;
 import com.touyan.investment.adapter.ContactFriendListHeadersAdapter;
 import com.touyan.investment.bean.message.ContactFriend;
 import com.touyan.investment.bean.message.QueryContactFriendsResult;
+import com.touyan.investment.bean.user.Subscriber;
 import com.touyan.investment.bean.user.UserInfo;
 import com.touyan.investment.helper.ContactFriendComp;
 import com.touyan.investment.manager.MessageManager;
@@ -71,11 +77,17 @@ public class InviteContactsActivity extends AbsActivity {
 
     private ArrayList<ContactFriend> contacts;
 
+    private ArrayList<ContactFriend> contactSearch;
+
     private ArrayList<ContactFriend> mContacts;
 
     private ArrayList<String> usernames = null;
 
     private ContactFriendListHeadersAdapter mAdapter;
+
+    private final OvershootInterpolator mInterpolator = new OvershootInterpolator();
+
+    private boolean isShowCancel = false;
 
     private Handler activityHandler = new Handler() {
         public void handleMessage(Message msg) {
@@ -121,6 +133,67 @@ public class InviteContactsActivity extends AbsActivity {
         }
         Collections.sort(contacts, cmp);
         initListView();
+    }
+
+    @OnTextChanged(R.id.search_et)
+    void onTextChanged(CharSequence charSequence) {
+        if (!TextUtils.isEmpty(charSequence)) {
+            searchData(charSequence.toString());
+        } else {
+            mAdapter.refresh(contacts);
+        }
+
+    }
+
+    private void searchData(String sear) {
+        contactSearch = new ArrayList<>();
+        for (ContactFriend bean : contacts) {
+            String name = bean.getUserinfo().getUalias();
+            boolean is = name.length() > sear.length();
+            if (is) {
+                if (name.contains(sear)) {
+                    contactSearch.add(bean);
+                }
+            } else {
+                if (sear.contains(name)) {
+                    contactSearch.add(bean);
+                }
+            }
+        }
+        mAdapter.refresh(contactSearch);
+    }
+
+    @OnFocusChange(R.id.search_et)
+    void onFocusChanged(boolean focused) {
+        if (focused) {
+            if (!isShowCancel) {
+                editTextAni(true);
+                isShowCancel = true;
+            }
+        } else {
+
+        }
+    }
+
+    // 设置输入框的动画
+    private void editTextAni(final boolean is) {
+        ValueAnimator animation = ValueAnimator.ofFloat(is ? 0 : EDITEXT_OFFER, is ? EDITEXT_OFFER : 0);
+        if (is) {
+            animation.setStartDelay(400);
+        }
+        animation.setDuration(400);
+        animation.setInterpolator(mInterpolator);
+        animation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float value = (Float) animation.getAnimatedValue();
+                RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) searchEt.getLayoutParams();
+                int margin = (int) value;
+                lp.setMargins(margin, margin, margin, 0);
+                searchEt.setLayoutParams(lp);
+            }
+        });
+        animation.start();
     }
 
     @Override
