@@ -18,6 +18,7 @@ import com.handmark.pulltorefresh.PullToRefreshListView;
 import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationAdapter;
 import com.touyan.investment.*;
 import com.touyan.investment.activity.FriendsActivity;
+import com.touyan.investment.activity.NoticeActivity;
 import com.touyan.investment.activity.TopMessageActivity;
 import com.touyan.investment.adapter.GungNewsAdapter;
 import com.touyan.investment.bean.message.ConversationBean;
@@ -362,7 +363,9 @@ public class GungFragment extends AbsFragment {
 
     private void toNoticeActivity() {
         resetNotice();
-
+        Intent mIntent = new Intent(getActivity(), NoticeActivity.class);
+        startActivity(mIntent);
+        getActivity().overridePendingTransition(R.anim.push_translate_in_right, 0);
     }
 
     private void toFriends() {

@@ -164,12 +164,12 @@
                         <Button android:id="@+id/loginout_btn"
                                 android:layout_width="match_parent"
                                 android:layout_marginTop="45dp"
-                                android:layout_marginLeft="35dp"
-                                android:layout_marginRight="35dp"
+                                android:layout_marginLeft="@dimen/content_left_margin"
+                                android:layout_marginRight="@dimen/content_right_margin"
                                 android:text="@string/login_out"
                                 android:textSize="@dimen/font_medium"
                                 android:background="@drawable/bt_red_nomral"
-                                android:layout_height="wrap_content"/>
+                                android:layout_height="45dp"/>
 
                 </LinearLayout>
         </ScrollView>

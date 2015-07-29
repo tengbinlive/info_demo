@@ -245,7 +245,11 @@ public class HXChatManagerInit {
 
     private void dbDataProcess() {
         long dbtmep = SharedPreferencesHelper.getLong(App.getInstance(), Constant.SHARED_PREFERENCES_DB_TIME, -1);
-        if (dbtmep <= 0) {
+        if (dbtmep < 0) {
+            isSyncingDatas = true;
+            SharedPreferencesHelper.setLong(App.getInstance(), Constant.SHARED_PREFERENCES_DB_TIME, System.currentTimeMillis());
+            clearConfig();
+            HXCacheUtils.getInstance().resetData();
             asyncData();
         } else {
             long currenttime = System.currentTimeMillis();
@@ -436,7 +440,6 @@ public class HXChatManagerInit {
 
 
     //本地&内存 保存用户
-
     private void saveUserList(List<String> usernames) {
         if (null != usernames && usernames.size() > 0) {
             DaoSession daoSession = App.getDaoSession();
