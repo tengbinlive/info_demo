@@ -161,10 +161,6 @@ public class MainActivity extends AbsActivity {
             @Override
             public void onPageSelected(int position) {
                 currentPager = position;
-                if(currentPager==1){
-                    EMChatManager.getInstance().resetAllUnreadMsgCount();
-                    activityHandler.sendEmptyMessage(UPDATE_UNREADLABEL);
-                }
                 fragments.get(position).scrollToTop();
             }
 
@@ -257,7 +253,7 @@ public class MainActivity extends AbsActivity {
      * @return
      */
     private int getUnreadMsgCountTotal() {
-        int unreadMsgCountTotal = 0;
+        int unreadMsgCountTotal;
         int chatroomUnreadMsgCount = 0;
         int inviteMessageSize= HXChatManagerInit.getInstance().unreadNoticeCount;
         unreadMsgCountTotal = EMChatManager.getInstance().getUnreadMsgsCount();

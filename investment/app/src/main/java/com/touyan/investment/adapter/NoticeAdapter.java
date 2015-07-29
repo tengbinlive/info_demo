@@ -86,7 +86,7 @@ public class NoticeAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.item_notice, null);
+            convertView = mInflater.inflate(R.layout.item_notice, parent,false);
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         } else {

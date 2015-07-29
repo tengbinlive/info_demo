@@ -22,7 +22,7 @@ public class UserInfo implements Serializable {
     private String tags;
     private String teleph;
     private String ualias;
-    private String uisvip;
+    private String uisvip;//是否是VIP 0否、1是
     private String uphoto;
     private double uavail;
 

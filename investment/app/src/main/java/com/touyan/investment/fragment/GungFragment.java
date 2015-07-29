@@ -183,7 +183,6 @@ public class GungFragment extends AbsFragment {
     }
 
     private void getDataList() {
-        dialogShow();
         manager.batchInfo(getActivity(), userids, groupids, activityHandler, INIT_LIST);
     }
 
@@ -213,6 +212,7 @@ public class GungFragment extends AbsFragment {
 
         mListView = (PullToRefreshListView) viewGroup.findViewById(R.id.pull_refresh_list);
         initListView(viewGroup);
+        dialogShow();
         refresh();
         activityHandler.sendEmptyMessageDelayed(UPDATE_UNREADLABEL, 300);
     }
@@ -223,7 +223,7 @@ public class GungFragment extends AbsFragment {
     private void updateUnreadLabel() {
         int count = HXChatManagerInit.getInstance().unreadNoticeCount;
         if (count > 0) {
-            notice_bv.setNewMessage("" + count, -1, -1);
+            notice_bv.setNewMessage("" + count, BezierView.NO_VALUE, BezierView.NO_VALUE);
             notice_bv.setVisibility(View.VISIBLE);
         } else {
             notice_bv.setVisibility(View.GONE);
@@ -395,6 +395,7 @@ public class GungFragment extends AbsFragment {
     //接收到新消息
     public void onEvent(NewMessageEvent event) {
         if (!App.isConflict && !App.isCurrentAccountRemoved) {
+            refresh();
             activityHandler.sendEmptyMessage(UPDATE_UNREADLABEL);
         }
     }

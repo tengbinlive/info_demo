@@ -3,11 +3,15 @@ package com.touyan.investment.fragment;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
+import com.core.CommonResponse;
+import com.core.util.CommonUtil;
 import com.core.util.StringUtil;
 import com.joooonho.SelectableRoundedImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -16,6 +20,8 @@ import com.touyan.investment.App;
 import com.touyan.investment.R;
 import com.touyan.investment.activity.*;
 import com.touyan.investment.bean.user.UserInfo;
+import com.touyan.investment.enums.YesOrNoEnum;
+import com.touyan.investment.manager.UserManager;
 
 public class MeFragment extends AbsFragment implements View.OnClickListener {
 
@@ -43,6 +49,37 @@ public class MeFragment extends AbsFragment implements View.OnClickListener {
     private LinearLayout userRewardBtn;              //用户悬赏按钮
     private LinearLayout userSettingBtn;             //用户设置按钮
     private TextView userAuthenticationBtn;            //用户认证按钮
+
+
+    private final static int APPLY_CERTIFICATION = 0x01;
+
+    private Handler activityHandler = new Handler() {
+        public void handleMessage(Message msg) {
+            int what = msg.what;
+            switch (what) {
+                case APPLY_CERTIFICATION:
+                    loadData((CommonResponse) msg.obj);
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+
+    private void loadData(CommonResponse resposne) {
+        dialogDismiss();
+        if (resposne.isSuccess()) {
+            CommonUtil.showToast("申请成功，我们会尽快与您联系");
+        } else {
+            CommonUtil.showToast(resposne.getErrorTip());
+        }
+    }
+
+    private void applyVip(){
+        dialogShow();
+        UserManager manager = new UserManager();
+        manager.applyVip(getActivity(),activityHandler,APPLY_CERTIFICATION);
+    }
 
     @Override
     public boolean onBackPressed() {
@@ -80,10 +117,15 @@ public class MeFragment extends AbsFragment implements View.OnClickListener {
         userRewardBtn = (LinearLayout) view.findViewById(R.id.user_reward);
         userSettingBtn = (LinearLayout) view.findViewById(R.id.user_setting);
         userAuthenticationBtn = (TextView) view.findViewById(R.id.user_authenticated_btn);
+
+        String vip = App.getInstance().getgUserInfo().getUisvip();
+        if(YesOrNoEnum.YES.getCode().equals(vip)){
+            userAuthenticationBtn.setVisibility(View.GONE);
+        }else{
+            userAuthenticationBtn.setVisibility(View.VISIBLE);
+        }
         initUserInfo();
         initBtnListener();
-
-
     }
 
     private void initUserInfo() {
@@ -207,8 +249,7 @@ public class MeFragment extends AbsFragment implements View.OnClickListener {
                 }, "确定", new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        dialogDismiss();
-
+                        applyVip();
                     }
                 });
                 break;
