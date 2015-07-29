@@ -236,7 +236,7 @@ public class MainActivity extends AbsActivity {
             if(xBV<=0) {
                 int[] location = new int[2];
                 View view = viewPagerTab.getTabAt(1);
-                view.getLocationInWindow(location); //获取在当前窗口内的绝对坐标
+                view.getLocationOnScreen(location); //获取在当前窗口内的绝对坐标
                 xBV = location[0] + (view.getWidth() >> 1) + 50;
                 yBV= location[1];
             }
