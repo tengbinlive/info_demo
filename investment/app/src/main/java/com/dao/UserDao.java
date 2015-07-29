@@ -14,7 +14,7 @@ import com.dao.UserDO;
 /** 
  * DAO for table User.
 */
-public class UserDao extends AbstractDao<UserDO, Long> {
+public class UserDao extends AbstractDao<UserDO, Void> {
 
     public static final String TABLENAME = "User";
 
@@ -26,7 +26,7 @@ public class UserDao extends AbstractDao<UserDO, Long> {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property UnreadMsgCount = new Property(1, Integer.class, "unreadMsgCount", false, "UNREAD_MSG_COUNT");
         public final static Property Header = new Property(2, String.class, "header", false, "HEADER");
-        public final static Property Avatar = new Property(3, String.class, "avatar", false, "AVATAR");
+        public final static Property Avatar = new Property(3, String.class, "avatar", true, "AVATAR");
         public final static Property Type = new Property(4, String.class, "type", false, "TYPE");
     };
 
@@ -46,7 +46,7 @@ public class UserDao extends AbstractDao<UserDO, Long> {
                 "'_id' INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: id
                 "'UNREAD_MSG_COUNT' INTEGER," + // 1: unreadMsgCount
                 "'HEADER' TEXT," + // 2: header
-                "'AVATAR' TEXT," + // 3: avatar
+                "'AVATAR' TEXT PRIMARY KEY NOT NULL ," + // 3: avatar
                 "'TYPE' TEXT);"); // 4: type
     }
 
@@ -89,8 +89,8 @@ public class UserDao extends AbstractDao<UserDO, Long> {
 
     /** @inheritdoc */
     @Override
-    public Long readKey(Cursor cursor, int offset) {
-        return cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0);
+    public Void readKey(Cursor cursor, int offset) {
+        return null;
     }    
 
     /** @inheritdoc */
@@ -118,19 +118,15 @@ public class UserDao extends AbstractDao<UserDO, Long> {
     
     /** @inheritdoc */
     @Override
-    protected Long updateKeyAfterInsert(UserDO entity, long rowId) {
-        entity.setId(rowId);
-        return rowId;
+    protected Void updateKeyAfterInsert(UserDO entity, long rowId) {
+        // Unsupported or missing PK type
+        return null;
     }
     
     /** @inheritdoc */
     @Override
-    public Long getKey(UserDO entity) {
-        if(entity != null) {
-            return entity.getId();
-        } else {
-            return null;
-        }
+    public Void getKey(UserDO entity) {
+        return null;
     }
 
     /** @inheritdoc */

@@ -24,8 +24,9 @@ public class GroupDetalDO {
     public GroupDetalDO() {
     }
 
-    public GroupDetalDO(Long id) {
+    public GroupDetalDO(Long id, String groupid) {
         this.id = id;
+        this.groupid = groupid;
     }
 
     public GroupDetalDO(Long id, Boolean approval, String canadd, String desc, String gphoto, String groupid, String groupname, Integer maxusers, Integer memnum, String owner, Integer payfor, String validt, String visble, String istoll) {

@@ -14,7 +14,7 @@ import com.dao.GroupDetalDO;
 /** 
  * DAO for table GroupDetal.
 */
-public class GroupDetalDao extends AbstractDao<GroupDetalDO, Long> {
+public class GroupDetalDao extends AbstractDao<GroupDetalDO, Void> {
 
     public static final String TABLENAME = "GroupDetal";
 
@@ -28,7 +28,7 @@ public class GroupDetalDao extends AbstractDao<GroupDetalDO, Long> {
         public final static Property Canadd = new Property(2, String.class, "canadd", false, "CANADD");
         public final static Property Desc = new Property(3, String.class, "desc", false, "DESC");
         public final static Property Gphoto = new Property(4, String.class, "gphoto", false, "GPHOTO");
-        public final static Property Groupid = new Property(5, String.class, "groupid", false, "GROUPID");
+        public final static Property Groupid = new Property(5, String.class, "groupid", true, "GROUPID");
         public final static Property Groupname = new Property(6, String.class, "groupname", false, "GROUPNAME");
         public final static Property Maxusers = new Property(7, Integer.class, "maxusers", false, "MAXUSERS");
         public final static Property Memnum = new Property(8, Integer.class, "memnum", false, "MEMNUM");
@@ -57,7 +57,7 @@ public class GroupDetalDao extends AbstractDao<GroupDetalDO, Long> {
                 "'CANADD' TEXT," + // 2: canadd
                 "'DESC' TEXT," + // 3: desc
                 "'GPHOTO' TEXT," + // 4: gphoto
-                "'GROUPID' TEXT," + // 5: groupid
+                "'GROUPID' TEXT PRIMARY KEY NOT NULL ," + // 5: groupid
                 "'GROUPNAME' TEXT," + // 6: groupname
                 "'MAXUSERS' INTEGER," + // 7: maxusers
                 "'MEMNUM' INTEGER," + // 8: memnum
@@ -152,8 +152,8 @@ public class GroupDetalDao extends AbstractDao<GroupDetalDO, Long> {
 
     /** @inheritdoc */
     @Override
-    public Long readKey(Cursor cursor, int offset) {
-        return cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0);
+    public Void readKey(Cursor cursor, int offset) {
+        return null;
     }    
 
     /** @inheritdoc */
@@ -199,19 +199,15 @@ public class GroupDetalDao extends AbstractDao<GroupDetalDO, Long> {
     
     /** @inheritdoc */
     @Override
-    protected Long updateKeyAfterInsert(GroupDetalDO entity, long rowId) {
-        entity.setId(rowId);
-        return rowId;
+    protected Void updateKeyAfterInsert(GroupDetalDO entity, long rowId) {
+        // Unsupported or missing PK type
+        return null;
     }
     
     /** @inheritdoc */
     @Override
-    public Long getKey(GroupDetalDO entity) {
-        if(entity != null) {
-            return entity.getId();
-        } else {
-            return null;
-        }
+    public Void getKey(GroupDetalDO entity) {
+        return null;
     }
 
     /** @inheritdoc */
