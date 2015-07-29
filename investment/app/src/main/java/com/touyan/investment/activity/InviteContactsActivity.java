@@ -97,11 +97,13 @@ public class InviteContactsActivity extends AbsActivity {
             QueryContactFriendsResult result = (QueryContactFriendsResult) resposne.getData();
             contacts = result.getRelton();
 
-            for (int i = 0; i < contacts.size(); i++) {
-                if (mContacts.contains(contacts.get(i))) {
-//                    Log.e("zxh", contacts.toString());
-//                    mContacts.set(mContacts.indexOf(contacts.get(i)), contacts.get(i));
-                    contacts.set(contacts.indexOf(mContacts.get(i)), mContacts.get(i));
+            for (int i = 0; i < mContacts.size(); i++) {
+                if (contacts.contains(mContacts.get(i))) {
+                    if (contacts.get(contacts.indexOf(mContacts.get(i))).getUserinfo() == null) {
+                        contacts.set(contacts.indexOf(mContacts.get(i)), mContacts.get(i));
+                    } else {
+                        continue;
+                    }
                 }
             }
 
