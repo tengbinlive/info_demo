@@ -1,12 +1,17 @@
 package com.touyan.investment.adapter;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.os.Handler;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
+import com.core.CommonResponse;
+import com.core.util.CommonUtil;
 import com.core.util.StringMatcher;
 import com.easemob.chat.EMContactManager;
 import com.easemob.exceptions.EaseMobException;
@@ -16,6 +21,7 @@ import com.touyan.investment.App;
 import com.touyan.investment.R;
 import com.touyan.investment.activity.UserFansDetailsActivity;
 import com.touyan.investment.bean.message.ContactFriend;
+import com.touyan.investment.manager.MessageManager;
 import com.touyan.investment.manager.UserManager;
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
@@ -27,6 +33,8 @@ import java.util.ArrayList;
 public class ContactFriendListHeadersAdapter extends BaseAdapter implements StickyListHeadersAdapter, SectionIndexer {
     private String mSections = "#ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
+    private final static int LOAD_DATA = 0;
+
     private LayoutInflater mInflater;
 
     private ArrayList<ContactFriend> list;
@@ -36,8 +44,37 @@ public class ContactFriendListHeadersAdapter extends BaseAdapter implements Stic
     private int keyIndex;
 
 
-    private UserManager manager = new UserManager();
+    private MessageManager manager = new MessageManager();
 
+    /**
+     * 这里包含了调用数据请求的相关接口之后, 应该执行的回调方法, 根据msg.what来判断.
+     */
+    @SuppressLint("HandlerLeak")
+    private Handler activityHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            int what = msg.what;
+            switch (what) {
+                // 返回数据处理
+                case LOAD_DATA:
+                    loadData((CommonResponse) msg.obj);
+                    break;
+
+            }
+        }
+    };
+
+    /**
+     * @param resposne
+     */
+    private void loadData(CommonResponse resposne) {
+        if (resposne.isSuccess()) {
+            CommonUtil.showToast(mContext, "邀请已发送");
+        } else {
+            CommonUtil.showToast(mContext, resposne.getErrorTip());
+        }
+    }
 
     public ContactFriendListHeadersAdapter(Activity context, ArrayList<ContactFriend> _list) {
         this.list = _list;
@@ -72,13 +109,13 @@ public class ContactFriendListHeadersAdapter extends BaseAdapter implements Stic
                         case 1:
                             try {
                                 EMContactManager.getInstance().addContact(list.get(position).getServno(), "");
+                                CommonUtil.showToast("添加好友请求已发送");
                             } catch (EaseMobException e) {
 
                             }
-
                             break;
                         case 2:
-
+                            manager.inviteContactFriends(mContext, list.get(position).getServno(), activityHandler, LOAD_DATA);
                             break;
                     }
 

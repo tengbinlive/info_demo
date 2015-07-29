@@ -7,6 +7,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.core.util.CommonUtil;
+import com.easemob.chat.EMContactManager;
+import com.easemob.exceptions.EaseMobException;
 import com.joooonho.SelectableRoundedImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.touyan.investment.R;
@@ -54,7 +57,7 @@ public class MayKnowAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.item_mayknow, parent, false);
@@ -65,11 +68,16 @@ public class MayKnowAdapter extends BaseAdapter {
             holder.add_tv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    try {
+                        EMContactManager.getInstance().addContact(list.get(position).getServno(), "");
+                        CommonUtil.showToast("添加好友请求已发送");
+                    } catch (EaseMobException e) {
 
+                    }
                 }
             });
             convertView.setTag(holder);
-        }else{
+        } else {
             holder = (ViewHolder) convertView.getTag();
         }
         ImageLoader.getInstance().displayImage(list.get(position).getUphoto(), holder.head);

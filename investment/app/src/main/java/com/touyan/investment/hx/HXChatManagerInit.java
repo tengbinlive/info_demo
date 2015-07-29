@@ -524,6 +524,7 @@ public class HXChatManagerInit {
 
             removeUserList(usernameList);
             ArrayList<String> usernames = new ArrayList<>(HXCacheUtils.getInstance().getFriendsHashMap().keySet());
+            com.core.util.Log.e(TAG, usernames.toString());
             EventBus.getDefault().post(new OnContactDeletedEvent(usernames));
         }
 

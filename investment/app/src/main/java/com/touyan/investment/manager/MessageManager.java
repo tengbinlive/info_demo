@@ -74,19 +74,20 @@ public class MessageManager {
     }
 
     /**
-     *获取热门群组
+     * 获取热门群组
      *
      * @param context
      * @param handler
      * @param handlerMsgCode
      */
-    public void queryHotgroups(Context context ,final Handler handler, final int handlerMsgCode) {
+    public void queryHotgroups(Context context, final Handler handler, final int handlerMsgCode) {
 
-       BeanParam param = new BeanParam();
+        BeanParam param = new BeanParam();
         param.setUserid(App.getInstance().getgUserInfo().getServno());
         // 接口参数
         param.setMethod(OpenApiMethodEnum.LOAD_HOTGROUP);
-        param.setParseTokenType(new TypeReference<QueryHotGroupsResult>() {});
+        param.setParseTokenType(new TypeReference<QueryHotGroupsResult>() {
+        });
         // 请求对象
         CommonRequest request = new CommonRequest(param, handler, handlerMsgCode);
         // 开始执行加载
@@ -110,6 +111,31 @@ public class MessageManager {
         // 接口参数
         param.setMethod(OpenApiMethodEnum.QUERY_CONTACT_FRIENDS);
         param.setParseTokenType(new TypeReference<QueryContactFriendsResult>() {
+        });
+        // 请求对象
+        CommonRequest request = new CommonRequest(param, handler, handlerMsgCode);
+        // 开始执行加载
+        CommonDataLoader.getInstance(context).load(request);
+    }
+
+    /**
+     * 邀请通讯录好友
+     *
+     * @param context
+     * @param handler
+     * @param handlerMsgCode
+     */
+    public void inviteContactFriends(Context context,  String userid, final Handler handler, final int handlerMsgCode) {
+
+        InviteContactFriendsParam param = new InviteContactFriendsParam();
+        param.setServno(App.getInstance().getgUserInfo().getServno());
+        param.setUserid(userid);
+        param.setTemplateID("" + 12847);
+        param.setBynativ("" + 1);
+
+        // 接口参数
+        param.setMethod(OpenApiMethodEnum.INVITE_CONTACT_FRIENDS);
+        param.setParseTokenType(new TypeReference<OpenApiSimpleResult>() {
         });
         // 请求对象
         CommonRequest request = new CommonRequest(param, handler, handlerMsgCode);

@@ -278,6 +278,10 @@ public enum OpenApiMethodEnum {
      */
     QUERY_CONTACT_FRIENDS("/user/relation.action", "openapi_json", OpenApi.URL_TYPE_DATA),
     /**
+     * 邀请通讯录好友
+     */
+    INVITE_CONTACT_FRIENDS("/user/invite.action", "openapi_json", OpenApi.URL_TYPE_DATA),
+    /**
      * 登陆
      */
     LOAD_LOGIN("/user/login.action", "openapi_json", OpenApi.URL_TYPE_DATA);

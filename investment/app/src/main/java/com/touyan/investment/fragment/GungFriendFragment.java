@@ -116,7 +116,7 @@ public class GungFriendFragment extends AbsFragment {
             listView.setFitsSystemWindows(true);
         }
 
-        dialogShow();
+
         getDataList();
     }
 
@@ -151,7 +151,7 @@ public class GungFriendFragment extends AbsFragment {
 
 
     private void getDataList() {
-
+        dialogShow();
         usernames = new ArrayList<>(HXCacheUtils.getInstance().getFriendsHashMap().keySet());
 
         if (usernames != null) {
@@ -168,6 +168,7 @@ public class GungFriendFragment extends AbsFragment {
     }
 
     public void onEventMainThread(OnContactDeletedEvent event) {
+        dialogShow();
         if (event.getUsernameList().size() > 0 && null != event.getUsernameList()) {
             userManager.batchInfo(this.getActivity(), event.getUsernameList(), new ArrayList<String>(), activityHandler, LOAD_DATA);
         }
@@ -175,7 +176,7 @@ public class GungFriendFragment extends AbsFragment {
     }
 
     public void onEventMainThread(OnContactAddedEvent event) {
-
+        dialogShow();
         if (event.getUsernameList().size() > 0 && null != event.getUsernameList()) {
             userManager.batchInfo(this.getActivity(), event.getUsernameList(), new ArrayList<String>(), activityHandler, LOAD_DATA);
         }
