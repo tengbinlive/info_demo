@@ -7,7 +7,6 @@
     <ListView android:id="@+id/group_list"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:clipToPadding="false"
               android:cacheColorHint="@color/transparent"
               android:divider="@null"
               android:fadingEdge="none"
@@ -19,8 +18,5 @@
             />
 
     <include layout="@layout/list_empty"/>
-
-    <include layout="@layout/list_groups_empty"
-            />
 
 </RelativeLayout>

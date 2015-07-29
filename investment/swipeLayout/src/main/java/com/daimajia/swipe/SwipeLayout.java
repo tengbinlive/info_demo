@@ -843,6 +843,12 @@ public class SwipeLayout extends FrameLayout {
                 float distanceY = event.getRawY() - sY;
                 float angle = Math.abs(distanceY / distanceX);
                 angle = (float) Math.toDegrees(Math.atan(angle));
+                float xDistance = Math.abs(distanceX);
+                float yDistance = Math.abs(distanceY);
+                if (yDistance > xDistance) {
+                    getParent().requestDisallowInterceptTouchEvent(false);
+                    return false;   //表示向下传递事件
+                }
                 if (getOpenStatus() == Status.Close) {
                     int lastCurrentDirectionIndex = mCurrentDirectionIndex;
                     if (angle < 45) {

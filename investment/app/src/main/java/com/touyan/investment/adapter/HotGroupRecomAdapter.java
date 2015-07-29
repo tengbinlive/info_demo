@@ -53,16 +53,18 @@ public class HotGroupRecomAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.item_hotgroup, null);
+            convertView = mInflater.inflate(R.layout.item_hotgroup, parent, false);
             holder = new ViewHolder();
             holder.head = (SelectableRoundedImageView) convertView.findViewById(R.id.head);
             holder.name_tv = (TextView) convertView.findViewById(R.id.name_tv);
             holder.group_member = (TextView) convertView.findViewById(R.id.group_member);
-
-            ImageLoader.getInstance().displayImage(list.get(position).getGphoto(), holder.head);
-            holder.name_tv.setText(list.get(position).getGroupname());
-            holder.group_member.setText(""+list.get(position).getMemnum());
+            convertView.setTag(holder);
+        }else{
+            holder = (ViewHolder) convertView.getTag();
         }
+        ImageLoader.getInstance().displayImage(list.get(position).getGphoto(), holder.head);
+        holder.name_tv.setText(list.get(position).getGroupname());
+        holder.group_member.setText(""+list.get(position).getMemnum());
         return convertView;
     }
 
