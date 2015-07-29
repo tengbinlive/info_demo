@@ -167,7 +167,6 @@ public class GungFriendFragment extends AbsFragment {
     }
 
     public void onEventMainThread(OnContactUpdataEvent event) {
-        dialogShow();
         if (event.getUsernameList().size() > 0 && null != event.getUsernameList()) {
             userManager.batchInfo(this.getActivity(), event.getUsernameList(), new ArrayList<String>(), activityHandler, LOAD_DATA);
         }

@@ -29,8 +29,11 @@ import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.touyan.investment.bean.user.UserInfo;
+import com.touyan.investment.event.OnContactUpdataEvent;
 import com.touyan.investment.helper.SharedPreferencesHelper;
+import com.touyan.investment.hx.HXCacheUtils;
 import com.touyan.investment.hx.HXChatManagerInit;
+import de.greenrobot.event.EventBus;
 
 import java.util.ArrayList;
 
@@ -282,6 +285,8 @@ public class App extends Application {
                         }
                         if(!HXChatManagerInit.getInstance().isSyncingUsers){
                             HXChatManagerInit.getInstance().asyncFetchUserFromServer();
+                            ArrayList<String> arrayList = new ArrayList<>(HXCacheUtils.getInstance().getFriendsHashMap().keySet());
+                            EventBus.getDefault().post(new OnContactUpdataEvent(arrayList));
                         }
                         if(!HXChatManagerInit.getInstance().isSyncingContact){
                             HXChatManagerInit.getInstance().asyncFetchContactsFromServer();

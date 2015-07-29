@@ -375,7 +375,6 @@ public class GungFragment extends AbsFragment {
     }
 
     private void toTopMessage() {
-        resetNotice();
         Intent mIntent = new Intent(getActivity(), TopMessageActivity.class);
         startActivity(mIntent);
         getActivity().overridePendingTransition(R.anim.push_translate_in_right, 0);

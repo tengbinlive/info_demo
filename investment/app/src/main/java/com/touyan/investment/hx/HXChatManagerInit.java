@@ -275,7 +275,10 @@ public class HXChatManagerInit {
                     User user = new User();
                     user.setAvatar(userdo.getAvatar());
                     user.setHeader(userdo.getHeader());
-                    user.setUnreadMsgCount(userdo.getUnreadMsgCount());
+                    Integer msgcount = userdo.getUnreadMsgCount();
+                    if(null!=msgcount) {
+                        user.setUnreadMsgCount(msgcount);
+                    }
                     String type = userdo.getType();
                     user.setType(type);
                     if (User.TYPE_FRIENDS.equals(type)) {

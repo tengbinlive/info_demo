@@ -29,6 +29,9 @@ public class DateUtil {
 	/** 时间格式 yyyy-MM-dd HH:mm:ss */
 	public static final String YYYY_MM_DD_HH_MM_SS = "yyyy-MM-dd HH:mm:ss";
 
+	/** 时间格式 MM-dd HH:mm */
+	public static final String MM_DD_HH_MM = "MM-dd HH:mm";
+
 	/** 时间格式 yyyy-MM-dd */
 	public static final String YYYY_MM_DD = "yyyy-MM-dd";
 
