@@ -9,6 +9,7 @@ public class UserInfo implements Serializable {
 
     public static final String ISVIP_CODE = "0";
 
+    private Long id;
     private String servno;
     private String aucode;
     private String compny;
@@ -26,6 +27,14 @@ public class UserInfo implements Serializable {
     private double uavail;
 
     private String nameSort;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     //特殊处理
     public String getNameSort() {
@@ -164,7 +173,8 @@ public class UserInfo implements Serializable {
     @Override
     public String toString() {
         return "UserInfo{" +
-                "servno='" + servno + '\'' +
+                "id=" + id +
+                ", servno='" + servno + '\'' +
                 ", aucode='" + aucode + '\'' +
                 ", compny='" + compny + '\'' +
                 ", inrank='" + inrank + '\'' +
@@ -179,6 +189,7 @@ public class UserInfo implements Serializable {
                 ", uisvip='" + uisvip + '\'' +
                 ", uphoto='" + uphoto + '\'' +
                 ", uavail=" + uavail +
+                ", nameSort='" + nameSort + '\'' +
                 '}';
     }
 
