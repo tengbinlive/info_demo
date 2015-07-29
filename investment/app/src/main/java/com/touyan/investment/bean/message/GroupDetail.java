@@ -10,7 +10,7 @@ public class GroupDetail implements Serializable {
     private String gphoto;
     private String groupid;
     private String groupname;
-    private String  istoll ;//是否收费 0不收费，1收费
+    private String  istoll ;//鏄惁鏀惰垂 0涓嶆敹璐癸紝1鏀惰垂
     private Integer maxusers;
     private Integer memnum;
     private String owner;

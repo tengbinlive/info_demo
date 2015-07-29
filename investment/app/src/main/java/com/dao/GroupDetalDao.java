@@ -36,6 +36,7 @@ public class GroupDetalDao extends AbstractDao<GroupDetalDO, Long> {
         public final static Property Payfor = new Property(10, Integer.class, "payfor", false, "PAYFOR");
         public final static Property Validt = new Property(11, String.class, "validt", false, "VALIDT");
         public final static Property Visble = new Property(12, String.class, "visble", false, "VISBLE");
+        public final static Property Istoll = new Property(13, String.class, "istoll", false, "ISTOLL");
     };
 
 
@@ -63,7 +64,8 @@ public class GroupDetalDao extends AbstractDao<GroupDetalDO, Long> {
                 "'OWNER' TEXT," + // 9: owner
                 "'PAYFOR' INTEGER," + // 10: payfor
                 "'VALIDT' TEXT," + // 11: validt
-                "'VISBLE' TEXT);"); // 12: visble
+                "'VISBLE' TEXT," + // 12: visble
+                "'ISTOLL' TEXT);"); // 13: istoll
     }
 
     /** Drops the underlying database table. */
@@ -141,6 +143,11 @@ public class GroupDetalDao extends AbstractDao<GroupDetalDO, Long> {
         if (visble != null) {
             stmt.bindString(13, visble);
         }
+ 
+        String istoll = entity.getIstoll();
+        if (istoll != null) {
+            stmt.bindString(14, istoll);
+        }
     }
 
     /** @inheritdoc */
@@ -165,7 +172,8 @@ public class GroupDetalDao extends AbstractDao<GroupDetalDO, Long> {
             cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9), // owner
             cursor.isNull(offset + 10) ? null : cursor.getInt(offset + 10), // payfor
             cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11), // validt
-            cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12) // visble
+            cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12), // visble
+            cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13) // istoll
         );
         return entity;
     }
@@ -186,6 +194,7 @@ public class GroupDetalDao extends AbstractDao<GroupDetalDO, Long> {
         entity.setPayfor(cursor.isNull(offset + 10) ? null : cursor.getInt(offset + 10));
         entity.setValidt(cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11));
         entity.setVisble(cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12));
+        entity.setIstoll(cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13));
      }
     
     /** @inheritdoc */

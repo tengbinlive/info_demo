@@ -219,7 +219,7 @@
 
     <string name="hotgroup">热门群组</string>
 
-    <string name="groups_top_message">所有群置顶消息</string>
+    <string name="groups_top_message">群置顶消息</string>
 
     <string name="groups_empty_tip">您还没加入群组\n点击屏幕右上角“+”来加入或创建群组吧</string>
     <string name="friends_empty_tip">您还没好友\n点击屏幕右上角“+”来邀请好友吧</string>

@@ -19,6 +19,7 @@ public class GroupDetalDO {
     private Integer payfor;
     private String validt;
     private String visble;
+    private String istoll;
 
     public GroupDetalDO() {
     }
@@ -27,7 +28,7 @@ public class GroupDetalDO {
         this.id = id;
     }
 
-    public GroupDetalDO(Long id, Boolean approval, String canadd, String desc, String gphoto, String groupid, String groupname, Integer maxusers, Integer memnum, String owner, Integer payfor, String validt, String visble) {
+    public GroupDetalDO(Long id, Boolean approval, String canadd, String desc, String gphoto, String groupid, String groupname, Integer maxusers, Integer memnum, String owner, Integer payfor, String validt, String visble, String istoll) {
         this.id = id;
         this.approval = approval;
         this.canadd = canadd;
@@ -41,6 +42,7 @@ public class GroupDetalDO {
         this.payfor = payfor;
         this.validt = validt;
         this.visble = visble;
+        this.istoll = istoll;
     }
 
     public Long getId() {
@@ -145,6 +147,14 @@ public class GroupDetalDO {
 
     public void setVisble(String visble) {
         this.visble = visble;
+    }
+
+    public String getIstoll() {
+        return istoll;
+    }
+
+    public void setIstoll(String istoll) {
+        this.istoll = istoll;
     }
 
 }
