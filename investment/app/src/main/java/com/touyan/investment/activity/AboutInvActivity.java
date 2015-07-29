@@ -1,18 +1,10 @@
 package com.touyan.investment.activity;
 
-import android.view.View;
-import android.view.View.OnClickListener;
 import com.touyan.investment.AbsActivity;
 import com.touyan.investment.R;
 
-public class AboutInvActivity extends AbsActivity implements OnClickListener {
+public class AboutInvActivity extends AbsActivity {
 
-
-    @Override
-    public void EInit() {
-        super.EInit();
-        findView();
-    }
 
     @Override
     public int getContentView() {
@@ -23,17 +15,6 @@ public class AboutInvActivity extends AbsActivity implements OnClickListener {
     public void initActionBar() {
         setToolbarLeftStrID(R.string.back);
         setToolbarIntermediateStrID(R.string.about_inv);
-    }
-    @Override
-    public void onClick(View v) {
-
-    }
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-    private void findView() {
-
     }
 
 }

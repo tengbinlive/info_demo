@@ -57,20 +57,23 @@ public class MayKnowAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.item_mayknow, null);
+            convertView = mInflater.inflate(R.layout.item_mayknow, parent, false);
             holder = new ViewHolder();
             holder.head = (SelectableRoundedImageView) convertView.findViewById(R.id.head);
             holder.name_tv = (TextView) convertView.findViewById(R.id.name_tv);
             holder.add_tv = (TextView) convertView.findViewById(R.id.add_tv);
-            ImageLoader.getInstance().displayImage(list.get(position).getUphoto(), holder.head);
-            holder.name_tv.setText(list.get(position).getUalias());
             holder.add_tv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
                 }
             });
+            convertView.setTag(holder);
+        }else{
+            holder = (ViewHolder) convertView.getTag();
         }
+        ImageLoader.getInstance().displayImage(list.get(position).getUphoto(), holder.head);
+        holder.name_tv.setText(list.get(position).getUalias());
         return convertView;
     }
 

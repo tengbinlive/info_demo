@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.joooonho.SelectableRoundedImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.touyan.investment.R;
+import com.touyan.investment.bean.message.GroupDetail;
 import com.touyan.investment.bean.user.UserInfo;
 import com.touyan.investment.manager.InvestmentManager;
 
@@ -16,17 +17,13 @@ import java.util.ArrayList;
 
 public class HotGroupRecomAdapter extends BaseAdapter {
 
-    private static final int LOAD_SIGN = 0x01;//报名
-
-    private InvestmentManager manager = new InvestmentManager();
-
     private LayoutInflater mInflater;
 
-    private ArrayList<UserInfo> list;
+    private ArrayList<GroupDetail> list;
 
     private Context mContext;
 
-    public HotGroupRecomAdapter(Context context, ArrayList<UserInfo> _list) {
+    public HotGroupRecomAdapter(Context context, ArrayList<GroupDetail> _list) {
         this.list = _list;
         mContext = context;
         mInflater = LayoutInflater.from(mContext);
@@ -47,7 +44,7 @@ public class HotGroupRecomAdapter extends BaseAdapter {
         return 0;
     }
 
-    public void refresh(ArrayList<UserInfo> _list) {
+    public void refresh(ArrayList<GroupDetail> _list) {
         list = _list;
         notifyDataSetChanged();
     }
@@ -56,19 +53,25 @@ public class HotGroupRecomAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.item_hotgroup, null);
+            convertView = mInflater.inflate(R.layout.item_hotgroup, parent, false);
             holder = new ViewHolder();
             holder.head = (SelectableRoundedImageView) convertView.findViewById(R.id.head);
             holder.name_tv = (TextView) convertView.findViewById(R.id.name_tv);
-            ImageLoader.getInstance().displayImage(list.get(position).getUphoto(), holder.head);
-            holder.name_tv.setText(list.get(position).getUalias());
+            holder.group_member = (TextView) convertView.findViewById(R.id.group_member);
+            convertView.setTag(holder);
+        }else{
+            holder = (ViewHolder) convertView.getTag();
         }
+        ImageLoader.getInstance().displayImage(list.get(position).getGphoto(), holder.head);
+        holder.name_tv.setText(list.get(position).getGroupname());
+        holder.group_member.setText(""+list.get(position).getMemnum());
         return convertView;
     }
 
     class ViewHolder {
         SelectableRoundedImageView head;
         TextView name_tv;
+        TextView group_member;
     }
 
 }

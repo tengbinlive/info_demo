@@ -8,6 +8,8 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.TextView;
 import com.core.CommonResponse;
 import com.core.util.CommonUtil;
 import com.nhaarman.listviewanimations.appearance.StickyListHeadersAdapterDecorator;
@@ -105,6 +107,8 @@ public class GungFriendFragment extends AbsFragment {
         listView = (IndexableListView) getView().findViewById(R.id.stickylistheaders_listview);
         listView.setFastScrollEnabled(true);
         View ll_listEmpty = getView().findViewById(R.id.ll_listEmpty);
+        TextView tip = (TextView) ll_listEmpty.findViewById(R.id.loading_message);
+        tip.setText(R.string.friends_empty_tip);
         listView.setEmptyView(ll_listEmpty);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
@@ -132,6 +136,13 @@ public class GungFriendFragment extends AbsFragment {
             stickyListHeadersAdapterDecorator.getViewAnimator().setInitialDelayMillis(500);
 
             listView.setAdapter(stickyListHeadersAdapterDecorator);
+
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    mAdapter.closeAllItems();
+                }
+            });
         } else {
             mAdapter.refresh(friends);
         }

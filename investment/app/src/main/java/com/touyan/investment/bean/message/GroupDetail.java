@@ -10,6 +10,7 @@ public class GroupDetail implements Serializable {
     private String gphoto;
     private String groupid;
     private String groupname;
+    private String  istoll ;//是否收费 0不收费，1收费
     private Integer maxusers;
     private Integer memnum;
     private String owner;
@@ -113,15 +114,24 @@ public class GroupDetail implements Serializable {
         this.visble = visble;
     }
 
+    public String getIstoll() {
+        return istoll;
+    }
+
+    public void setIstoll(String istoll) {
+        this.istoll = istoll;
+    }
+
     @Override
     public String toString() {
-        return "GroupDetal{" +
+        return "GroupDetail{" +
                 "approval=" + approval +
                 ", canadd='" + canadd + '\'' +
                 ", desc='" + desc + '\'' +
                 ", gphoto='" + gphoto + '\'' +
                 ", groupid='" + groupid + '\'' +
                 ", groupname='" + groupname + '\'' +
+                ", istoll='" + istoll + '\'' +
                 ", maxusers=" + maxusers +
                 ", memnum=" + memnum +
                 ", owner='" + owner + '\'' +

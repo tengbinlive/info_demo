@@ -31,12 +31,6 @@ public class GroupListAdapter extends BaseAdapter {
     }
     @Override
     public boolean isEnabled(int position) {
-
-//        if(listTag.contains(getItem(position))){
-//            return false;
-//        }
-//        return super.isEnabled(position);
-
         if (position == 0) {
             return false;
         }
@@ -61,16 +55,16 @@ public class GroupListAdapter extends BaseAdapter {
         return 0;
     }
 
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View view = convertView;
-
+        View view;
         if (position == 0 || (listTag > 0 && listTag + 1 == position)) {
             view = mInflater.inflate(R.layout.item_gung_group_tag, null);
             TextView textView = (TextView) view.findViewById(R.id.group_list_item_text);
             textView.setText(objects.get(position).getGroupname());
         } else {
-            view = mInflater.inflate(R.layout.item_gung_group, null);
+            view = mInflater.inflate(R.layout.item_gung_group, parent, false);
             TextView textView = (TextView) view.findViewById(R.id.group_name);
             SelectableRoundedImageView head = (SelectableRoundedImageView) view.findViewById(R.id.head);
             TextView group_member = (TextView) view.findViewById(R.id.group_member);
@@ -79,16 +73,6 @@ public class GroupListAdapter extends BaseAdapter {
             group_member.setText(""+objects.get(position).getMemnum());
 
         }
-
-//        if(listTag.contains(getItem(position))){
-//            view = mInflater.inflate(R.layout.item_gung_group_tag, null);
-//            TextView textView = (TextView) view.findViewById(R.id.group_list_item_text);
-//            textView.setText(objects.get(position));
-//        }else{
-//            view = mInflater.inflate(R.layout.item_gung_group, null);
-//            TextView textView = (TextView) view.findViewById(R.id.group_name);
-//            textView.setText(objects.get(position));
-//        }
         return view;
     }
 }
