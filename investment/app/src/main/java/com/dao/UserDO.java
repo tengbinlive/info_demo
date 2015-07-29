@@ -15,8 +15,9 @@ public class UserDO {
     public UserDO() {
     }
 
-    public UserDO(Long id) {
+    public UserDO(Long id, String avatar) {
         this.id = id;
+        this.avatar = avatar;
     }
 
     public UserDO(Long id, Integer unreadMsgCount, String header, String avatar, String type) {

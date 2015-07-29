@@ -7,38 +7,38 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import com.core.CommonResponse;
 import com.core.util.CommonUtil;
-import com.touyan.investment.App;
+import com.core.util.DateUtil;
+import com.joooonho.SelectableRoundedImageView;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.touyan.investment.R;
-import com.touyan.investment.bean.main.InvActBean;
-import com.touyan.investment.helper.Util;
+import com.touyan.investment.bean.message.InviteMessage;
 import com.touyan.investment.manager.InvestmentManager;
 
 import java.util.ArrayList;
 
 public class NoticeAdapter extends BaseAdapter {
 
-    private static final int LOAD_SIGN = 0x01;//报名
+    private static final int LOAD = 0x01;
 
     private InvestmentManager manager = new InvestmentManager();
 
     private LayoutInflater mInflater;
 
-    private ArrayList<InvActBean> list;
+    private ArrayList<InviteMessage> list;
 
     private Context mContext;
-
-    private int currentIndex;
 
     private Handler activityHandler = new Handler() {
         public void handleMessage(Message msg) {
             int what = msg.what;
             switch (what) {
-                case LOAD_SIGN:
-                    loadDataSign((CommonResponse) msg.obj);
+                case LOAD:
+                    loadData((CommonResponse) msg.obj);
                     break;
                 default:
                     break;
@@ -46,16 +46,15 @@ public class NoticeAdapter extends BaseAdapter {
         }
     };
 
-    private void loadDataSign(CommonResponse resposne) {
+    private void loadData(CommonResponse resposne) {
         if (resposne.isSuccess()) {
-            list.get(currentIndex).setIsJoin(InvActBean.STATUS_BY);
             notifyDataSetChanged();
         } else {
             CommonUtil.showToast(resposne.getErrorTip());
         }
     }
 
-    public NoticeAdapter(Context context, ArrayList<InvActBean> _list) {
+    public NoticeAdapter(Context context, ArrayList<InviteMessage> _list) {
         this.list = _list;
         mContext = context;
         mInflater = LayoutInflater.from(mContext);
@@ -76,7 +75,7 @@ public class NoticeAdapter extends BaseAdapter {
         return 0;
     }
 
-    public void refresh(ArrayList<InvActBean> _list) {
+    public void refresh(ArrayList<InviteMessage> _list) {
         list = _list;
         notifyDataSetChanged();
     }
@@ -85,86 +84,40 @@ public class NoticeAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.item_inv_act, null);
-            holder = new ViewHolder();
-            holder.head = (ImageView) convertView.findViewById(R.id.head);
-            holder.contents_tv = (TextView) convertView.findViewById(R.id.contents_tv);
-            holder.sign_tv = (TextView) convertView.findViewById(R.id.sign_tv);
-            holder.sign_tv.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    currentIndex = (Integer) view.getTag();
-                    getSign(currentIndex);
-                }
-            });
+            convertView = mInflater.inflate(R.layout.item_add_friend, null);
+            holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        InvActBean bean = list.get(position);
+//        InviteMessage message = list.get(position);
+//        ImageLoader.getInstance().displayImage(userInfo.getUphoto(), holder.head);
+//        holder.name.setText(userInfo.getUalias());
+//        String dateStr = DateUtil.ConverToString(infoBean.getPubstm(), DateUtil.YYYY_MM_DD_HH_MM_SS);
 
-        if(bean.getPubsid().equals(App.getInstance().getgUserInfo().getServno())) {
-            holder.sign_tv.setVisibility(View.GONE);
-            setSignStatus(holder.sign_tv, bean.getIsJoin());
-        }else{
-            holder.sign_tv.setVisibility(View.VISIBLE);
-            setSignStatus(holder.sign_tv, bean.getIsJoin());
-        }
-
-        String type = bean.getActvtp();
-
-        setImageIcon(holder.head, type);
-
-        holder.sign_tv.setTag(position);
-
-        setContent(holder.contents_tv, type, bean.getByloct() , bean.getAtitle());
 
         return convertView;
     }
 
-    private void setSignStatus(TextView view, String status) {
-        if (InvActBean.STATUS_NOT_PARTICIPATE.equals(status)||InvActBean.STATUS_NO_BY.equals(status)) {
-            view.setText(R.string.not_participate);
-            Util.setTextViewDrawaleAnchor(mContext, view, R.drawable.act_unsign, Util.TOP);
-        } else {
-            Util.setTextViewDrawaleAnchor(mContext, view, R.drawable.act_sign, Util.TOP);
-            view.setText(R.string.by);
-        }
-    }
 
-    private void getSign(int index) {
-        InvActBean bean = list.get(index);
-        String status = bean.getIsJoin();
-        if(InvActBean.STATUS_AUDIT.equals(status)){
-            CommonUtil.showToast(R.string.by);
-            return;
-        }
-        manager.actSign(mContext, bean.getActvid(), "" + bean.getCharge(), activityHandler, LOAD_SIGN);
-    }
-
-    private void setImageIcon(ImageView head, String type) {
-        if (InvActBean.TYPE_ROADSHOW.equals(type)) {
-            head.setImageResource(R.drawable.act_roadshow);
-        } else {
-            head.setImageResource(R.drawable.act_product);
-        }
-    }
-
-    private void setContent(TextView view, String type, String loact,String content) {
-        if (InvActBean.TYPE_ROADSHOW.equals(type)) {
-            view.setText(loact+ " " +content);
-            Util.setTextViewDrawaleAnchor(mContext, view, R.drawable.act_location, Util.LEFT);
-        } else {
-            view.setText(content);
-            Util.setTextViewDrawaleAnchor(mContext, view, 0, 0);
-        }
-    }
+    /**
+     * This class contains all butterknife-injected Views & Layouts from layout file 'item_add_friend.xml'
+     * for easy to all layout elements.
+     *
+     * @author ButterKnifeZelezny, plugin for Android Studio by Avast Developers (http://github.com/avast)
+     */
 
     class ViewHolder {
-        ImageView head;
-        TextView contents_tv;
-        TextView sign_tv;
-    }
+        @Bind(R.id.head)
+        SelectableRoundedImageView head;
+        @Bind(R.id.add)
+        TextView add;
+        @Bind(R.id.name)
+        TextView name;
 
+        ViewHolder(View view) {
+            ButterKnife.bind(this, view);
+        }
+    }
 }

@@ -26,8 +26,9 @@ public class UserInfoDO {
     public UserInfoDO() {
     }
 
-    public UserInfoDO(Long id) {
+    public UserInfoDO(Long id, String servno) {
         this.id = id;
+        this.servno = servno;
     }
 
     public UserInfoDO(Long id, String servno, String aucode, String compny, String inrank, String ivcode, String locatn, String postin, String rscope, String tags, String teleph, String ualias, String uisvip, String uphoto, Double uavail, String nameSort) {
