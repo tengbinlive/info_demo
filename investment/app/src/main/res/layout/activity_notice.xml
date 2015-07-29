@@ -1,0 +1,30 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:background="@color/gray_layout"
+                android:layout_height="match_parent">
+
+    <include android:id="@+id/toolbar"
+             android:layout_height="wrap_content"
+             android:layout_width="match_parent"
+             layout="@layout/action_toolbar"/>
+
+    <ListView
+            android:id="@+id/listview"
+            android:paddingTop="@dimen/content_gap"
+            android:clipToPadding="false"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/toolbar"
+            android:cacheColorHint="@color/transparent"
+            android:divider="@null"
+            android:dividerHeight="@dimen/content_gap"
+            android:fadingEdge="none"
+            android:fastScrollEnabled="false"
+            android:footerDividersEnabled="false"
+            android:headerDividersEnabled="false"
+            android:scrollbars="none"
+            android:smoothScrollbar="true"/>
+
+    <include layout="@layout/list_empty"/>
+
+</RelativeLayout>

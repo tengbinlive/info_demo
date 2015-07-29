@@ -343,6 +343,11 @@
                   android:theme="@style/AppTheme">
         </activity>
 
+        <!--通知-->
+        <activity android:name=".activity.NoticeActivity"
+                  android:theme="@style/AppTheme">
+        </activity>
+
         <!--分享-->
         <activity
                 android:name="com.mob.tools.MobUIShell"

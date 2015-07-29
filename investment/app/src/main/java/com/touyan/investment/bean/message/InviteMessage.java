@@ -15,6 +15,8 @@ package com.touyan.investment.bean.message;
 
 public class InviteMessage {
 
+	private Long id;
+
 	private int unreadCount; //未读消息数量
 
 	private String from;
@@ -30,8 +32,6 @@ public class InviteMessage {
 	//群名称
 	private String groupName;
 	
-
-	private int id;
 
 	public int getUnreadCount() {
 		return unreadCount;
@@ -74,13 +74,12 @@ public class InviteMessage {
 		this.status = status;
 	}
 
-	
-	
-	public int getId() {
+
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -117,7 +116,20 @@ public class InviteMessage {
 		REFUSED
 		
 	}
-	
+
+	@Override
+	public String toString() {
+		return "InviteMessage{" +
+				"id=" + id +
+				", unreadCount=" + unreadCount +
+				", from='" + from + '\'' +
+				", time=" + time +
+				", reason='" + reason + '\'' +
+				", status=" + status +
+				", groupId='" + groupId + '\'' +
+				", groupName='" + groupName + '\'' +
+				'}';
+	}
 }
 
 

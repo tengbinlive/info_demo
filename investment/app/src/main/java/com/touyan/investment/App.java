@@ -326,6 +326,8 @@ public class App extends Application {
     public void accountExit(){
         EMChatManager.getInstance().endCall();
         EMChatManager.getInstance().logout();
+        DaoSession daoSession = App.getDaoSession();
+        daoSession.getUserDao().deleteAll();
         SharedPreferencesHelper.setString(this, Constant.LoginUser.SHARED_PREFERENCES_PASSWORD, "");
     }
 

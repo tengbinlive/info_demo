@@ -32,6 +32,7 @@ import com.touyan.investment.hx.HXChatManagerInit;
 import com.touyan.investment.manager.UserManager;
 import com.touyan.investment.mview.BezierView;
 import com.touyan.investment.mview.NetworkPrompt;
+import de.greenrobot.event.EventBus;
 
 import java.util.*;
 
@@ -221,7 +222,7 @@ public class GungFragment extends AbsFragment {
     private void updateUnreadLabel() {
         int count = HXChatManagerInit.getInstance().unreadNoticeCount;
         if (count > 0) {
-            notice_bv.setNewMessage("" + count, 0, 0);
+            notice_bv.setNewMessage("" + count, -1, -1);
             notice_bv.setVisibility(View.VISIBLE);
         } else {
             notice_bv.setVisibility(View.GONE);
@@ -354,7 +355,8 @@ public class GungFragment extends AbsFragment {
         if (count > 0) {
             HXChatManagerInit.getInstance().unreadNoticeCount = 0;
             SharedPreferencesHelper.setPreferInt(App.getInstance(), Constant.SHARED_PREFERENCES_DB_UNREADNOTICECOUNT, 0);
-            activityHandler.sendEmptyMessage(UPDATE_UNREADLABEL);
+            // 刷新bottom bar消息未读数 & 通知未读通知
+            EventBus.getDefault().post(new NewMessageEvent());
         }
     }
 

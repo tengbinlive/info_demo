@@ -144,12 +144,14 @@ public class BezierView extends FrameLayout {
     }
 
     public void setNewMessage(String message, float x, float y) {
-        startX = x;
-        startY = y;
-        anchorX = startX;
-        anchorY = startY;
-        this.x = startX;
-        this.y = startY;
+        if(x<0||y<0) {
+            startX = x;
+            startY = y;
+            anchorX = startX;
+            anchorY = startY;
+            this.x = startX;
+            this.y = startY;
+        }
         isTouch = false;
         isAnimStart = false;
         tipImageView.setText(message);

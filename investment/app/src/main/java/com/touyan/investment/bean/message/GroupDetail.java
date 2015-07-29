@@ -4,19 +4,28 @@ import java.io.Serializable;
 
 public class GroupDetail implements Serializable {
 
+    private Long id;
     private Boolean approval;
     private String canadd;
     private String desc;
     private String gphoto;
     private String groupid;
     private String groupname;
-    private String  istoll ;//是否收费 0不收费，1收费
+    private String  istoll ;//鏄惁鏀惰垂 0涓嶆敹璐癸紝1鏀惰垂
     private Integer maxusers;
     private Integer memnum;
     private String owner;
     private Integer payfor;
     private String validt;
     private String visble;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Boolean getApproval() {
         return approval;
@@ -125,7 +134,8 @@ public class GroupDetail implements Serializable {
     @Override
     public String toString() {
         return "GroupDetail{" +
-                "approval=" + approval +
+                "id=" + id +
+                ", approval=" + approval +
                 ", canadd='" + canadd + '\'' +
                 ", desc='" + desc + '\'' +
                 ", gphoto='" + gphoto + '\'' +
