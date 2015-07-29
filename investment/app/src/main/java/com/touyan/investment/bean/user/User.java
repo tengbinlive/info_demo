@@ -53,5 +53,5 @@ public class User implements Serializable {
                 ", type='" + type + '\'' +
                 '}';
     }
-    
+
 }

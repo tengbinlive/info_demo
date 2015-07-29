@@ -481,7 +481,6 @@ public class HXChatManagerInit {
                 user.setType(User.TYPE_FRIENDS);
                 userdo.setAvatar(username);
                 user.setAvatar(username);
-                userdo.
                 userDOs.add(userdo);
                 HXCacheUtils.getInstance().getFriendsHashMap().remove(username);
             }
