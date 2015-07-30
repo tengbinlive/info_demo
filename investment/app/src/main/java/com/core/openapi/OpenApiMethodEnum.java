@@ -273,6 +273,12 @@ public enum OpenApiMethodEnum {
      * 搜索用户
      */
     SEARCH_USER("/user/searchUser.action", "openapi_json", OpenApi.URL_TYPE_DATA),
+
+    /**
+     * 申请认证
+     */
+    APPLY_VIP("/user/applyVip.action", "openapi_json", OpenApi.URL_TYPE_DATA),
+
     /**
      * 通讯录好友
      */

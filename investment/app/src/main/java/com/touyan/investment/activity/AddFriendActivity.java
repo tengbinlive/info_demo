@@ -22,8 +22,6 @@ import com.touyan.investment.AbsActivity;
 import com.touyan.investment.R;
 import com.touyan.investment.adapter.AddFriendListHeadersAdapter;
 import com.touyan.investment.bean.user.*;
-import com.touyan.investment.event.OnContactAddedEvent;
-import com.touyan.investment.event.OnContactDeletedEvent;
 import com.touyan.investment.helper.UserInfoComp;
 import com.touyan.investment.hx.HXCacheUtils;
 import com.touyan.investment.manager.UserManager;

@@ -89,8 +89,6 @@ public class HXChatManagerInit {
         // 默认环信是不维护好友关系列表的，如果app依赖环信的好友关系，把这个属性设置为true
         options.setUseRoster(true);
 
-        EMChatManager.getInstance().getChatOptions().setUseRoster(true);//如果使用环信的好友体系需要先设置
-
         //只有注册了广播才能接收到新消息，目前离线消息，在线消息都是走接收消息的广播（离线消息目前无法监听，在登录以后，接收消息广播会执行一次拿到所有的离线消息）
         msgReceiver = new NewMessageBroadcastReceiver();
         IntentFilter intentFilter = new IntentFilter(EMChatManager.getInstance().getNewMessageBroadcastAction());
@@ -275,7 +273,10 @@ public class HXChatManagerInit {
                     User user = new User();
                     user.setAvatar(userdo.getAvatar());
                     user.setHeader(userdo.getHeader());
-                    user.setUnreadMsgCount(userdo.getUnreadMsgCount());
+                    Integer msgcount = userdo.getUnreadMsgCount();
+                    if(null!=msgcount) {
+                        user.setUnreadMsgCount(msgcount);
+                    }
                     String type = userdo.getType();
                     user.setType(type);
                     if (User.TYPE_FRIENDS.equals(type)) {
@@ -456,6 +457,8 @@ public class HXChatManagerInit {
                 friendsHashMap.put(username, user);
             }
             HXCacheUtils.getInstance().getFriendsHashMap().putAll(friendsHashMap);
+            ArrayList<String> arrayList = new ArrayList<>(HXCacheUtils.getInstance().getFriendsHashMap().keySet());
+            EventBus.getDefault().post(new OnContactUpdataEvent(arrayList));
             daoSession.getUserDao().insertInTx(userDOs);
         }
     }
@@ -470,6 +473,8 @@ public class HXChatManagerInit {
             userdo.setAvatar(username);
             user.setAvatar(username);
             HXCacheUtils.getInstance().getFriendsHashMap().put(username, user);
+            ArrayList<String> arrayList = new ArrayList<>(HXCacheUtils.getInstance().getFriendsHashMap().keySet());
+            EventBus.getDefault().post(new OnContactUpdataEvent(arrayList));
             daoSession.getUserDao().insert(userdo);
         }
     }
@@ -481,6 +486,8 @@ public class HXChatManagerInit {
             for (String username : usernames) {
                 HXCacheUtils.getInstance().getFriendsHashMap().remove(username);
             }
+            ArrayList<String> arrayList = new ArrayList<>(HXCacheUtils.getInstance().getFriendsHashMap().keySet());
+            EventBus.getDefault().post(new OnContactUpdataEvent(arrayList));
             daoSession.runInTx(new Runnable() {
                 @Override
                 public void run() {
@@ -517,18 +524,13 @@ public class HXChatManagerInit {
         @Override
         public void onContactAdded(List<String> usernameList) {
             // 保存增加的联系人
-
         }
 
         @Override
         public void onContactDeleted(final List<String> usernameList) {
             // 被删除
             Log.d(TAG, "您删除了好友" + usernameList.get(0));
-
             removeUserList(usernameList);
-            ArrayList<String> usernames = new ArrayList<>(HXCacheUtils.getInstance().getFriendsHashMap().keySet());
-            com.core.util.Log.e(TAG, usernames.toString());
-            EventBus.getDefault().post(new OnContactDeletedEvent(usernames));
         }
 
         @Override
@@ -537,7 +539,7 @@ public class HXChatManagerInit {
             InviteMessage msg = new InviteMessage();
             msg.setFrom(username);
             msg.setTime(System.currentTimeMillis());
-            Log.d(TAG, username + "拒绝了你的好友请求");
+            Log.d(TAG, username + "接到邀请的消息");
             msg.setReason(reason);
             msg.setUnreadCount(1);
             msg.setStatus(InviteMessage.InviteMesageStatus.BEINVITEED);
@@ -558,9 +560,6 @@ public class HXChatManagerInit {
             msg.setStatus(InviteMessage.InviteMesageStatus.BEAGREED);
             notifyNewIviteMessage(msg);
 
-
-            ArrayList<String> usernames = new ArrayList<>(HXCacheUtils.getInstance().getFriendsHashMap().keySet());
-            EventBus.getDefault().post(new OnContactAddedEvent(usernames));
         }
 
         @Override

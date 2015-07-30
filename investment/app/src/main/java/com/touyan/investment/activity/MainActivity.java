@@ -1,7 +1,6 @@
 package com.touyan.investment.activity;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.PagerAdapter;
@@ -11,27 +10,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import com.core.CommonResponse;
 import com.core.util.CommonUtil;
-import com.easemob.EMConnectionListener;
-import com.easemob.EMError;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMConversation;
-import com.easemob.util.NetUtils;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
-import com.touyan.investment.*;
+import com.touyan.investment.AbsActivity;
+import com.touyan.investment.AbsFragment;
+import com.touyan.investment.App;
+import com.touyan.investment.R;
 import com.touyan.investment.adapter.MainViewPagerAdapter;
 import com.touyan.investment.enums.BottomMenu;
 import com.touyan.investment.event.NewMessageEvent;
 import com.touyan.investment.fragment.GungFragment;
 import com.touyan.investment.fragment.InvestmentFragment;
 import com.touyan.investment.fragment.MeFragment;
-import com.touyan.investment.helper.Util;
-import com.touyan.investment.hx.HXCacheUtils;
 import com.touyan.investment.hx.HXChatManagerInit;
-import com.touyan.investment.hx.HXConstant;
 import com.touyan.investment.mview.BezierView;
 
 import java.util.ArrayList;
@@ -161,10 +155,6 @@ public class MainActivity extends AbsActivity {
             @Override
             public void onPageSelected(int position) {
                 currentPager = position;
-                if(currentPager==1){
-                    EMChatManager.getInstance().resetAllUnreadMsgCount();
-                    activityHandler.sendEmptyMessage(UPDATE_UNREADLABEL);
-                }
                 fragments.get(position).scrollToTop();
             }
 
@@ -182,7 +172,7 @@ public class MainActivity extends AbsActivity {
             }
         });
 
-        activityHandler.sendEmptyMessageDelayed(UPDATE_UNREADLABEL,300);
+        activityHandler.sendEmptyMessageDelayed(UPDATE_UNREADLABEL, 300);
     }
 
     private void setIconInfo(ViewGroup custom_ly, BottomMenu menu, boolean isClick) {
@@ -225,9 +215,7 @@ public class MainActivity extends AbsActivity {
     //接收到新消息
     public void onEvent(NewMessageEvent event) {
         if (!App.isConflict && !App.isCurrentAccountRemoved) {
-            if(currentPager!=1) {
-                activityHandler.sendEmptyMessage(UPDATE_UNREADLABEL);
-            }
+            activityHandler.sendEmptyMessage(UPDATE_UNREADLABEL);
         }
     }
 
@@ -237,14 +225,14 @@ public class MainActivity extends AbsActivity {
     private void updateUnreadLabel() {
         int count = getUnreadMsgCountTotal();
         if (count > 0) {
-            if(xBV<=0) {
+            if (xBV <= 0) {
                 int[] location = new int[2];
                 View view = viewPagerTab.getTabAt(1);
-                view.getLocationInWindow(location); //获取在当前窗口内的绝对坐标
+                view.getLocationOnScreen(location); //获取在当前窗口内的绝对坐标
                 xBV = location[0] + (view.getWidth() >> 1) + 50;
-                yBV= location[1];
+                yBV = location[1];
             }
-            message_bv.setNewMessage("" + count,xBV,yBV);
+            message_bv.setNewMessage("" + count, xBV, yBV);
             message_bv.setVisibility(View.VISIBLE);
         } else {
             message_bv.setVisibility(View.GONE);
@@ -257,15 +245,15 @@ public class MainActivity extends AbsActivity {
      * @return
      */
     private int getUnreadMsgCountTotal() {
-        int unreadMsgCountTotal = 0;
+        int unreadMsgCountTotal;
         int chatroomUnreadMsgCount = 0;
-        int inviteMessageSize= HXChatManagerInit.getInstance().unreadNoticeCount;
+        int inviteMessageSize = HXChatManagerInit.getInstance().unreadNoticeCount;
         unreadMsgCountTotal = EMChatManager.getInstance().getUnreadMsgsCount();
         for (EMConversation conversation : EMChatManager.getInstance().getAllConversations().values()) {
             if (conversation.getType() == EMConversation.EMConversationType.ChatRoom)
                 chatroomUnreadMsgCount = chatroomUnreadMsgCount + conversation.getUnreadMsgCount();
         }
-        return unreadMsgCountTotal - chatroomUnreadMsgCount+inviteMessageSize;
+        return unreadMsgCountTotal - chatroomUnreadMsgCount + inviteMessageSize;
     }
 
 }

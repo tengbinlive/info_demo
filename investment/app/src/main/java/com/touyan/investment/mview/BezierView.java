@@ -21,6 +21,8 @@ import com.touyan.investment.R;
  */
 public class BezierView extends FrameLayout {
 
+    public final static int NO_VALUE = -9999;//不改变位置
+
     // 默认定点圆半径
     public static final float DEFAULT_RADIUS = 25;
 
@@ -144,12 +146,14 @@ public class BezierView extends FrameLayout {
     }
 
     public void setNewMessage(String message, float x, float y) {
-        if(x<0||y<0) {
+        if(x!=NO_VALUE) {
             startX = x;
-            startY = y;
             anchorX = startX;
-            anchorY = startY;
             this.x = startX;
+        }
+        if(y!=NO_VALUE) {
+            startY = y;
+            anchorY = startY;
             this.y = startY;
         }
         isTouch = false;

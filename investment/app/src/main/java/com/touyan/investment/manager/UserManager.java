@@ -14,6 +14,7 @@ import com.core.util.Log;
 import com.core.util.StringUtil;
 import com.dao.*;
 import com.touyan.investment.App;
+import com.touyan.investment.bean.BeanParam;
 import com.touyan.investment.bean.main.InvInfoResult;
 import com.touyan.investment.bean.message.GroupDetail;
 import com.touyan.investment.bean.user.*;
@@ -498,5 +499,26 @@ public class UserManager {
         CommonDataLoader.getInstance(context).load(request);
     }
 
+
+
+    /**
+     * 申请认证
+     *
+     * @param context        上下文
+     * @param handler        在Activity中处理返回结果的Handler
+     * @param handlerMsgCode 返回结果的Handler的Msg代码
+     */
+    public void applyVip(Context context , final Handler handler, final int handlerMsgCode) {
+        BeanParam param = new BeanParam();
+        param.setUserid(App.getInstance().getgUserInfo().getServno());
+        // 接口参数
+        param.setMethod(OpenApiMethodEnum.APPLY_VIP);
+        param.setParseTokenType(new TypeReference<OpenApiSimpleResult>() {
+        });
+        // 请求对象
+        CommonRequest request = new CommonRequest(param, handler, handlerMsgCode);
+        // 开始执行加载
+        CommonDataLoader.getInstance(context).load(request);
+    }
 
 }

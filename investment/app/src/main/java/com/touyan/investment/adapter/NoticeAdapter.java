@@ -35,6 +35,8 @@ public class NoticeAdapter extends BaseAdapter {
 
     private Context mContext;
 
+    private int blackColos;
+
     private Handler activityHandler = new Handler() {
         public void handleMessage(Message msg) {
             int what = msg.what;
@@ -59,6 +61,7 @@ public class NoticeAdapter extends BaseAdapter {
     public NoticeAdapter(Context context, ArrayList<InviteMessage> _list) {
         this.list = _list;
         mContext = context;
+        blackColos = mContext.getResources().getColor(R.color.black);
         mInflater = LayoutInflater.from(mContext);
     }
 
@@ -86,7 +89,7 @@ public class NoticeAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.item_notice, null);
+            convertView = mInflater.inflate(R.layout.item_notice, parent, false);
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         } else {
@@ -98,8 +101,9 @@ public class NoticeAdapter extends BaseAdapter {
         String groupName = message.getGroupName();
         String name = StringUtil.isNotBlank(groupName) ? groupName : message.getFrom();
         holder.name.setText(name);
-        String dateStr = DateUtil.getDateString(message.getTime(), DateUtil.YYYY_MM_DD_HH_MM_SS);
+        String dateStr = DateUtil.getDateString(message.getTime(), DateUtil.MM_DD_HH_MM);
         holder.date.setText(dateStr);
+        holder.value.setText(message.getReason());
         InviteMessage.InviteMesageStatus status = message.getStatus();
         if (status == InviteMessage.InviteMesageStatus.BEINVITEED) {
             setStatusButton(holder, "接收", "拒绝", false);
@@ -135,9 +139,10 @@ public class NoticeAdapter extends BaseAdapter {
         }
         if (!isCarry) {
             holder.statusYes.setBackgroundResource(R.drawable.bg_round_red);
-            holder.statusYes.setEnabled(true);
+            holder.statusYes.setVisibility(View.VISIBLE);
         } else {
-            holder.statusYes.setEnabled(false);
+            holder.statusYes.setVisibility(View.GONE);
+            holder.statusYes.setTextColor(blackColos);
             holder.statusYes.setBackground(null);
         }
     }
@@ -160,6 +165,8 @@ public class NoticeAdapter extends BaseAdapter {
         LinearLayout statusLayout;
         @Bind(R.id.name)
         TextView name;
+        @Bind(R.id.value)
+        TextView value;
         @Bind(R.id.date)
         TextView date;
 
