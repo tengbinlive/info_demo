@@ -19,6 +19,8 @@ import com.touyan.investment.R;
 import com.touyan.investment.adapter.GroupListAdapter;
 import com.touyan.investment.bean.message.GroupDetail;
 import com.touyan.investment.bean.user.BatchInfoResult;
+import com.touyan.investment.event.GroupsListEventType;
+import com.touyan.investment.event.OnGroupsUpdataEvent;
 import com.touyan.investment.hx.HXCacheUtils;
 import com.touyan.investment.manager.UserManager;
 
@@ -106,7 +108,15 @@ public class GungGroupFragment extends AbsFragment {
         }
 
     }
+    public void onEventMainThread(OnGroupsUpdataEvent event) {
+        if ( null != event.getGroupsList() && event.getGroupsList().size() > 0 ) {
+                userManager.batchInfo(getActivity(), new ArrayList<String>(), event.getGroupsList(), activityHandler, LOAD_DATA);
+        }
+    }
+    @Override
+    public void scrollToTop() {
 
+    }
     private void hanziSequence() {
         if (list == null) {
             return;
@@ -155,8 +165,5 @@ public class GungGroupFragment extends AbsFragment {
         }
     }
 
-    @Override
-    public void scrollToTop() {
 
-    }
 }

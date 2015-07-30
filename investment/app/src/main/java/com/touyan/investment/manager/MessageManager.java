@@ -95,6 +95,26 @@ public class MessageManager {
     }
 
     /**
+     * 创建群组群组
+     *
+     * @param context
+     * @param handler
+     * @param handlerMsgCode
+     */
+    public void createGroups(Context context,CreateGroupParam param, final Handler handler, final int handlerMsgCode) {
+
+        // 接口参数
+        param.setMethod(OpenApiMethodEnum.CREATE_GROUP);
+        param.setParseTokenType(new TypeReference<QueryHotGroupsResult>() {
+        });
+        // 请求对象
+        CommonRequest request = new CommonRequest(param, handler, handlerMsgCode);
+        // 开始执行加载
+        CommonDataLoader.getInstance(context).load(request);
+    }
+
+
+    /**
      * 获取通讯录好友
      *
      * @param context
