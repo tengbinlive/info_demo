@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import com.core.CommonResponse;
-import com.core.openapi.OpenApiSimpleResult;
 import com.core.util.CommonUtil;
 import com.handmark.pulltorefresh.PullToRefreshBase;
 import com.handmark.pulltorefresh.PullToRefreshListView;
@@ -25,7 +24,6 @@ import com.touyan.investment.adapter.EditerAdapter;
 import com.touyan.investment.adapter.MyOfferAdapter;
 import com.touyan.investment.bean.main.InvOfferBean;
 import com.touyan.investment.bean.main.InvOfferListResult;
-import com.touyan.investment.bean.main.MyPartakeOfferListResult;
 import com.touyan.investment.manager.InvestmentManager;
 
 import java.util.ArrayList;
@@ -48,6 +46,8 @@ public class MeOfferRewFragment extends AbsFragment {
 
     private ArrayList<InvOfferBean> mList;
 
+    private String userID;
+
     private boolean isInit = false;
 
     private int currentItemIndex;
@@ -58,7 +58,7 @@ public class MeOfferRewFragment extends AbsFragment {
             switch (what) {
                 case INIT_LIST:
                 case LOAD_DATA:
-                        loadData1((CommonResponse) msg.obj, what);
+                    loadData1((CommonResponse) msg.obj, what);
 
                     break;
                 case DELETE_COMPLETE:
@@ -69,6 +69,10 @@ public class MeOfferRewFragment extends AbsFragment {
             }
         }
     };
+
+    public MeOfferRewFragment(String userid) {
+        userID = userid;
+    }
 
     private void loadData1(CommonResponse resposne, int what) {
         dialogDismiss();
@@ -96,7 +100,6 @@ public class MeOfferRewFragment extends AbsFragment {
 
     private void deleteComplete(CommonResponse resposne) {
         if (resposne.isSuccess()) {
-            OpenApiSimpleResult result = (OpenApiSimpleResult) resposne.getData();
 
             for (int i = 0; i < checkedItems.size(); i++) {
                 int item = checkedItems.get(i);
@@ -108,6 +111,7 @@ public class MeOfferRewFragment extends AbsFragment {
         }
 
     }
+
     @Override
     public boolean onBackPressed() {
         return false;
@@ -164,7 +168,7 @@ public class MeOfferRewFragment extends AbsFragment {
         mActualListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                currentItemIndex = i-1;
+                currentItemIndex = i - 1;
                 toOfferDetail(mList.get(currentItemIndex));
             }
         });
@@ -183,7 +187,7 @@ public class MeOfferRewFragment extends AbsFragment {
 
     private void getDataList() {
         int startIndex = mList == null || mList.size() <= 0 ? 0 : mList.size();
-            manager.myReleaseOfferList(getActivity(), startIndex, COUNT_MAX, activityHandler, startIndex == 0 ? INIT_LIST : LOAD_DATA);
+        manager.myReleaseOfferList(getActivity(),userID, startIndex, COUNT_MAX, activityHandler, startIndex == 0 ? INIT_LIST : LOAD_DATA);
     }
 
     @Override
@@ -193,17 +197,17 @@ public class MeOfferRewFragment extends AbsFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == AbsDetailActivity.REQUSETCODE &&null!=data) {
+        if (resultCode == AbsDetailActivity.REQUSETCODE && null != data) {
             InvOfferBean bean = (InvOfferBean) data.getSerializableExtra(KEY);
             mList.set(currentItemIndex, bean);
             mAdapter.refresh(mList);
-        }else if(resultCode == RECODE_RELEASE && null != data){
+        } else if (resultCode == RECODE_RELEASE && null != data) {
             InvOfferBean bean = (InvOfferBean) data.getSerializableExtra(KEY);
             int size = mList.size();
-            if(size<=0){
+            if (size <= 0) {
                 mList.add(bean);
-            }else{
-                mList.add(0,bean);
+            } else {
+                mList.add(0, bean);
             }
             mAdapter.refresh(mList);
         }
@@ -213,7 +217,7 @@ public class MeOfferRewFragment extends AbsFragment {
                 case EditerAdapter.STATE_REMOVE:
                     mAdapter.updateEditState(EditerAdapter.STATE_EDIT);
                     checkedItems = mAdapter.checkedItemList;
-                        manager.deletemyReleaseOffer(getActivity(), mAdapter.getIdList(), activityHandler, DELETE_COMPLETE);
+                    manager.deletemyReleaseOffer(getActivity(), mAdapter.getIdList(), activityHandler, DELETE_COMPLETE);
                     break;
                 case EditerAdapter.STATE_COMPLETE:
                     mAdapter.updateEditState(EditerAdapter.STATE_EDIT);

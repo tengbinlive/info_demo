@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import com.core.CommonResponse;
-import com.core.openapi.OpenApiSimpleResult;
 import com.core.util.CommonUtil;
 import com.handmark.pulltorefresh.PullToRefreshBase;
 import com.handmark.pulltorefresh.PullToRefreshListView;
@@ -19,7 +18,6 @@ import com.touyan.investment.AbsDetailActivity;
 import com.touyan.investment.AbsFragment;
 import com.touyan.investment.R;
 import com.touyan.investment.activity.MeInfoActivity;
-import com.touyan.investment.activity.UserCollectActivity;
 import com.touyan.investment.adapter.EditerAdapter;
 import com.touyan.investment.adapter.MyOriginalInvInfoAdapter;
 import com.touyan.investment.bean.main.InvInfoBean;
@@ -37,7 +35,7 @@ public class MeInfoFragment extends AbsFragment {
     private static final int INIT_LIST = 0x01;//初始化数据处理
     private static final int LOAD_DATA = 0x02;//加载数据处理
     private static final int DELETE_COMPLETE = 0X03;
-    private static final int COUNT_MAX = 5;//加载数据最大值
+    private static final int COUNT_MAX = 10;//加载数据最大值
 
     private LayoutInflater mInflater;
 
@@ -51,12 +49,15 @@ public class MeInfoFragment extends AbsFragment {
     private int viewType;//根据这个类型去判断调用那个接口。
 
     private ArrayList<Integer> checkedItems;
-    public static MeInfoFragment newsInstance( int viewType)
-    {
+
+    private String userID;
+
+    public static MeInfoFragment newsInstance(int viewType, String userID) {
         MeInfoFragment meInfoFragment = new MeInfoFragment();
         Bundle bundle = new Bundle();
-        bundle.putInt( "viewType", viewType );
-        meInfoFragment.setArguments( bundle );
+        bundle.putInt("viewType", viewType);
+        bundle.putString("userID", userID);
+        meInfoFragment.setArguments(bundle);
         return meInfoFragment;
     }
 
@@ -95,10 +96,9 @@ public class MeInfoFragment extends AbsFragment {
         }
         mListView.onRefreshComplete();
     }
+
     private void deleteComplete(CommonResponse resposne) {
         if (resposne.isSuccess()) {
-            OpenApiSimpleResult result = (OpenApiSimpleResult) resposne.getData();
-
             for (int i = 0; i < checkedItems.size(); i++) {
                 int item = checkedItems.get(i);
                 mList.remove(item);
@@ -109,6 +109,7 @@ public class MeInfoFragment extends AbsFragment {
         }
 
     }
+
     @Override
     public boolean onBackPressed() {
         return false;
@@ -118,7 +119,8 @@ public class MeInfoFragment extends AbsFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         this.mInflater = getActivity().getLayoutInflater();
 
-        viewType = getArguments().getInt( "viewType" );
+        viewType = getArguments().getInt("viewType");
+        userID = getArguments().getString("userID");
         return mInflater.inflate(R.layout.fragment_investment_info, container, false);
     }
 
@@ -171,9 +173,9 @@ public class MeInfoFragment extends AbsFragment {
 
     private void getDataList() {
         int startIndex = mList == null || mList.size() <= 0 ? 0 : mList.size();
-        if (viewType == REWARD_MYORIGINAL){
-            manager.queryMyOriginalInfos(getActivity(), startIndex, COUNT_MAX, activityHandler, startIndex == 0 ? INIT_LIST : LOAD_DATA);
-        }else if (viewType == REWARD_MYPURCHASE){
+        if (viewType == REWARD_MYORIGINAL) {
+            manager.queryMyOriginalInfos(getActivity(), userID, startIndex, COUNT_MAX, activityHandler, startIndex == 0 ? INIT_LIST : LOAD_DATA);
+        } else if (viewType == REWARD_MYPURCHASE) {
             manager.queryMyPurchaseInfos(getActivity(), startIndex, COUNT_MAX, activityHandler, startIndex == 0 ? INIT_LIST : LOAD_DATA);
         }
     }
@@ -196,9 +198,9 @@ public class MeInfoFragment extends AbsFragment {
                 case EditerAdapter.STATE_REMOVE:
                     mAdapter.updateEditState(EditerAdapter.STATE_EDIT);
                     checkedItems = mAdapter.checkedItemList;
-                    if (viewType == REWARD_MYORIGINAL){
+                    if (viewType == REWARD_MYORIGINAL) {
                         manager.deleteMyOriginalInfos(getActivity(), mAdapter.getIdList(), activityHandler, DELETE_COMPLETE);
-                    }else if (viewType == REWARD_MYPURCHASE){
+                    } else if (viewType == REWARD_MYPURCHASE) {
                         manager.deleteMyPurchaseInfos(getActivity(), mAdapter.getIdList(), activityHandler, DELETE_COMPLETE);
                     }
                     break;

@@ -124,6 +124,7 @@ public class BezierView extends FrameLayout {
         tipImageView = new TextView(getContext());
         tipImageView.setTextColor(textColos);
         tipImageView.setText("0");
+        tipImageView.setTextSize(10);
         tipImageView.setLayoutParams(params);
         tipImageView.setGravity(Gravity.CENTER);
         tipImageView.setVisibility(View.INVISIBLE);

@@ -1,6 +1,8 @@
 package com.touyan.investment.adapter;
 
 import android.app.Activity;
+import android.os.Handler;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import android.widget.TextView;
 import com.core.util.CommonUtil;
 import com.core.util.StringMatcher;
 import com.daimajia.swipe.adapters.BaseSwipeAdapter;
+import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMContactManager;
 import com.easemob.exceptions.EaseMobException;
 import com.joooonho.SelectableRoundedImageView;
@@ -19,6 +22,7 @@ import com.touyan.investment.AbsActivity;
 import com.touyan.investment.App;
 import com.touyan.investment.R;
 import com.touyan.investment.activity.UserFansDetailsActivity;
+import com.touyan.investment.bean.message.InviteMessage;
 import com.touyan.investment.bean.user.UserInfo;
 import com.touyan.investment.manager.UserManager;
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
@@ -39,8 +43,30 @@ public class AddFriendListHeadersAdapter extends BaseAdapter implements StickyLi
 
     private int keyIndex;
 
+    private final static int ADD_FRIEND = 0x01;
 
-    private UserManager manager = new UserManager();
+    private Handler activityHandler = new Handler() {
+        public void handleMessage(Message msg) {
+            int what = msg.what;
+            switch (what) {
+                case ADD_FRIEND:
+                    String userid = list.get(msg.arg1).getServno();
+                    if(userid.equals(App.getInstance().getgUserInfo().getServno())){
+                        CommonUtil.showToast("不能添加自己为好友");
+                        return ;
+                    }
+                    try {
+                        EMContactManager.getInstance().addContact(list.get(msg.arg1).getServno(), "");
+                        CommonUtil.showToast("添加好友请求已发送");
+                    } catch (EaseMobException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 
 
     public AddFriendListHeadersAdapter(Activity context, ArrayList<UserInfo> _list) {
@@ -69,13 +95,11 @@ public class AddFriendListHeadersAdapter extends BaseAdapter implements StickyLi
             holder.add.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    try {
-                        EMContactManager.getInstance().addContact(list.get(position).getServno(), "");
-                        CommonUtil.showToast("添加好友请求已发送");
-                    } catch (EaseMobException e) {
-
-                    }
-
+                        int position = (Integer) view.getTag();
+                        Message mg = new Message();
+                        mg.what = ADD_FRIEND;
+                        mg.arg1 = position;
+                        activityHandler.sendMessage(mg);
                 }
             });
             convertView.setTag(holder);

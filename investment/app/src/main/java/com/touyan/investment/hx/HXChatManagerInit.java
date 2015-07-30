@@ -8,6 +8,8 @@ import android.util.Log;
 import com.core.util.StringUtil;
 import com.dao.*;
 import com.easemob.EMConnectionListener;
+import com.easemob.EMEventListener;
+import com.easemob.EMNotifierEvent;
 import com.easemob.chat.*;
 import com.easemob.exceptions.EaseMobException;
 import com.touyan.investment.App;
@@ -20,10 +22,7 @@ import com.touyan.investment.helper.SharedPreferencesHelper;
 import de.greenrobot.dao.query.WhereCondition;
 import de.greenrobot.event.EventBus;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * 环信监听初始
@@ -48,6 +47,8 @@ public class HXChatManagerInit {
     private boolean isSyncingGroupsWithServer = false;
 
     public static HXChatManagerInit instance;
+
+    public MyContactListener myContactListener;
 
     public int unreadNoticeCount;
 
@@ -89,7 +90,7 @@ public class HXChatManagerInit {
         // 默认环信是不维护好友关系列表的，如果app依赖环信的好友关系，把这个属性设置为true
         options.setUseRoster(true);
 
-        //只有注册了广播才能接收到新消息，目前离线消息，在线消息都是走接收消息的广播（离线消息目前无法监听，在登录以后，接收消息广播会执行一次拿到所有的离线消息）
+//        //只有注册了广播才能接收到新消息，目前离线消息，在线消息都是走接收消息的广播（离线消息目前无法监听，在登录以后，接收消息广播会执行一次拿到所有的离线消息）
         msgReceiver = new NewMessageBroadcastReceiver();
         IntentFilter intentFilter = new IntentFilter(EMChatManager.getInstance().getNewMessageBroadcastAction());
         intentFilter.setPriority(3);
@@ -98,7 +99,7 @@ public class HXChatManagerInit {
         //如果用到已读的回执需要把这个flag设置成true
         options.setRequireAck(true);
 
-        // 设置从db初始化加载时, 每个conversation需要加载msg的个数
+//         设置从db初始化加载时, 每个conversation需要加载msg的个数
         options.setNumberOfMessagesLoaded(15);
         IntentFilter ackMessageIntentFilter = new IntentFilter(EMChatManager.getInstance().getAckMessageBroadcastAction());
         ackMessageIntentFilter.setPriority(3);
@@ -132,7 +133,6 @@ public class HXChatManagerInit {
                 return null;
             }
         });
-
 
         //注：最后要通知sdk，UI 已经初始化完毕，注册了相应的receiver和listener, 可以接受broadcast了
         EMChat.getInstance().setAppInited();
@@ -425,6 +425,7 @@ public class HXChatManagerInit {
                     if (!EMChat.getInstance().isLoggedIn()) {
                         return;
                     }
+
                     isSyncingUsers = true;
                     isSyncingUserWithServer = false;
 
@@ -488,6 +489,7 @@ public class HXChatManagerInit {
             }
             ArrayList<String> arrayList = new ArrayList<>(HXCacheUtils.getInstance().getFriendsHashMap().keySet());
             EventBus.getDefault().post(new OnContactUpdataEvent(arrayList));
+            EventBus.getDefault().post(new NewMessageEvent());
             daoSession.runInTx(new Runnable() {
                 @Override
                 public void run() {
@@ -519,11 +521,25 @@ public class HXChatManagerInit {
         }
     };
 
-    private class MyContactListener implements EMContactListener {
+    public class MyContactListener implements EMContactListener {
 
         @Override
         public void onContactAdded(List<String> usernameList) {
-            // 保存增加的联系人
+            Map<String, User> localUsers = HXCacheUtils.getInstance().getFriendsHashMap();
+            for (String username : usernameList) {
+                // 添加好友时可能会回调added方法两次
+                if (!localUsers.containsKey(username)) {
+                    //保存增加的联系人
+                    saveUserList(username);
+                    InviteMessage msg = new InviteMessage();
+                    msg.setFrom(username);
+                    msg.setTime(System.currentTimeMillis());
+                    Log.d(TAG, username + "保存增加的联系人"+username);
+                    msg.setUnreadCount(1);
+                    msg.setStatus(InviteMessage.InviteMesageStatus.BEINVITEED);
+                    notifyNewIviteMessage(msg, false);
+                }
+            }
         }
 
         @Override
@@ -614,6 +630,11 @@ public class HXChatManagerInit {
             String title = msg.getFrom();
             InviteMessageDO inviteMessageDO = BeanCopyHelper.cast2InviteMessageDO(msg);
             HXCacheUtils.getInstance().getInviteMessageHashMap().put(title, msg);
+            long count = daoSession.getInviteMessageDao().count();
+            if(count>50){
+                InviteMessageDO messageDO=daoSession.getInviteMessageDao().queryBuilder().offset(0).limit(1).unique();
+                daoSession.getInviteMessageDao().delete(messageDO);
+            }
             daoSession.getInviteMessageDao().insert(inviteMessageDO);
         }
     }

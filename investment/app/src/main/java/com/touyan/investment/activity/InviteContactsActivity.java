@@ -346,5 +346,17 @@ public class InviteContactsActivity extends AbsActivity {
         return phones;
     }
 
+    @Override
+    public void onBackPressed() {
+        if (isShowCancel) {
+            editTextAni(false);
+            isShowCancel = false;
+            searchEt.clearFocus();
+            searchEt.setText("");
+            return;
+        }
+        super.onBackPressed();
+    }
+
 }
 

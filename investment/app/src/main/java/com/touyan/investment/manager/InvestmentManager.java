@@ -392,11 +392,10 @@ public class InvestmentManager {
      * @param handler
      * @param handlerMsgCode
      */
-    public void queryMyOriginalInfos(Context context, int page_number, int page_size, final Handler handler, final int handlerMsgCode) {
+    public void queryMyOriginalInfos(Context context,String userid ,int page_number, int page_size, final Handler handler, final int handlerMsgCode) {
 
         MyOriInfoParam param = new MyOriInfoParam();
-        //param.setUserid(App.getInstance().getgUserInfo().getServno());
-        param.setPubsid(App.getInstance().getgUserInfo().getServno());
+        param.setPubsid(userid);
         param.setStartno(page_number);
         param.setPageSize(page_size);
         // 接口参数
@@ -435,7 +434,7 @@ public class InvestmentManager {
     }
 
     /**
-     * 获取 原创资讯 列表数据
+     * 获取 购买资讯 列表数据
      *
      * @param context
      * @param page_number    当前页数
@@ -492,11 +491,11 @@ public class InvestmentManager {
      * @param handler
      * @param handlerMsgCode
      */
-    public void myReleaseActList(Context context, int page_number, int page_size, final Handler handler, final int handlerMsgCode) {
+    public void myReleaseActList(Context context, String userid,int page_number, int page_size, final Handler handler, final int handlerMsgCode) {
 
         MyActivityParam param = new MyActivityParam();
 
-        param.setUserid(App.getInstance().getgUserInfo().getServno());
+        param.setUserid(userid);
         param.setStartno(page_number);
         param.setPageSize(page_size);
         // 接口参数
@@ -596,13 +595,13 @@ public class InvestmentManager {
      * @param handler
      * @param handlerMsgCode
      */
-    public void myReleaseOfferList(Context context, int page_number, int page_size, final Handler handler, final int handlerMsgCode) {
+    public void myReleaseOfferList(Context context,String userid, int page_number, int page_size, final Handler handler, final int handlerMsgCode) {
 
         InvOfferListParam param = new InvOfferListParam();
 
         param.setStartno(page_number);
         param.setPageSize(page_size);
-        param.setPubsid(App.getInstance().getgUserInfo().getServno());
+        param.setPubsid(userid);
         // 接口参数
         param.setMethod(OpenApiMethodEnum.LOAD_MYRELEASE_OFFER);
         param.setParseTokenType(new TypeReference<InvOfferListResult>() {

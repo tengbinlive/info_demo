@@ -65,12 +65,14 @@ public class MeActivityFragment extends AbsFragment {
 
     private int viewType;//根据这个类型去判断调用那个接口。
     private ArrayList<Integer> checkedItems;
+    private String userID;
 
-    public static MeActivityFragment newsInstance( int viewType)
+    public static MeActivityFragment newsInstance( int viewType,String userID)
     {
         MeActivityFragment meActivityFragment = new MeActivityFragment();
         Bundle bundle = new Bundle();
         bundle.putInt( "viewType", viewType );
+        bundle.putString("userID", userID);
         meActivityFragment.setArguments( bundle );
         return meActivityFragment;
     }
@@ -138,6 +140,7 @@ public class MeActivityFragment extends AbsFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         this.mInflater = getActivity().getLayoutInflater();
         viewType = getArguments().getInt( "viewType" );
+        userID = getArguments().getString("userID");
         return mInflater.inflate(R.layout.fragment_investment_act, container, false);
     }
 
@@ -205,7 +208,7 @@ public class MeActivityFragment extends AbsFragment {
 
     private void getDataList() {
         int startIndex = mList == null || mList.size() <= 0 ? 0 : mList.size();
-        manager.myReleaseActList(getActivity(), startIndex, COUNT_MAX, activityHandler, startIndex == 0 ? INIT_LIST : LOAD_DATA);
+        manager.myReleaseActList(getActivity(),userID, startIndex, COUNT_MAX, activityHandler, startIndex == 0 ? INIT_LIST : LOAD_DATA);
     }
 
     @Override

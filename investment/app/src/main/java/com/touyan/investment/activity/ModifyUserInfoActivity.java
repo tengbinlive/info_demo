@@ -321,7 +321,7 @@ public class ModifyUserInfoActivity extends AbsActivity implements View.OnClickL
                     userManager.modifyUserInfo(ModifyUserInfoActivity.this,
                             userInfo.getServno(),
                             StringUtil.isNotBlank(userNameEdit.getText().toString()) ? userNameEdit.getText().toString() : userInfo.getUalias(),
-                            userInfo.getUphoto(),
+                            StringUtil.isNotBlank(pictueHead.toString())?pictueHead.toString():userInfo.getUphoto(),
                             StringUtil.isNotBlank(userCityEdit.getText().toString()) ? userCityEdit.getText().toString() : userInfo.getLocatn(),
                             userInfo.getInrank(),
                             StringUtil.isNotBlank(userCompanyEdit.getText().toString()) ? userCompanyEdit.getText().toString() : userInfo.getCompny(),

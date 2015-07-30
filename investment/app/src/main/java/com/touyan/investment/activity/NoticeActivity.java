@@ -9,12 +9,14 @@ import com.core.CommonResponse;
 import com.core.util.CommonUtil;
 import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationAdapter;
 import com.touyan.investment.AbsActivity;
+import com.touyan.investment.App;
 import com.touyan.investment.R;
 import com.touyan.investment.adapter.NoticeAdapter;
 import com.touyan.investment.bean.message.GroupDetail;
 import com.touyan.investment.bean.message.InviteMessage;
 import com.touyan.investment.bean.user.BatchInfoResult;
 import com.touyan.investment.bean.user.UserInfo;
+import com.touyan.investment.event.NewMessageEvent;
 import com.touyan.investment.hx.HXCacheUtils;
 import com.touyan.investment.manager.UserManager;
 
@@ -114,6 +116,13 @@ public class NoticeActivity extends AbsActivity {
         if (forms != null) {
             UserManager userManager = new UserManager();
             userManager.batchInfo(NoticeActivity.this, forms, new ArrayList<String>(), activityHandler, LOAD_DATA);
+        }
+    }
+
+    //接收到新消息
+    public void onEvent(NewMessageEvent event) {
+        if (!App.isConflict && !App.isCurrentAccountRemoved) {
+            getDataList();
         }
     }
 

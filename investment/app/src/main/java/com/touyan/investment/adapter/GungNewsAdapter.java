@@ -65,7 +65,7 @@ public class GungNewsAdapter extends BaseSwipeAdapter {
 
     @Override
     public View generateView(int position, ViewGroup parent) {
-        View convertView = mInflater.inflate(R.layout.item_recommend_news, null);
+        View convertView = mInflater.inflate(R.layout.item_recommend_news, parent,false);
         ViewHolder holder = new ViewHolder(convertView);
         convertView.setTag(holder);
         return convertView;

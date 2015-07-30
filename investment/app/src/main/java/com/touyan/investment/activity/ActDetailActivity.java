@@ -111,9 +111,6 @@ public class ActDetailActivity extends AbsDetailActivity {
         }
     };
 
-
-
-
     private void loadData(CommonResponse resposne, int what) {
         if (resposne.isSuccess()) {
             InvReplysResult replysResult = (InvReplysResult) resposne.getData();

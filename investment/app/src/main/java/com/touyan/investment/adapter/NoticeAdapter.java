@@ -11,23 +11,19 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import com.core.CommonResponse;
 import com.core.util.CommonUtil;
 import com.core.util.DateUtil;
 import com.core.util.StringUtil;
+import com.easemob.chat.EMChatManager;
+import com.easemob.exceptions.EaseMobException;
 import com.joooonho.SelectableRoundedImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.touyan.investment.R;
 import com.touyan.investment.bean.message.InviteMessage;
-import com.touyan.investment.manager.InvestmentManager;
 
 import java.util.ArrayList;
 
 public class NoticeAdapter extends BaseAdapter {
-
-    private static final int LOAD = 0x01;
-
-    private InvestmentManager manager = new InvestmentManager();
 
     private LayoutInflater mInflater;
 
@@ -37,26 +33,37 @@ public class NoticeAdapter extends BaseAdapter {
 
     private int blackColos;
 
+    private final static int AGREED = 0x01;
+    private final static int REFUSE = 0x02;
+
     private Handler activityHandler = new Handler() {
         public void handleMessage(Message msg) {
             int what = msg.what;
+            InviteMessage message;
             switch (what) {
-                case LOAD:
-                    loadData((CommonResponse) msg.obj);
+                case AGREED:
+                     message = list.get(msg.arg1);
+                    try {
+                        CommonUtil.showToast("已同意");
+                        EMChatManager.getInstance().acceptInvitation(message.getFrom());
+                    } catch (EaseMobException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case REFUSE:
+                     message = list.get(msg.arg1);
+                    try {
+                        CommonUtil.showToast("已拒绝");
+                        EMChatManager.getInstance().refuseInvitation(message.getFrom());
+                    } catch (EaseMobException e) {
+                        e.printStackTrace();
+                    }
                     break;
                 default:
                     break;
             }
         }
     };
-
-    private void loadData(CommonResponse resposne) {
-        if (resposne.isSuccess()) {
-            notifyDataSetChanged();
-        } else {
-            CommonUtil.showToast(resposne.getErrorTip());
-        }
-    }
 
     public NoticeAdapter(Context context, ArrayList<InviteMessage> _list) {
         this.list = _list;
@@ -91,6 +98,27 @@ public class NoticeAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.item_notice, parent, false);
             holder = new ViewHolder(convertView);
+            holder.statusNo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = (Integer) view.getTag();
+                    Message mg = new Message();
+                    mg.what = AGREED;
+                    mg.arg1 = position;
+                    activityHandler.sendMessage(mg);
+                }
+            });
+
+            holder.statusYes.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = (Integer) view.getTag();
+                    Message mg = new Message();
+                    mg.what = REFUSE;
+                    mg.arg1 = position;
+                    activityHandler.sendMessage(mg);
+                }
+            });
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -118,6 +146,9 @@ public class NoticeAdapter extends BaseAdapter {
         } else if (status == InviteMessage.InviteMesageStatus.BEAPPLYED) {
             setStatusButton(holder, "同意", "拒绝", false);
         }
+
+        holder.statusNo.setTag(position);
+        holder.statusYes.setTag(position);
         return convertView;
     }
 
