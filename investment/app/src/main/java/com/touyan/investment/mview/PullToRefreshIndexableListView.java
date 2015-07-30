@@ -11,6 +11,7 @@ import com.handmark.pulltorefresh.OverscrollHelper;
 import com.handmark.pulltorefresh.PullToRefreshBase;
 import com.handmark.pulltorefresh.PullToRefreshListView;
 import com.touyan.investment.R;
+import se.emilsjolander.stickylistheaders.WrapperView;
 
 /**
  * Created by Administrator on 2015/7/27.
@@ -56,16 +57,20 @@ public class PullToRefreshIndexableListView extends PullToRefreshBase<IndexableL
 
     @Override
     protected boolean isReadyForPullStart() {
-        return mRefreshableView.getScrollY() == 0;
+        int firstVisiblePosition = mRefreshableView.getFirstVisiblePosition();
+        WrapperView view = (WrapperView) mRefreshableView.getWrappedList().getChildAt(0);
+        int top = -1;
+        if(null!=view){
+            top = view.getTop();
+        }
+        return firstVisiblePosition == 0&&top>=0;
     }
 
     @Override
     protected boolean isReadyForPullEnd() {
-        View scrollViewChild = mRefreshableView.getChildAt(0);
-        if (null != scrollViewChild) {
-            return mRefreshableView.getScrollY() >= (scrollViewChild.getHeight() - getHeight());
-        }
-        return false;
+        int count = mRefreshableView.getCount();
+        int lastposition = mRefreshableView.getLastVisiblePosition();
+        return lastposition == count-1&&mRefreshableView.getScrollY()>=- getHeight();
     }
 
     @TargetApi(9)

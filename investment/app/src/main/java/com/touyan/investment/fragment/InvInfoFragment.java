@@ -31,7 +31,7 @@ public class InvInfoFragment extends AbsFragment {
     private static final int INIT_LIST = 0x01;//初始化数据处理
     private static final int LOAD_DATA = 0x02;//加载数据处理
 
-    private static final int COUNT_MAX = 5;//加载数据最大值
+    private static final int COUNT_MAX = 10;//加载数据最大值
 
     private LayoutInflater mInflater;
 

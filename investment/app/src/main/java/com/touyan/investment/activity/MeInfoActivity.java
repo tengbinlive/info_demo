@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.touyan.investment.AbsActivity;
 import com.touyan.investment.AbsFragment;
+import com.touyan.investment.App;
 import com.touyan.investment.R;
 import com.touyan.investment.adapter.EditerAdapter;
 import com.touyan.investment.adapter.InvestmentPagerAdapter;
@@ -79,8 +80,8 @@ public class MeInfoActivity extends AbsActivity implements OnClickListener {
     private void findView() {
 
         fragments = new ArrayList<AbsFragment>();
-        fragments.add(MeInfoFragment.newsInstance(MeInfoFragment.REWARD_MYORIGINAL));
-        fragments.add(MeInfoFragment.newsInstance(MeInfoFragment.REWARD_MYPURCHASE));
+        fragments.add(MeInfoFragment.newsInstance(MeInfoFragment.REWARD_MYORIGINAL, App.getInstance().getgUserInfo().getServno()));
+        fragments.add(MeInfoFragment.newsInstance(MeInfoFragment.REWARD_MYPURCHASE, App.getInstance().getgUserInfo().getServno()));
 
         adapter = new InvestmentPagerAdapter(getSupportFragmentManager(), fragments);
         viewPager = (ViewPager) findViewById(R.id.view_pager);

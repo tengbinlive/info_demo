@@ -1,16 +1,12 @@
 package com.touyan.investment.adapter;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.os.Handler;
-import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
-import com.core.CommonResponse;
 import com.core.util.CommonUtil;
 import com.core.util.StringMatcher;
 import com.daimajia.swipe.adapters.BaseSwipeAdapter;
@@ -91,7 +87,7 @@ public class FriendListHeadersAdapter extends BaseSwipeAdapter implements Sticky
                 deleteArray.add(index);
                 try {
                     EMContactManager.getInstance().deleteContact(list.get(position).getServno());
-                    CommonUtil.showToast("删除好友请求已发送");
+                    CommonUtil.showToast("好友已删除");
                 } catch (EaseMobException e) {
                     e.printStackTrace();
                 }

@@ -375,7 +375,8 @@
         <!-- 设置环信应用的appkey -->
         <meta-data android:name="EASEMOB_APPKEY" android:value="shtouyan2015#touyanshe"/>
         <!-- 环信 声明sdk所需的service SDK核心功能-->
-        <service android:name="com.easemob.chat.EMChatService"/>
+        <service android:name="com.easemob.chat.EMChatService"
+                 android:exported="true"/>
         <!-- 环信 声明sdk所需的receiver -->
         <receiver android:name="com.easemob.chat.EMMonitorReceiver">
             <intent-filter>

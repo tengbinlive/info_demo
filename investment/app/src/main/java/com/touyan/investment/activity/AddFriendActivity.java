@@ -19,6 +19,7 @@ import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationA
 import com.nhaarman.listviewanimations.util.StickyListHeadersListViewWrapper;
 import com.nineoldandroids.animation.ValueAnimator;
 import com.touyan.investment.AbsActivity;
+import com.touyan.investment.App;
 import com.touyan.investment.R;
 import com.touyan.investment.adapter.AddFriendListHeadersAdapter;
 import com.touyan.investment.bean.user.*;
@@ -79,6 +80,8 @@ public class AddFriendActivity extends AbsActivity {
 
     private boolean isShowCancel = false;
 
+    private int pagerCount ;
+
     private Handler activityHandler = new Handler() {
         public void handleMessage(Message msg) {
             int what = msg.what;
@@ -99,19 +102,31 @@ public class AddFriendActivity extends AbsActivity {
     private String key;
 
     private void loadData(CommonResponse resposne, int what) {
-        dialogDismiss();
         if (resposne.isSuccess()) {
             if (what == INIT_LIST) {
+                pagerCount = 0;
                 SearchUserResult result = (SearchUserResult) resposne.getData();
-                friendsSearch = result.getUsers();
+                ArrayList<UserInfo> list = result.getUsers();
+                if(list!=null) {
+                    pagerCount += result.getUsers().size();
+                }
+                friendsSearch = list;
             } else {
                 if (friendsSearch == null) {
+                    pagerCount = 0;
                     friendsSearch = new ArrayList<UserInfo>();
                 }
-                friendsSearch.addAll(((SearchUserResult) resposne.getData()).getUsers());
+                SearchUserResult result = (SearchUserResult) resposne.getData();
+                ArrayList<UserInfo> list = result.getUsers();
+                if(list!=null) {
+                    pagerCount += result.getUsers().size();
+                }
+                friendsSearch.addAll(list);
             }
-            friendsSearch.removeAll(friends);
-            hanziSequence();
+            if(friendsSearch!=null) {
+                friendsSearch.removeAll(friends);
+                hanziSequence();
+            }
             mAdapter.refresh(friendsSearch);
         } else {
             //避免第一次应用启动时 创建fragment加载数据多次提示
@@ -123,7 +138,6 @@ public class AddFriendActivity extends AbsActivity {
     }
 
     private void loadFriendData(CommonResponse resposne) {
-        dialogDismiss();
         if (resposne.isSuccess()) {
             BatchInfoResult result = (BatchInfoResult) resposne.getData();
             friends = result.getUserinfo();
@@ -183,7 +197,6 @@ public class AddFriendActivity extends AbsActivity {
         listview.setFastScrollEnabled(true);
         listview.setEmptyView(listviewEmpty);
         initListView();
-        dialogShow();
         getDataList();
     }
 
@@ -205,9 +218,8 @@ public class AddFriendActivity extends AbsActivity {
         if (StringUtil.isBlank(sear)) {
             return;
         }
-        int startIndex = friendsSearch == null || friendsSearch.size() <= 0 ? 0 : friendsSearch.size();
+        int startIndex = friendsSearch == null || friendsSearch.size() <= 0 ? 0 : pagerCount;
         userManager.searchUsers(this, sear, startIndex, COUNT_MAX, activityHandler, startIndex == 0 ? INIT_LIST : LOAD_DATA);
-
     }
 
     @OnFocusChange(R.id.search_et)
@@ -239,13 +251,6 @@ public class AddFriendActivity extends AbsActivity {
             startActivity(intent);
         }
     }
-
-
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
 
     // 设置输入框的动画
     private void editTextAni(final boolean is) {
@@ -306,13 +311,8 @@ public class AddFriendActivity extends AbsActivity {
 
         if (usernames != null) {
             userManager.batchInfo(AddFriendActivity.this, (ArrayList<String>) usernames, new ArrayList<String>(), activityHandler, FRIEND_DATA);
-        } else {
-            dialogDismiss();
-
         }
-
     }
-
 
 
 }

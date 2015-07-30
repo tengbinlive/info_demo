@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.touyan.investment.AbsActivity;
 import com.touyan.investment.AbsFragment;
+import com.touyan.investment.App;
 import com.touyan.investment.R;
 import com.touyan.investment.adapter.EditerAdapter;
 import com.touyan.investment.adapter.InvestmentPagerAdapter;
@@ -79,7 +80,7 @@ public class MeOfferRewardActivity extends AbsActivity implements OnClickListene
         fragments = new ArrayList<AbsFragment>();
 //        fragments.add(new MeOfferRewFragment().newsInstance(REWARD_MYRELEASE));
 //        fragments.add(new MeOfferRewPartakeFragment().newsInstance(REWARD_MYPARTAKE));
-        fragments.add(new MeOfferRewFragment());
+        fragments.add(new MeOfferRewFragment(App.getInstance().getgUserInfo().getServno()));
         fragments.add(new MeOfferRewPartakeFragment());
         adapter = new InvestmentPagerAdapter(getSupportFragmentManager(), fragments);
         viewPager = (ViewPager) findViewById(R.id.view_pager);

@@ -90,7 +90,7 @@
                       android:gravity="center"
                       android:visibility="gone"
                       android:layout_marginTop="@dimen/content_10dp"
-                      android:textSize="@dimen/font_least"
+                      android:textSize="10sp"
                       android:background="@drawable/skin_tips_message_red"
                       android:layout_marginLeft="46dp"
                       android:textColor="@color/white"

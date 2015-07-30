@@ -11,9 +11,10 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.core.CommonResponse;
-import com.core.openapi.OpenApiSimpleResult;
 import com.core.util.CommonUtil;
 import com.core.util.StringUtil;
+import com.easemob.chat.EMContactManager;
+import com.easemob.exceptions.EaseMobException;
 import com.joooonho.SelectableRoundedImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.touyan.investment.AbsActivity;
@@ -22,8 +23,11 @@ import com.touyan.investment.R;
 import com.touyan.investment.adapter.InvestmentPagerAdapter;
 import com.touyan.investment.bean.user.OtherInfoResult;
 import com.touyan.investment.bean.user.UserInfo;
-import com.touyan.investment.fragment.*;
+import com.touyan.investment.fragment.MeActivityFragment;
+import com.touyan.investment.fragment.MeInfoFragment;
+import com.touyan.investment.fragment.MeOfferRewFragment;
 import com.touyan.investment.helper.Util;
+import com.touyan.investment.hx.HXCacheUtils;
 import com.touyan.investment.manager.UserManager;
 import com.touyan.investment.mview.FilterView;
 import com.touyan.investment.mview.NoScrollViewPager;
@@ -38,6 +42,8 @@ public class UserFansDetailsActivity extends AbsActivity {
     private UserManager userManager = new UserManager();
     private static final int OTHER_DATA = 0;
     private static final int FOLLOW_OTHER = 1;
+    private final static int ADD_FRIEND = 2;
+
 
     private SelectableRoundedImageView userHeadImage;//用户头像
     private TextView userNameText;                   //用户姓名
@@ -49,6 +55,7 @@ public class UserFansDetailsActivity extends AbsActivity {
     private TextView userAuthenticationText;         //用户是否认证标签
     private LinearLayout userTagLayout;              //用户标签列表
     private RelativeLayout followBtn;
+    private RelativeLayout addFriendBtn;
 
     private TextView fragmentTitle;
     private NoScrollViewPager viewPager;
@@ -59,11 +66,11 @@ public class UserFansDetailsActivity extends AbsActivity {
     private final static int INVESTMENT_ACT = INVESTMENT_NEWS + 1;//活动
     private final static int INVESTMENT_OFFER = INVESTMENT_ACT + 1;//悬赏
 
-    private int currentPager = INVESTMENT_NEWS;
-
     private FilterView menuRightPoupWindow;
     private int gapRigth;
 
+    private String userid;
+    private String otherid;
 
     private Handler activityHandler = new Handler() {
         public void handleMessage(Message msg) {
@@ -75,6 +82,13 @@ public class UserFansDetailsActivity extends AbsActivity {
                 case FOLLOW_OTHER:
                     followOtherData((CommonResponse) msg.obj);
                     break;
+                case ADD_FRIEND:
+                    try {
+                        EMContactManager.getInstance().addContact(otherid, "");
+                        CommonUtil.showToast("添加好友请求已发送");
+                    } catch (EaseMobException e) {
+                        e.printStackTrace();
+                    } break;
                 default:
                     break;
             }
@@ -83,6 +97,8 @@ public class UserFansDetailsActivity extends AbsActivity {
 
     @Override
     public void EInit() {
+        userid = getIntent().getStringExtra("userid");
+        otherid = getIntent().getStringExtra("otherid");
         super.EInit();
         setSwipeBackEnable(true);
         findView();
@@ -122,14 +138,30 @@ public class UserFansDetailsActivity extends AbsActivity {
         });
 
         followBtn = (RelativeLayout) findViewById(R.id.follow_btn);
-
+        addFriendBtn = (RelativeLayout) findViewById(R.id.add_friend_btn);
+        boolean isFriend = HXCacheUtils.getInstance().getFriendsHashMap().containsKey(otherid);
+        if(!isFriend&&!userid.equals(otherid)){
+            addFriendBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Message mg = new Message();
+                    mg.what = ADD_FRIEND;
+                    activityHandler.sendMessage(mg);
+                }
+            });
+        }else{
+            ((TextView) addFriendBtn.getChildAt(0)).setText("聊天");
+            Drawable ic = getResources().getDrawable(R.drawable.user_chat);
+            ic.setBounds(0, 0, ic.getMinimumWidth(), ic.getMinimumHeight());
+            ((TextView) addFriendBtn.getChildAt(0)).setCompoundDrawables(ic, null, null, null);
+        }
     }
 
     private void initViewPager(FragmentManager fm) {
         fragments = new ArrayList<AbsFragment>();
-        fragments.add(MeInfoFragment.newsInstance(MeInfoFragment.REWARD_MYORIGINAL));
-        fragments.add(MeActivityFragment.newsInstance(MeActivityFragment.REWARD_MYRELEASE));
-        fragments.add(new MeOfferRewFragment());
+        fragments.add(MeInfoFragment.newsInstance(MeInfoFragment.REWARD_MYORIGINAL,otherid));
+        fragments.add(MeActivityFragment.newsInstance(MeActivityFragment.REWARD_MYRELEASE,otherid));
+        fragments.add(new MeOfferRewFragment(otherid));
 
         adapter = new InvestmentPagerAdapter(fm, fragments);
 
@@ -219,8 +251,6 @@ public class UserFansDetailsActivity extends AbsActivity {
                 followBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        String userid = getIntent().getStringExtra("userid");
-                        String otherid = getIntent().getStringExtra("otherid");
                         if (userid.equals(otherid)) {
                             CommonUtil.showToast("不能关注自己");
                             return;
@@ -262,7 +292,7 @@ public class UserFansDetailsActivity extends AbsActivity {
     }
 
     private void queryOtherInfo() {
-        userManager.queryOtherInfo(this, getIntent().getStringExtra("otherid"), "" + getIntent().getStringExtra("userid"), activityHandler, OTHER_DATA);
+        userManager.queryOtherInfo(this, otherid, userid, activityHandler, OTHER_DATA);
         dialogShow(R.string.data_downloading);
     }
 
@@ -308,7 +338,6 @@ public class UserFansDetailsActivity extends AbsActivity {
     }
 
     public void setCurrentViewPager(int currentPager) {
-        this.currentPager = currentPager;
         switch (currentPager) {
             case INVESTMENT_NEWS:
                 fragmentTitle.setText("资讯");

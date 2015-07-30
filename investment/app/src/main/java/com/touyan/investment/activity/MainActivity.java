@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.core.util.CommonUtil;
 import com.easemob.chat.EMChatManager;
+import com.easemob.chat.EMContactManager;
 import com.easemob.chat.EMConversation;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.touyan.investment.AbsActivity;
@@ -29,6 +30,8 @@ import com.touyan.investment.hx.HXChatManagerInit;
 import com.touyan.investment.mview.BezierView;
 
 import java.util.ArrayList;
+
+import static com.touyan.investment.hx.HXChatManagerInit.*;
 
 public class MainActivity extends AbsActivity {
     /**
@@ -51,8 +54,6 @@ public class MainActivity extends AbsActivity {
     private ArrayList<AbsFragment> fragments;
 
     private BezierView message_bv;
-
-    private int currentPager;
 
     private int xBV;//消息数量显示描点
     private int yBV;
@@ -154,7 +155,6 @@ public class MainActivity extends AbsActivity {
 
             @Override
             public void onPageSelected(int position) {
-                currentPager = position;
                 fragments.get(position).scrollToTop();
             }
 
@@ -247,7 +247,7 @@ public class MainActivity extends AbsActivity {
     private int getUnreadMsgCountTotal() {
         int unreadMsgCountTotal;
         int chatroomUnreadMsgCount = 0;
-        int inviteMessageSize = HXChatManagerInit.getInstance().unreadNoticeCount;
+        int inviteMessageSize = getInstance().unreadNoticeCount;
         unreadMsgCountTotal = EMChatManager.getInstance().getUnreadMsgsCount();
         for (EMConversation conversation : EMChatManager.getInstance().getAllConversations().values()) {
             if (conversation.getType() == EMConversation.EMConversationType.ChatRoom)
