@@ -25,7 +25,9 @@ public class GroupListAdapter extends BaseAdapter {
         this.objects = objects;
         this.mInflater = mInflater;
     }
-    public void refresh(ArrayList<GroupDetail> _list) {
+
+    public void refresh(ArrayList<GroupDetail> _list, int tags) {
+        this.listTag = tags;
         objects = _list;
         notifyDataSetChanged();
     }

@@ -163,7 +163,7 @@ public class GungGroupFragment extends AbsFragment {
             animationAdapter.setAbsListView(listView);
             listView.setAdapter(animationAdapter);
         } else {
-            adapter.refresh(list);
+            adapter.refresh(list, Tag);
         }
     }
 
