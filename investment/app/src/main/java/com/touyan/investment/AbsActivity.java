@@ -562,6 +562,9 @@ public abstract class AbsActivity extends SwipeBackActivity implements EInitDate
     }
 
     public void onEvent(ConnectionEventType event) {
+        if(App.isAccountExit){
+            return;
+        }
         int error = event.getStatus();
         if (error == EMError.USER_REMOVED) {
             // 显示帐号已经被移除

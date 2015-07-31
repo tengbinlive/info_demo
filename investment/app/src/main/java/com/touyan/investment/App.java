@@ -59,6 +59,9 @@ public class App extends Application {
     // 账号被移除
     public static boolean isCurrentAccountRemoved = false;
 
+    //账号主动退出
+    public static boolean isAccountExit = false;
+
     private static App instance;
 
     private UserInfo gUserInfo;
@@ -280,7 +283,7 @@ public class App extends Application {
             public void onReceive(Context context, Intent intent) {
                 setCurrentNetworkStatus(NetworkUtil.getCurrentNextworkState(context));
                 if(!NetworkUtil.isLowMode(currentNetworkStatus)){
-                    if(HXChatManagerInit.getInstance().isSyncingDatas){
+                    if(HXChatManagerInit.getInstance().isSyncingDataUsers){
                         if(!HXChatManagerInit.getInstance().isSyncingGroups){
                             HXChatManagerInit.getInstance().asyncFetchGroupsFromServer();
                             ArrayList<String> arrayList = new ArrayList<>(HXCacheUtils.getInstance().getGroupsHashMap().keySet());
@@ -291,9 +294,10 @@ public class App extends Application {
                             ArrayList<String> arrayList = new ArrayList<>(HXCacheUtils.getInstance().getFriendsHashMap().keySet());
                             EventBus.getDefault().post(new OnContactUpdataEvent(arrayList));
                         }
-                        if(!HXChatManagerInit.getInstance().isSyncingContact){
-                            HXChatManagerInit.getInstance().asyncFetchContactsFromServer();
-                        }
+                    }
+
+                    if(!HXChatManagerInit.getInstance().isSyncingContact){
+                        HXChatManagerInit.getInstance().asyncFetchContactsFromServer();
                     }
                 }
             }
@@ -332,8 +336,11 @@ public class App extends Application {
     }
 
     public void accountExit(){
+        isAccountExit  = true;
         EMChatManager.getInstance().endCall();
         EMChatManager.getInstance().logout();
+        App.getDaoSession().getUserDao().deleteAll();
+        SharedPreferencesHelper.setLong(this, Constant.SHARED_PREFERENCES_DB_TIME, 0);
         SharedPreferencesHelper.setString(this, Constant.LoginUser.SHARED_PREFERENCES_PASSWORD, "");
     }
 

@@ -23,11 +23,15 @@ public class Constant {
 
 	public static final String SHARED_PREFERENCES_USERNAME = "username";
 
-	public final static String SHARED_PREFERENCES_DB_TIME = "DB_TIME";
+	public final static String SHARED_PREFERENCES_DB_TIME = "DB_TIME";//用户 好友&群列表
+
+	public final static String SHARED_PREFERENCES_DB_TIME_DETAIL = "DB_TIME_DETAIL";//用户详情
 
 	public final static String SHARED_PREFERENCES_DB_UNREADNOTICECOUNT = "UNREADNOTICECOUNT";
 
-	public final static long DB_TIME = 24*60*60*9;
+	public final static long SHARED_PREFERENCES_DB_TIME_LIST_MAX = 24*60*60*6;//好友&群 最大缓存时间
+
+	public final static long SHARED_PREFERENCES_DB_TIME_DETAIL_MAX = 24*60*60*10;//用户详情 最大缓存时间
 
 
 	/**

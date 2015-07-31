@@ -31,8 +31,9 @@ public class HXChatManagerInit {
 
     private final static String TAG = HXChatManagerInit.class.getSimpleName();
 
-    //是否需要同步数据
-    public boolean isSyncingDatas = false;
+    //是否需要同步 好友&群数据
+    public boolean isSyncingDataUsers = false;
+
     //是否同步成功  群组
     public boolean isSyncingGroups = false;
     //是否同步成功  好友
@@ -45,8 +46,6 @@ public class HXChatManagerInit {
     private boolean isSyncingGroupsWithServer = false;
 
     public static HXChatManagerInit instance;
-
-    public MyContactListener myContactListener;
 
     public int unreadNoticeCount;
 
@@ -177,6 +176,7 @@ public class HXChatManagerInit {
     private class MyConnectionListener implements EMConnectionListener {
         @Override
         public void onConnected() {
+            App.isAccountExit  = false;
             asyncFetchContactsFromServer();
             asyUnreadNotice();
             dbDataProcess();
@@ -184,7 +184,7 @@ public class HXChatManagerInit {
 
         @Override
         public void onDisconnected(final int error) {
-            EventBus.getDefault().post(new ConnectionEventType(error));
+                EventBus.getDefault().post(new ConnectionEventType(error));
         }
     }
 
@@ -239,65 +239,67 @@ public class HXChatManagerInit {
         asyncFetchUserFromServer();
     }
 
+    private void resetDetail() {
+        isSyncingDataUsers = true;
+        SharedPreferencesHelper.setLong(App.getInstance(), Constant.SHARED_PREFERENCES_DB_TIME, System.currentTimeMillis());
+        clearUserOrGroup();
+        HXCacheUtils.getInstance().resetData();
+        asyncData();
+    }
+
     private void dbDataProcess() {
-        long dbtmep = SharedPreferencesHelper.getLong(App.getInstance(), Constant.SHARED_PREFERENCES_DB_TIME, -1);
-        if (dbtmep < 0) {
-            isSyncingDatas = true;
-            SharedPreferencesHelper.setLong(App.getInstance(), Constant.SHARED_PREFERENCES_DB_TIME, System.currentTimeMillis());
-            clearConfig();
-            HXCacheUtils.getInstance().resetData();
-            asyncData();
+        long dbtmepList = SharedPreferencesHelper.getLong(App.getInstance(), Constant.SHARED_PREFERENCES_DB_TIME, 0);
+        long dbtmepDetail = SharedPreferencesHelper.getLong(App.getInstance(), Constant.SHARED_PREFERENCES_DB_TIME_DETAIL,0);
+        long currenttime = System.currentTimeMillis();
+
+        if ((dbtmepDetail + Constant.SHARED_PREFERENCES_DB_TIME_DETAIL_MAX - currenttime) <= 0) {
+            DaoSession daoSession = App.getDaoSession();
+            daoSession.getUserInfoDao().deleteAll();
+            daoSession.getGroupDetalDao().deleteAll();
+            SharedPreferencesHelper.setLong(App.getInstance(), Constant.SHARED_PREFERENCES_DB_TIME_DETAIL, System.currentTimeMillis());
+        }
+
+        if ((dbtmepList + Constant.SHARED_PREFERENCES_DB_TIME_LIST_MAX - currenttime) <= 0) {
+            resetDetail();
         } else {
-            long currenttime = System.currentTimeMillis();
-            boolean tempoffer = (currenttime - dbtmep) > Constant.DB_TIME;
-            if (tempoffer) {
-                isSyncingDatas = true;
-                SharedPreferencesHelper.setLong(App.getInstance(), Constant.SHARED_PREFERENCES_DB_TIME, System.currentTimeMillis());
-                clearConfig();
-                HXCacheUtils.getInstance().resetData();
-                asyncData();
-            } else {
-                isSyncingDatas = false;
-                // 从数据库中加载好友&群列表
-                UserDao userDao = App.getDaoSession().getUserDao();
+            isSyncingDataUsers = false;
+            // 从数据库中加载好友&群列表
+            UserDao userDao = App.getDaoSession().getUserDao();
 
-                List<UserDO> users = userDao.queryBuilder().list();
+            List<UserDO> users = userDao.queryBuilder().list();
 
-                HashMap<String, User> friendsHashMap = new HashMap<>();
+            HashMap<String, User> friendsHashMap = new HashMap<>();
 
-                HashMap<String, User> groupsHashMap = new HashMap<>();
+            HashMap<String, User> groupsHashMap = new HashMap<>();
 
-                for (UserDO userdo : users) {
-                    User user = new User();
-                    user.setAvatar(userdo.getAvatar());
-                    user.setHeader(userdo.getHeader());
-                    Integer msgcount = userdo.getUnreadMsgCount();
-                    if (null != msgcount) {
-                        user.setUnreadMsgCount(msgcount);
-                    }
-                    String type = userdo.getType();
-                    user.setType(type);
-                    if (User.TYPE_FRIENDS.equals(type)) {
-                        friendsHashMap.put(userdo.getAvatar(), user);
-                    } else {
-                        groupsHashMap.put(userdo.getAvatar(), user);
-                    }
+            for (UserDO userdo : users) {
+                User user = new User();
+                user.setAvatar(userdo.getAvatar());
+                user.setHeader(userdo.getHeader());
+                Integer msgcount = userdo.getUnreadMsgCount();
+                if (null != msgcount) {
+                    user.setUnreadMsgCount(msgcount);
                 }
-
-                HXCacheUtils.getInstance().setFriendsHashMap(friendsHashMap);
-                HXCacheUtils.getInstance().setGroupsHashMap(groupsHashMap);
-
+                String type = userdo.getType();
+                user.setType(type);
+                if (User.TYPE_FRIENDS.equals(type)) {
+                    friendsHashMap.put(userdo.getAvatar(), user);
+                } else {
+                    groupsHashMap.put(userdo.getAvatar(), user);
+                }
             }
+
+            HXCacheUtils.getInstance().setFriendsHashMap(friendsHashMap);
+            HXCacheUtils.getInstance().setGroupsHashMap(groupsHashMap);
+
         }
     }
 
     /**
-     * 清除缓存
+     * 清除好友&群缓存
      */
-    public static void clearConfig() {
+    public static void clearUserOrGroup() {
         DaoSession daoSession = App.getDaoSession();
-        daoSession.getUserInfoDao().deleteAll();
-        daoSession.getGroupDetalDao().deleteAll();
         daoSession.getUserDao().deleteAll();
     }
 
@@ -702,7 +704,7 @@ public class HXChatManagerInit {
                 return;
 
             boolean isCreate = App.getInstance().getgUserInfo().getServno().equals(inviter);
-            String value = isCreate?("创建成功"):(inviter + "邀请您加入群聊");
+            String value = isCreate ? ("创建成功") : (inviter + "邀请您加入群聊");
             // 被邀请
             EMMessage msg = EMMessage.createReceiveMessage(EMMessage.Type.TXT);
             msg.setChatType(EMMessage.ChatType.GroupChat);
@@ -723,10 +725,10 @@ public class HXChatManagerInit {
             inviteMessage.setUnreadCount(1);
             Log.d(TAG, value);
             inviteMessage.setReason(value);
-            inviteMessage.setStatus(isCreate?InviteMessage.InviteMesageStatus.OTHER:InviteMessage.InviteMesageStatus.BEINVITEED);
+            inviteMessage.setStatus(isCreate ? InviteMessage.InviteMesageStatus.OTHER : InviteMessage.InviteMesageStatus.BEINVITEED);
             notifyNewIviteMessage(inviteMessage);
 
-            if(isCreate){
+            if (isCreate) {
                 saveGroupList(groupId);
             }
 
@@ -795,7 +797,7 @@ public class HXChatManagerInit {
             msg.setGroupId(groupId);
             msg.setTime(System.currentTimeMillis());
             msg.setUnreadCount(1);
-            Log.d(TAG,  "群聊被创建者解散");
+            Log.d(TAG, "群聊被创建者解散");
             msg.setReason("群聊被创建者解散");
             msg.setStatus(InviteMessage.InviteMesageStatus.OTHER);
             notifyNewIviteMessage(msg);
