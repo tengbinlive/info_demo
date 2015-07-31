@@ -133,6 +133,7 @@ public class CreateGroupActivity extends AbsActivity implements OnClickListener 
                         CreateGroupsResult result = (CreateGroupsResult) resposne.getData();
                         HXChatManagerInit.getInstance().saveGroupList(result.getGroupid());
                         CommonUtil.showToast("创建成功！");
+
                     } else {
                         CommonUtil.showToast(resposne.getErrorTip());
                     }
