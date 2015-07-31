@@ -353,8 +353,8 @@ public class UserManager {
         UserInfoDao userInfoDao = App.getDaoSession().getUserInfoDao();
         GroupDetalDao groupDetalDao = App.getDaoSession().getGroupDetalDao();
 
-        WhereCondition wc = UserInfoDao.Properties.Servno.in(userids);
-        WhereCondition wc1 = GroupDetalDao.Properties.Groupid.in(groupids);
+        WhereCondition wc = UserInfoDao.Properties.Servno.in(useridsTemp);
+        WhereCondition wc1 = GroupDetalDao.Properties.Groupid.in(groupidsTemp);
 
         List<UserInfoDO> usernos = userInfoDao.queryBuilder().where(wc).list();
         List<GroupDetalDO> groups = groupDetalDao.queryBuilder().where(wc1).list();

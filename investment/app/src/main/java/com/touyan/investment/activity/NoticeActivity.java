@@ -72,7 +72,7 @@ public class NoticeActivity extends AbsActivity {
                     messageHashMap.get(groupDetail.getGroupid()).setGroupId(groupDetail.getGroupid());
                 }
             }
-            mAdapter.refresh(new ArrayList<>(HXCacheUtils.getInstance().getInviteMessageHashMap().values()));
+            mAdapter.refresh(new ArrayList<>(messageHashMap.values()));
         } else {
             CommonUtil.showToast(resposne.getErrorTip());
         }

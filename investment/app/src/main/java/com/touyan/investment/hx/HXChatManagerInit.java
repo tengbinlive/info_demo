@@ -701,13 +701,15 @@ public class HXChatManagerInit {
             if (!hasGroup)
                 return;
 
+            boolean isCreate = App.getInstance().getgUserInfo().getServno().equals(inviter);
+            String value = isCreate?("创建成功"):(inviter + "邀请您加入群聊");
             // 被邀请
             EMMessage msg = EMMessage.createReceiveMessage(EMMessage.Type.TXT);
             msg.setChatType(EMMessage.ChatType.GroupChat);
             msg.setFrom(inviter);
             msg.setTo(groupId);
             msg.setMsgId(UUID.randomUUID().toString());
-            msg.addBody(new TextMessageBody(inviter + "邀请你加入了群聊"));
+            msg.addBody(new TextMessageBody(value));
             // 保存邀请消息
             EMChatManager.getInstance().saveMessage(msg);
             // 提醒新消息
@@ -717,12 +719,11 @@ public class HXChatManagerInit {
             InviteMessage inviteMessage = new InviteMessage();
             inviteMessage.setFrom(groupId);
             inviteMessage.setGroupId(groupId);
-            inviteMessage.setGroupName(groupName);
             inviteMessage.setTime(System.currentTimeMillis());
             inviteMessage.setUnreadCount(1);
-            Log.d(TAG, inviter + "邀请您加入" + groupName);
-            inviteMessage.setReason(inviter + "邀请您加入" + groupName);
-            inviteMessage.setStatus(InviteMessage.InviteMesageStatus.OTHER);
+            Log.d(TAG, value);
+            inviteMessage.setReason(value);
+            inviteMessage.setStatus(isCreate?InviteMessage.InviteMesageStatus.OTHER:InviteMessage.InviteMesageStatus.BEINVITEED);
             notifyNewIviteMessage(inviteMessage);
 
             // 刷新bottom bar消息未读数 & 通知未读通知
@@ -769,9 +770,8 @@ public class HXChatManagerInit {
             removeGroupList(groupId);
             // 自己封装的javabean
             InviteMessage msg = new InviteMessage();
-            msg.setFrom(groupName);
+            msg.setFrom(groupId);
             msg.setGroupId(groupId);
-            msg.setGroupName(groupName);
             msg.setTime(System.currentTimeMillis());
             msg.setUnreadCount(1);
             Log.d(TAG, "被管理员移除出了" + groupName + "群聊");
@@ -787,12 +787,11 @@ public class HXChatManagerInit {
             removeGroupList(groupId);
             // 自己封装的javabean
             InviteMessage msg = new InviteMessage();
-            msg.setFrom(groupName);
+            msg.setFrom(groupId);
             msg.setGroupId(groupId);
-            msg.setGroupName(groupName);
             msg.setTime(System.currentTimeMillis());
             msg.setUnreadCount(1);
-            Log.d(TAG, groupName + "群聊被创建者解散");
+            Log.d(TAG,  "群聊被创建者解散");
             msg.setReason("群聊被创建者解散");
             msg.setStatus(InviteMessage.InviteMesageStatus.OTHER);
             notifyNewIviteMessage(msg);
@@ -803,13 +802,12 @@ public class HXChatManagerInit {
             // 用户申请加入群聊，收到加群申请
             // 自己封装的javabean
             InviteMessage inviteMessage = new InviteMessage();
-            inviteMessage.setFrom(groupName);
+            inviteMessage.setFrom(groupId);
             inviteMessage.setGroupId(groupId);
-            inviteMessage.setGroupName(groupName);
             inviteMessage.setTime(System.currentTimeMillis());
             inviteMessage.setUnreadCount(1);
             Log.d(TAG, applyer + "申请加入群聊");
-            inviteMessage.setReason(applyer + "申请加入" + groupName + "群");
+            inviteMessage.setReason(applyer + "申请加入群聊");
             inviteMessage.setStatus(InviteMessage.InviteMesageStatus.BEAPPLYED);
             notifyNewIviteMessage(inviteMessage);
         }
@@ -831,9 +829,8 @@ public class HXChatManagerInit {
             saveGroupList(groupId);
             // 自己封装的javabean
             InviteMessage inviteMessage = new InviteMessage();
-            inviteMessage.setFrom(groupName);
+            inviteMessage.setFrom(groupId);
             inviteMessage.setGroupId(groupId);
-            inviteMessage.setGroupName(groupName);
             inviteMessage.setTime(System.currentTimeMillis());
             inviteMessage.setUnreadCount(1);
             Log.d(TAG, accepter + "同意了你的群聊申请");
@@ -849,9 +846,8 @@ public class HXChatManagerInit {
             // 加群申请被拒绝
             // 自己封装的javabean
             InviteMessage msg = new InviteMessage();
-            msg.setFrom(groupName);
+            msg.setFrom(groupId);
             msg.setGroupId(groupId);
-            msg.setGroupName(groupName);
             msg.setTime(System.currentTimeMillis());
             msg.setUnreadCount(1);
             Log.d(TAG, "加群申请被拒绝");

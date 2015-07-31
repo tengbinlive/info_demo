@@ -98,7 +98,7 @@ public class NoticeAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.item_notice, parent, false);
             holder = new ViewHolder(convertView);
-            holder.statusNo.setOnClickListener(new View.OnClickListener() {
+            holder.statusYes.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     int position = (Integer) view.getTag();
@@ -109,7 +109,7 @@ public class NoticeAdapter extends BaseAdapter {
                 }
             });
 
-            holder.statusYes.setOnClickListener(new View.OnClickListener() {
+            holder.statusNo.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     int position = (Integer) view.getTag();
@@ -177,9 +177,7 @@ public class NoticeAdapter extends BaseAdapter {
         }
         if (!isCarry) {
             holder.statusYes.setBackgroundResource(R.drawable.bg_round_red);
-            holder.statusYes.setVisibility(View.VISIBLE);
         } else {
-            holder.statusYes.setVisibility(View.GONE);
             holder.statusYes.setTextColor(blackColos);
             holder.statusYes.setBackground(null);
         }

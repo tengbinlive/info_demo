@@ -130,10 +130,8 @@ public class CreateGroupActivity extends AbsActivity implements OnClickListener 
                 case MODIFY_DATA:
                     dialogDismiss();
                     if (resposne.isSuccess()) {
-                        CreateGroupsResult result = (CreateGroupsResult) resposne.getData();
-                        HXChatManagerInit.getInstance().saveGroupList(result.getGroupid());
                         CommonUtil.showToast("创建成功！");
-
+                        finish();
                     } else {
                         CommonUtil.showToast(resposne.getErrorTip());
                     }

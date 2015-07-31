@@ -203,6 +203,12 @@ public class GungFragment extends AbsFragment {
     // 初始化资源
     private void init(View viewGroup) {
         notice_bv = (BezierView) viewGroup.findViewById(R.id.notice_bv);
+        notice_bv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                toNoticeActivity();
+            }
+        });
         notice_bv.setEndOnBack(new BezierView.EndOnBack() {
             @Override
             public void endOnBack() {

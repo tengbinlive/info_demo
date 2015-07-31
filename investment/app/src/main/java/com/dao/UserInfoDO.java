@@ -6,6 +6,7 @@ package com.dao;
  */
 public class UserInfoDO {
 
+    private Long id;
     private String servno;
     private String aucode;
     private String compny;
@@ -25,11 +26,12 @@ public class UserInfoDO {
     public UserInfoDO() {
     }
 
-    public UserInfoDO(String servno) {
-        this.servno = servno;
+    public UserInfoDO(Long id) {
+        this.id = id;
     }
 
-    public UserInfoDO(String servno, String aucode, String compny, String inrank, String ivcode, String locatn, String postin, String rscope, String tags, String teleph, String ualias, String uisvip, String uphoto, Double uavail, String nameSort) {
+    public UserInfoDO(Long id, String servno, String aucode, String compny, String inrank, String ivcode, String locatn, String postin, String rscope, String tags, String teleph, String ualias, String uisvip, String uphoto, Double uavail, String nameSort) {
+        this.id = id;
         this.servno = servno;
         this.aucode = aucode;
         this.compny = compny;
@@ -45,6 +47,14 @@ public class UserInfoDO {
         this.uphoto = uphoto;
         this.uavail = uavail;
         this.nameSort = nameSort;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getServno() {
