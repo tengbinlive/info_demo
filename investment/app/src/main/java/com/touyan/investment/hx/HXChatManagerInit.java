@@ -8,8 +8,6 @@ import android.util.Log;
 import com.core.util.StringUtil;
 import com.dao.*;
 import com.easemob.EMConnectionListener;
-import com.easemob.EMEventListener;
-import com.easemob.EMNotifierEvent;
 import com.easemob.chat.*;
 import com.easemob.exceptions.EaseMobException;
 import com.touyan.investment.App;
@@ -274,7 +272,7 @@ public class HXChatManagerInit {
                     user.setAvatar(userdo.getAvatar());
                     user.setHeader(userdo.getHeader());
                     Integer msgcount = userdo.getUnreadMsgCount();
-                    if(null!=msgcount) {
+                    if (null != msgcount) {
                         user.setUnreadMsgCount(msgcount);
                     }
                     String type = userdo.getType();
@@ -360,7 +358,11 @@ public class HXChatManagerInit {
                 groupsHashMap.put(username, user);
             }
             HXCacheUtils.getInstance().getGroupsHashMap().putAll(groupsHashMap);
+<<<<<<< HEAD
             EventBus.getDefault().post(new OnGroupsUpdataEvent(new ArrayList<>(HXCacheUtils.getInstance().getFriendsHashMap().keySet())));
+=======
+            EventBus.getDefault().post(new OnGroupsUpdataEvent((ArrayList<String>) HXCacheUtils.getInstance().getGroupsHashMap().keySet()));
+>>>>>>> 2b4b24cdbe2a2be6c80beb69ceada13b7ae8b187
             daoSession.getUserDao().insertInTx(userDOs);
         }
     }
@@ -376,9 +378,7 @@ public class HXChatManagerInit {
             userdo.setAvatar(username);
             user.setAvatar(username);
             HXCacheUtils.getInstance().getGroupsHashMap().put(username, user);
-            ArrayList<String> id = new ArrayList<>();
-            id.add(username);
-            EventBus.getDefault().post(new OnGroupsUpdataEvent(id));
+            EventBus.getDefault().post(new OnGroupsUpdataEvent((ArrayList<String>) HXCacheUtils.getInstance().getGroupsHashMap().keySet()));
             daoSession.getUserDao().insert(userdo);
         }
     }
@@ -394,9 +394,8 @@ public class HXChatManagerInit {
             userdo.setAvatar(username);
             user.setAvatar(username);
             HXCacheUtils.getInstance().getGroupsHashMap().put(username, user);
-            ArrayList<String> id = new ArrayList<>();
-            id.add(username);
-            EventBus.getDefault().post(new OnGroupsUpdataEvent(id));
+            ArrayList<String> arrayList = new ArrayList<>(HXCacheUtils.getInstance().getGroupsHashMap().keySet());
+            EventBus.getDefault().post(new OnGroupsUpdataEvent(arrayList));
             daoSession.getUserDao().insert(userdo);
         }
     }
@@ -412,11 +411,30 @@ public class HXChatManagerInit {
                 id.add(groupid);
                 HXCacheUtils.getInstance().getGroupsHashMap().remove(groupid);
             }
-            EventBus.getDefault().post(new OnGroupsUpdataEvent(id));
+            ArrayList<String> arrayList = new ArrayList<>(HXCacheUtils.getInstance().getGroupsHashMap().keySet());
+            EventBus.getDefault().post(new OnGroupsUpdataEvent(arrayList));
             daoSession.runInTx(new Runnable() {
                 @Override
                 public void run() {
                     WhereCondition wc = UserDao.Properties.Avatar.in(id);
+                    List<UserDO> chatEntityList = daoSession.getUserDao().queryBuilder().where(wc).list();
+                    daoSession.getUserDao().deleteInTx(chatEntityList);
+                }
+            });
+        }
+    }
+
+    //本地&内存 删除群组
+    private void removeGroupList(final String groupid) {
+        if (StringUtil.isNotBlank(groupid)) {
+            final DaoSession daoSession = App.getDaoSession();
+            HXCacheUtils.getInstance().getGroupsHashMap().remove(groupid);
+            ArrayList<String> arrayList = new ArrayList<>(HXCacheUtils.getInstance().getGroupsHashMap().keySet());
+            EventBus.getDefault().post(new OnGroupsUpdataEvent(arrayList));
+            daoSession.runInTx(new Runnable() {
+                @Override
+                public void run() {
+                    WhereCondition wc = UserDao.Properties.Avatar.in(groupid);
                     List<UserDO> chatEntityList = daoSession.getUserDao().queryBuilder().where(wc).list();
                     daoSession.getUserDao().deleteInTx(chatEntityList);
                 }
@@ -558,7 +576,7 @@ public class HXChatManagerInit {
                     InviteMessage msg = new InviteMessage();
                     msg.setFrom(username);
                     msg.setTime(System.currentTimeMillis());
-                    Log.d(TAG, username + "保存增加的联系人"+username);
+                    Log.d(TAG, username + "保存增加的联系人" + username);
                     msg.setUnreadCount(1);
                     msg.setStatus(InviteMessage.InviteMesageStatus.BEINVITEED);
                     notifyNewIviteMessage(msg, false);
@@ -655,8 +673,8 @@ public class HXChatManagerInit {
             InviteMessageDO inviteMessageDO = BeanCopyHelper.cast2InviteMessageDO(msg);
             HXCacheUtils.getInstance().getInviteMessageHashMap().put(title, msg);
             long count = daoSession.getInviteMessageDao().count();
-            if(count>50){
-                InviteMessageDO messageDO=daoSession.getInviteMessageDao().queryBuilder().offset(0).limit(1).unique();
+            if (count > 50) {
+                InviteMessageDO messageDO = daoSession.getInviteMessageDao().queryBuilder().offset(0).limit(1).unique();
                 daoSession.getInviteMessageDao().delete(messageDO);
             }
             daoSession.getInviteMessageDao().insert(inviteMessageDO);
@@ -692,6 +710,18 @@ public class HXChatManagerInit {
             // 提醒新消息
             EMNotifier.getInstance(App.getInstance()).notifyOnNewMsg();
 
+            //加入群聊的邀请
+            InviteMessage inviteMessage = new InviteMessage();
+            inviteMessage.setFrom(groupId);
+            inviteMessage.setGroupId(groupId);
+            inviteMessage.setGroupName(groupName);
+            inviteMessage.setTime(System.currentTimeMillis());
+            inviteMessage.setUnreadCount(1);
+            Log.d(TAG, inviter+"邀请您加入"+groupName);
+            inviteMessage.setReason(inviter+"邀请您加入"+groupName);
+            inviteMessage.setStatus(InviteMessage.InviteMesageStatus.OTHER);
+            notifyNewIviteMessage(inviteMessage);
+
             // 刷新bottom bar消息未读数 & 通知未读通知
             EventBus.getDefault().post(new NewMessageEvent());
         }
@@ -700,31 +730,85 @@ public class HXChatManagerInit {
         public void onInvitationAccpted(String groupId, String inviter,
                                         String reason) {
             //群聊邀请被接受
+            saveGroupList(groupId);
+            InviteMessage msg = new InviteMessage();
+            msg.setFrom(groupId);
+            msg.setGroupId(groupId);
+            msg.setGroupName(inviter);
+            msg.setTime(System.currentTimeMillis());
+            msg.setUnreadCount(1);
+            Log.d(TAG, inviter+"接受了您的邀请");
+            msg.setReason(inviter+"接受了您的邀请");
+            msg.setStatus(InviteMessage.InviteMesageStatus.OTHER);
+            notifyNewIviteMessage(msg);
         }
 
         @Override
         public void onInvitationDeclined(String groupId, String invitee,
                                          String reason) {
             //群聊邀请被拒绝
+            // 自己封装的javabean
+            InviteMessage msg = new InviteMessage();
+            msg.setFrom(groupId);
+            msg.setGroupId(groupId);
+            msg.setGroupName(invitee);
+            msg.setTime(System.currentTimeMillis());
+            msg.setUnreadCount(1);
+            Log.d(TAG, invitee+"拒绝了您的邀请");
+            msg.setReason(invitee+"拒绝了您的邀请");
+            msg.setStatus(InviteMessage.InviteMesageStatus.OTHER);
+            notifyNewIviteMessage(msg);
         }
 
         @Override
         public void onUserRemoved(String groupId, String groupName) {
             //当前用户被管理员移除出群聊
-
+            removeGroupList(groupId);
+            // 自己封装的javabean
+            InviteMessage msg = new InviteMessage();
+            msg.setFrom(groupName);
+            msg.setGroupId(groupId);
+            msg.setGroupName(groupName);
+            msg.setTime(System.currentTimeMillis());
+            msg.setUnreadCount(1);
+            Log.d(TAG, "被管理员移除出了"+groupName+"群聊");
+            msg.setReason("被管理员移除出了"+groupName+"群聊");
+            msg.setStatus(InviteMessage.InviteMesageStatus.OTHER);
+            notifyNewIviteMessage(msg);
         }
 
         @Override
         public void onGroupDestroy(String groupId, String groupName) {
             //群聊被创建者解散
             // 提示用户群被解散
-
+            removeGroupList(groupId);
+            // 自己封装的javabean
+            InviteMessage msg = new InviteMessage();
+            msg.setFrom(groupName);
+            msg.setGroupId(groupId);
+            msg.setGroupName(groupName);
+            msg.setTime(System.currentTimeMillis());
+            msg.setUnreadCount(1);
+            Log.d(TAG, groupName + "群聊被创建者解散");
+            msg.setReason("群聊被创建者解散");
+            msg.setStatus(InviteMessage.InviteMesageStatus.OTHER);
+            notifyNewIviteMessage(msg);
         }
 
         @Override
         public void onApplicationReceived(String groupId, String groupName, String applyer, String reason) {
             // 用户申请加入群聊，收到加群申请
-
+            // 自己封装的javabean
+            InviteMessage inviteMessage = new InviteMessage();
+            inviteMessage.setFrom(groupName);
+            inviteMessage.setGroupId(groupId);
+            inviteMessage.setGroupName(groupName);
+            inviteMessage.setTime(System.currentTimeMillis());
+            inviteMessage.setUnreadCount(1);
+            Log.d(TAG, applyer + "申请加入群聊");
+            inviteMessage.setReason(applyer + "申请加入"+groupName+"群");
+            inviteMessage.setStatus(InviteMessage.InviteMesageStatus.BEAPPLYED);
+            notifyNewIviteMessage(inviteMessage);
         }
 
         @Override
@@ -741,6 +825,18 @@ public class HXChatManagerInit {
             // 提醒新消息
             EMNotifier.getInstance(App.getInstance()).notifyOnNewMsg();
 
+            saveGroupList(groupId);
+            // 自己封装的javabean
+            InviteMessage inviteMessage = new InviteMessage();
+            inviteMessage.setFrom(groupName);
+            inviteMessage.setGroupId(groupId);
+            inviteMessage.setGroupName(groupName);
+            inviteMessage.setTime(System.currentTimeMillis());
+            inviteMessage.setUnreadCount(1);
+            Log.d(TAG, accepter + "同意了你的群聊申请");
+            inviteMessage.setReason(accepter + "同意了你的群聊申请");
+            inviteMessage.setStatus(InviteMessage.InviteMesageStatus.BEAGREED);
+            notifyNewIviteMessage(inviteMessage);
             // 刷新bottom bar消息未读数 & 通知未读通知
             EventBus.getDefault().post(new NewMessageEvent());
         }
@@ -748,6 +844,17 @@ public class HXChatManagerInit {
         @Override
         public void onApplicationDeclined(String groupId, String groupName, String decliner, String reason) {
             // 加群申请被拒绝
+            // 自己封装的javabean
+            InviteMessage msg = new InviteMessage();
+            msg.setFrom(groupName);
+            msg.setGroupId(groupId);
+            msg.setGroupName(groupName);
+            msg.setTime(System.currentTimeMillis());
+            msg.setUnreadCount(1);
+            Log.d(TAG, "加群申请被拒绝");
+            msg.setReason("加群申请被拒绝");
+            msg.setStatus(InviteMessage.InviteMesageStatus.BEREFUSED);
+            notifyNewIviteMessage(msg);
         }
 
     }

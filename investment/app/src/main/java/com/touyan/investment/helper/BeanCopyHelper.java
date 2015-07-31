@@ -123,6 +123,8 @@ public class BeanCopyHelper {
             dist.setStatus(InviteMessage.InviteMesageStatus.REFUSED);
         else if (status == InviteMessage.InviteMesageStatus.BEAPPLYED.ordinal()) {
             dist.setStatus(InviteMessage.InviteMesageStatus.BEAPPLYED);
+        } else if (status == InviteMessage.InviteMesageStatus.OTHER.ordinal()) {
+            dist.setStatus(InviteMessage.InviteMesageStatus.OTHER);
         }
         dist.setGroupId(source.getGroupId());
         dist.setUnreadCount(source.getUnreadCount());
