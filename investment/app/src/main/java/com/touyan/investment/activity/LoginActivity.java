@@ -23,10 +23,12 @@ import com.touyan.investment.bean.login.LoginParam;
 import com.touyan.investment.bean.login.LoginResult;
 import com.touyan.investment.bean.message.InviteMessage;
 import com.touyan.investment.bean.user.UserInfo;
+import com.touyan.investment.event.NewMessageEvent;
 import com.touyan.investment.helper.SharedPreferencesHelper;
 import com.touyan.investment.hx.HXCacheUtils;
 import com.touyan.investment.manager.LoginManager;
 import com.touyan.investment.mview.EditTextWithDelete;
+import de.greenrobot.event.EventBus;
 
 import java.util.HashMap;
 
@@ -149,6 +151,8 @@ public class LoginActivity extends AbsActivity implements OnClickListener {
             if (!phone.equals(oldPhone)) {
                 App.getDaoSession().getInviteMessageDao().deleteAll();
                 HXCacheUtils.getInstance().setInviteMessageHashMap(new HashMap<String, InviteMessage>());
+                // 刷新bottom bar消息未读数 & 通知未读通知
+                EventBus.getDefault().post(new NewMessageEvent());
             }
             Login(phone_et.getText().toString(), password_et.getText().toString());
         }
