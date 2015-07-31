@@ -122,7 +122,9 @@ public class InviteMessage {
 		/**我同意了对方的请求*/
 		AGREED,
 		/**我拒绝了对方的请求*/
-		REFUSED
+		REFUSED,
+		/**其他*/
+		OTHER
 		
 	}
 

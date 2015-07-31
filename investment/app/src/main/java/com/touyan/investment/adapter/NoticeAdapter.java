@@ -145,6 +145,8 @@ public class NoticeAdapter extends BaseAdapter {
             setStatusButton(holder, "已拒绝", null, true);
         } else if (status == InviteMessage.InviteMesageStatus.BEAPPLYED) {
             setStatusButton(holder, "同意", "拒绝", false);
+        }else if (status == InviteMessage.InviteMesageStatus.OTHER) {
+            setStatusButton(holder, "", "", false);
         }
 
         holder.statusNo.setTag(position);
@@ -161,7 +163,12 @@ public class NoticeAdapter extends BaseAdapter {
      * @param isCarry true表示完成状态，false表示按钮状态
      */
     private void setStatusButton(ViewHolder holder, String yesStr, String noStr, boolean isCarry) {
-        holder.statusYes.setText(yesStr);
+        if (StringUtil.isNotBlank(yesStr)) {
+            holder.statusYes.setVisibility(View.VISIBLE);
+            holder.statusNo.setText(yesStr);
+        } else {
+            holder.statusYes.setVisibility(View.GONE);
+        }
         if (StringUtil.isNotBlank(noStr)) {
             holder.statusNo.setVisibility(View.VISIBLE);
             holder.statusNo.setText(noStr);
