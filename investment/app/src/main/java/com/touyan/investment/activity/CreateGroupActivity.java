@@ -130,6 +130,7 @@ public class CreateGroupActivity extends AbsActivity implements OnClickListener 
                     if (resposne.isSuccess()) {
                         //String groupid = (String)resposne.getData();
                         CommonUtil.showToast("创建成功！");
+
                     } else {
                         CommonUtil.showToast(resposne.getErrorTip());
                     }
