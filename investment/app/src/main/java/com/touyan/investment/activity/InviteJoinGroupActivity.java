@@ -21,6 +21,7 @@ import com.touyan.investment.AbsActivity;
 import com.touyan.investment.App;
 import com.touyan.investment.R;
 import com.touyan.investment.adapter.FriendListHeadersAdapter;
+import com.touyan.investment.adapter.InviteJionAdapter;
 import com.touyan.investment.bean.user.BatchInfoResult;
 import com.touyan.investment.bean.user.UserInfo;
 import com.touyan.investment.event.OnContactUpdataEvent;
@@ -45,7 +46,7 @@ public class InviteJoinGroupActivity extends AbsActivity implements OnClickListe
     private ArrayList<UserInfo> friends = new ArrayList<>();
     private List<String> usernames = null;
 
-    private FriendListHeadersAdapter mAdapter;
+    private InviteJionAdapter mAdapter;
 
     private Comparator cmp = new UserInfoComp();
 
@@ -128,7 +129,7 @@ public class InviteJoinGroupActivity extends AbsActivity implements OnClickListe
     private void initListView() {
 
         if (mAdapter == null) {
-            mAdapter = new FriendListHeadersAdapter(this, friends);
+            mAdapter = new InviteJionAdapter(this, friends);
 
             SwingBottomInAnimationAdapter animationAdapter = new SwingBottomInAnimationAdapter(mAdapter);
 
@@ -146,7 +147,7 @@ public class InviteJoinGroupActivity extends AbsActivity implements OnClickListe
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    mAdapter.closeAllItems();
+                    //mAdapter.closeAllItems();
                 }
             });
         } else {

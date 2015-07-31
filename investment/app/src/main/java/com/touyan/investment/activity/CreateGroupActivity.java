@@ -94,6 +94,7 @@ public class CreateGroupActivity extends AbsActivity implements OnClickListener 
     private CheckBox visible_cb;
     private BottomView mBottomView;
     private CreateGroupParam param = new CreateGroupParam();
+
     @Override
     public void EInit() {
         super.EInit();
@@ -168,6 +169,9 @@ public class CreateGroupActivity extends AbsActivity implements OnClickListener 
                     isCancelled = true;
                 }
             });
+        }if (id == R.id.head_tv) {
+            Intent intent = new Intent(this, InviteJoinGroupActivity.class);
+            startActivity(intent);
         }
     }
 
@@ -178,6 +182,8 @@ public class CreateGroupActivity extends AbsActivity implements OnClickListener 
         visible_cb = (CheckBox)findViewById(R.id.visible_cb);
 
         head.setOnClickListener(this);
+        findViewById(R.id.head_tv).setOnClickListener(this);
+
         param.setVisble("1");
         visible_cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

@@ -348,6 +348,11 @@
                   android:theme="@style/AppTheme">
         </activity>
 
+        <!--批量邀请好友加入群-->
+        <activity android:name=".activity.InviteJoinGroupActivity"
+                  android:theme="@style/AppTheme">
+        </activity>
+
         <!--聊天-->
         <activity android:name=".hx.ChatActivity"
                   android:theme="@style/AppTheme">
