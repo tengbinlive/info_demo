@@ -31,8 +31,10 @@ import com.touyan.investment.App;
 import com.touyan.investment.Constant;
 import com.touyan.investment.R;
 import com.touyan.investment.bean.message.CreateGroupParam;
+import com.touyan.investment.bean.message.CreateGroupsResult;
 import com.touyan.investment.bean.qiniu.QiniuUploadBean;
 import com.touyan.investment.bean.qiniu.QiniuUploadResult;
+import com.touyan.investment.hx.HXChatManagerInit;
 import com.touyan.investment.manager.MessageManager;
 import com.touyan.investment.manager.QiniuManager;
 import com.touyan.investment.mview.BottomView;
@@ -128,7 +130,8 @@ public class CreateGroupActivity extends AbsActivity implements OnClickListener 
                 case MODIFY_DATA:
                     dialogDismiss();
                     if (resposne.isSuccess()) {
-                        //String groupid = (String)resposne.getData();
+                        CreateGroupsResult result = (CreateGroupsResult) resposne.getData();
+                        HXChatManagerInit.getInstance().saveGroupList(result.getGroupid());
                         CommonUtil.showToast("创建成功！");
                     } else {
                         CommonUtil.showToast(resposne.getErrorTip());
