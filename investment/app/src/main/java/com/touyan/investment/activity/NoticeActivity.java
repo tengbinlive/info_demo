@@ -7,6 +7,7 @@ import android.widget.ListView;
 import butterknife.Bind;
 import com.core.CommonResponse;
 import com.core.util.CommonUtil;
+import com.core.util.StringUtil;
 import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationAdapter;
 import com.touyan.investment.AbsActivity;
 import com.touyan.investment.App;
@@ -112,10 +113,20 @@ public class NoticeActivity extends AbsActivity {
     }
 
     private void getDataList() {
-        ArrayList<String> forms = new ArrayList<>(HXCacheUtils.getInstance().getInviteMessageHashMap().keySet());
+        ArrayList<InviteMessage> forms = new ArrayList<>(HXCacheUtils.getInstance().getInviteMessageHashMap().values());
         if (forms != null) {
+            ArrayList<String> userinfo = new ArrayList<>();
+            ArrayList<String> groupinfo = new ArrayList<>();
+            for(InviteMessage im:forms){
+                String groupid = im.getGroupId();
+                if(StringUtil.isNotBlank(groupid)){
+                    groupinfo.add(groupid);
+                }else{
+                    userinfo.add(im.getFrom());
+                }
+            }
             UserManager userManager = new UserManager();
-            userManager.batchInfo(NoticeActivity.this, forms, new ArrayList<String>(), activityHandler, LOAD_DATA);
+            userManager.batchInfo(NoticeActivity.this, userinfo, groupinfo, activityHandler, LOAD_DATA);
         }
     }
 

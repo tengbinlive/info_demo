@@ -178,8 +178,8 @@ public class HXChatManagerInit {
         @Override
         public void onConnected() {
             asyncFetchContactsFromServer();
-            dbDataProcess();
             asyUnreadNotice();
+            dbDataProcess();
         }
 
         @Override
@@ -725,6 +725,10 @@ public class HXChatManagerInit {
             inviteMessage.setReason(value);
             inviteMessage.setStatus(isCreate?InviteMessage.InviteMesageStatus.OTHER:InviteMessage.InviteMesageStatus.BEINVITEED);
             notifyNewIviteMessage(inviteMessage);
+
+            if(isCreate){
+                saveGroupList(groupId);
+            }
 
             // 刷新bottom bar消息未读数 & 通知未读通知
             EventBus.getDefault().post(new NewMessageEvent());
