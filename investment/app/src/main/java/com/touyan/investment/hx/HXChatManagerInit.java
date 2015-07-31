@@ -358,7 +358,7 @@ public class HXChatManagerInit {
                 groupsHashMap.put(username, user);
             }
             HXCacheUtils.getInstance().getGroupsHashMap().putAll(groupsHashMap);
-            EventBus.getDefault().post(new OnGroupsUpdataEvent((ArrayList<String>) groupsHashMap.keySet()));
+            EventBus.getDefault().post(new OnGroupsUpdataEvent((ArrayList<String>) HXCacheUtils.getInstance().getGroupsHashMap().keySet()));
             daoSession.getUserDao().insertInTx(userDOs);
         }
     }
@@ -374,9 +374,7 @@ public class HXChatManagerInit {
             userdo.setAvatar(username);
             user.setAvatar(username);
             HXCacheUtils.getInstance().getGroupsHashMap().put(username, user);
-            ArrayList<String> id = new ArrayList<>();
-            id.add(username);
-            EventBus.getDefault().post(new OnGroupsUpdataEvent(id));
+            EventBus.getDefault().post(new OnGroupsUpdataEvent((ArrayList<String>) HXCacheUtils.getInstance().getGroupsHashMap().keySet()));
             daoSession.getUserDao().insert(userdo);
         }
     }
@@ -392,9 +390,8 @@ public class HXChatManagerInit {
             userdo.setAvatar(username);
             user.setAvatar(username);
             HXCacheUtils.getInstance().getGroupsHashMap().put(username, user);
-            ArrayList<String> id = new ArrayList<>();
-            id.add(username);
-            EventBus.getDefault().post(new OnGroupsUpdataEvent(id));
+            ArrayList<String> arrayList = new ArrayList<>(HXCacheUtils.getInstance().getGroupsHashMap().keySet());
+            EventBus.getDefault().post(new OnGroupsUpdataEvent(arrayList));
             daoSession.getUserDao().insert(userdo);
         }
     }
@@ -410,7 +407,8 @@ public class HXChatManagerInit {
                 id.add(groupid);
                 HXCacheUtils.getInstance().getGroupsHashMap().remove(groupid);
             }
-            EventBus.getDefault().post(new OnGroupsUpdataEvent(id));
+            ArrayList<String> arrayList = new ArrayList<>(HXCacheUtils.getInstance().getGroupsHashMap().keySet());
+            EventBus.getDefault().post(new OnGroupsUpdataEvent(arrayList));
             daoSession.runInTx(new Runnable() {
                 @Override
                 public void run() {
@@ -423,17 +421,16 @@ public class HXChatManagerInit {
     }
 
     //本地&内存 删除群组
-    private void removeGroupList(String groupid) {
+    private void removeGroupList(final String groupid) {
         if (StringUtil.isNotBlank(groupid)) {
             final DaoSession daoSession = App.getDaoSession();
-            final ArrayList<String> id = new ArrayList<>();
-            id.add(groupid);
             HXCacheUtils.getInstance().getGroupsHashMap().remove(groupid);
-            EventBus.getDefault().post(new OnGroupsUpdataEvent(id));
+            ArrayList<String> arrayList = new ArrayList<>(HXCacheUtils.getInstance().getGroupsHashMap().keySet());
+            EventBus.getDefault().post(new OnGroupsUpdataEvent(arrayList));
             daoSession.runInTx(new Runnable() {
                 @Override
                 public void run() {
-                    WhereCondition wc = UserDao.Properties.Avatar.in(id);
+                    WhereCondition wc = UserDao.Properties.Avatar.in(groupid);
                     List<UserDO> chatEntityList = daoSession.getUserDao().queryBuilder().where(wc).list();
                     daoSession.getUserDao().deleteInTx(chatEntityList);
                 }
