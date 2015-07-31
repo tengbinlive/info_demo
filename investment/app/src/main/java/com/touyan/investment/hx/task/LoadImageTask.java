@@ -23,10 +23,10 @@ import android.widget.ImageView;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMMessage;
 import com.easemob.chat.EMMessage.ChatType;
-import com.easemob.chatuidemo.activity.ShowBigImage;
-import com.easemob.chatuidemo.utils.CommonUtils;
-import com.easemob.chatuidemo.utils.ImageCache;
 import com.easemob.util.ImageUtils;
+import com.touyan.investment.App;
+import com.touyan.investment.hx.ImageCache;
+import com.touyan.investment.hx.ShowBigImage;
 
 import java.io.File;
 
@@ -104,7 +104,7 @@ public class LoadImageTask extends AsyncTask<Object, Void, Bitmap> {
 			});
 		} else {
 			if (message.status == EMMessage.Status.FAIL) {
-				if (CommonUtils.isNetWorkConnected(activity)) {
+				if (App.isNetworkAvailable()) {
 					new Thread(new Runnable() {
 
 						@Override

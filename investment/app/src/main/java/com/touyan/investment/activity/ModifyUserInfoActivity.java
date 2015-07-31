@@ -92,7 +92,7 @@ public class ModifyUserInfoActivity extends AbsActivity implements View.OnClickL
     /////////
     UserManager userManager = new UserManager();
 
-    private StringBuffer pictueHead;
+    private StringBuffer pictueHead = new StringBuffer();
 
     private final static int UPLOAD_HEAD = 0x18; //上传头像
 

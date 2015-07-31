@@ -861,15 +861,15 @@ public class ChatActivity extends AbsActivity{
 //		startActivityForResult(intent, REQUEST_CODE_LOCAL);
 //	}
 //
-//	/**
-//	 * 发送文本消息
-//	 *
-//	 * @param content
-//	 *            message content
-//	 * @param isResend
-//	 *            boolean resend
-//	 */
-//	public void sendText(String content) {
+	/**
+	 * 发送文本消息
+	 *
+	 * @param content
+	 *            message content
+	 * @param isResend
+	 *            boolean resend
+	 */
+	public void sendText(String content) {
 //
 //		if (content.length() > 0) {
 //			EMMessage message = EMMessage.createSendMessage(EMMessage.Type.TXT);
@@ -896,7 +896,7 @@ public class ChatActivity extends AbsActivity{
 //			setResult(RESULT_OK);
 //
 //		}
-//	}
+	}
 //
 //	/**
 //	 * 发送语音
@@ -1715,8 +1715,8 @@ public class ChatActivity extends AbsActivity{
 //		return toChatUsername;
 //	}
 //
-//	public ListView getListView() {
-//		return listView;
-//	}
+	public ListView getListView() {
+		return listView;
+	}
 
 }

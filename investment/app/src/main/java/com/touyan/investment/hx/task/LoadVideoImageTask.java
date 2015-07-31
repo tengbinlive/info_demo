@@ -10,10 +10,10 @@ import android.widget.ImageView;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMMessage;
 import com.easemob.chat.VideoMessageBody;
-import com.easemob.chatuidemo.activity.ShowVideoActivity;
-import com.easemob.chatuidemo.utils.CommonUtils;
-import com.easemob.chatuidemo.utils.ImageCache;
 import com.easemob.util.ImageUtils;
+import com.touyan.investment.App;
+import com.touyan.investment.hx.ImageCache;
+import com.touyan.investment.hx.ShowVideoActivity;
 
 import java.io.File;
 
@@ -81,7 +81,7 @@ public class LoadVideoImageTask extends AsyncTask<Object, Void, Bitmap> {
 		} else {
 			if (message.status == EMMessage.Status.FAIL
 					|| message.direct == EMMessage.Direct.RECEIVE) {
-				if (CommonUtils.isNetWorkConnected(activity)) {
+				if (App.isNetworkAvailable()) {
 					new AsyncTask<Void, Void, Void>() {
 						 
 						
