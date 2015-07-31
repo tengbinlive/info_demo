@@ -22,4 +22,6 @@ public class HXConstant {
 	public static final String ACCOUNT_REMOVED = "account_removed";
 	public static final String CHAT_ROBOT = "item_robots";
 	public static final String MESSAGE_ATTR_ROBOT_MSGTYPE = "msgtype";
+
+	public static final boolean SPAKERON = false;//扬声器
 }
