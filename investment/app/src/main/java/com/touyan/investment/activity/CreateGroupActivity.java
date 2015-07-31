@@ -13,10 +13,7 @@ import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+import android.widget.*;
 import com.core.CommonResponse;
 import com.core.util.CommonUtil;
 import com.core.util.DateUtil;
@@ -33,31 +30,29 @@ import com.touyan.investment.AbsActivity;
 import com.touyan.investment.App;
 import com.touyan.investment.Constant;
 import com.touyan.investment.R;
+import com.touyan.investment.bean.message.CreateGroupParam;
 import com.touyan.investment.bean.qiniu.QiniuUploadBean;
 import com.touyan.investment.bean.qiniu.QiniuUploadResult;
-import com.touyan.investment.bean.user.ModifyUserInfoResult;
-import com.touyan.investment.helper.SharedPreferencesHelper;
+import com.touyan.investment.manager.MessageManager;
 import com.touyan.investment.manager.QiniuManager;
-import com.touyan.investment.manager.UserManager;
 import com.touyan.investment.mview.BottomView;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Random;
 
 public class CreateGroupActivity extends AbsActivity implements OnClickListener {
 
     //七牛相关
-    private QiniuManager qiniuManager = new QiniuManager();//七牛业务
+    private QiniuManager qiniuManager = new QiniuManager();//从自己服务器获取token接口的
 
-    private QiniuUploadBean uploadFile;//上传七牛数据 文件路径
+    private QiniuUploadBean uploadFile = new QiniuUploadBean();;//上传七牛数据 文件路径
 
     private QiniuUploadResult qiniuUploadResult;//七牛 token
 
-
+    private MessageManager messageManager =new MessageManager();
 
     private static final int LOAD_QINIU = 0x01;//七牛 token 处理
 
@@ -88,14 +83,15 @@ public class CreateGroupActivity extends AbsActivity implements OnClickListener 
     private double clipRatio = 1.0;
 
 
-    private final static int UPLOAD_HEAD = 0x18; //上传头像
     private final static int MODIFY_DATA = 0;
 
     private Context context;
     private SelectableRoundedImageView head;
     private EditText groupname_et;
+    private String groupname;
     private CheckBox visible_cb;
     private BottomView mBottomView;
+    private CreateGroupParam param = new CreateGroupParam();
     @Override
     public void EInit() {
         super.EInit();
@@ -114,17 +110,30 @@ public class CreateGroupActivity extends AbsActivity implements OnClickListener 
         setToolbarRightVisbility(View.VISIBLE, View.VISIBLE);
         setToolbarRightStrID(R.string.create);
         setToolbarRightOnClick(this);
-
     }
 
     private Handler activityHandler = new Handler() {
         public void handleMessage(Message msg) {
+            CommonResponse resposne=(CommonResponse) msg.obj;
             switch (msg.what) {
-                case MODIFY_DATA:
-                    loadModifyUserInfoData((CommonResponse) msg.obj);
-                    break;
                 case LOAD_QINIU://获取七牛token返回
-                    loadQiniu((CommonResponse) msg.obj);
+                    if (resposne.isSuccess()) {
+                        qiniuUploadResult = (QiniuUploadResult) resposne.getData();
+                        loadImageQiniu();//上传图片
+                    } else {
+                        dialogDismiss();
+                        CommonUtil.showToast(resposne.getErrorTip());
+                    }
+                    break;
+                case MODIFY_DATA:
+                    dialogDismiss();
+                    if (resposne.isSuccess()) {
+                        //String groupid = (String)resposne.getData();
+                        CommonUtil.showToast("创建成功！");
+                    } else {
+                        CommonUtil.showToast(resposne.getErrorTip());
+                    }
+
                     break;
                 default:
                     break;
@@ -138,7 +147,25 @@ public class CreateGroupActivity extends AbsActivity implements OnClickListener 
         if (id == R.id.head) {
             selectPict();
         } else if (id == R.id.toolbar_right_btn) {
-            getQiniuTokenOrRe();
+            isCancelled = false;
+            groupname = groupname_et.getText().toString();
+            if (!StringUtil.isEmpty(groupname)){
+
+                if(uploadFile.getPath()!=null){
+                    getQiniuTokenOrRe();
+                }else {
+                    upMyserver();
+                }
+            }else {
+                CommonUtil.showToast("请填写群名称");
+            }
+
+            dialogShow(R.string.data_uploading, new DialogInterface.OnCancelListener() {
+                @Override
+                public void onCancel(DialogInterface dialogInterface) {
+                    isCancelled = true;
+                }
+            });
         }
     }
 
@@ -147,29 +174,21 @@ public class CreateGroupActivity extends AbsActivity implements OnClickListener 
         head = (SelectableRoundedImageView)findViewById(R.id.head);
         groupname_et = (EditText)findViewById(R.id.groupname_et);
         visible_cb = (CheckBox)findViewById(R.id.visible_cb);
+
         head.setOnClickListener(this);
+        param.setVisble("1");
+        visible_cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b){
+                    param.setVisble("1");
+                }else{
+                    param.setVisble("0");
+                }
+            }
+        });
     }
 
-    private void loadQiniu(CommonResponse resposne) {
-        if (resposne.isSuccess()) {
-            qiniuUploadResult = (QiniuUploadResult) resposne.getData();
-            loadImageQiniu();
-        } else {
-            CommonUtil.showToast(resposne.getErrorTip());
-        }
-    }
-
-    private void loadModifyUserInfoData(CommonResponse resposne) {
-        dialogDismiss();
-        if (resposne.isSuccess()) {
-            ModifyUserInfoResult result = (ModifyUserInfoResult) resposne.getData();
-            //App.getInstance().setgUserInfo(result.getUser());
-
-
-        } else {
-            CommonUtil.showToast(resposne.getErrorTip());
-        }
-    }
     /**
      * 上传带图片的info
      * 1. 获取七牛token
@@ -177,9 +196,6 @@ public class CreateGroupActivity extends AbsActivity implements OnClickListener 
      * 3. 成功后上传资讯数据至业务服务器
      */
     private void getQiniuTokenOrRe() {
-        if (null == uploadFile) {
-            return;
-        }
         qiniuManager.qiniuUpload(this, activityHandler, LOAD_QINIU);
     }
 
@@ -187,46 +203,48 @@ public class CreateGroupActivity extends AbsActivity implements OnClickListener 
      * 上传带图片 至七牛
      */
     private void loadImageQiniu() {
-        //没有上传成功过的文件 进行上传
-        if (!uploadFile.isUpload()) {
-            String path = uploadFile.getPath();
-            //生成图片上传名称
-            Date date = new Date();
-            SimpleDateFormat sdf = new SimpleDateFormat(DateUtil.YYYYMMDDHHMMSS);
-            Random random = new Random();
-            String num = "";
-            for (int i = 0; i < 4; i++) {
-                num += random.nextInt(10);
-            }
-            String key = "user_" + App.getInstance().getgUserInfo().getServno() + "_" + sdf.format(date) + "_" + num + ".jpg";
-            uploadFile.setName(key);
-            UploadManager uploadManager = new UploadManager();
-            uploadManager.put(path, key, qiniuUploadResult.getUptoken(),
-                    new UpCompletionHandler() {
-                        @Override
-                        public void complete(String key, ResponseInfo info, JSONObject response) {
-                            if (info.isOK()) {
-                                uploadFile.setIsUpload(true);
-                                if (!isCancelled) {
-                                   // uploadHead();
-                                } else {
-
-                                }
-                            } else {
-                                uploadFile.setIsUpload(false);
-                                CommonUtil.showToast("头像上传失败啦~");
-                            }
-                        }
-                    }, new UploadOptions(null, null, false, null,//让 UpCancellationSignal#isCancelled() 方法返回 true ，以停止上传
-                            new UpCancellationSignal() {
-                                public boolean isCancelled() {
-                                    return isCancelled;
-                                }
-                            }));
+        String path = uploadFile.getPath();
+        //生成图片上传名称
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat(DateUtil.YYYYMMDDHHMMSS);
+        Random random = new Random();
+        String num = "";
+        for (int i = 0; i < 4; i++) {
+            num += random.nextInt(10);
         }
+        String key = "user_" + App.getInstance().getgUserInfo().getServno() + "_" + sdf.format(date) + "_" + num + ".jpg";
+        uploadFile.setName(key);
+        UploadManager uploadManager = new UploadManager();
+        uploadManager.put(path, key, qiniuUploadResult.getUptoken(),
+                new UpCompletionHandler() {
+                    @Override
+                    public void complete(String key, ResponseInfo info, JSONObject response) {
+                        if (info.isOK()) {
+                            upMyserver();
+                        } else {
+                            CommonUtil.showToast("头像上传失败啦~");
+                        }
+                    }
+                }, new UploadOptions(null, null, false, null,//让 UpCancellationSignal#isCancelled() 方法返回 true ，以停止上传
+                        new UpCancellationSignal() {
+                            public boolean isCancelled() {
+                                return isCancelled;
+                            }
+                        }));
     }
 
-
+    private void upMyserver(){
+        if(uploadFile.getName()!=null){
+            param.setGphoto(uploadFile.QINIU_URL+uploadFile.getName());
+        }else {
+            param.setGphoto(null);
+        }
+        param.setGroupname(groupname);
+        param.setDesc("server create group");
+        param.setIsPublic(true);
+        param.setOwner(App.getInstance().getgUserInfo().getServno());
+        messageManager.createGroups(CreateGroupActivity.this,param, activityHandler, MODIFY_DATA);
+    }
 
     private void selectPict() {
         mBottomView = new BottomView(CreateGroupActivity.this, R.style.BottomViewTheme_Defalut, R.layout.bottom_view);
@@ -316,7 +334,6 @@ public class CreateGroupActivity extends AbsActivity implements OnClickListener 
                     final String path = data.getStringExtra(STR_PATH);
                     Bitmap bitmap = BitmapFactory.decodeFile(path);
                     head.setImageBitmap(bitmap);
-                    uploadFile = new QiniuUploadBean();
                     uploadFile.setPath(path);
                 }
             }

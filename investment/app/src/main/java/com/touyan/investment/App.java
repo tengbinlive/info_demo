@@ -30,6 +30,7 @@ import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.touyan.investment.bean.user.UserInfo;
 import com.touyan.investment.event.OnContactUpdataEvent;
+import com.touyan.investment.event.OnGroupsUpdataEvent;
 import com.touyan.investment.helper.SharedPreferencesHelper;
 import com.touyan.investment.hx.HXCacheUtils;
 import com.touyan.investment.hx.HXChatManagerInit;
@@ -282,6 +283,8 @@ public class App extends Application {
                     if(HXChatManagerInit.getInstance().isSyncingDatas){
                         if(!HXChatManagerInit.getInstance().isSyncingGroups){
                             HXChatManagerInit.getInstance().asyncFetchGroupsFromServer();
+                            ArrayList<String> arrayList = new ArrayList<>(HXCacheUtils.getInstance().getGroupsHashMap().keySet());
+                            EventBus.getDefault().post(new OnGroupsUpdataEvent(arrayList));
                         }
                         if(!HXChatManagerInit.getInstance().isSyncingUsers){
                             HXChatManagerInit.getInstance().asyncFetchUserFromServer();

@@ -246,6 +246,13 @@ public enum OpenApiMethodEnum {
      * 获取热门群组
      */
     LOAD_HOTGROUP("/group/recomGroups.action", "openapi_json", OpenApi.URL_TYPE_DATA),
+
+    /**
+     * 创建群组
+     */
+    CREATE_GROUP("/group/regist.action", "openapi_json", OpenApi.URL_TYPE_DATA),
+
+
     /**
      * 查询已收藏资讯列表
      */

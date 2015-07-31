@@ -69,7 +69,10 @@ public class GroupListAdapter extends BaseAdapter {
             SelectableRoundedImageView head = (SelectableRoundedImageView) view.findViewById(R.id.head);
             TextView group_member = (TextView) view.findViewById(R.id.group_member);
             textView.setText(objects.get(position).getGroupname());
-            ImageLoader.getInstance().displayImage(objects.get(position).getGphoto(), head);
+            String headStr = objects.get(position).getGphoto();
+            if (headStr!=null&&headStr.length()>0){
+                ImageLoader.getInstance().displayImage(objects.get(position).getGphoto(), head);
+            }
             group_member.setText(""+objects.get(position).getMemnum());
 
         }
