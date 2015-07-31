@@ -343,8 +343,8 @@ public class HXChatManagerInit {
 
     private void saveGroupList(List<EMGroup> groups) {
         if (null != groups && groups.size() > 0) {
-            DaoSession daoSession = App.getDaoSession();
-            List<UserDO> userDOs = new ArrayList<>();
+            final DaoSession daoSession = App.getDaoSession();
+            final List<UserDO> userDOs = new ArrayList<>();
             HashMap<String, User> groupsHashMap = new HashMap<>();
             for (EMGroup group : groups) {
                 UserDO userdo = new UserDO();
@@ -358,8 +358,14 @@ public class HXChatManagerInit {
                 groupsHashMap.put(username, user);
             }
             HXCacheUtils.getInstance().getGroupsHashMap().putAll(groupsHashMap);
-            EventBus.getDefault().post(new OnGroupsUpdataEvent((ArrayList<String>) HXCacheUtils.getInstance().getGroupsHashMap().keySet()));
-            daoSession.getUserDao().insertInTx(userDOs);
+            ArrayList<String> arrayList = new ArrayList<>(HXCacheUtils.getInstance().getGroupsHashMap().keySet());
+            EventBus.getDefault().post(new OnGroupsUpdataEvent(arrayList));
+            daoSession.runInTx(new Runnable() {
+                @Override
+                public void run() {
+                    daoSession.getUserDao().insertInTx(userDOs);
+                }
+            });
         }
     }
 
@@ -374,7 +380,8 @@ public class HXChatManagerInit {
             userdo.setAvatar(username);
             user.setAvatar(username);
             HXCacheUtils.getInstance().getGroupsHashMap().put(username, user);
-            EventBus.getDefault().post(new OnGroupsUpdataEvent((ArrayList<String>) HXCacheUtils.getInstance().getGroupsHashMap().keySet()));
+            ArrayList<String> arrayList = new ArrayList<>(HXCacheUtils.getInstance().getGroupsHashMap().keySet());
+            EventBus.getDefault().post(new OnGroupsUpdataEvent(arrayList));
             daoSession.getUserDao().insert(userdo);
         }
     }
@@ -713,8 +720,8 @@ public class HXChatManagerInit {
             inviteMessage.setGroupName(groupName);
             inviteMessage.setTime(System.currentTimeMillis());
             inviteMessage.setUnreadCount(1);
-            Log.d(TAG, inviter+"邀请您加入"+groupName);
-            inviteMessage.setReason(inviter+"邀请您加入"+groupName);
+            Log.d(TAG, inviter + "邀请您加入" + groupName);
+            inviteMessage.setReason(inviter + "邀请您加入" + groupName);
             inviteMessage.setStatus(InviteMessage.InviteMesageStatus.OTHER);
             notifyNewIviteMessage(inviteMessage);
 
@@ -733,8 +740,8 @@ public class HXChatManagerInit {
             msg.setGroupName(inviter);
             msg.setTime(System.currentTimeMillis());
             msg.setUnreadCount(1);
-            Log.d(TAG, inviter+"接受了您的邀请");
-            msg.setReason(inviter+"接受了您的邀请");
+            Log.d(TAG, inviter + "接受了您的邀请");
+            msg.setReason(inviter + "接受了您的邀请");
             msg.setStatus(InviteMessage.InviteMesageStatus.OTHER);
             notifyNewIviteMessage(msg);
         }
@@ -750,8 +757,8 @@ public class HXChatManagerInit {
             msg.setGroupName(invitee);
             msg.setTime(System.currentTimeMillis());
             msg.setUnreadCount(1);
-            Log.d(TAG, invitee+"拒绝了您的邀请");
-            msg.setReason(invitee+"拒绝了您的邀请");
+            Log.d(TAG, invitee + "拒绝了您的邀请");
+            msg.setReason(invitee + "拒绝了您的邀请");
             msg.setStatus(InviteMessage.InviteMesageStatus.OTHER);
             notifyNewIviteMessage(msg);
         }
@@ -767,8 +774,8 @@ public class HXChatManagerInit {
             msg.setGroupName(groupName);
             msg.setTime(System.currentTimeMillis());
             msg.setUnreadCount(1);
-            Log.d(TAG, "被管理员移除出了"+groupName+"群聊");
-            msg.setReason("被管理员移除出了"+groupName+"群聊");
+            Log.d(TAG, "被管理员移除出了" + groupName + "群聊");
+            msg.setReason("被管理员移除出了" + groupName + "群聊");
             msg.setStatus(InviteMessage.InviteMesageStatus.OTHER);
             notifyNewIviteMessage(msg);
         }
@@ -802,7 +809,7 @@ public class HXChatManagerInit {
             inviteMessage.setTime(System.currentTimeMillis());
             inviteMessage.setUnreadCount(1);
             Log.d(TAG, applyer + "申请加入群聊");
-            inviteMessage.setReason(applyer + "申请加入"+groupName+"群");
+            inviteMessage.setReason(applyer + "申请加入" + groupName + "群");
             inviteMessage.setStatus(InviteMessage.InviteMesageStatus.BEAPPLYED);
             notifyNewIviteMessage(inviteMessage);
         }
