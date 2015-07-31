@@ -21,10 +21,14 @@ import com.touyan.investment.Constant;
 import com.touyan.investment.R;
 import com.touyan.investment.bean.login.LoginParam;
 import com.touyan.investment.bean.login.LoginResult;
+import com.touyan.investment.bean.message.InviteMessage;
 import com.touyan.investment.bean.user.UserInfo;
 import com.touyan.investment.helper.SharedPreferencesHelper;
+import com.touyan.investment.hx.HXCacheUtils;
 import com.touyan.investment.manager.LoginManager;
 import com.touyan.investment.mview.EditTextWithDelete;
+
+import java.util.HashMap;
 
 public class LoginActivity extends AbsActivity implements OnClickListener {
 
@@ -38,7 +42,7 @@ public class LoginActivity extends AbsActivity implements OnClickListener {
 
     private EditTextWithDelete password_et;
 
-    private String phone;
+    private String phone, oldPhone;
 
     private String password;
 
@@ -66,11 +70,11 @@ public class LoginActivity extends AbsActivity implements OnClickListener {
             LoginResult result = (LoginResult) resposne.getData();
             UserInfo userInfo = result.getUsinfo();
             String userJson = JSON.toJSONString(userInfo);
-            SharedPreferencesHelper.setString(this, Constant.LoginUser.SHARED_PREFERENCES_USER,userJson);
+            SharedPreferencesHelper.setString(this, Constant.LoginUser.SHARED_PREFERENCES_USER, userJson);
             App.getInstance().setgUserInfo(result.getUsinfo());
-            if(!EMChat.getInstance().isLoggedIn()) {
+            if (!EMChat.getInstance().isLoggedIn()) {
                 EASEMOBLogin();
-            }else{
+            } else {
                 dialogDismiss();
                 EMGroupManager.getInstance().loadAllGroups();
                 EMChatManager.getInstance().loadAllConversations();
@@ -118,11 +122,11 @@ public class LoginActivity extends AbsActivity implements OnClickListener {
         recover_tv.setOnClickListener(this);
         login_btn.setOnClickListener(this);
 
-        String phone = SharedPreferencesHelper.getString(this, Constant.LoginUser.SHARED_PREFERENCES_PHONE, "");
+        oldPhone = SharedPreferencesHelper.getString(this, Constant.LoginUser.SHARED_PREFERENCES_PHONE, "");
         String password = SharedPreferencesHelper.getString(this, Constant.LoginUser.SHARED_PREFERENCES_PASSWORD, "");
-        phone_et.setText(phone);
+        phone_et.setText(oldPhone);
         password_et.setText(password);
-        if(StringUtil.isNotBlank(phone)&&StringUtil.isNotBlank(password)){
+        if (StringUtil.isNotBlank(oldPhone) && StringUtil.isNotBlank(password)) {
             OWNLogin();
         }
     }
@@ -141,6 +145,11 @@ public class LoginActivity extends AbsActivity implements OnClickListener {
     private void OWNLogin() {
         if (isCheck()) {
             dialogShow(R.string.login_prompt);
+            String phone = phone_et.getText().toString();
+            if (!phone.equals(oldPhone)) {
+                App.getDaoSession().getInviteMessageDao().deleteAll();
+                HXCacheUtils.getInstance().setInviteMessageHashMap(new HashMap<String, InviteMessage>());
+            }
             Login(phone_et.getText().toString(), password_et.getText().toString());
         }
     }
@@ -148,8 +157,8 @@ public class LoginActivity extends AbsActivity implements OnClickListener {
     /**
      * 登陆环信
      */
-    private void EASEMOBLogin(){
-        EMChatManager.getInstance().login(phone,password,new EMCallBack() {//回调
+    private void EASEMOBLogin() {
+        EMChatManager.getInstance().login(phone, password, new EMCallBack() {//回调
             @Override
             public void onSuccess() {
                 runOnUiThread(new Runnable() {
