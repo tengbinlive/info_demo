@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="btn_gray_normal">#c0c0c0</color>
+    <color name="top_bar_normal_bg">#00acff</color>
+    <color name="common_bg">#fcfcfc</color>
+
+</resources>

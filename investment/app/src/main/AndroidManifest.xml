@@ -348,6 +348,20 @@
                   android:theme="@style/AppTheme">
         </activity>
 
+        <!--聊天-->
+        <activity android:name=".hx.ChatActivity"
+                  android:theme="@style/AppTheme">
+        </activity>
+        <activity android:name=".hx.ShowBigImage"
+                  android:theme="@style/AppTheme">
+        </activity>
+        <activity android:name=".hx.ShowNormalFileActivity"
+                  android:theme="@style/AppTheme">
+        </activity>
+        <activity android:name=".hx.ShowVideoActivity"
+                  android:theme="@style/AppTheme">
+        </activity>
+
         <!--分享-->
         <activity
                 android:name="com.mob.tools.MobUIShell"

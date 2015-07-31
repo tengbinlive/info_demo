@@ -7,6 +7,7 @@
               android:layout_width="match_parent">
 
     <View android:layout_width="match_parent"
+          android:layout_marginTop="@dimen/content_gap_small"
           android:background="@drawable/act_line"
           android:layout_height="@dimen/content_1px"/>
 

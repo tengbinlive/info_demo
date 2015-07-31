@@ -360,6 +360,7 @@ public class HXChatManagerInit {
                 groupsHashMap.put(username, user);
             }
             HXCacheUtils.getInstance().getGroupsHashMap().putAll(groupsHashMap);
+            EventBus.getDefault().post(new OnGroupsUpdataEvent((ArrayList<String>) groupsHashMap.keySet()));
             daoSession.getUserDao().insertInTx(userDOs);
         }
     }
@@ -375,20 +376,43 @@ public class HXChatManagerInit {
             userdo.setAvatar(username);
             user.setAvatar(username);
             HXCacheUtils.getInstance().getGroupsHashMap().put(username, user);
+            ArrayList<String> id = new ArrayList<>();
+            id.add(username);
+            EventBus.getDefault().post(new OnGroupsUpdataEvent(id));
             daoSession.getUserDao().insert(userdo);
         }
     }
+
+    public void saveGroupList(String grupid) {
+        if (StringUtil.isNotBlank(grupid)) {
+            DaoSession daoSession = App.getDaoSession();
+            UserDO userdo = new UserDO();
+            User user = new User();
+            userdo.setType(User.TYPE_GROUPS);
+            user.setType(User.TYPE_GROUPS);
+            String username = grupid;
+            userdo.setAvatar(username);
+            user.setAvatar(username);
+            HXCacheUtils.getInstance().getGroupsHashMap().put(username, user);
+            ArrayList<String> id = new ArrayList<>();
+            id.add(username);
+            EventBus.getDefault().post(new OnGroupsUpdataEvent(id));
+            daoSession.getUserDao().insert(userdo);
+        }
+    }
+
 
     //本地&内存 删除群组
     private void removeGroupList(List<EMGroup> groups) {
         if (null != groups && groups.size() > 0) {
             final DaoSession daoSession = App.getDaoSession();
-            final List<String> id = new ArrayList<>();
+            final ArrayList<String> id = new ArrayList<>();
             for (EMGroup group : groups) {
                 String groupid = group.getGroupId();
                 id.add(groupid);
                 HXCacheUtils.getInstance().getGroupsHashMap().remove(groupid);
             }
+            EventBus.getDefault().post(new OnGroupsUpdataEvent(id));
             daoSession.runInTx(new Runnable() {
                 @Override
                 public void run() {

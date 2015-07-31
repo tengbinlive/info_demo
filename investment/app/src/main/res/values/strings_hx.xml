@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--环信-->
+    <string name="downwaiting">正在下载文件请稍后</string>
+    <string name="is_down_please_wait">正在下载视频请稍候</string>
+    <string name="error_send_invalid_content">你发送了不合法的消息内容</string>
+    <string name="error_send_not_in_the_group">你已经不在此群了</string>
+    <string name="Download_the_pictures">下载图片: 0%</string>
+    <string name="Download_the_pictures_new">下载图片:</string>
+    <string name="Failed_to_download_file">下载文件失败:</string>
+    <string name="Have_downloaded">已下载</string>
+    <string name="Did_not_download">未下载</string>
+    <string name="Is_download_voice_click_later">正在下载语音，稍后点击</string>
+    <string name="not_download">未下载:</string>
+    <string name="text_ack_msg">已读</string>
+    <string name="text_delivered_msg">送达</string>
+    <string name="confirm_resend">确认重发该信息？</string>
+    <string name="Into_the_blacklist">移入到黑名单？</string>
+    <string name="resend">重发</string>
+    <string name="send_fail">发送消息失败,</string>
+    <string name="connect_failuer_toast">请检查网络或稍候重试</string>
+    <string name="network_unavailable">网络连接不可用，请检查网络</string>
+    <string name="Send_the_following_pictures">发送以下图片？</string>
+    <string name="clear_all_records">是否清空所有聊天记录？</string>
+    <string name="location_recv">[%1$s的位置]</string>
+    <string name="location_message">位置信息</string>
+    <string name="recording_video">录制视频</string>
+    <string name="location_prefix">[我的位置]</string>
+    <string name="picture">[图片]</string>
+    <string name="video">[视频]</string>
+    <string name="file">[文件]</string>
+    <string name="voice">[声音]</string>
+    <string name="voice_call">[语音通话]</string>
+</resources>

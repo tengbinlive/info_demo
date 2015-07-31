@@ -105,7 +105,7 @@ public class MessageManager {
 
         // 接口参数
         param.setMethod(OpenApiMethodEnum.CREATE_GROUP);
-        param.setParseTokenType(new TypeReference<QueryHotGroupsResult>() {
+        param.setParseTokenType(new TypeReference<CreateGroupsResult>() {
         });
         // 请求对象
         CommonRequest request = new CommonRequest(param, handler, handlerMsgCode);

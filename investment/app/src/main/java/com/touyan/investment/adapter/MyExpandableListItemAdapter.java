@@ -65,11 +65,11 @@ public class MyExpandableListItemAdapter extends ExpandableListItemAdapter<Integ
         ArrayList<TopMessages> arrayList = topMessage.getTopMessages();
         holder.mainlayout.removeAllViews();
         for (TopMessages topMessages : arrayList) {
-            LinearLayout layout = (LinearLayout) mInflater.inflate(R.layout.item_top_message, holder.mainlayout, false);
-            ((TextView) (layout.findViewById(R.id.contents))).setText(topMessages.getMtitle());
+            LinearLayout messageLayout = (LinearLayout) mInflater.inflate(R.layout.item_top_message, holder.mainlayout, false);
+            ((TextView) (messageLayout.findViewById(R.id.contents))).setText(topMessages.getMtitle());
             String dateStr = DateUtil.ConverToString(topMessages.getToptim(), DateUtil.YYYY_MM_DD_HH_MM_SS);
-            ((TextView) (layout.findViewById(R.id.date))).setText(dateStr);
-            holder.mainlayout.addView(layout);
+            ((TextView) (messageLayout.findViewById(R.id.date))).setText(dateStr);
+            holder.mainlayout.addView(messageLayout);
         }
         return convertView;
     }
