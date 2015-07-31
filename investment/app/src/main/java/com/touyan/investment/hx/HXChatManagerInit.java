@@ -360,7 +360,7 @@ public class HXChatManagerInit {
                 groupsHashMap.put(username, user);
             }
             HXCacheUtils.getInstance().getGroupsHashMap().putAll(groupsHashMap);
-            EventBus.getDefault().post(new OnGroupsUpdataEvent((ArrayList<String>) groupsHashMap.keySet()));
+            EventBus.getDefault().post(new OnGroupsUpdataEvent(new ArrayList<>(HXCacheUtils.getInstance().getFriendsHashMap().keySet())));
             daoSession.getUserDao().insertInTx(userDOs);
         }
     }
