@@ -210,6 +210,9 @@
     <string name="mayknow">可能认识的人</string>
     <string name="create_group">创建群组</string>
     <string name="create">创建</string>
+    <string name="invite_friend">邀请好友</string>
+    <string name="invite">邀请</string>
+
 
     <string name="group_head">头像</string>
     <string name="group_head_instruction">点击头像更改</string>

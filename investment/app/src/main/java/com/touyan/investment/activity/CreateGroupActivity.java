@@ -242,7 +242,7 @@ public class CreateGroupActivity extends AbsActivity implements OnClickListener 
             param.setGphoto(null);
         }
         param.setGroupname(groupname);
-        param.setDesc("server create group");
+        param.setDesc("group");
         param.setIsPublic(true);
         param.setOwner(App.getInstance().getgUserInfo().getServno());
         messageManager.createGroups(CreateGroupActivity.this,param, activityHandler, MODIFY_DATA);

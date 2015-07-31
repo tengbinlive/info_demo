@@ -127,7 +127,9 @@ public class GungGroupFragment extends AbsFragment {
     private void sortDate(List<GroupDetail> listGroups) {
         ArrayList<GroupDetail> myCreateGroups = new ArrayList<GroupDetail>();
         ArrayList<GroupDetail> myJoinedGroups = new ArrayList<GroupDetail>();
-
+        if (list.size()>0){
+            list.clear();
+        }
         for (int i = 0; i < listGroups.size(); i++) {
             if (listGroups.get(i).getOwner().equals(App.getInstance().getgUserInfo().getServno())) {
                 myCreateGroups.add(listGroups.get(i));
