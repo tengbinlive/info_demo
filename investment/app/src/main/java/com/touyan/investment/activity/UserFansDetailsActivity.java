@@ -3,6 +3,7 @@ package com.touyan.investment.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
@@ -161,7 +162,11 @@ public class UserFansDetailsActivity extends AbsActivity {
         fragments = new ArrayList<AbsFragment>();
         fragments.add(MeInfoFragment.newsInstance(MeInfoFragment.REWARD_MYORIGINAL,otherid));
         fragments.add(MeActivityFragment.newsInstance(MeActivityFragment.REWARD_MYRELEASE,otherid));
-        fragments.add(new MeOfferRewFragment(otherid));
+        MeOfferRewFragment rewFragment=new MeOfferRewFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("userID", otherid);
+        rewFragment.setArguments(bundle);
+        fragments.add(rewFragment);
 
         adapter = new InvestmentPagerAdapter(fm, fragments);
 

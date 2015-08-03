@@ -567,25 +567,25 @@ public abstract class AbsActivity extends SwipeBackActivity implements EInitDate
         }
         int error = event.getStatus();
         if (error == EMError.USER_REMOVED) {
+            App.getInstance().accountExit();
+            startActivity(new Intent(AbsActivity.this, LoginActivity.class));
+            App.isCurrentAccountRemoved = true;
             // 显示帐号已经被移除
-            showConfirmDialog(this, "您的帐号已经被移除，\n若非本人操作请尽快修改密码", null, null, "确定", new View.OnClickListener() {
+            showConfirmDialog(this, "您的帐号已经被移除\n若非本人操作请尽快修改密码", null, null, "确定", new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    App.isCurrentAccountRemoved = true;
-                    App.getInstance().accountExit();
                     dialogDismiss();
-                    startActivity(new Intent(AbsActivity.this, LoginActivity.class));
                 }
             });
         } else if (error == EMError.CONNECTION_CONFLICT) {
+            App.getInstance().accountExit();
+            startActivity(new Intent(AbsActivity.this, LoginActivity.class));
             // 显示帐号在其他设备登陆
             App.isConflict = true;
-            showConfirmDialog(this, "您的账号已在别处登陆，\n若非本人操作请尽快修改密码", null, null, "确定", new View.OnClickListener() {
+            showConfirmDialog(this, "您的账号已在别处登陆\n若非本人操作请尽快修改密码", null, null, "确定", new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    App.getInstance().accountExit();
                     dialogDismiss();
-                    startActivity(new Intent(AbsActivity.this, LoginActivity.class));
                 }
             });
         } else {

@@ -1,5 +1,6 @@
 package com.touyan.investment.activity;
 
+import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
@@ -80,7 +81,11 @@ public class MeOfferRewardActivity extends AbsActivity implements OnClickListene
         fragments = new ArrayList<AbsFragment>();
 //        fragments.add(new MeOfferRewFragment().newsInstance(REWARD_MYRELEASE));
 //        fragments.add(new MeOfferRewPartakeFragment().newsInstance(REWARD_MYPARTAKE));
-        fragments.add(new MeOfferRewFragment(App.getInstance().getgUserInfo().getServno()));
+        MeOfferRewFragment rewFragment=new MeOfferRewFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("userID", App.getInstance().getgUserInfo().getServno());
+        rewFragment.setArguments(bundle);
+        fragments.add(rewFragment);
         fragments.add(new MeOfferRewPartakeFragment());
         adapter = new InvestmentPagerAdapter(getSupportFragmentManager(), fragments);
         viewPager = (ViewPager) findViewById(R.id.view_pager);

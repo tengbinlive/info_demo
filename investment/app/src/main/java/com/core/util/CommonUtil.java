@@ -39,6 +39,8 @@ public class CommonUtil {
 
     private static final int MAX_DECODE_PICTURE_SIZE = 1920 * 1440;
 
+    public static Toast mToast;
+
     /**
      * 根据生日字符串返回数字数组,分别表示年月日
      *
@@ -352,10 +354,10 @@ public class CommonUtil {
     }
 
     private static void showToast(Context context, String msg, int time) {
-        Toast toast = Toast.makeText(context, msg, time);
+        mToast = Toast.makeText(context, msg, time);
 //		toast.setGravity(Gravity.CENTER, 0, 0);
         Log.e("BIN.TENG", "msg = " + msg);
-        toast.show();
+        mToast.show();
     }
 
     public static void showToast(String msg) {

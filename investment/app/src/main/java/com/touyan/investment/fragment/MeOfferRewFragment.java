@@ -70,10 +70,6 @@ public class MeOfferRewFragment extends AbsFragment {
         }
     };
 
-    public MeOfferRewFragment(String userid) {
-        userID = userid;
-    }
-
     private void loadData1(CommonResponse resposne, int what) {
         dialogDismiss();
         if (resposne.isSuccess()) {
@@ -120,7 +116,7 @@ public class MeOfferRewFragment extends AbsFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         this.mInflater = getActivity().getLayoutInflater();
-        //viewType = getArguments().getInt( "viewType" );
+        userID = getArguments().getString("userID");
         return mInflater.inflate(R.layout.fragment_investment_offer, container, false);
     }
 

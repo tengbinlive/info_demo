@@ -84,19 +84,20 @@ public class BezierView extends FrameLayout {
         Drawable textBg = null;
         int textColos = 0;
         int pathColos = 0;
+        int statusBarHegiht = (int) getResources().getDimension(R.dimen.statusBar_height);
         if (attrs != null) {
             // Styleables from XML
             TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.BezierView);
             startX = a.getDimension(R.styleable.BezierView_offsetX, 0);
             float offsetY = a.getDimension(R.styleable.BezierView_offsetY, 0);
-            float statusBarOffset = a.getDimension(R.styleable.BezierView_statusBarOffset, 0);
+            float statusBarOffset = a.getDimension(R.styleable.BezierView_statusBarOffset, statusBarHegiht);
             startY = offsetY + statusBarOffset;
             textBg = a.getDrawable(R.styleable.BezierView_viewBg);
             textColos = a.getColor(R.styleable.BezierView_numColos, 0xfff12e40);
             pathColos = a.getColor(R.styleable.BezierView_pathColos, 0xffffffff);
             a.recycle();
         } else {
-            startX = getContext().getResources().getDimension(R.dimen.tip_offset_x);
+            startX = getContext().getResources().getDimension(R.dimen.tip_offset_x)+statusBarHegiht;
             startY = getContext().getResources().getDimension(R.dimen.tip_offset_y);
             textColos = 0xfff12e40;
             pathColos = 0xffffffff;

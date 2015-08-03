@@ -327,12 +327,19 @@ public class App extends Application {
 
     //finish
     public void exit() {
+        if(null!=CommonUtil.mToast) {
+            CommonUtil.mToast.cancel();
+        }
+        isAccountExit  = true;
+        EMChatManager.getInstance().endCall();
+        EMChatManager.getInstance().logout();
         for (int i = activities.size(); i > 0; i--) {
             int index = i - 1;
             Activity activity = activities.get(index);
             activity.finish();
         }
         activities.clear();
+
     }
 
     public void accountExit(){

@@ -1,6 +1,7 @@
 package com.touyan.investment.activity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.PagerAdapter;
@@ -13,25 +14,22 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.core.util.CommonUtil;
 import com.easemob.chat.EMChatManager;
-import com.easemob.chat.EMContactManager;
 import com.easemob.chat.EMConversation;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
-import com.touyan.investment.AbsActivity;
-import com.touyan.investment.AbsFragment;
-import com.touyan.investment.App;
-import com.touyan.investment.R;
+import com.touyan.investment.*;
 import com.touyan.investment.adapter.MainViewPagerAdapter;
 import com.touyan.investment.enums.BottomMenu;
 import com.touyan.investment.event.NewMessageEvent;
 import com.touyan.investment.fragment.GungFragment;
 import com.touyan.investment.fragment.InvestmentFragment;
 import com.touyan.investment.fragment.MeFragment;
+import com.touyan.investment.helper.SharedPreferencesHelper;
 import com.touyan.investment.hx.HXChatManagerInit;
 import com.touyan.investment.mview.BezierView;
 
 import java.util.ArrayList;
 
-import static com.touyan.investment.hx.HXChatManagerInit.*;
+import static com.touyan.investment.hx.HXChatManagerInit.getInstance;
 
 public class MainActivity extends AbsActivity {
     /**
@@ -87,11 +85,9 @@ public class MainActivity extends AbsActivity {
         // 如果双击时间在规定时间范围内,则退出
         if (clickTime - exitClickTimestamp < EXIT_DOUBLE_CLICK_DIFF_TIME) {
             App.getInstance().exit();
-            finish();
-            System.exit(0);// 退出程序
         } else {
             exitClickTimestamp = clickTime;
-            CommonUtil.showToast(R.string.press_more_times_for_exit);
+            CommonUtil.showToast(this,R.string.press_more_times_for_exit);
         }
     }
 
@@ -168,6 +164,8 @@ public class MainActivity extends AbsActivity {
             @Override
             public void endOnBack() {
                 EMChatManager.getInstance().resetAllUnreadMsgCount();
+                HXChatManagerInit.getInstance().unreadNoticeCount = 0;
+                SharedPreferencesHelper.setPreferInt(App.getInstance(), Constant.SHARED_PREFERENCES_DB_UNREADNOTICECOUNT, 0);
                 activityHandler.sendEmptyMessage(UPDATE_UNREADLABEL);
             }
         });
@@ -227,10 +225,15 @@ public class MainActivity extends AbsActivity {
         if (count > 0) {
             if (xBV <= 0) {
                 int[] location = new int[2];
+                int content_gap = (int) getResources().getDimension(R.dimen.content_gap_big);
                 View view = viewPagerTab.getTabAt(1);
                 view.getLocationOnScreen(location); //获取在当前窗口内的绝对坐标
-                xBV = location[0] + (view.getWidth() >> 1) + 50;
-                yBV = location[1];
+                xBV = location[0] + (view.getWidth() >> 1) + content_gap;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    yBV = location[1];
+                } else {
+                    yBV = location[1] - content_gap;
+                }
             }
             message_bv.setNewMessage("" + count, xBV, yBV);
             message_bv.setVisibility(View.VISIBLE);
@@ -256,4 +259,9 @@ public class MainActivity extends AbsActivity {
         return unreadMsgCountTotal - chatroomUnreadMsgCount + inviteMessageSize;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        android.os.Process.killProcess(android.os.Process.myPid());
+    }
 }
