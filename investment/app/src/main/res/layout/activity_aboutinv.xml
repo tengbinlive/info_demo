@@ -26,7 +26,6 @@
             android:textColor="@color/fanred"
             android:textSize="@dimen/font_small"
             android:layout_centerHorizontal="true"
-            android:text="@string/about_version"
             />
 
     <RelativeLayout

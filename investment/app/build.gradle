@@ -20,8 +20,8 @@ android {
         applicationId "com.touyan.investment"
         minSdkVersion 14
         targetSdkVersion 21
-        versionCode 1
-        versionName "1.0"
+        versionCode 32
+        versionName "2.0.1"
     }
     lintOptions {
         disable 'InvalidPackage'
