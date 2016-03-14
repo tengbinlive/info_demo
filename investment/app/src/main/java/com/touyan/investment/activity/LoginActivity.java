@@ -66,14 +66,13 @@ public class LoginActivity extends AbsActivity implements OnClickListener {
      * @param resposne
      */
     private void loadLoginData(CommonResponse resposne) {
-        if (resposne.isSuccess()) {
+//        if (resposne.isSuccess()) {
             SharedPreferencesHelper.setString(this, Constant.LoginUser.SHARED_PREFERENCES_PHONE, phone);
             SharedPreferencesHelper.setString(this, Constant.LoginUser.SHARED_PREFERENCES_PASSWORD, password);
-            LoginResult result = (LoginResult) resposne.getData();
-            UserInfo userInfo = result.getUsinfo();
+            UserInfo userInfo =  UserInfo.testData();
             String userJson = JSON.toJSONString(userInfo);
             SharedPreferencesHelper.setString(this, Constant.LoginUser.SHARED_PREFERENCES_USER, userJson);
-            App.getInstance().setgUserInfo(result.getUsinfo());
+            App.getInstance().setgUserInfo(userInfo);
             if (!EMChat.getInstance().isLoggedIn()) {
                 EASEMOBLogin();
             } else {
@@ -82,10 +81,10 @@ public class LoginActivity extends AbsActivity implements OnClickListener {
                 EMChatManager.getInstance().loadAllConversations();
                 toMainActivity();
             }
-        } else {
-            dialogDismiss();
-            CommonUtil.showToast(resposne.getErrorTip());
-        }
+//        } else {
+//            dialogDismiss();
+//            CommonUtil.showToast(resposne.getErrorTip());
+//        }
     }
 
     @Override

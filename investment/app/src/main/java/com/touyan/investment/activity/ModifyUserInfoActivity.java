@@ -523,7 +523,6 @@ public class ModifyUserInfoActivity extends AbsActivity implements View.OnClickL
      */
     private void getImageFromCamera() {
         imageStyle();
-
         Intent intentFromCapture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (FileDataHelper.hasSdcard()) {
             intentFromCapture.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);

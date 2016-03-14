@@ -153,10 +153,10 @@ public class CommonResponse implements Serializable {
 			case UNKNOWN_HOST:
 			case NETWORK_EXCEPTION:
 			case CONNECT_UNAVAILABLE:
-				error = getRString(R.string.network_unavailable);
+				error = getRString(R.string.error_network);
 				break;
 			case UNKNOWN:
-				error = StringUtil.isBlank(msg) ? getRString(R.string.network_unavailable) : msg;
+				error = StringUtil.isBlank(msg) ? getRString(R.string.error_network) : msg;
 				break;
 			default:
 				error = errorEnum.getDesc();

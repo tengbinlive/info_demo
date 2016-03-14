@@ -86,7 +86,6 @@ public class AuthClipPictureActivity extends AbsActivity implements OnTouchListe
     public int screenWidth = 0;
     public int screenHeight = 0;
 
-    private int quality = 90; //压缩质量
     /**
      * 裁剪图片地址
      */
@@ -367,8 +366,7 @@ public class AuthClipPictureActivity extends AbsActivity implements OnTouchListe
         } catch (Exception e) {
             e.printStackTrace();
         }
-//        bitmap.compress(Bitmap.CompressFormat.JPEG, quality, fOut);// 把Bitmap对象解析成流
-        NativeUtil.compressBitmap(bitmap, quality,
+        NativeUtil.compressBitmap(bitmap, NativeUtil.DEFAULT_QUALITY,
                 f.getAbsolutePath(), true);
         try {
             fOut.flush();

@@ -1,5 +1,6 @@
 package com.touyan.investment.bean.user;
 
+import com.alibaba.fastjson.JSON;
 import com.touyan.investment.helper.PinYinUtil;
 
 import java.io.Serializable;
@@ -27,6 +28,24 @@ public class UserInfo implements Serializable {
     private double uavail;
 
     private String nameSort;
+
+    public static UserInfo testData(){
+        String jsonStr = "{\n" +
+                "  \"usinfo\": {\n" +
+                "    \"inrank\": \"投资人\",\n" +
+                "    \"passwd\": \"111111\",\n" +
+                "    \"servno\": \"18217612175\",\n" +
+                "    \"ualias\": \"bin.teng\",\n" +
+                "    \"uisvip\": \"1\",\n" +
+                "    \"uphoto\": \"http://qzapp.qlogo.cn/qzapp/1104342059/0D79C86E1F4F21F3BDB8106EDC2CA5CA/100\"\n" +
+                "  },\n" +
+                "  \"appStoreUrl\": \"\",\n" +
+                "  \"MESG\": \"SUCCESS\",\n" +
+                "  \"CODE\": \"1000\"\n" +
+                "}";
+        UserInfo userInfo = JSON.parseObject(jsonStr, UserInfo.class);
+        return userInfo;
+    }
 
     public Long getId() {
         return id;
