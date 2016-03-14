@@ -123,8 +123,8 @@ public class LoginActivity extends AbsActivity implements OnClickListener {
         recover_tv.setOnClickListener(this);
         login_btn.setOnClickListener(this);
 
-        oldPhone = SharedPreferencesHelper.getString(this, Constant.LoginUser.SHARED_PREFERENCES_PHONE, "");
-        String password = SharedPreferencesHelper.getString(this, Constant.LoginUser.SHARED_PREFERENCES_PASSWORD, "");
+        oldPhone = SharedPreferencesHelper.getString(this, Constant.LoginUser.SHARED_PREFERENCES_PHONE, "18217612175");
+        String password = SharedPreferencesHelper.getString(this, Constant.LoginUser.SHARED_PREFERENCES_PASSWORD, "111111");
         phone_et.setText(oldPhone);
         password_et.setText(password);
         if (StringUtil.isNotBlank(oldPhone) && StringUtil.isNotBlank(password)) {
