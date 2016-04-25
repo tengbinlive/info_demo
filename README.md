@@ -9,7 +9,7 @@
 ![download](https://github.com/tengbinlive/info_demo/blob/master/image/download.png)
 
 
-![](https://github.com/tengbinlive/info_demo/blob/master/investment/image/device-2016-04-25-105152.gif)                       ![](https://github.com/tengbinlive/info_demo/blob/master/investment/image/device-2016-04-25-105245.gif)
+![](https://github.com/tengbinlive/info_demo/blob/master/investment/image/device-2016-04-25-105152.png)                       ![](https://github.com/tengbinlive/info_demo/blob/master/investment/image/device-2016-04-25-105245.png)
 
-![](https://github.com/tengbinlive/info_demo/blob/master/investment/image/device-2016-04-25-105322.gif)                      ![](https://github.com/tengbinlive/info_demo/blob/master/investment/image/device-2016-04-25-105443.gif)
+![](https://github.com/tengbinlive/info_demo/blob/master/investment/image/device-2016-04-25-105322.png)                      ![](https://github.com/tengbinlive/info_demo/blob/master/investment/image/device-2016-04-25-105443.png)
 
