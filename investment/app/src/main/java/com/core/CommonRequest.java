@@ -75,7 +75,7 @@ public class CommonRequest extends Request<CommonResponse> {
         return mHandler;
     }
 
-    public int getHandlerMsgCode() {
+    public Integer getHandlerMsgCode() {
         return mHandlerMsgCode;
     }
 

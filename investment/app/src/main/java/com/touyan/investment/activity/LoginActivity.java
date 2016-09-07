@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
+
 import com.alibaba.fastjson.JSON;
 import com.core.CommonResponse;
 import com.core.util.CommonUtil;
@@ -20,7 +21,6 @@ import com.touyan.investment.App;
 import com.touyan.investment.Constant;
 import com.touyan.investment.R;
 import com.touyan.investment.bean.login.LoginParam;
-import com.touyan.investment.bean.login.LoginResult;
 import com.touyan.investment.bean.message.InviteMessage;
 import com.touyan.investment.bean.user.UserInfo;
 import com.touyan.investment.event.NewMessageEvent;
@@ -28,9 +28,10 @@ import com.touyan.investment.helper.SharedPreferencesHelper;
 import com.touyan.investment.hx.HXCacheUtils;
 import com.touyan.investment.manager.LoginManager;
 import com.touyan.investment.mview.EditTextWithDelete;
-import de.greenrobot.event.EventBus;
 
 import java.util.HashMap;
+
+import de.greenrobot.event.EventBus;
 
 public class LoginActivity extends AbsActivity implements OnClickListener {
 
@@ -67,20 +68,20 @@ public class LoginActivity extends AbsActivity implements OnClickListener {
      */
     private void loadLoginData(CommonResponse resposne) {
 //        if (resposne.isSuccess()) {
-            SharedPreferencesHelper.setString(this, Constant.LoginUser.SHARED_PREFERENCES_PHONE, phone);
-            SharedPreferencesHelper.setString(this, Constant.LoginUser.SHARED_PREFERENCES_PASSWORD, password);
-            UserInfo userInfo =  UserInfo.testData();
-            String userJson = JSON.toJSONString(userInfo);
-            SharedPreferencesHelper.setString(this, Constant.LoginUser.SHARED_PREFERENCES_USER, userJson);
-            App.getInstance().setgUserInfo(userInfo);
-            if (!EMChat.getInstance().isLoggedIn()) {
-                EASEMOBLogin();
-            } else {
-                dialogDismiss();
-                EMGroupManager.getInstance().loadAllGroups();
-                EMChatManager.getInstance().loadAllConversations();
-                toMainActivity();
-            }
+        SharedPreferencesHelper.setString(this, Constant.LoginUser.SHARED_PREFERENCES_PHONE, phone);
+        SharedPreferencesHelper.setString(this, Constant.LoginUser.SHARED_PREFERENCES_PASSWORD, password);
+        UserInfo userInfo = UserInfo.testData();
+        String userJson = JSON.toJSONString(userInfo);
+        SharedPreferencesHelper.setString(this, Constant.LoginUser.SHARED_PREFERENCES_USER, userJson);
+        App.getInstance().setgUserInfo(userInfo);
+        if (!EMChat.getInstance().isLoggedIn()) {
+            EASEMOBLogin();
+        } else {
+            dialogDismiss();
+            EMGroupManager.getInstance().loadAllGroups();
+            EMChatManager.getInstance().loadAllConversations();
+            toMainActivity();
+        }
 //        } else {
 //            dialogDismiss();
 //            CommonUtil.showToast(resposne.getErrorTip());
@@ -181,7 +182,14 @@ public class LoginActivity extends AbsActivity implements OnClickListener {
 
             @Override
             public void onError(int code, String message) {
-                CommonUtil.showToast("登陆失败拉");
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        dialogDismiss();
+                        EMGroupManager.getInstance().loadAllGroups();
+                        EMChatManager.getInstance().loadAllConversations();
+                        toMainActivity();
+                    }
+                });
             }
         });
     }
